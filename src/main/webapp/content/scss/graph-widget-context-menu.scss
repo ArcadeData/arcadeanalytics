@@ -1,0 +1,40 @@
+.context-menu-item-icon {
+    margin-right: 5px;
+}
+
+.cy-context-menus-cxt-menuitem {
+    background-color: white;
+    padding: 5px 12px;
+}
+
+.cy-context-menus-cxt-menuitem:hover {
+    background-color: #cce6ff;
+    color: black;
+}
+
+.traverse-submenu-button-clicked {
+    background-color: #cce6ff;
+}
+
+.cy-context-menus-cxt-menu #header {
+    background-color:  #99ccff;
+    cursor: default;
+}
+
+.cy-context-menus-cxt-menu #header-close {
+    cursor: pointer;
+}
+
+.traverse-submenu {
+    min-width: 200px;
+    background-color: white;
+}
+
+.traverse-submenu .panel-group {
+    margin-bottom: 0px;
+}
+
+.traverse-submenu .panel-body {
+    padding: 5px;
+    padding-left: 10px;
+}

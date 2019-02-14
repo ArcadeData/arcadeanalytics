@@ -1,0 +1,28 @@
+{
+    "arcadeanalyticsApp": {
+        "DataSourceType" : {
+            "null": "",
+            "ORIENTDB": "ORIENTDB",
+            "GREMLIN": "GREMLIN",
+            "GREMLIN_ORIENTDB": "GREMLIN ORIENTDB",
+            "GREMLIN_NEPTUNE": "GREMLIN NEPTUNE",
+            "GREMLIN_COSMOSDB": "GREMLIN COSMOSDB",
+            "NEO4J": "NEO4J",
+            "NEO4J_MEMGRAPH": "NEO4J_MEMGRAPH",
+            "JANUSGRAPH": "JANUSGRAPH",
+            "TIGERGRAPH": "TIGERGRAPH",
+            "NEPTUPE": "NEPTUPE",
+            "COSMOSDB": "COSMOSDB",
+            "RDBMS": "RDBMS",
+            "RDBMS_ORACLE": "RDBMS_ORACLE",
+            "RDBMS_MSSQLSERVER": "RDBMS_MSSQLSERVER",
+            "RDBMS_MYSQL": "RDBMS_MYSQL",
+            "RDBMS_POSTGRESQL": "RDBMS_POSTGRESQL",
+            "RDBMS_HSQL": "RDBMS_HSQL",
+            "RDBMS_DATA_WORLD": "DATA_WORLD",
+            "RDF": "RDF",
+            "STARDOG": "STARDOG",
+            "ARANGO": "ARANGO"
+        }
+    }
+}

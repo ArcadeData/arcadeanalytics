@@ -1,0 +1,14 @@
+{
+    "graphwidget": {
+        "queryModal": {
+            "title": "Query",
+            "submit": "Submit",
+            "cancel": "Cancel"
+        },
+        "fetchNodesModal": {
+            "title": "Fetch Nodes",
+            "submit": "Submit",
+            "cancel": "Cancel"
+        }
+    }
+}

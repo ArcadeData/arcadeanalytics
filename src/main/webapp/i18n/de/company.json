@@ -1,0 +1,26 @@
+{
+    "arcadeanalyticsApp": {
+        "company" : {
+            "home": {
+                "title": "Arcade",
+                "subtitle": "Companies",
+                "createLabel": "Company erstellen",
+                "createOrEditLabel": "Company erstellen oder bearbeiten",
+                "search": "Suche nach Company"
+            },
+            "created": "Company erstellt mit ID '{{ param }}'",
+            "updated": "Company aktualisiert mit ID '{{ param }}'",
+            "deleted": "Company gelöscht mit ID '{{ param }}'",
+            "delete": {
+                "question": "Soll Company '{{ name }}' wirklich dauerhaft gelöscht werden?"
+            },
+            "detail": {
+                "title": "Company"
+            },
+            "name": "Name",
+            "description": "Description",
+            "users": "Users",
+            "contract": "Contract"
+        }
+    }
+}

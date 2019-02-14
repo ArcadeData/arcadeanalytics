@@ -1,0 +1,4 @@
+id;name;description;jhi_type;server;port;jhi_database;username;jhi_password;workspace_id;remote
+100;DemoDB(ODB;DemoDB (OrientDB);ORIENTDB;arcadeanalytics-orientdb;2424;demodb;admin;admin;100;false
+110;DemoDB(ODB;DemoDB (OrientDB);ORIENTDB;arcadeanalytics-orientdb;2424;demodb;admin;admin;110;false
+120;DemoDB(ODB;DemoDB (OrientDB);ORIENTDB;arcadeanalytics-orientdb;2424;demodb;admin;admin;120;false

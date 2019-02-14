@@ -1,0 +1,98 @@
+<div id="timeline-container">
+    <svg style="display: none;">
+        <defs>
+            <filter id="metaballs">
+                <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur"></feGaussianBlur>
+                <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 50 -10" result="contrast"></feColorMatrix>
+                <feBlend in="SourceGraphic" in2="contrast"></feBlend>
+            </filter>
+        </defs>
+    </svg>
+    <div id="timeline-chart" class='timeline'>
+
+        <!--Vis Timeline element is attached here-->
+    </div>
+
+    <!--Timeline commands menu-->
+    <div class="menu" class="ctrl-commands-menu" [ngStyle]="{height: ctrlCommandsMenuHeight, padding: '5px'}">
+        <div class="col-md-5 commands-group">
+            <div class="btn-group pull-right">
+                <i class="fa fa-search-plus ctrl-command" title="Zoom in" aria-hidden="true" (click)="zoomIn()"></i>
+                <i class="fa fa-search-minus ctrl-command" title="Zoom out" aria-hidden="true" (click)="zoomOut()"></i>
+                <i class="fa fa-chevron-left ctrl-command" title="Move left" aria-hidden="true" (click)="moveTimelineRange(-1)"></i>
+                <i class="fa fa-chevron-right ctrl-command" title="Move right" aria-hidden="true" (click)="moveTimelineRange(1)"></i>
+                <i class="fa fa-bullseye ctrl-command" title="Fit" aria-hidden="true" (click)="fitAllElementsInWindow()"></i>
+                <i class="fa fa-arrows-h ctrl-command" title="Filtering window" aria-hidden="true" (click)="toggleFilteringTimeWindow()"
+                    [ngClass]="{'ctrlCommandClicked': filteringWindowActive}"></i>
+            </div>
+        </div>
+        <div class="col-md-2 commands-group">
+            <input id="date" type="date" class="form-control ctrl-command" title="Go to date" style="height: 20px;" [(ngModel)]="goToDate"
+                (ngModelChange)="modeToSelectedDate()" [min]="goToDateMin" [max]="goToDateMax">
+        </div>
+        <div class="col-md-1 commands-group">
+            <div class="btn-group pull-right">
+                <i class="fa fa-question-circle ctrl-command" aria-hidden="true" [popover]="popTemplate" containerClass="sidebarPopover"
+                    placement="top" triggers="hover" container="body"></i>
+            </div>
+        </div>
+        <div class="col-md-4 commands-group">
+            <div class="btn-group pull-right">
+                <a type="submit" (click)="closeTimeline()">
+                    <span class="fa fa-times"></span>
+                </a>
+            </div>
+        </div>
+        <ng-template #popTemplate>
+            <span>
+                You can interact with the timeline through the control buttons beside
+                <br/> or just by using the mouse as follows:
+                <ul>
+                    <li>
+                        <span>
+                            <b>Control Buttons</b>
+                        </span>
+                        <ul>
+                            <li>
+                                <u>zoom in/out</u>: zooms in and out the timeline window.
+                            </li>
+                            <li>
+                                <u>left/right arrow</u>: moves left and right the timeline windows.
+                            </li>
+                            <li>
+                                <u>fit</u>: changes the timeline window in order to fit all the elements.
+                            </li>
+                            <li>
+                                <u>filtering window</u>: click to define a custom timeline window in order to filter in
+                                <br/> all the elements in the graph matching the specified time slot.
+                                <br> You can move the left and the right time-cursor to slide, narrow or expand
+                                <br/> the filtering time window.
+                                <br/> If you want to disable the filtering just click again the button.
+                            </li>
+                            <li>
+                                <u>"go-to-date" form</u>: centers the timeline window to the specified input date.
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <span>
+                            <b>Mouse Controls</b>
+                        </span>
+                        <ul>
+                            <li>
+                                <u>horizontal scroll</u>: moves left and right the timeline window.
+                            </li>
+                            <li>
+                                <u>vertical scroll</u>: moves up and down the timeline window content.
+                            </li>
+                            <li>
+                                <u>ctrl + vertical scroll</u>: zooms in and out the timeline window.
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </span>
+        </ng-template>
+    </div>
+
+</div>

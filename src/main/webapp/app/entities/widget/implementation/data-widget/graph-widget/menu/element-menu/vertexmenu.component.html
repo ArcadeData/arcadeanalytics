@@ -1,0 +1,35 @@
+<li class="align-left active">
+    <accordion [closeOthers]="closeOthers">
+        <accordion-group heading="Properties"
+                        [isDisabled]="false"
+                        [isOpen]="propertiesPanelOpen"
+                        [panelClass]="customPanel">
+            <element-properties [element]="element" [styleClass]="styleClass"></element-properties>
+        </accordion-group>
+
+        <accordion-group heading="Label"
+                        [isDisabled]="false"
+                        [isOpen]="labelPanelOpen"
+                        [panelClass]="customPanel2">
+            <element-label #labelComponent [element]="element"
+                [styleClass]="styleClass" [classProperties]="nodeClassProperties"></element-label>
+        </accordion-group>
+
+        <accordion-group heading="Shape"
+                        [isDisabled]="false"
+                        [isOpen]="shapePanelOpen"
+                        [panelClass]="customPanel2">
+            <element-shape #shapeComponent [element]="element"
+                [styleClass]="styleClass" [classProperties]="nodeClassProperties"></element-shape>
+        </accordion-group>
+    </accordion> 
+
+    <div class="row">
+        <div class="col-md-12">
+            <a (click)="saveVertexSettings()" class="btn btn-primary"
+                style="padding: 0px 10px 20px 10px !important">
+                <i class="fa fa-save"></i>
+            </a>
+        </div>
+    </div>
+</li>

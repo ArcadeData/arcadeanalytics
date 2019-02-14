@@ -1,0 +1,42 @@
+<div id="fullTextSearch">
+    <div class="col-lg-12">
+        <div style="display: block;">
+            <a class="pull-right" type="submit" (click)="close()">
+                <span class="fa fa-times"></span>
+            </a>
+        </div>
+        <div>
+            <span>
+                <h3 id="title">Search Result</h3>
+            </span>
+        </div>
+        <div id="resultsContainer" class="col-lg-12" [ngStyle]="{'max-height': resultContainerHeight}">
+            <ul *ngIf="results && results['length'] > 0">
+                <li *ngFor="let result of results" (click)="switchItemSelection(result)"
+                    [ngClass]="{'itemSelected': result['_a_selected'] && result['_a_selected'] === true}">
+                    <a >
+                    <span *ngIf="result['name']" class="resultName">
+                        {{result['name']}}&nbsp;&nbsp;
+                    </span>
+                        <span class="resultNodeInfo">
+                        {{result['_a_id']}} - {{result['@class']}}
+                    </span>
+                    </a>
+                </li>
+            </ul>
+            <div *ngIf="!results || (results && results['length'] === 0)">
+            <span>
+                <h4 id="noResults">No results found.</h4>
+            </span>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="fullTextSearchFooter">
+    <div class="btn-group flex-btn-group-container" style="padding: 8px; padding-top: 11px; padding-right: 15px;">
+        <button id="loadSelected" type="button" class="btn btn-sm btn-primary"
+                (click)="loadSelected()" [disabled]="selectedResultsId.size === 0">
+            <span>Load Selected</span>
+        </button>
+    </div>
+</div>

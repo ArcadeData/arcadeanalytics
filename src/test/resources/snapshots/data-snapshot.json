@@ -1,0 +1,4729 @@
+{
+    "elements": {
+        "nodes": [
+            {
+                "data": {
+                    "id": "1190",
+                    "type": "v",
+                    "class": "Person",
+                    "edgeCount": 2,
+                    "record": {
+                        "@out": {
+                            "ContainedIn": 2
+                        },
+                        "id": "A.  Shishy",
+                        "@edgeCount": 2,
+                        "Name": "A.  Shishy"
+                    }
+                },
+                "position": {
+                    "x": 862.5097698776132,
+                    "y": 874.302961985664
+                },
+                "group": "nodes",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Person"
+            },
+            {
+                "data": {
+                    "id": "1109",
+                    "type": "v",
+                    "class": "Person",
+                    "edgeCount": 1,
+                    "record": {
+                        "@out": {
+                            "ContainedIn": 1
+                        },
+                        "id": "Q.\tShishy",
+                        "@edgeCount": 1,
+                        "Name": "Q.\tShishy"
+                    }
+                },
+                "position": {
+                    "x": 1160.7764119785127,
+                    "y": 766.8293417367601
+                },
+                "group": "nodes",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Person"
+            },
+            {
+                "data": {
+                    "id": "1093",
+                    "type": "v",
+                    "class": "Person",
+                    "edgeCount": 1,
+                    "record": {
+                        "@out": {
+                            "ContainedIn": 1
+                        },
+                        "id": "R.\tShishy",
+                        "@edgeCount": 1,
+                        "Name": "R.\tShishy"
+                    }
+                },
+                "position": {
+                    "x": 1191.405590535252,
+                    "y": 690.5815713556419
+                },
+                "group": "nodes",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Person"
+            },
+            {
+                "data": {
+                    "id": "1277",
+                    "type": "v",
+                    "class": "Document",
+                    "edgeCount": 190,
+                    "record": {
+                        "Path": "C:\\Users\\Keith\\OneDrive\\Documents\\NLP\\OutputFolder1\\MarkedDocs\\Transcript-(Day-109).txt",
+                        "id": "Transcript-(Day-109).txt",
+                        "@edgeCount": 190,
+                        "@in": {
+                            "ContainedIn": 190
+                        },
+                        "Name": "Transcript-(Day-109).txt"
+                    }
+                },
+                "position": {
+                    "x": 964.6281075516913,
+                    "y": 786.7484063322343
+                },
+                "group": "nodes",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Document"
+            },
+            {
+                "data": {
+                    "id": "1276",
+                    "type": "v",
+                    "class": "Document",
+                    "edgeCount": 162,
+                    "record": {
+                        "Path": "C:\\Users\\Keith\\OneDrive\\Documents\\NLP\\OutputFolder1\\MarkedDocs\\Transcript-(Day-108).txt",
+                        "id": "Transcript-(Day-108).txt",
+                        "@edgeCount": 162,
+                        "@in": {
+                            "ContainedIn": 162
+                        },
+                        "Name": "Transcript-(Day-108).txt"
+                    }
+                },
+                "position": {
+                    "x": 702.4352411349872,
+                    "y": 648.312813444636
+                },
+                "group": "nodes",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Document"
+            },
+            {
+                "data": {
+                    "id": "1275",
+                    "type": "v",
+                    "class": "Document",
+                    "edgeCount": 138,
+                    "record": {
+                        "Path": "C:\\Users\\Keith\\OneDrive\\Documents\\NLP\\OutputFolder1\\MarkedDocs\\Transcript-(Day-107).txt",
+                        "id": "Transcript-(Day-107).txt",
+                        "@edgeCount": 138,
+                        "@in": {
+                            "ContainedIn": 138
+                        },
+                        "Name": "Transcript-(Day-107).txt"
+                    }
+                },
+                "position": {
+                    "x": 920.9923766519647,
+                    "y": 566.8694410050488
+                },
+                "group": "nodes",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Document"
+            },
+            {
+                "data": {
+                    "id": "930",
+                    "type": "v",
+                    "class": "Document",
+                    "edgeCount": 16,
+                    "record": {
+                        "Path": "C:\\Users\\Keith\\OneDrive\\Documents\\NLP\\OutputFolder1\\MarkedDocs\\Submissions-on-behalf-of-APR.pdf.txt",
+                        "id": "Submissions-on-behalf-of-APR.pdf.txt",
+                        "@edgeCount": 16,
+                        "@in": {
+                            "ContainedIn": 16
+                        },
+                        "Name": "Submissions-on-behalf-of-APR.pdf.txt"
+                    }
+                },
+                "position": {
+                    "x": 547.8773252159723,
+                    "y": 646.9753402434867
+                },
+                "group": "nodes",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Document"
+            },
+            {
+                "data": {
+                    "id": "1274",
+                    "type": "v",
+                    "class": "Document",
+                    "edgeCount": 18,
+                    "record": {
+                        "Path": "C:\\Users\\Keith\\OneDrive\\Documents\\NLP\\OutputFolder1\\MarkedDocs\\SubmissionsonbehalfofShishy.pdf.txt",
+                        "id": "SubmissionsonbehalfofShishy.pdf.txt",
+                        "@edgeCount": 18,
+                        "@in": {
+                            "ContainedIn": 18
+                        },
+                        "Name": "SubmissionsonbehalfofShishy.pdf.txt"
+                    }
+                },
+                "position": {
+                    "x": 735.8895283921884,
+                    "y": 480.1938200759233
+                },
+                "group": "nodes",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Document"
+            },
+            {
+                "data": {
+                    "id": "1007",
+                    "type": "v",
+                    "class": "Person",
+                    "edgeCount": 2,
+                    "record": {
+                        "@out": {
+                            "ContainedIn": 2
+                        },
+                        "id": "Suryamitra",
+                        "@edgeCount": 2,
+                        "Name": "Suryamitra"
+                    }
+                },
+                "position": {
+                    "x": 454.9016517014705,
+                    "y": 870.0122038671766
+                },
+                "group": "nodes",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Person"
+            },
+            {
+                "data": {
+                    "id": "995",
+                    "type": "v",
+                    "class": "Person",
+                    "edgeCount": 1,
+                    "record": {
+                        "@out": {
+                            "ContainedIn": 1
+                        },
+                        "id": "Akhandandanda",
+                        "@edgeCount": 1,
+                        "Name": "Akhandandanda"
+                    }
+                },
+                "position": {
+                    "x": 368.77994477195256,
+                    "y": 860.7531633881796
+                },
+                "group": "nodes",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Person"
+            },
+            {
+                "data": {
+                    "id": "1013",
+                    "type": "v",
+                    "class": "Person",
+                    "edgeCount": 1,
+                    "record": {
+                        "@out": {
+                            "ContainedIn": 1
+                        },
+                        "id": "Assi",
+                        "@edgeCount": 1,
+                        "Name": "Assi"
+                    }
+                },
+                "position": {
+                    "x": 203.99418900000393,
+                    "y": 838.5292958516046
+                },
+                "group": "nodes",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Person"
+            },
+            {
+                "data": {
+                    "id": "1054",
+                    "type": "v",
+                    "class": "Person",
+                    "edgeCount": 1,
+                    "record": {
+                        "@out": {
+                            "ContainedIn": 1
+                        },
+                        "id": "Zehr",
+                        "@edgeCount": 1,
+                        "Name": "Zehr"
+                    }
+                },
+                "position": {
+                    "x": 853.3125804060578,
+                    "y": 9.468130521680349
+                },
+                "group": "nodes",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Person"
+            },
+            {
+                "data": {
+                    "id": "1271",
+                    "type": "v",
+                    "class": "Document",
+                    "edgeCount": 36,
+                    "record": {
+                        "Path": "C:\\Users\\Keith\\OneDrive\\Documents\\NLP\\OutputFolder1\\MarkedDocs\\Submissions-on-behalf-of-Terry-O'Connell.pdf.txt",
+                        "id": "Submissions-on-behalf-of-Terry-O'Connell.pdf.txt",
+                        "@edgeCount": 36,
+                        "@in": {
+                            "ContainedIn": 36
+                        },
+                        "Name": "Submissions-on-behalf-of-Terry-O'Connell.pdf.txt"
+                    }
+                },
+                "position": {
+                    "x": 862.4578443269149,
+                    "y": -184.7403563303792
+                },
+                "group": "nodes",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Document"
+            },
+            {
+                "data": {
+                    "id": "931",
+                    "type": "v",
+                    "class": "Document",
+                    "edgeCount": 37,
+                    "record": {
+                        "Path": "C:\\Users\\Keith\\OneDrive\\Documents\\NLP\\OutputFolder1\\MarkedDocs\\Submissions-on-behalf-of-Bert-Franzen.pdf.txt",
+                        "id": "Submissions-on-behalf-of-Bert-Franzen.pdf.txt",
+                        "@edgeCount": 37,
+                        "@in": {
+                            "ContainedIn": 37
+                        },
+                        "Name": "Submissions-on-behalf-of-Bert-Franzen.pdf.txt"
+                    }
+                },
+                "position": {
+                    "x": 453.42161908129475,
+                    "y": 627.930623374963
+                },
+                "group": "nodes",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Document"
+            },
+            {
+                "data": {
+                    "id": "932",
+                    "type": "v",
+                    "class": "Document",
+                    "edgeCount": 34,
+                    "record": {
+                        "Path": "C:\\Users\\Keith\\OneDrive\\Documents\\NLP\\OutputFolder1\\MarkedDocs\\Submissions-on-behalf-of-Bhakti-Manning.pdf.txt",
+                        "id": "Submissions-on-behalf-of-Bhakti-Manning.pdf.txt",
+                        "@edgeCount": 34,
+                        "@in": {
+                            "ContainedIn": 34
+                        },
+                        "Name": "Submissions-on-behalf-of-Bhakti-Manning.pdf.txt"
+                    }
+                },
+                "position": {
+                    "x": 396.01756294702795,
+                    "y": 642.7596167776562
+                },
+                "group": "nodes",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Document"
+            },
+            {
+                "data": {
+                    "id": "935",
+                    "type": "v",
+                    "class": "Document",
+                    "edgeCount": 31,
+                    "record": {
+                        "Path": "C:\\Users\\Keith\\OneDrive\\Documents\\NLP\\OutputFolder1\\MarkedDocs\\Submissions-on-behalf-of-Phillip-Connor.pdf.txt",
+                        "id": "Submissions-on-behalf-of-Phillip-Connor.pdf.txt",
+                        "@edgeCount": 31,
+                        "@in": {
+                            "ContainedIn": 31
+                        },
+                        "Name": "Submissions-on-behalf-of-Phillip-Connor.pdf.txt"
+                    }
+                },
+                "position": {
+                    "x": 476.7137140180975,
+                    "y": 674.044315817443
+                },
+                "group": "nodes",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Document"
+            },
+            {
+                "data": {
+                    "id": "1632",
+                    "type": "v",
+                    "class": "Location",
+                    "edgeCount": 14,
+                    "record": {
+                        "@out": {
+                            "ContainedIn": 12,
+                            "Inferred": 1
+                        },
+                        "id": "Shishy",
+                        "@edgeCount": 14,
+                        "@in": {
+                            "Inferred": 1
+                        },
+                        "Name": "Shishy"
+                    }
+                },
+                "position": {
+                    "x": 252.46831844627016,
+                    "y": 262.2370706051858
+                },
+                "group": "nodes",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Location"
+            },
+            {
+                "data": {
+                    "id": "1269",
+                    "type": "v",
+                    "class": "Document",
+                    "edgeCount": 14,
+                    "record": {
+                        "Path": "C:\\Users\\Keith\\OneDrive\\Documents\\NLP\\OutputFolder1\\MarkedDocs\\Submissions-on-behalf-of-Shishy--as-to-Further-Materials.pdf.txt",
+                        "id": "Submissions-on-behalf-of-Shishy--as-to-Further-Materials.pdf.txt",
+                        "@edgeCount": 14,
+                        "@in": {
+                            "ContainedIn": 14
+                        },
+                        "Name": "Submissions-on-behalf-of-Shishy--as-to-Further-Materials.pdf.txt"
+                    }
+                },
+                "position": {
+                    "x": 960.7720805002017,
+                    "y": 841.9808889699123
+                },
+                "group": "nodes",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Document"
+            },
+            {
+                "data": {
+                    "id": "1540",
+                    "type": "v",
+                    "class": "Organisation",
+                    "edgeCount": 7,
+                    "record": {
+                        "@out": {
+                            "ContainedIn": 6,
+                            "Inferred": 1
+                        },
+                        "id": "Shishy",
+                        "@edgeCount": 7,
+                        "Name": "Shishy"
+                    }
+                },
+                "position": {
+                    "x": 751.3405165275769,
+                    "y": 586.9165560965038
+                },
+                "group": "nodes",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Organisation"
+            },
+            {
+                "data": {
+                    "id": "1270",
+                    "type": "v",
+                    "class": "Document",
+                    "edgeCount": 15,
+                    "record": {
+                        "Path": "C:\\Users\\Keith\\OneDrive\\Documents\\NLP\\OutputFolder1\\MarkedDocs\\Submissions-on-behalf-of-Shishy-in-support-of-tender-of-the-Craig-Leggat-statement.pdf.txt",
+                        "id": "Submissions-on-behalf-of-Shishy-in-support-of-tender-of-the-Craig-Leggat-statement.pdf.txt",
+                        "@edgeCount": 15,
+                        "@in": {
+                            "ContainedIn": 15
+                        },
+                        "Name": "Submissions-on-behalf-of-Shishy-in-support-of-tender-of-the-Craig-Leggat-statement.pdf.txt"
+                    }
+                },
+                "position": {
+                    "x": 1184.667652868702,
+                    "y": -13.154957399733062
+                },
+                "group": "nodes",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Document"
+            },
+            {
+                "data": {
+                    "id": "131",
+                    "type": "v",
+                    "class": "Person",
+                    "edgeCount": 37,
+                    "record": {
+                        "@out": {
+                            "ContainedIn": 16,
+                            "Inferred": 13
+                        },
+                        "id": "Shishy",
+                        "@edgeCount": 37,
+                        "@in": {
+                            "Inferred": 8
+                        },
+                        "Name": "Shishy"
+                    }
+                },
+                "position": {
+                    "x": 510.4501034587191,
+                    "y": -35.39130330360678
+                },
+                "group": "nodes",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Person"
+            },
+            {
+                "data": {
+                    "id": "937",
+                    "type": "v",
+                    "class": "Person",
+                    "edgeCount": 72,
+                    "record": {
+                        "@out": {
+                            "ContainedIn": 16,
+                            "Inferred": 22
+                        },
+                        "id": "Akhandananda",
+                        "@edgeCount": 72,
+                        "@in": {
+                            "Inferred": 34
+                        },
+                        "Name": "Akhandananda"
+                    }
+                },
+                "position": {
+                    "x": 501.35327624094197,
+                    "y": 276.28751480578416
+                },
+                "group": "nodes",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Person"
+            },
+            {
+                "data": {
+                    "id": "929",
+                    "type": "v",
+                    "class": "Document",
+                    "edgeCount": 22,
+                    "record": {
+                        "Path": "C:\\Users\\Keith\\OneDrive\\Documents\\NLP\\OutputFolder1\\MarkedDocs\\Submissions-on-behalf-of-Alecia-Buchanan.pdf.txt",
+                        "id": "Submissions-on-behalf-of-Alecia-Buchanan.pdf.txt",
+                        "@edgeCount": 22,
+                        "@in": {
+                            "ContainedIn": 22
+                        },
+                        "Name": "Submissions-on-behalf-of-Alecia-Buchanan.pdf.txt"
+                    }
+                },
+                "position": {
+                    "x": 363.2945187952199,
+                    "y": 519.0580588209427
+                },
+                "group": "nodes",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Document"
+            },
+            {
+                "data": {
+                    "id": "1272",
+                    "type": "v",
+                    "class": "Document",
+                    "edgeCount": 8,
+                    "record": {
+                        "Path": "C:\\Users\\Keith\\OneDrive\\Documents\\NLP\\OutputFolder1\\MarkedDocs\\Submissions-on-behalf-of-Yoga-Association-Mangrove-Mountain-Incorporated--Satyananda-Yoga-Academy-Limited-and-Rocklyn-Ashram--as-to-Further-Materials.pdf.txt",
+                        "id": "Submissions-on-behalf-of-Yoga-Association-Mangrove-Mountain-Incorporated--Satyananda-Yoga-Academy-Limited-and-Rocklyn-Ashram--as-to-Further-Materials.pdf.txt",
+                        "@edgeCount": 8,
+                        "@in": {
+                            "ContainedIn": 8
+                        },
+                        "Name": "Submissions-on-behalf-of-Yoga-Association-Mangrove-Mountain-Incorporated--Satyananda-Yoga-Academy-Limited-and-Rocklyn-Ashram--as-to-Further-Materials.pdf.txt"
+                    }
+                },
+                "position": {
+                    "x": 285.4720746586256,
+                    "y": 529.0174683902834
+                },
+                "group": "nodes",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Document"
+            },
+            {
+                "data": {
+                    "id": "933",
+                    "type": "v",
+                    "class": "Document",
+                    "edgeCount": 22,
+                    "record": {
+                        "Path": "C:\\Users\\Keith\\OneDrive\\Documents\\NLP\\OutputFolder1\\MarkedDocs\\Submissions-on-behalf-of-Bihar-School-of-Yoga.pdf.txt",
+                        "id": "Submissions-on-behalf-of-Bihar-School-of-Yoga.pdf.txt",
+                        "@edgeCount": 22,
+                        "@in": {
+                            "ContainedIn": 22
+                        },
+                        "Name": "Submissions-on-behalf-of-Bihar-School-of-Yoga.pdf.txt"
+                    }
+                },
+                "position": {
+                    "x": 757.3441695144846,
+                    "y": 396.57169140491067
+                },
+                "group": "nodes",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Document"
+            },
+            {
+                "data": {
+                    "id": "934",
+                    "type": "v",
+                    "class": "Document",
+                    "edgeCount": 15,
+                    "record": {
+                        "Path": "C:\\Users\\Keith\\OneDrive\\Documents\\NLP\\OutputFolder1\\MarkedDocs\\Submissions-on-behalf-of-Dr-Sandra-Smith.pdf.txt",
+                        "id": "Submissions-on-behalf-of-Dr-Sandra-Smith.pdf.txt",
+                        "@edgeCount": 15,
+                        "@in": {
+                            "ContainedIn": 15
+                        },
+                        "Name": "Submissions-on-behalf-of-Dr-Sandra-Smith.pdf.txt"
+                    }
+                },
+                "position": {
+                    "x": 502.34081003233615,
+                    "y": 475.7807677278851
+                },
+                "group": "nodes",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Document"
+            },
+            {
+                "data": {
+                    "id": "924",
+                    "type": "v",
+                    "class": "Document",
+                    "edgeCount": 31,
+                    "record": {
+                        "Path": "C:\\Users\\Keith\\OneDrive\\Documents\\NLP\\OutputFolder1\\MarkedDocs\\Submissions-in-Reply-on-behalf-of-Bhakti-Manning.pdf.txt",
+                        "id": "Submissions-in-Reply-on-behalf-of-Bhakti-Manning.pdf.txt",
+                        "@edgeCount": 31,
+                        "@in": {
+                            "ContainedIn": 31
+                        },
+                        "Name": "Submissions-in-Reply-on-behalf-of-Bhakti-Manning.pdf.txt"
+                    }
+                },
+                "position": {
+                    "x": 603.5915985702447,
+                    "y": 506.52994203745436
+                },
+                "group": "nodes",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Document"
+            },
+            {
+                "data": {
+                    "id": "925",
+                    "type": "v",
+                    "class": "Document",
+                    "edgeCount": 21,
+                    "record": {
+                        "Path": "C:\\Users\\Keith\\OneDrive\\Documents\\NLP\\OutputFolder1\\MarkedDocs\\Submissions-in-Reply-on-behalf-of-JYOTI--APK--APA--APH-and-Tim-Clark.pdf.txt",
+                        "id": "Submissions-in-Reply-on-behalf-of-JYOTI--APK--APA--APH-and-Tim-Clark.pdf.txt",
+                        "@edgeCount": 21,
+                        "@in": {
+                            "ContainedIn": 21
+                        },
+                        "Name": "Submissions-in-Reply-on-behalf-of-JYOTI--APK--APA--APH-and-Tim-Clark.pdf.txt"
+                    }
+                },
+                "position": {
+                    "x": 393.2862557330579,
+                    "y": 440.6151174840143
+                },
+                "group": "nodes",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Document"
+            },
+            {
+                "data": {
+                    "id": "926",
+                    "type": "v",
+                    "class": "Document",
+                    "edgeCount": 44,
+                    "record": {
+                        "Path": "C:\\Users\\Keith\\OneDrive\\Documents\\NLP\\OutputFolder1\\MarkedDocs\\Submissions-in-Reply-on-behalf-of-Shishy.pdf.txt",
+                        "id": "Submissions-in-Reply-on-behalf-of-Shishy.pdf.txt",
+                        "@edgeCount": 44,
+                        "@in": {
+                            "ContainedIn": 44
+                        },
+                        "Name": "Submissions-in-Reply-on-behalf-of-Shishy.pdf.txt"
+                    }
+                },
+                "position": {
+                    "x": 829.67943831321,
+                    "y": 366.3224803437922
+                },
+                "group": "nodes",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Document"
+            },
+            {
+                "data": {
+                    "id": "928",
+                    "type": "v",
+                    "class": "Document",
+                    "edgeCount": 34,
+                    "record": {
+                        "Path": "C:\\Users\\Keith\\OneDrive\\Documents\\NLP\\OutputFolder1\\MarkedDocs\\Submissions-of-Counsel-Assisting-the-Royal-Commission-into-Institutional-Responses-To-Child-Sexual-Abuse.pdf.txt",
+                        "id": "Submissions-of-Counsel-Assisting-the-Royal-Commission-into-Institutional-Responses-To-Child-Sexual-Abuse.pdf.txt",
+                        "@edgeCount": 34,
+                        "@in": {
+                            "ContainedIn": 34
+                        },
+                        "Name": "Submissions-of-Counsel-Assisting-the-Royal-Commission-into-Institutional-Responses-To-Child-Sexual-Abuse.pdf.txt"
+                    }
+                },
+                "position": {
+                    "x": 671.4589526337984,
+                    "y": 494.1004695585488
+                },
+                "group": "nodes",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Document"
+            },
+            {
+                "data": {
+                    "id": "1066",
+                    "type": "v",
+                    "class": "Person",
+                    "edgeCount": 5,
+                    "record": {
+                        "@out": {
+                            "ContainedIn": 3,
+                            "Inferred": 2
+                        },
+                        "id": "Tim",
+                        "@edgeCount": 5,
+                        "Name": "Tim"
+                    }
+                },
+                "position": {
+                    "x": 666.3902511141597,
+                    "y": 66.72373751700235
+                },
+                "group": "nodes",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Person"
+            },
+            {
+                "data": {
+                    "id": "1021",
+                    "type": "v",
+                    "class": "Person",
+                    "edgeCount": 5,
+                    "record": {
+                        "@out": {
+                            "ContainedIn": 4,
+                            "Inferred": 1
+                        },
+                        "id": "Swami Satyananda",
+                        "@edgeCount": 5,
+                        "Name": "Swami Satyananda"
+                    }
+                },
+                "position": {
+                    "x": 698.302323632001,
+                    "y": 340.4129011595258
+                },
+                "group": "nodes",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Person"
+            },
+            {
+                "data": {
+                    "id": "1087",
+                    "type": "v",
+                    "class": "Person",
+                    "edgeCount": 12,
+                    "record": {
+                        "@out": {
+                            "ContainedIn": 3,
+                            "Inferred": 4
+                        },
+                        "id": "MR O'BRIEN",
+                        "@edgeCount": 12,
+                        "@in": {
+                            "Inferred": 5
+                        },
+                        "Name": "MR O'BRIEN"
+                    }
+                },
+                "position": {
+                    "x": 567.7309117094918,
+                    "y": -73.31874290849238
+                },
+                "group": "nodes",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Person"
+            },
+            {
+                "data": {
+                    "id": "1063",
+                    "type": "v",
+                    "class": "Person",
+                    "edgeCount": 4,
+                    "record": {
+                        "@out": {
+                            "ContainedIn": 3,
+                            "Inferred": 1
+                        },
+                        "id": "Helen",
+                        "@edgeCount": 4,
+                        "Name": "Helen"
+                    }
+                },
+                "position": {
+                    "x": 154.0851064247265,
+                    "y": 295.35276435777547
+                },
+                "group": "nodes",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Person"
+            },
+            {
+                "data": {
+                    "id": "1040",
+                    "type": "v",
+                    "class": "Person",
+                    "edgeCount": 13,
+                    "record": {
+                        "@out": {
+                            "ContainedIn": 4,
+                            "Inferred": 3
+                        },
+                        "id": "Swami Akhandananda",
+                        "@edgeCount": 13,
+                        "@in": {
+                            "Inferred": 6
+                        },
+                        "Name": "Swami Akhandananda"
+                    }
+                },
+                "position": {
+                    "x": 428.91288463818444,
+                    "y": -118.46657015884648
+                },
+                "group": "nodes",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Person"
+            },
+            {
+                "data": {
+                    "id": "1656",
+                    "type": "v",
+                    "class": "Location",
+                    "edgeCount": 4,
+                    "record": {
+                        "@out": {
+                            "ContainedIn": 3,
+                            "Inferred": 1
+                        },
+                        "id": "Mangrove",
+                        "@edgeCount": 4,
+                        "Name": "Mangrove"
+                    }
+                },
+                "position": {
+                    "x": 168.43368470840372,
+                    "y": 165.95748452390387
+                },
+                "group": "nodes",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Location"
+            },
+            {
+                "data": {
+                    "id": "1535",
+                    "type": "v",
+                    "class": "Organisation",
+                    "edgeCount": 13,
+                    "record": {
+                        "@out": {
+                            "ContainedIn": 12,
+                            "Inferred": 1
+                        },
+                        "id": "ROYAL COMMISSION",
+                        "@edgeCount": 13,
+                        "Name": "ROYAL COMMISSION"
+                    }
+                },
+                "position": {
+                    "x": 324.7017874487128,
+                    "y": -13.319898407299092
+                },
+                "group": "nodes",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Organisation"
+            },
+            {
+                "data": {
+                    "id": "1138",
+                    "type": "v",
+                    "class": "Person",
+                    "edgeCount": 4,
+                    "record": {
+                        "@out": {
+                            "ContainedIn": 3,
+                            "Inferred": 1
+                        },
+                        "id": "Hayley Bennett",
+                        "@edgeCount": 4,
+                        "Name": "Hayley Bennett"
+                    }
+                },
+                "position": {
+                    "x": 799.657621644701,
+                    "y": 166.9271101970998
+                },
+                "group": "nodes",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Person"
+            },
+            {
+                "data": {
+                    "id": "135",
+                    "type": "v",
+                    "class": "Person",
+                    "edgeCount": 15,
+                    "record": {
+                        "@out": {
+                            "ContainedIn": 10,
+                            "Inferred": 1
+                        },
+                        "id": "Satyananda",
+                        "@edgeCount": 15,
+                        "@in": {
+                            "Inferred": 4
+                        },
+                        "Name": "Satyananda"
+                    }
+                },
+                "position": {
+                    "x": 470.4368164465717,
+                    "y": -98.3555651171314
+                },
+                "group": "nodes",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Person"
+            },
+            {
+                "data": {
+                    "id": "1631",
+                    "type": "v",
+                    "class": "Location",
+                    "edgeCount": 10,
+                    "record": {
+                        "@out": {
+                            "ContainedIn": 8,
+                            "Inferred": 1
+                        },
+                        "id": "Akhandananda",
+                        "@edgeCount": 10,
+                        "@in": {
+                            "Inferred": 1
+                        },
+                        "Name": "Akhandananda"
+                    }
+                },
+                "position": {
+                    "x": 384.33995290924645,
+                    "y": 129.51489921486203
+                },
+                "group": "nodes",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Location"
+            },
+            {
+                "data": {
+                    "id": "1255",
+                    "type": "v",
+                    "class": "Organisation",
+                    "edgeCount": 30,
+                    "record": {
+                        "@out": {
+                            "ContainedIn": 19,
+                            "Inferred": 7
+                        },
+                        "id": "Royal Commission",
+                        "@edgeCount": 30,
+                        "@in": {
+                            "Inferred": 4
+                        },
+                        "Name": "Royal Commission"
+                    }
+                },
+                "position": {
+                    "x": 401.016937748083,
+                    "y": -60.68973368664657
+                },
+                "group": "nodes",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Organisation"
+            },
+            {
+                "data": {
+                    "id": "1596",
+                    "type": "v",
+                    "class": "Organisation",
+                    "edgeCount": 4,
+                    "record": {
+                        "@out": {
+                            "ContainedIn": 3,
+                            "Inferred": 1
+                        },
+                        "id": "Royal",
+                        "@edgeCount": 4,
+                        "Name": "Royal"
+                    }
+                },
+                "position": {
+                    "x": 325.6442644742631,
+                    "y": 352.0627810595509
+                },
+                "group": "nodes",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Organisation"
+            },
+            {
+                "data": {
+                    "id": "1111",
+                    "type": "v",
+                    "class": "Person",
+                    "edgeCount": 9,
+                    "record": {
+                        "@out": {
+                            "ContainedIn": 3,
+                            "Inferred": 6
+                        },
+                        "id": "Alecia",
+                        "@edgeCount": 9,
+                        "Name": "Alecia"
+                    }
+                },
+                "position": {
+                    "x": 594.3111676255668,
+                    "y": 14.793663812741524
+                },
+                "group": "nodes",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Person"
+            },
+            {
+                "data": {
+                    "id": "955",
+                    "type": "v",
+                    "class": "Person",
+                    "edgeCount": 8,
+                    "record": {
+                        "@out": {
+                            "ContainedIn": 6,
+                            "Inferred": 2
+                        },
+                        "id": "Jyoti",
+                        "@edgeCount": 8,
+                        "Name": "Jyoti"
+                    }
+                },
+                "position": {
+                    "x": 488.52650991839226,
+                    "y": 141.13012421393887
+                },
+                "group": "nodes",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Person"
+            },
+            {
+                "data": {
+                    "id": "1539",
+                    "type": "v",
+                    "class": "Organisation",
+                    "edgeCount": 7,
+                    "record": {
+                        "@out": {
+                            "ContainedIn": 5,
+                            "Inferred": 1
+                        },
+                        "id": "Akhandananda",
+                        "@edgeCount": 7,
+                        "@in": {
+                            "Inferred": 1
+                        },
+                        "Name": "Akhandananda"
+                    }
+                },
+                "position": {
+                    "x": 282.43433461747384,
+                    "y": 77.26834505456176
+                },
+                "group": "nodes",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Organisation"
+            },
+            {
+                "data": {
+                    "id": "1119",
+                    "type": "v",
+                    "class": "Person",
+                    "edgeCount": 4,
+                    "record": {
+                        "@out": {
+                            "ContainedIn": 3,
+                            "Inferred": 1
+                        },
+                        "id": "Clark",
+                        "@edgeCount": 4,
+                        "Name": "Clark"
+                    }
+                },
+                "position": {
+                    "x": 175.5760739502069,
+                    "y": 431.99462933270803
+                },
+                "group": "nodes",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Person"
+            },
+            {
+                "data": {
+                    "id": "1658",
+                    "type": "v",
+                    "class": "Location",
+                    "edgeCount": 4,
+                    "record": {
+                        "@out": {
+                            "ContainedIn": 3,
+                            "Inferred": 1
+                        },
+                        "id": "Bondi",
+                        "@edgeCount": 4,
+                        "Name": "Bondi"
+                    }
+                },
+                "position": {
+                    "x": 814.5835682409621,
+                    "y": 293.132177680442
+                },
+                "group": "nodes",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Location"
+            },
+            {
+                "data": {
+                    "id": "1091",
+                    "type": "v",
+                    "class": "Person",
+                    "edgeCount": 4,
+                    "record": {
+                        "@out": {
+                            "ContainedIn": 3,
+                            "Inferred": 1
+                        },
+                        "id": "Milroy",
+                        "@edgeCount": 4,
+                        "Name": "Milroy"
+                    }
+                },
+                "position": {
+                    "x": 159.19595708597174,
+                    "y": 230.16585224131111
+                },
+                "group": "nodes",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Person"
+            },
+            {
+                "data": {
+                    "id": "1090",
+                    "type": "v",
+                    "class": "Person",
+                    "edgeCount": 4,
+                    "record": {
+                        "@out": {
+                            "ContainedIn": 3,
+                            "Inferred": 1
+                        },
+                        "id": "Mr O'Brien",
+                        "@edgeCount": 4,
+                        "Name": "Mr O'Brien"
+                    }
+                },
+                "position": {
+                    "x": 228.7848058259905,
+                    "y": 485.842022515126
+                },
+                "group": "nodes",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Person"
+            },
+            {
+                "data": {
+                    "id": "1075",
+                    "type": "v",
+                    "class": "Person",
+                    "edgeCount": 5,
+                    "record": {
+                        "@out": {
+                            "ContainedIn": 3,
+                            "Inferred": 2
+                        },
+                        "id": "McGlinchey",
+                        "@edgeCount": 5,
+                        "Name": "McGlinchey"
+                    }
+                },
+                "position": {
+                    "x": 594.5183733264369,
+                    "y": 122.47566248259645
+                },
+                "group": "nodes",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Person"
+            },
+            {
+                "data": {
+                    "id": "1592",
+                    "type": "v",
+                    "class": "Organisation",
+                    "edgeCount": 4,
+                    "record": {
+                        "@out": {
+                            "ContainedIn": 3,
+                            "Inferred": 1
+                        },
+                        "id": "Macquarie",
+                        "@edgeCount": 4,
+                        "Name": "Macquarie"
+                    }
+                },
+                "position": {
+                    "x": 252.23740425062266,
+                    "y": 391.3409815763107
+                },
+                "group": "nodes",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Organisation"
+            },
+            {
+                "data": {
+                    "id": "1095",
+                    "type": "v",
+                    "class": "Person",
+                    "edgeCount": 4,
+                    "record": {
+                        "@out": {
+                            "ContainedIn": 3,
+                            "Inferred": 1
+                        },
+                        "id": "Coate",
+                        "@edgeCount": 4,
+                        "Name": "Coate"
+                    }
+                },
+                "position": {
+                    "x": 838.0473317407743,
+                    "y": 230.7875150463099
+                },
+                "group": "nodes",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Person"
+            },
+            {
+                "data": {
+                    "id": "1073",
+                    "type": "v",
+                    "class": "Person",
+                    "edgeCount": 6,
+                    "record": {
+                        "@out": {
+                            "ContainedIn": 3,
+                            "Inferred": 1
+                        },
+                        "id": "O'Brien",
+                        "@edgeCount": 6,
+                        "@in": {
+                            "Inferred": 2
+                        },
+                        "Name": "O'Brien"
+                    }
+                },
+                "position": {
+                    "x": 466.9672315200463,
+                    "y": 68.13552159304051
+                },
+                "group": "nodes",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Person"
+            },
+            {
+                "data": {
+                    "id": "1305",
+                    "type": "v",
+                    "class": "Organisation",
+                    "edgeCount": 11,
+                    "record": {
+                        "@out": {
+                            "ContainedIn": 9,
+                            "Inferred": 2
+                        },
+                        "id": "APL",
+                        "@edgeCount": 11,
+                        "Name": "APL"
+                    }
+                },
+                "position": {
+                    "x": 360.2141597405781,
+                    "y": 61.71023110662341
+                },
+                "group": "nodes",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Organisation"
+            },
+            {
+                "data": {
+                    "id": "1644",
+                    "type": "v",
+                    "class": "Location",
+                    "edgeCount": 5,
+                    "record": {
+                        "@out": {
+                            "ContainedIn": 4,
+                            "Inferred": 1
+                        },
+                        "id": "Bihar",
+                        "@edgeCount": 5,
+                        "Name": "Bihar"
+                    }
+                },
+                "position": {
+                    "x": 771.4073194106875,
+                    "y": 56.18173154947599
+                },
+                "group": "nodes",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Location"
+            },
+            {
+                "data": {
+                    "id": "961",
+                    "type": "v",
+                    "class": "Person",
+                    "edgeCount": 5,
+                    "record": {
+                        "@out": {
+                            "ContainedIn": 4,
+                            "Inferred": 1
+                        },
+                        "id": "Kernaghan",
+                        "@edgeCount": 5,
+                        "Name": "Kernaghan"
+                    }
+                },
+                "position": {
+                    "x": 711.9924286125414,
+                    "y": 245.1283069328184
+                },
+                "group": "nodes",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Person"
+            },
+            {
+                "data": {
+                    "id": "1641",
+                    "type": "v",
+                    "class": "Location",
+                    "edgeCount": 13,
+                    "record": {
+                        "@out": {
+                            "ContainedIn": 7,
+                            "Inferred": 3
+                        },
+                        "id": "Mangrove Mountain",
+                        "@edgeCount": 13,
+                        "@in": {
+                            "Inferred": 3
+                        },
+                        "Name": "Mangrove Mountain"
+                    }
+                },
+                "position": {
+                    "x": 477.4666198837897,
+                    "y": -18.290508006464776
+                },
+                "group": "nodes",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Location"
+            },
+            {
+                "data": {
+                    "id": "1661",
+                    "type": "v",
+                    "class": "Location",
+                    "edgeCount": 4,
+                    "record": {
+                        "@out": {
+                            "ContainedIn": 3,
+                            "Inferred": 1
+                        },
+                        "id": "Sydney",
+                        "@edgeCount": 4,
+                        "Name": "Sydney"
+                    }
+                },
+                "position": {
+                    "x": 676.1203544905107,
+                    "y": -38.804251530364965
+                },
+                "group": "nodes",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Location"
+            },
+            {
+                "data": {
+                    "id": "1628",
+                    "type": "v",
+                    "class": "Location",
+                    "edgeCount": 6,
+                    "record": {
+                        "@out": {
+                            "ContainedIn": 5,
+                            "Inferred": 1
+                        },
+                        "id": "Satyananda",
+                        "@edgeCount": 6,
+                        "Name": "Satyananda"
+                    }
+                },
+                "position": {
+                    "x": 152.9541595169266,
+                    "y": 361.30058403135473
+                },
+                "group": "nodes",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Location"
+            },
+            {
+                "data": {
+                    "id": "1626",
+                    "type": "v",
+                    "class": "Location",
+                    "edgeCount": 23,
+                    "record": {
+                        "@out": {
+                            "ContainedIn": 12,
+                            "Inferred": 3
+                        },
+                        "id": "India",
+                        "@edgeCount": 23,
+                        "@in": {
+                            "Inferred": 8
+                        },
+                        "Name": "India"
+                    }
+                },
+                "position": {
+                    "x": 562.1079148362749,
+                    "y": -117.08632390125996
+                },
+                "group": "nodes",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Location"
+            },
+            {
+                "data": {
+                    "id": "1108",
+                    "type": "v",
+                    "class": "Person",
+                    "edgeCount": 4,
+                    "record": {
+                        "@out": {
+                            "ContainedIn": 3,
+                            "Inferred": 1
+                        },
+                        "id": "Bennett",
+                        "@edgeCount": 4,
+                        "Name": "Bennett"
+                    }
+                },
+                "position": {
+                    "x": 209.73626561856386,
+                    "y": 91.00144082305019
+                },
+                "group": "nodes",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Person"
+            },
+            {
+                "data": {
+                    "id": "1260",
+                    "type": "v",
+                    "class": "Organisation",
+                    "edgeCount": 22,
+                    "record": {
+                        "@out": {
+                            "ContainedIn": 13,
+                            "Inferred": 5
+                        },
+                        "id": "Commission",
+                        "@edgeCount": 22,
+                        "@in": {
+                            "Inferred": 4
+                        },
+                        "Name": "Commission"
+                    }
+                },
+                "position": {
+                    "x": 490.2664781373129,
+                    "y": -246.00619462466548
+                },
+                "group": "nodes",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Organisation"
+            },
+            {
+                "data": {
+                    "id": "1112",
+                    "type": "v",
+                    "class": "Person",
+                    "edgeCount": 6,
+                    "record": {
+                        "@out": {
+                            "ContainedIn": 3,
+                            "Inferred": 2
+                        },
+                        "id": "McGLINCHEY",
+                        "@edgeCount": 6,
+                        "@in": {
+                            "Inferred": 1
+                        },
+                        "Name": "McGLINCHEY"
+                    }
+                },
+                "position": {
+                    "x": 729.2325023308005,
+                    "y": -223.91271757484608
+                },
+                "group": "nodes",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Person"
+            },
+            {
+                "data": {
+                    "id": "1128",
+                    "type": "v",
+                    "class": "Person",
+                    "edgeCount": 10,
+                    "record": {
+                        "@out": {
+                            "ContainedIn": 3,
+                            "Inferred": 4
+                        },
+                        "id": "MR KERNAGHAN",
+                        "@edgeCount": 10,
+                        "@in": {
+                            "Inferred": 3
+                        },
+                        "Name": "MR KERNAGHAN"
+                    }
+                },
+                "position": {
+                    "x": 362.80291259852214,
+                    "y": -270.889952615801
+                },
+                "group": "nodes",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Person"
+            },
+            {
+                "data": {
+                    "id": "1067",
+                    "type": "v",
+                    "class": "Person",
+                    "edgeCount": 8,
+                    "record": {
+                        "@out": {
+                            "ContainedIn": 3,
+                            "Inferred": 2
+                        },
+                        "id": "DWYER",
+                        "@edgeCount": 8,
+                        "@in": {
+                            "Inferred": 3
+                        },
+                        "Name": "DWYER"
+                    }
+                },
+                "position": {
+                    "x": 715.4281418483976,
+                    "y": -263.0213920206424
+                },
+                "group": "nodes",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Person"
+            },
+            {
+                "data": {
+                    "id": "1627",
+                    "type": "v",
+                    "class": "Location",
+                    "edgeCount": 14,
+                    "record": {
+                        "@out": {
+                            "ContainedIn": 9,
+                            "Inferred": 3
+                        },
+                        "id": "Australia",
+                        "@edgeCount": 14,
+                        "@in": {
+                            "Inferred": 2
+                        },
+                        "Name": "Australia"
+                    }
+                },
+                "position": {
+                    "x": 323.5666050108706,
+                    "y": -227.1453334421982
+                },
+                "group": "nodes",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Location"
+            }
+        ],
+        "edges": [
+            {
+                "data": {
+                    "id": "388",
+                    "source": "1093",
+                    "target": "1275",
+                    "class": "ContainedIn",
+                    "type": "e",
+                    "record": {
+                        "Instances": 1,
+                        "id": "PERTranscript-(Day-107).txtR.\tShishy",
+                        "Document": "Transcript-(Day-107).txt"
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "ContainedIn"
+            },
+            {
+                "data": {
+                    "id": "536",
+                    "source": "1190",
+                    "target": "1276",
+                    "class": "ContainedIn",
+                    "type": "e",
+                    "record": {
+                        "Instances": 1,
+                        "id": "PERTranscript-(Day-108).txtA.  Shishy",
+                        "Document": "Transcript-(Day-108).txt"
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "ContainedIn"
+            },
+            {
+                "data": {
+                    "id": "405",
+                    "source": "1109",
+                    "target": "1275",
+                    "class": "ContainedIn",
+                    "type": "e",
+                    "record": {
+                        "Instances": 3,
+                        "id": "PERTranscript-(Day-107).txtQ.\tShishy",
+                        "Document": "Transcript-(Day-107).txt"
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "ContainedIn"
+            },
+            {
+                "data": {
+                    "id": "659",
+                    "source": "1190",
+                    "target": "1277",
+                    "class": "ContainedIn",
+                    "type": "e",
+                    "record": {
+                        "Instances": 1,
+                        "id": "PERTranscript-(Day-109).txtA.  Shishy",
+                        "Document": "Transcript-(Day-109).txt"
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "ContainedIn"
+            },
+            {
+                "data": {
+                    "id": "332",
+                    "source": "1054",
+                    "target": "1271",
+                    "class": "ContainedIn",
+                    "type": "e",
+                    "record": {
+                        "Instances": 2,
+                        "id": "PERSubmissions-on-behalf-of-Terry-O'Connell.pdf.txtZehr",
+                        "Document": "Submissions-on-behalf-of-Terry-O'Connell.pdf.txt"
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "ContainedIn"
+            },
+            {
+                "data": {
+                    "id": "1344",
+                    "source": "995",
+                    "target": "930",
+                    "class": "ContainedIn",
+                    "type": "e",
+                    "record": {
+                        "Instances": 1,
+                        "id": "PERSubmissions-on-behalf-of-APR.pdf.txtAkhandandanda",
+                        "Document": "Submissions-on-behalf-of-APR.pdf.txt"
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "ContainedIn"
+            },
+            {
+                "data": {
+                    "id": "1361",
+                    "source": "1007",
+                    "target": "931",
+                    "class": "ContainedIn",
+                    "type": "e",
+                    "record": {
+                        "Instances": 1,
+                        "id": "PERSubmissions-on-behalf-of-Bert-Franzen.pdf.txtSuryamitra",
+                        "Document": "Submissions-on-behalf-of-Bert-Franzen.pdf.txt"
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "ContainedIn"
+            },
+            {
+                "data": {
+                    "id": "1372",
+                    "source": "1013",
+                    "target": "932",
+                    "class": "ContainedIn",
+                    "type": "e",
+                    "record": {
+                        "Instances": 1,
+                        "id": "PERSubmissions-on-behalf-of-Bhakti-Manning.pdf.txtAssi",
+                        "Document": "Submissions-on-behalf-of-Bhakti-Manning.pdf.txt"
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "ContainedIn"
+            },
+            {
+                "data": {
+                    "id": "1407",
+                    "source": "1007",
+                    "target": "935",
+                    "class": "ContainedIn",
+                    "type": "e",
+                    "record": {
+                        "Instances": 1,
+                        "id": "PERSubmissions-on-behalf-of-Phillip-Connor.pdf.txtSuryamitra",
+                        "Document": "Submissions-on-behalf-of-Phillip-Connor.pdf.txt"
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "ContainedIn"
+            },
+            {
+                "data": {
+                    "id": "1028",
+                    "source": "1540",
+                    "target": "937",
+                    "class": "Inferred",
+                    "type": "e",
+                    "record": {
+                        "RelationshipCount": 3,
+                        "id": [
+                            "Akhandananda",
+                            "Person",
+                            "Shishy",
+                            "Organisation"
+                        ]
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Inferred"
+            },
+            {
+                "data": {
+                    "id": "1131",
+                    "source": "937",
+                    "target": "926",
+                    "class": "ContainedIn",
+                    "type": "e",
+                    "record": {
+                        "Instances": 7,
+                        "id": "PERSubmissions-in-Reply-on-behalf-of-Shishy.pdf.txtAkhandananda",
+                        "Document": "Submissions-in-Reply-on-behalf-of-Shishy.pdf.txt"
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "ContainedIn"
+            },
+            {
+                "data": {
+                    "id": "1394",
+                    "source": "937",
+                    "target": "933",
+                    "class": "ContainedIn",
+                    "type": "e",
+                    "record": {
+                        "Instances": 10,
+                        "id": "PERSubmissions-on-behalf-of-Bihar-School-of-Yoga.pdf.txtAkhandananda",
+                        "Document": "Submissions-on-behalf-of-Bihar-School-of-Yoga.pdf.txt"
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "ContainedIn"
+            },
+            {
+                "data": {
+                    "id": "1370",
+                    "source": "937",
+                    "target": "931",
+                    "class": "ContainedIn",
+                    "type": "e",
+                    "record": {
+                        "Instances": 1,
+                        "id": "PERSubmissions-on-behalf-of-Bert-Franzen.pdf.txtAkhandananda",
+                        "Document": "Submissions-on-behalf-of-Bert-Franzen.pdf.txt"
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "ContainedIn"
+            },
+            {
+                "data": {
+                    "id": "373",
+                    "source": "937",
+                    "target": "1275",
+                    "class": "ContainedIn",
+                    "type": "e",
+                    "record": {
+                        "Instances": 80,
+                        "id": "PERTranscript-(Day-107).txtAkhandananda",
+                        "Document": "Transcript-(Day-107).txt"
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "ContainedIn"
+            },
+            {
+                "data": {
+                    "id": "472",
+                    "source": "937",
+                    "target": "1276",
+                    "class": "ContainedIn",
+                    "type": "e",
+                    "record": {
+                        "Instances": 136,
+                        "id": "PERTranscript-(Day-108).txtAkhandananda",
+                        "Document": "Transcript-(Day-108).txt"
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "ContainedIn"
+            },
+            {
+                "data": {
+                    "id": "342",
+                    "source": "937",
+                    "target": "1274",
+                    "class": "ContainedIn",
+                    "type": "e",
+                    "record": {
+                        "Instances": 27,
+                        "id": "PERSubmissionsonbehalfofShishy.pdf.txtAkhandananda",
+                        "Document": "SubmissionsonbehalfofShishy.pdf.txt"
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "ContainedIn"
+            },
+            {
+                "data": {
+                    "id": "1337",
+                    "source": "937",
+                    "target": "930",
+                    "class": "ContainedIn",
+                    "type": "e",
+                    "record": {
+                        "Instances": 3,
+                        "id": "PERSubmissions-on-behalf-of-APR.pdf.txtAkhandananda",
+                        "Document": "Submissions-on-behalf-of-APR.pdf.txt"
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "ContainedIn"
+            },
+            {
+                "data": {
+                    "id": "310",
+                    "source": "937",
+                    "target": "924",
+                    "class": "ContainedIn",
+                    "type": "e",
+                    "record": {
+                        "Instances": 7,
+                        "id": "PERSubmissions-in-Reply-on-behalf-of-Bhakti-Manning.pdf.txtAkhandananda",
+                        "Document": "Submissions-in-Reply-on-behalf-of-Bhakti-Manning.pdf.txt"
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "ContainedIn"
+            },
+            {
+                "data": {
+                    "id": "1379",
+                    "source": "937",
+                    "target": "932",
+                    "class": "ContainedIn",
+                    "type": "e",
+                    "record": {
+                        "Instances": 5,
+                        "id": "PERSubmissions-on-behalf-of-Bhakti-Manning.pdf.txtAkhandananda",
+                        "Document": "Submissions-on-behalf-of-Bhakti-Manning.pdf.txt"
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "ContainedIn"
+            },
+            {
+                "data": {
+                    "id": "1412",
+                    "source": "937",
+                    "target": "935",
+                    "class": "ContainedIn",
+                    "type": "e",
+                    "record": {
+                        "Instances": 1,
+                        "id": "PERSubmissions-on-behalf-of-Phillip-Connor.pdf.txtAkhandananda",
+                        "Document": "Submissions-on-behalf-of-Phillip-Connor.pdf.txt"
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "ContainedIn"
+            },
+            {
+                "data": {
+                    "id": "1400",
+                    "source": "937",
+                    "target": "934",
+                    "class": "ContainedIn",
+                    "type": "e",
+                    "record": {
+                        "Instances": 4,
+                        "id": "PERSubmissions-on-behalf-of-Dr-Sandra-Smith.pdf.txtAkhandananda",
+                        "Document": "Submissions-on-behalf-of-Dr-Sandra-Smith.pdf.txt"
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "ContainedIn"
+            },
+            {
+                "data": {
+                    "id": "1322",
+                    "source": "937",
+                    "target": "929",
+                    "class": "ContainedIn",
+                    "type": "e",
+                    "record": {
+                        "Instances": 4,
+                        "id": "PERSubmissions-on-behalf-of-Alecia-Buchanan.pdf.txtAkhandananda",
+                        "Document": "Submissions-on-behalf-of-Alecia-Buchanan.pdf.txt"
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "ContainedIn"
+            },
+            {
+                "data": {
+                    "id": "1299",
+                    "source": "937",
+                    "target": "928",
+                    "class": "ContainedIn",
+                    "type": "e",
+                    "record": {
+                        "Instances": 4,
+                        "id": "PERSubmissions-of-Counsel-Assisting-the-Royal-Commission-into-Institutional-Responses-To-Child-Sexual-Abuse.pdf.txtAkhandananda",
+                        "Document": "Submissions-of-Counsel-Assisting-the-Royal-Commission-into-Institutional-Responses-To-Child-Sexual-Abuse.pdf.txt"
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "ContainedIn"
+            },
+            {
+                "data": {
+                    "id": "876",
+                    "source": "1540",
+                    "target": "1276",
+                    "class": "ContainedIn",
+                    "type": "e",
+                    "record": {
+                        "Instances": 1,
+                        "id": "ORGTranscript-(Day-108).txtShishy",
+                        "Document": "Transcript-(Day-108).txt"
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "ContainedIn"
+            },
+            {
+                "data": {
+                    "id": "755",
+                    "source": "1540",
+                    "target": "930",
+                    "class": "ContainedIn",
+                    "type": "e",
+                    "record": {
+                        "Instances": 1,
+                        "id": "ORGSubmissions-on-behalf-of-APR.pdf.txtShishy",
+                        "Document": "Submissions-on-behalf-of-APR.pdf.txt"
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "ContainedIn"
+            },
+            {
+                "data": {
+                    "id": "315",
+                    "source": "937",
+                    "target": "925",
+                    "class": "ContainedIn",
+                    "type": "e",
+                    "record": {
+                        "Instances": 9,
+                        "id": "PERSubmissions-in-Reply-on-behalf-of-JYOTI--APK--APA--APH-and-Tim-Clark.pdf.txtAkhandananda",
+                        "Document": "Submissions-in-Reply-on-behalf-of-JYOTI--APK--APA--APH-and-Tim-Clark.pdf.txt"
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "ContainedIn"
+            },
+            {
+                "data": {
+                    "id": "855",
+                    "source": "1540",
+                    "target": "1275",
+                    "class": "ContainedIn",
+                    "type": "e",
+                    "record": {
+                        "Instances": 1,
+                        "id": "ORGTranscript-(Day-107).txtShishy",
+                        "Document": "Transcript-(Day-107).txt"
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "ContainedIn"
+            },
+            {
+                "data": {
+                    "id": "339",
+                    "source": "937",
+                    "target": "1272",
+                    "class": "ContainedIn",
+                    "type": "e",
+                    "record": {
+                        "Instances": 2,
+                        "id": "PERSubmissions-on-behalf-of-Yoga-Association-Mangrove-Mountain-Incorporated--Satyananda-Yoga-Academy-Limited-and-Rocklyn-Ashram--as-to-Further-Materials.pdf.txtAkhandananda",
+                        "Document": "Submissions-on-behalf-of-Yoga-Association-Mangrove-Mountain-Incorporated--Satyananda-Yoga-Academy-Limited-and-Rocklyn-Ashram--as-to-Further-Materials.pdf.txt"
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "ContainedIn"
+            },
+            {
+                "data": {
+                    "id": "736",
+                    "source": "1540",
+                    "target": "928",
+                    "class": "ContainedIn",
+                    "type": "e",
+                    "record": {
+                        "Instances": 2,
+                        "id": "ORGSubmissions-of-Counsel-Assisting-the-Royal-Commission-into-Institutional-Responses-To-Child-Sexual-Abuse.pdf.txtShishy",
+                        "Document": "Submissions-of-Counsel-Assisting-the-Royal-Commission-into-Institutional-Responses-To-Child-Sexual-Abuse.pdf.txt"
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "ContainedIn"
+            },
+            {
+                "data": {
+                    "id": "837",
+                    "source": "1540",
+                    "target": "1274",
+                    "class": "ContainedIn",
+                    "type": "e",
+                    "record": {
+                        "Instances": 1,
+                        "id": "ORGSubmissionsonbehalfofShishy.pdf.txtShishy",
+                        "Document": "SubmissionsonbehalfofShishy.pdf.txt"
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "ContainedIn"
+            },
+            {
+                "data": {
+                    "id": "903",
+                    "source": "1540",
+                    "target": "1277",
+                    "class": "ContainedIn",
+                    "type": "e",
+                    "record": {
+                        "Instances": 4,
+                        "id": "ORGTranscript-(Day-109).txtShishy",
+                        "Document": "Transcript-(Day-109).txt"
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "ContainedIn"
+            },
+            {
+                "data": {
+                    "id": "2496",
+                    "source": "1592",
+                    "target": "937",
+                    "class": "Inferred",
+                    "type": "e",
+                    "record": {
+                        "RelationshipCount": 3,
+                        "id": [
+                            "Akhandananda",
+                            "Person",
+                            "Macquarie",
+                            "Organisation"
+                        ]
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Inferred"
+            },
+            {
+                "data": {
+                    "id": "2396",
+                    "source": "1255",
+                    "target": "937",
+                    "class": "Inferred",
+                    "type": "e",
+                    "record": {
+                        "RelationshipCount": 3,
+                        "id": [
+                            "Akhandananda",
+                            "Person",
+                            "Royal Commission",
+                            "Organisation"
+                        ]
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Inferred"
+            },
+            {
+                "data": {
+                    "id": "2495",
+                    "source": "1090",
+                    "target": "937",
+                    "class": "Inferred",
+                    "type": "e",
+                    "record": {
+                        "RelationshipCount": 3,
+                        "id": [
+                            "Akhandananda",
+                            "Person",
+                            "Mr O'Brien",
+                            "Person"
+                        ]
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Inferred"
+            },
+            {
+                "data": {
+                    "id": "2395",
+                    "source": "1596",
+                    "target": "937",
+                    "class": "Inferred",
+                    "type": "e",
+                    "record": {
+                        "RelationshipCount": 3,
+                        "id": [
+                            "Akhandananda",
+                            "Person",
+                            "Royal",
+                            "Organisation"
+                        ]
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Inferred"
+            },
+            {
+                "data": {
+                    "id": "1020",
+                    "source": "1119",
+                    "target": "937",
+                    "class": "Inferred",
+                    "type": "e",
+                    "record": {
+                        "RelationshipCount": 3,
+                        "id": [
+                            "Akhandananda",
+                            "Person",
+                            "Clark",
+                            "Person"
+                        ]
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Inferred"
+            },
+            {
+                "data": {
+                    "id": "2393",
+                    "source": "1641",
+                    "target": "937",
+                    "class": "Inferred",
+                    "type": "e",
+                    "record": {
+                        "RelationshipCount": 3,
+                        "id": [
+                            "Akhandananda",
+                            "Person",
+                            "Mangrove Mountain",
+                            "Location"
+                        ]
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Inferred"
+            },
+            {
+                "data": {
+                    "id": "2492",
+                    "source": "955",
+                    "target": "937",
+                    "class": "Inferred",
+                    "type": "e",
+                    "record": {
+                        "RelationshipCount": 4,
+                        "id": [
+                            "Akhandananda",
+                            "Person",
+                            "Jyoti",
+                            "Person"
+                        ]
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Inferred"
+            },
+            {
+                "data": {
+                    "id": "2392",
+                    "source": "1632",
+                    "target": "937",
+                    "class": "Inferred",
+                    "type": "e",
+                    "record": {
+                        "RelationshipCount": 3,
+                        "id": [
+                            "Akhandananda",
+                            "Person",
+                            "Shishy",
+                            "Location"
+                        ]
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Inferred"
+            },
+            {
+                "data": {
+                    "id": "2491",
+                    "source": "1628",
+                    "target": "937",
+                    "class": "Inferred",
+                    "type": "e",
+                    "record": {
+                        "RelationshipCount": 3,
+                        "id": [
+                            "Akhandananda",
+                            "Person",
+                            "Satyananda",
+                            "Location"
+                        ]
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Inferred"
+            },
+            {
+                "data": {
+                    "id": "2490",
+                    "source": "1063",
+                    "target": "937",
+                    "class": "Inferred",
+                    "type": "e",
+                    "record": {
+                        "RelationshipCount": 3,
+                        "id": [
+                            "Akhandananda",
+                            "Person",
+                            "Helen",
+                            "Person"
+                        ]
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Inferred"
+            },
+            {
+                "data": {
+                    "id": "2405",
+                    "source": "1040",
+                    "target": "937",
+                    "class": "Inferred",
+                    "type": "e",
+                    "record": {
+                        "RelationshipCount": 3,
+                        "id": [
+                            "Akhandananda",
+                            "Person",
+                            "Swami Akhandananda",
+                            "Person"
+                        ]
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Inferred"
+            },
+            {
+                "data": {
+                    "id": "2427",
+                    "source": "1539",
+                    "target": "937",
+                    "class": "Inferred",
+                    "type": "e",
+                    "record": {
+                        "RelationshipCount": 3,
+                        "id": [
+                            "Akhandananda",
+                            "Person",
+                            "Akhandananda",
+                            "Organisation"
+                        ]
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Inferred"
+            },
+            {
+                "data": {
+                    "id": "2500",
+                    "source": "1631",
+                    "target": "937",
+                    "class": "Inferred",
+                    "type": "e",
+                    "record": {
+                        "RelationshipCount": 3,
+                        "id": [
+                            "Akhandananda",
+                            "Person",
+                            "Akhandananda",
+                            "Location"
+                        ]
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Inferred"
+            },
+            {
+                "data": {
+                    "id": "2489",
+                    "source": "1305",
+                    "target": "937",
+                    "class": "Inferred",
+                    "type": "e",
+                    "record": {
+                        "RelationshipCount": 3,
+                        "id": [
+                            "Akhandananda",
+                            "Person",
+                            "APL",
+                            "Organisation"
+                        ]
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Inferred"
+            },
+            {
+                "data": {
+                    "id": "2389",
+                    "source": "1091",
+                    "target": "937",
+                    "class": "Inferred",
+                    "type": "e",
+                    "record": {
+                        "RelationshipCount": 3,
+                        "id": [
+                            "Akhandananda",
+                            "Person",
+                            "Milroy",
+                            "Person"
+                        ]
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Inferred"
+            },
+            {
+                "data": {
+                    "id": "2388",
+                    "source": "1656",
+                    "target": "937",
+                    "class": "Inferred",
+                    "type": "e",
+                    "record": {
+                        "RelationshipCount": 3,
+                        "id": [
+                            "Akhandananda",
+                            "Person",
+                            "Mangrove",
+                            "Location"
+                        ]
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Inferred"
+            },
+            {
+                "data": {
+                    "id": "2486",
+                    "source": "1108",
+                    "target": "937",
+                    "class": "Inferred",
+                    "type": "e",
+                    "record": {
+                        "RelationshipCount": 3,
+                        "id": [
+                            "Akhandananda",
+                            "Person",
+                            "Bennett",
+                            "Person"
+                        ]
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Inferred"
+            },
+            {
+                "data": {
+                    "id": "2506",
+                    "source": "1535",
+                    "target": "937",
+                    "class": "Inferred",
+                    "type": "e",
+                    "record": {
+                        "RelationshipCount": 3,
+                        "id": [
+                            "Akhandananda",
+                            "Person",
+                            "ROYAL COMMISSION",
+                            "Organisation"
+                        ]
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Inferred"
+            },
+            {
+                "data": {
+                    "id": "2484",
+                    "source": "1087",
+                    "target": "937",
+                    "class": "Inferred",
+                    "type": "e",
+                    "record": {
+                        "RelationshipCount": 3,
+                        "id": [
+                            "Akhandananda",
+                            "Person",
+                            "MR O'BRIEN",
+                            "Person"
+                        ]
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Inferred"
+            },
+            {
+                "data": {
+                    "id": "2384",
+                    "source": "131",
+                    "target": "937",
+                    "class": "Inferred",
+                    "type": "e",
+                    "record": {
+                        "RelationshipCount": 5,
+                        "id": [
+                            "Akhandananda",
+                            "Person",
+                            "Shishy",
+                            "Person"
+                        ]
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Inferred"
+            },
+            {
+                "data": {
+                    "id": "2483",
+                    "source": "1661",
+                    "target": "937",
+                    "class": "Inferred",
+                    "type": "e",
+                    "record": {
+                        "RelationshipCount": 3,
+                        "id": [
+                            "Akhandananda",
+                            "Person",
+                            "Sydney",
+                            "Location"
+                        ]
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Inferred"
+            },
+            {
+                "data": {
+                    "id": "2481",
+                    "source": "1066",
+                    "target": "937",
+                    "class": "Inferred",
+                    "type": "e",
+                    "record": {
+                        "RelationshipCount": 3,
+                        "id": [
+                            "Akhandananda",
+                            "Person",
+                            "Tim",
+                            "Person"
+                        ]
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Inferred"
+            },
+            {
+                "data": {
+                    "id": "2480",
+                    "source": "1111",
+                    "target": "937",
+                    "class": "Inferred",
+                    "type": "e",
+                    "record": {
+                        "RelationshipCount": 3,
+                        "id": [
+                            "Akhandananda",
+                            "Person",
+                            "Alecia",
+                            "Person"
+                        ]
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Inferred"
+            },
+            {
+                "data": {
+                    "id": "2413",
+                    "source": "1644",
+                    "target": "937",
+                    "class": "Inferred",
+                    "type": "e",
+                    "record": {
+                        "RelationshipCount": 3,
+                        "id": [
+                            "Akhandananda",
+                            "Person",
+                            "Bihar",
+                            "Location"
+                        ]
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Inferred"
+            },
+            {
+                "data": {
+                    "id": "2479",
+                    "source": "1138",
+                    "target": "937",
+                    "class": "Inferred",
+                    "type": "e",
+                    "record": {
+                        "RelationshipCount": 3,
+                        "id": [
+                            "Akhandananda",
+                            "Person",
+                            "Hayley Bennett",
+                            "Person"
+                        ]
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Inferred"
+            },
+            {
+                "data": {
+                    "id": "1026",
+                    "source": "1095",
+                    "target": "937",
+                    "class": "Inferred",
+                    "type": "e",
+                    "record": {
+                        "RelationshipCount": 3,
+                        "id": [
+                            "Akhandananda",
+                            "Person",
+                            "Coate",
+                            "Person"
+                        ]
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Inferred"
+            },
+            {
+                "data": {
+                    "id": "2511",
+                    "source": "961",
+                    "target": "937",
+                    "class": "Inferred",
+                    "type": "e",
+                    "record": {
+                        "RelationshipCount": 3,
+                        "id": [
+                            "Akhandananda",
+                            "Person",
+                            "Kernaghan",
+                            "Person"
+                        ]
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Inferred"
+            },
+            {
+                "data": {
+                    "id": "1025",
+                    "source": "135",
+                    "target": "937",
+                    "class": "Inferred",
+                    "type": "e",
+                    "record": {
+                        "RelationshipCount": 3,
+                        "id": [
+                            "Akhandananda",
+                            "Person",
+                            "Satyananda",
+                            "Person"
+                        ]
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Inferred"
+            },
+            {
+                "data": {
+                    "id": "2499",
+                    "source": "1658",
+                    "target": "937",
+                    "class": "Inferred",
+                    "type": "e",
+                    "record": {
+                        "RelationshipCount": 3,
+                        "id": [
+                            "Akhandananda",
+                            "Person",
+                            "Bondi",
+                            "Location"
+                        ]
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Inferred"
+            },
+            {
+                "data": {
+                    "id": "2378",
+                    "source": "1073",
+                    "target": "937",
+                    "class": "Inferred",
+                    "type": "e",
+                    "record": {
+                        "RelationshipCount": 3,
+                        "id": [
+                            "Akhandananda",
+                            "Person",
+                            "O'Brien",
+                            "Person"
+                        ]
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Inferred"
+            },
+            {
+                "data": {
+                    "id": "2477",
+                    "source": "1075",
+                    "target": "937",
+                    "class": "Inferred",
+                    "type": "e",
+                    "record": {
+                        "RelationshipCount": 3,
+                        "id": [
+                            "Akhandananda",
+                            "Person",
+                            "McGlinchey",
+                            "Person"
+                        ]
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Inferred"
+            },
+            {
+                "data": {
+                    "id": "2498",
+                    "source": "1021",
+                    "target": "937",
+                    "class": "Inferred",
+                    "type": "e",
+                    "record": {
+                        "RelationshipCount": 3,
+                        "id": [
+                            "Akhandananda",
+                            "Person",
+                            "Swami Satyananda",
+                            "Person"
+                        ]
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Inferred"
+            },
+            {
+                "data": {
+                    "id": "2410",
+                    "source": "1626",
+                    "target": "937",
+                    "class": "Inferred",
+                    "type": "e",
+                    "record": {
+                        "RelationshipCount": 3,
+                        "id": [
+                            "Akhandananda",
+                            "Person",
+                            "India",
+                            "Location"
+                        ]
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Inferred"
+            },
+            {
+                "data": {
+                    "id": "2474",
+                    "source": "131",
+                    "target": "1631",
+                    "class": "Inferred",
+                    "type": "e",
+                    "record": {
+                        "RelationshipCount": 3,
+                        "id": [
+                            "Akhandananda",
+                            "Location",
+                            "Shishy",
+                            "Person"
+                        ]
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Inferred"
+            },
+            {
+                "data": {
+                    "id": "1022",
+                    "source": "1112",
+                    "target": "131",
+                    "class": "Inferred",
+                    "type": "e",
+                    "record": {
+                        "RelationshipCount": 3,
+                        "id": [
+                            "Shishy",
+                            "Person",
+                            "McGLINCHEY",
+                            "Person"
+                        ]
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Inferred"
+            },
+            {
+                "data": {
+                    "id": "2473",
+                    "source": "1128",
+                    "target": "1255",
+                    "class": "Inferred",
+                    "type": "e",
+                    "record": {
+                        "RelationshipCount": 3,
+                        "id": [
+                            "Royal Commission",
+                            "Organisation",
+                            "MR KERNAGHAN",
+                            "Person"
+                        ]
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Inferred"
+            },
+            {
+                "data": {
+                    "id": "2470",
+                    "source": "1626",
+                    "target": "1087",
+                    "class": "Inferred",
+                    "type": "e",
+                    "record": {
+                        "RelationshipCount": 3,
+                        "id": [
+                            "MR O'BRIEN",
+                            "Person",
+                            "India",
+                            "Location"
+                        ]
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Inferred"
+            },
+            {
+                "data": {
+                    "id": "2504",
+                    "source": "1641",
+                    "target": "1040",
+                    "class": "Inferred",
+                    "type": "e",
+                    "record": {
+                        "RelationshipCount": 3,
+                        "id": [
+                            "Swami Akhandananda",
+                            "Person",
+                            "Mangrove Mountain",
+                            "Location"
+                        ]
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Inferred"
+            },
+            {
+                "data": {
+                    "id": "2426",
+                    "source": "1111",
+                    "target": "1626",
+                    "class": "Inferred",
+                    "type": "e",
+                    "record": {
+                        "RelationshipCount": 3,
+                        "id": [
+                            "India",
+                            "Location",
+                            "Alecia",
+                            "Person"
+                        ]
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Inferred"
+            },
+            {
+                "data": {
+                    "id": "2502",
+                    "source": "1255",
+                    "target": "1040",
+                    "class": "Inferred",
+                    "type": "e",
+                    "record": {
+                        "RelationshipCount": 3,
+                        "id": [
+                            "Swami Akhandananda",
+                            "Person",
+                            "Royal Commission",
+                            "Organisation"
+                        ]
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Inferred"
+            },
+            {
+                "data": {
+                    "id": "354",
+                    "source": "1627",
+                    "target": "131",
+                    "class": "Inferred",
+                    "type": "e",
+                    "record": {
+                        "RelationshipCount": 3,
+                        "id": [
+                            "Shishy",
+                            "Person",
+                            "Australia",
+                            "Location"
+                        ]
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Inferred"
+            },
+            {
+                "data": {
+                    "id": "2425",
+                    "source": "1067",
+                    "target": "1087",
+                    "class": "Inferred",
+                    "type": "e",
+                    "record": {
+                        "RelationshipCount": 3,
+                        "id": [
+                            "MR O'BRIEN",
+                            "Person",
+                            "DWYER",
+                            "Person"
+                        ]
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Inferred"
+            },
+            {
+                "data": {
+                    "id": "2509",
+                    "source": "1111",
+                    "target": "1087",
+                    "class": "Inferred",
+                    "type": "e",
+                    "record": {
+                        "RelationshipCount": 3,
+                        "id": [
+                            "MR O'BRIEN",
+                            "Person",
+                            "Alecia",
+                            "Person"
+                        ]
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Inferred"
+            },
+            {
+                "data": {
+                    "id": "2507",
+                    "source": "131",
+                    "target": "1641",
+                    "class": "Inferred",
+                    "type": "e",
+                    "record": {
+                        "RelationshipCount": 3,
+                        "id": [
+                            "Mangrove Mountain",
+                            "Location",
+                            "Shishy",
+                            "Person"
+                        ]
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Inferred"
+            },
+            {
+                "data": {
+                    "id": "2429",
+                    "source": "1305",
+                    "target": "131",
+                    "class": "Inferred",
+                    "type": "e",
+                    "record": {
+                        "RelationshipCount": 3,
+                        "id": [
+                            "Shishy",
+                            "Person",
+                            "APL",
+                            "Organisation"
+                        ]
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Inferred"
+            },
+            {
+                "data": {
+                    "id": "2505",
+                    "source": "1627",
+                    "target": "1255",
+                    "class": "Inferred",
+                    "type": "e",
+                    "record": {
+                        "RelationshipCount": 3,
+                        "id": [
+                            "Royal Commission",
+                            "Organisation",
+                            "Australia",
+                            "Location"
+                        ]
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Inferred"
+            },
+            {
+                "data": {
+                    "id": "2428",
+                    "source": "955",
+                    "target": "131",
+                    "class": "Inferred",
+                    "type": "e",
+                    "record": {
+                        "RelationshipCount": 3,
+                        "id": [
+                            "Shishy",
+                            "Person",
+                            "Jyoti",
+                            "Person"
+                        ]
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Inferred"
+            },
+            {
+                "data": {
+                    "id": "2562",
+                    "source": "1255",
+                    "target": "1641",
+                    "class": "Inferred",
+                    "type": "e",
+                    "record": {
+                        "RelationshipCount": 3,
+                        "id": [
+                            "Mangrove Mountain",
+                            "Location",
+                            "Royal Commission",
+                            "Organisation"
+                        ]
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Inferred"
+            },
+            {
+                "data": {
+                    "id": "2561",
+                    "source": "131",
+                    "target": "1255",
+                    "class": "Inferred",
+                    "type": "e",
+                    "record": {
+                        "RelationshipCount": 3,
+                        "id": [
+                            "Royal Commission",
+                            "Organisation",
+                            "Shishy",
+                            "Person"
+                        ]
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Inferred"
+            },
+            {
+                "data": {
+                    "id": "1031",
+                    "source": "131",
+                    "target": "1626",
+                    "class": "Inferred",
+                    "type": "e",
+                    "record": {
+                        "RelationshipCount": 3,
+                        "id": [
+                            "India",
+                            "Location",
+                            "Shishy",
+                            "Person"
+                        ]
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Inferred"
+            },
+            {
+                "data": {
+                    "id": "1030",
+                    "source": "1260",
+                    "target": "1641",
+                    "class": "Inferred",
+                    "type": "e",
+                    "record": {
+                        "RelationshipCount": 3,
+                        "id": [
+                            "Mangrove Mountain",
+                            "Location",
+                            "Commission",
+                            "Organisation"
+                        ]
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Inferred"
+            },
+            {
+                "data": {
+                    "id": "1029",
+                    "source": "1255",
+                    "target": "1539",
+                    "class": "Inferred",
+                    "type": "e",
+                    "record": {
+                        "RelationshipCount": 3,
+                        "id": [
+                            "Akhandananda",
+                            "Organisation",
+                            "Royal Commission",
+                            "Organisation"
+                        ]
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Inferred"
+            },
+            {
+                "data": {
+                    "id": "2513",
+                    "source": "1260",
+                    "target": "1626",
+                    "class": "Inferred",
+                    "type": "e",
+                    "record": {
+                        "RelationshipCount": 3,
+                        "id": [
+                            "India",
+                            "Location",
+                            "Commission",
+                            "Organisation"
+                        ]
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Inferred"
+            },
+            {
+                "data": {
+                    "id": "1027",
+                    "source": "1260",
+                    "target": "1040",
+                    "class": "Inferred",
+                    "type": "e",
+                    "record": {
+                        "RelationshipCount": 3,
+                        "id": [
+                            "Swami Akhandananda",
+                            "Person",
+                            "Commission",
+                            "Organisation"
+                        ]
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Inferred"
+            },
+            {
+                "data": {
+                    "id": "2512",
+                    "source": "1626",
+                    "target": "135",
+                    "class": "Inferred",
+                    "type": "e",
+                    "record": {
+                        "RelationshipCount": 3,
+                        "id": [
+                            "Satyananda",
+                            "Person",
+                            "India",
+                            "Location"
+                        ]
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Inferred"
+            },
+            {
+                "data": {
+                    "id": "2432",
+                    "source": "1260",
+                    "target": "131",
+                    "class": "Inferred",
+                    "type": "e",
+                    "record": {
+                        "RelationshipCount": 6,
+                        "id": [
+                            "Shishy",
+                            "Person",
+                            "Commission",
+                            "Organisation"
+                        ]
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Inferred"
+            },
+            {
+                "data": {
+                    "id": "2476",
+                    "source": "1255",
+                    "target": "1626",
+                    "class": "Inferred",
+                    "type": "e",
+                    "record": {
+                        "RelationshipCount": 3,
+                        "id": [
+                            "India",
+                            "Location",
+                            "Royal Commission",
+                            "Organisation"
+                        ]
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Inferred"
+            },
+            {
+                "data": {
+                    "id": "1023",
+                    "source": "1087",
+                    "target": "135",
+                    "class": "Inferred",
+                    "type": "e",
+                    "record": {
+                        "RelationshipCount": 3,
+                        "id": [
+                            "Satyananda",
+                            "Person",
+                            "MR O'BRIEN",
+                            "Person"
+                        ]
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Inferred"
+            },
+            {
+                "data": {
+                    "id": "2431",
+                    "source": "131",
+                    "target": "1073",
+                    "class": "Inferred",
+                    "type": "e",
+                    "record": {
+                        "RelationshipCount": 3,
+                        "id": [
+                            "O'Brien",
+                            "Person",
+                            "Shishy",
+                            "Person"
+                        ]
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Inferred"
+            },
+            {
+                "data": {
+                    "id": "2404",
+                    "source": "131",
+                    "target": "1087",
+                    "class": "Inferred",
+                    "type": "e",
+                    "record": {
+                        "RelationshipCount": 3,
+                        "id": [
+                            "MR O'BRIEN",
+                            "Person",
+                            "Shishy",
+                            "Person"
+                        ]
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Inferred"
+            },
+            {
+                "data": {
+                    "id": "2403",
+                    "source": "1087",
+                    "target": "1255",
+                    "class": "Inferred",
+                    "type": "e",
+                    "record": {
+                        "RelationshipCount": 3,
+                        "id": [
+                            "Royal Commission",
+                            "Organisation",
+                            "MR O'BRIEN",
+                            "Person"
+                        ]
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Inferred"
+            },
+            {
+                "data": {
+                    "id": "2401",
+                    "source": "1111",
+                    "target": "131",
+                    "class": "Inferred",
+                    "type": "e",
+                    "record": {
+                        "RelationshipCount": 3,
+                        "id": [
+                            "Shishy",
+                            "Person",
+                            "Alecia",
+                            "Person"
+                        ]
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Inferred"
+            },
+            {
+                "data": {
+                    "id": "2488",
+                    "source": "131",
+                    "target": "1040",
+                    "class": "Inferred",
+                    "type": "e",
+                    "record": {
+                        "RelationshipCount": 3,
+                        "id": [
+                            "Swami Akhandananda",
+                            "Person",
+                            "Shishy",
+                            "Person"
+                        ]
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Inferred"
+            },
+            {
+                "data": {
+                    "id": "2487",
+                    "source": "131",
+                    "target": "135",
+                    "class": "Inferred",
+                    "type": "e",
+                    "record": {
+                        "RelationshipCount": 3,
+                        "id": [
+                            "Satyananda",
+                            "Person",
+                            "Shishy",
+                            "Person"
+                        ]
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Inferred"
+            },
+            {
+                "data": {
+                    "id": "2407",
+                    "source": "1075",
+                    "target": "131",
+                    "class": "Inferred",
+                    "type": "e",
+                    "record": {
+                        "RelationshipCount": 3,
+                        "id": [
+                            "Shishy",
+                            "Person",
+                            "McGlinchey",
+                            "Person"
+                        ]
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Inferred"
+            },
+            {
+                "data": {
+                    "id": "2406",
+                    "source": "1066",
+                    "target": "131",
+                    "class": "Inferred",
+                    "type": "e",
+                    "record": {
+                        "RelationshipCount": 3,
+                        "id": [
+                            "Shishy",
+                            "Person",
+                            "Tim",
+                            "Person"
+                        ]
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Inferred"
+            },
+            {
+                "data": {
+                    "id": "2386",
+                    "source": "1641",
+                    "target": "1626",
+                    "class": "Inferred",
+                    "type": "e",
+                    "record": {
+                        "RelationshipCount": 3,
+                        "id": [
+                            "India",
+                            "Location",
+                            "Mangrove Mountain",
+                            "Location"
+                        ]
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Inferred"
+            },
+            {
+                "data": {
+                    "id": "2385",
+                    "source": "1128",
+                    "target": "1040",
+                    "class": "Inferred",
+                    "type": "e",
+                    "record": {
+                        "RelationshipCount": 3,
+                        "id": [
+                            "Swami Akhandananda",
+                            "Person",
+                            "MR KERNAGHAN",
+                            "Person"
+                        ]
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Inferred"
+            },
+            {
+                "data": {
+                    "id": "2382",
+                    "source": "1067",
+                    "target": "1626",
+                    "class": "Inferred",
+                    "type": "e",
+                    "record": {
+                        "RelationshipCount": 3,
+                        "id": [
+                            "India",
+                            "Location",
+                            "DWYER",
+                            "Person"
+                        ]
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Inferred"
+            },
+            {
+                "data": {
+                    "id": "2381",
+                    "source": "1128",
+                    "target": "135",
+                    "class": "Inferred",
+                    "type": "e",
+                    "record": {
+                        "RelationshipCount": 3,
+                        "id": [
+                            "Satyananda",
+                            "Person",
+                            "MR KERNAGHAN",
+                            "Person"
+                        ]
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Inferred"
+            },
+            {
+                "data": {
+                    "id": "2379",
+                    "source": "1112",
+                    "target": "1626",
+                    "class": "Inferred",
+                    "type": "e",
+                    "record": {
+                        "RelationshipCount": 3,
+                        "id": [
+                            "India",
+                            "Location",
+                            "McGLINCHEY",
+                            "Person"
+                        ]
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Inferred"
+            },
+            {
+                "data": {
+                    "id": "2412",
+                    "source": "1627",
+                    "target": "1040",
+                    "class": "Inferred",
+                    "type": "e",
+                    "record": {
+                        "RelationshipCount": 3,
+                        "id": [
+                            "Swami Akhandananda",
+                            "Person",
+                            "Australia",
+                            "Location"
+                        ]
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Inferred"
+            },
+            {
+                "data": {
+                    "id": "2411",
+                    "source": "1040",
+                    "target": "1087",
+                    "class": "Inferred",
+                    "type": "e",
+                    "record": {
+                        "RelationshipCount": 3,
+                        "id": [
+                            "MR O'BRIEN",
+                            "Person",
+                            "Swami Akhandananda",
+                            "Person"
+                        ]
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Inferred"
+            },
+            {
+                "data": {
+                    "id": "2377",
+                    "source": "1040",
+                    "target": "1626",
+                    "class": "Inferred",
+                    "type": "e",
+                    "record": {
+                        "RelationshipCount": 3,
+                        "id": [
+                            "India",
+                            "Location",
+                            "Swami Akhandananda",
+                            "Person"
+                        ]
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Inferred"
+            },
+            {
+                "data": {
+                    "id": "2497",
+                    "source": "1255",
+                    "target": "1073",
+                    "class": "Inferred",
+                    "type": "e",
+                    "record": {
+                        "RelationshipCount": 3,
+                        "id": [
+                            "O'Brien",
+                            "Person",
+                            "Royal Commission",
+                            "Organisation"
+                        ]
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Inferred"
+            }
+        ]
+    },
+    "style": [
+        {
+            "selector": "node",
+            "style": {
+                "border-width": "1px",
+                "border-color": "#a0a0a0",
+                "font-size": "9px",
+                "min-zoomed-font-size": "10px",
+                "width": "30px",
+                "height": "30px"
+            }
+        },
+        {
+            "selector": "edge",
+            "style": {
+                "font-size": "9px",
+                "line-color": "#e1eaea",
+                "text-margin-y": "12px",
+                "target-arrow-color": "#e1eaea",
+                "target-arrow-shape": "triangle",
+                "min-zoomed-font-size": "10px",
+                "edge-distances": "node-position",
+                "opacity": "1",
+                "label": "data(label)",
+                "text-rotation": "autorotate",
+                "curve-style": "bezier"
+            }
+        },
+        {
+            "selector": ".faded",
+            "style": {
+                "opacity": "0.1",
+                "background-image-opacity": "0.1",
+                "background-opacity": "0.1",
+                "text-opacity": "0"
+            }
+        },
+        {
+            "selector": ".highlighted",
+            "style": {
+                "border-width": "5px",
+                "opacity": "1",
+                "background-color": "#61bffc",
+                "line-color": "#61bffc",
+                "target-arrow-color": "#61bffc",
+                "transition-property": "background-color, line-color, target-arrow-color"
+            }
+        },
+        {
+            "selector": ".invisible",
+            "style": {
+                "visibility": "hidden"
+            }
+        },
+        {
+            "selector": "node.Person",
+            "style": {
+                "font-size": "9px",
+                "color": "#000000",
+                "label": "data(id)",
+                "text-valign": "top",
+                "text-halign": "center",
+                "width": "30px",
+                "height": "30px",
+                "background-color": "#fc8091",
+                "border-width": "1px",
+                "border-color": "#a0a0a0"
+            }
+        },
+        {
+            "selector": "node.Document",
+            "style": {
+                "font-size": "9px",
+                "color": "#000000",
+                "label": "data(id)",
+                "text-valign": "top",
+                "text-halign": "center",
+                "width": "30px",
+                "height": "30px",
+                "background-color": "#dbbbf7",
+                "border-width": "1px",
+                "border-color": "#a0a0a0"
+            }
+        },
+        {
+            "selector": "edge.ContainedIn",
+            "style": {
+                "font-size": "9px",
+                "color": "#000000",
+                "label": "",
+                "source-arrow-shape": "none",
+                "source-arrow-color": "#ffffff",
+                "target-arrow-shape": "triangle",
+                "target-arrow-color": "#cdcdcd",
+                "line-style": "solid",
+                "line-color": "#cdcdcd",
+                "width": "1px"
+            }
+        },
+        {
+            "selector": "edge:selected.ContainedIn",
+            "style": {
+                "overlay-padding": "6px",
+                "overlay-opacity": "0.3",
+                "overlay-color": "red"
+            }
+        },
+        {
+            "selector": "node.Organisation",
+            "style": {
+                "font-size": "9px",
+                "color": "#000000",
+                "label": "data(id)",
+                "text-valign": "top",
+                "text-halign": "center",
+                "width": "30px",
+                "height": "30px",
+                "background-color": "#f2a093",
+                "border-width": "1px",
+                "border-color": "#a0a0a0"
+            }
+        },
+        {
+            "selector": "node.Location",
+            "style": {
+                "font-size": "9px",
+                "color": "#000000",
+                "label": "data(id)",
+                "text-valign": "top",
+                "text-halign": "center",
+                "width": "30px",
+                "height": "30px",
+                "background-color": "#c5adff",
+                "border-width": "1px",
+                "border-color": "#a0a0a0"
+            }
+        },
+        {
+            "selector": "edge.Inferred",
+            "style": {
+                "font-size": "9px",
+                "color": "#000000",
+                "label": "",
+                "source-arrow-shape": "none",
+                "source-arrow-color": "#ffffff",
+                "target-arrow-shape": "triangle",
+                "target-arrow-color": "#cdcdcd",
+                "line-style": "solid",
+                "line-color": "#cdcdcd",
+                "width": "1px"
+            }
+        },
+        {
+            "selector": "edge:selected.Inferred",
+            "style": {
+                "overlay-padding": "6px",
+                "overlay-opacity": "0.3",
+                "overlay-color": "red"
+            }
+        },
+        {
+            "selector": "node:selected",
+            "style": {
+                "border-width": "5px",
+                "border-color": "red"
+            }
+        }
+    ],
+    "zoomingEnabled": true,
+    "userZoomingEnabled": true,
+    "zoom": 0.45504611458925903,
+    "minZoom": 0.1,
+    "maxZoom": 10,
+    "panningEnabled": true,
+    "userPanningEnabled": true,
+    "pan": {
+        "x": 324.12715956428434,
+        "y": 164.64357328382022
+    },
+    "boxSelectionEnabled": true,
+    "renderer": {
+        "name": "canvas"
+    },
+    "hideEdgesOnViewport": true,
+    "textureOnViewport": false,
+    "wheelSensitivity": 1,
+    "motionBlur": false,
+    "nodeClasses": "[[\"Person\",{\"color\":\"#fc8091\",\"count\":29,\"selected\":0,\"settings\":{\"fieldLabel\":\"id\",\"fieldWeight\":\"\",\"sizePolicy\":\"fixed\",\"labelFontSize\":\"9px\",\"labelColor\":\"#000000\",\"labelVPosition\":\"top\",\"labelHPosition\":\"center\",\"shapeWidth\":\"30\",\"shapeHeight\":\"30\",\"shapeColor\":\"#fc8091\",\"borderWidth\":1,\"borderColor\":\"#a0a0a0\"},\"hidden\":0}],[\"Document\",{\"color\":\"#dbbbf7\",\"count\":19,\"selected\":0,\"settings\":{\"fieldLabel\":\"id\",\"fieldWeight\":\"\",\"sizePolicy\":\"fixed\",\"labelFontSize\":\"9px\",\"labelColor\":\"#000000\",\"labelVPosition\":\"top\",\"labelHPosition\":\"center\",\"shapeWidth\":\"30\",\"shapeHeight\":\"30\",\"shapeColor\":\"#dbbbf7\",\"borderWidth\":1,\"borderColor\":\"#a0a0a0\"},\"hidden\":0}],[\"Organisation\",{\"color\":\"#f2a093\",\"count\":8,\"selected\":0,\"settings\":{\"fieldLabel\":\"id\",\"fieldWeight\":\"\",\"sizePolicy\":\"fixed\",\"labelFontSize\":\"9px\",\"labelColor\":\"#000000\",\"labelVPosition\":\"top\",\"labelHPosition\":\"center\",\"shapeWidth\":\"30\",\"shapeHeight\":\"30\",\"shapeColor\":\"#f2a093\",\"borderWidth\":1,\"borderColor\":\"#a0a0a0\"},\"hidden\":0}],[\"Location\",{\"color\":\"#c5adff\",\"count\":10,\"selected\":0,\"settings\":{\"fieldLabel\":\"id\",\"fieldWeight\":\"\",\"sizePolicy\":\"fixed\",\"labelFontSize\":\"9px\",\"labelColor\":\"#000000\",\"labelVPosition\":\"top\",\"labelHPosition\":\"center\",\"shapeWidth\":\"30\",\"shapeHeight\":\"30\",\"shapeColor\":\"#c5adff\",\"borderWidth\":1,\"borderColor\":\"#a0a0a0\"},\"hidden\":0}]]",
+    "edgeClasses": "[[\"ContainedIn\",{\"color\":\"#cdcdcd\",\"count\":30,\"selected\":0,\"settings\":{\"fieldLabel\":\"\",\"fieldWeight\":\"\",\"sizePolicy\":\"fixed\",\"labelFontSize\":\"9px\",\"labelColor\":\"#000000\",\"sourceArrowColor\":\"#ffffff\",\"sourceArrowShape\":\"none\",\"targetArrowColor\":\"#cdcdcd\",\"targetArrowShape\":\"triangle\",\"lineStyle\":\"solid\",\"lineColor\":\"#cdcdcd\",\"lineWidth\":\"1\"},\"hidden\":0}],[\"Inferred\",{\"color\":\"#cdcdcd\",\"count\":76,\"selected\":0,\"settings\":{\"fieldLabel\":\"\",\"fieldWeight\":\"\",\"sizePolicy\":\"fixed\",\"labelFontSize\":\"9px\",\"labelColor\":\"#000000\",\"sourceArrowColor\":\"#ffffff\",\"sourceArrowShape\":\"none\",\"targetArrowColor\":\"#cdcdcd\",\"targetArrowShape\":\"triangle\",\"lineStyle\":\"solid\",\"lineColor\":\"#cdcdcd\",\"lineWidth\":\"1\"},\"hidden\":0}]]",
+    "lastLayoutName": "force",
+    "autoLayout": true,
+    "spacingFactor": 0.085,
+    "showLegend": true
+}

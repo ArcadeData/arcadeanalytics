@@ -1,0 +1,21 @@
+#outer {
+    position:relative
+}
+
+#inner {
+    position:absolute;
+    top:50%;
+    height:50px;
+    padding-top:15px;
+    background-color: white;
+}
+
+#inner > p {
+    text-align: center;
+}
+
+.footer {
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+}

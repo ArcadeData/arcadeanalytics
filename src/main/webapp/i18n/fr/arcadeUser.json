@@ -1,0 +1,24 @@
+{
+    "arcadeanalyticsApp": {
+        "arcadeUser" : {
+            "home": {
+                "title": "ArcadeUsers",
+                "createLabel": "Créer un nouveau Arcade User",
+                "createOrEditLabel": "Créer ou éditer un Arcade User",
+                "search": "Recherche pour Arcade User"
+            },
+            "created": "Un nouveau Arcade User a été créé avec l'identifiant {{ param }}",
+            "updated": "Le Arcade User avec l'identifiant {{ param }} a été mis à jour",
+            "deleted": "Le Arcade User avec l'identifiant {{ param }} a été supprimé",
+            "delete": {
+                "question": "Etes-vous certain de vouloir supprimer le Arcade User {{ id }} ?"
+            },
+            "detail": {
+                "title": "Arcade User"
+            },
+            "user": "User",
+            "workspaces": "Workspaces",
+            "company": "Company"
+        }
+    }
+}

@@ -1,0 +1,27 @@
+{
+    "arcadeanalyticsApp": {
+        "dataSourceIndex" : {
+            "home": {
+                "title": "DataSourceIndices",
+                "createLabel": "Genera un nuovo Data Source Index",
+                "createOrEditLabel": "Genera o modifica un Data Source Index",
+                "search": "Cerca Data Source Index"
+            },
+            "created": "&Egrave; stato generato un nuovo Data Source Index con identificatore {{ param }}",
+            "updated": "&Egrave; stato aggiornato Data Source Index identificato da {{ param }}",
+            "deleted": "&Egrave; stato eliminato Data Source Index con identificatore {{ param }}",
+            "delete": {
+                "question": "Sei sicuro di volere eliminare Data Source Index {{ id }}?"
+            },
+            "detail": {
+                "title": "Data Source Index"
+            },
+            "startedAt": "Started At",
+            "endedAt": "Ended At",
+            "documents": "Documents",
+            "status": "Status",
+            "report": "Report",
+            "dataSource": "Data Source"
+        }
+    }
+}

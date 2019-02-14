@@ -1,0 +1,19 @@
+<div [ngSwitch]="isAuthenticated()">
+
+    <div *ngSwitchCase="false">
+        <div id="background"></div>
+        <div style="z-index: 2; padding: 200px 200px 180px 200px; text-align: center;">
+
+            <a (click)="login()">
+                <img style="width: 600px; vertical-align: middle; display: block; margin: auto;"
+                     src="../../content/images/logo/arcade-logo.png"></a>
+            <p>
+            <br/>
+            <a href="http://arcadeanalytics.com" style="font-size: smaller; color: dodgerblue;">arcadeanalytics.com</a><br/>
+            </p>
+        </div>
+    </div>
+
+    <div *ngSwitchCase="true">
+    </div>
+</div>

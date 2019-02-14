@@ -1,0 +1,12 @@
+<div *ngIf="snapshotNames && snapshotNames.length > 0" id="snapshotsTableContainer" class="table-responsive">
+    <table class="table table-striped">
+        <tbody>
+        <tr *ngFor="let snapshotName of snapshotNames">
+            <td class="snapshotItem"><a (click)="loadSnapshotByName(snapshotName)">{{snapshotName}}</a></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div *ngIf="snapshotNames && snapshotNames.length === 0">
+    <a id="noSnapshotsMessage">No snapshots are present.</a>
+</div>

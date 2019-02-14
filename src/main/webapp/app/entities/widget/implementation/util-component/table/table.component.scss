@@ -1,0 +1,45 @@
+.table {
+    width: 100%;
+    table-layout: auto;
+    overflow: auto;
+}
+
+.table th, .table td {
+    min-width: 100px;
+    max-width: 200px;
+    overflow-x: auto;
+    text-align: center;
+    vertical-align: middle;
+    white-space: nowrap;
+    padding: 1px 5px;
+}
+
+.table-cell-content {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: auto;
+    padding: 5px;
+}
+
+.table th .table-cell-content {
+    max-height: 30px;
+}
+
+.table .operational-column {
+    max-width: 70px;
+    min-width: 70px;
+}
+
+.sort-command {
+    cursor: pointer;
+}
+
+table td button {
+    padding: 0px 5px;
+}
+
+.row-selected {
+    background-color: #afcee9 !important;
+}

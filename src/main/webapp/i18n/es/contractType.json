@@ -1,0 +1,12 @@
+{
+    "arcadeanalyticsApp": {
+        "ContractType" : {
+            "null": "",
+            "DEMO": "DEMO",
+            "FREE": "FREE",
+            "SILVER": "SILVER",
+            "GOLD": "GOLD",
+            "CUSTOM": "CUSTOM"
+        }
+    }
+}

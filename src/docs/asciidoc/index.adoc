@@ -1,0 +1,6 @@
+= My awesome doc!
+:icons: font
+
+include::overview/index.adoc[]
+include::{generated}/paths.adoc[]
+include::{generated}/definitions.adoc[]

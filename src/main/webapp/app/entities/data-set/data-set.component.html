@@ -1,0 +1,98 @@
+<div>
+    <h2>
+        <span jhiTranslate="arcadeanalyticsApp.dataSet.home.subtitle">Data Sets</span>
+        <button class="btn btn-primary pull-right jh-create-entity create-data-set" [routerLink]="['/', { outlets: { popup: ['data-set-new'] } }]">
+            <span class="fa fa-plus fa-fw"></span>
+            <span class="hidden-sm-down"  jhiTranslate="arcadeanalyticsApp.dataSet.home.createLabel">
+            Create new Data Set
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <div class="row">
+        <div class="col-sm-12">
+            <form name="searchForm" class="form-inline">
+                <div class="input-group w-100 mt-3">
+                    <input id="searchInput" type="text" class="form-control" [(ngModel)]="currentSearch" name="currentSearch"
+                           (keydown)="handleSearchOnKeydown($event)"
+                           placeholder="{{ 'arcadeanalyticsApp.dataSet.home.search' | translate }}">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button" (click)="search(currentSearch)"><span class="fa fa-search"></span></button>
+                        <button class="btn btn-default" type="button" (click)="clear()" title="Clear"><span class="fa fa-trash"></span></button>
+                    </span>
+                </div>
+            </form>
+        </div>
+    </div>
+    <br/>
+    <div class="table-responsive" *ngIf="dataSets">
+        <table class="table table-striped">
+            <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
+                <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <span class="fa fa-sort fa-fw"></span></th>
+                <th jhiSortBy="name"><span jhiTranslate="arcadeanalyticsApp.dataSet.name">Name</span> <span class="fa fa-sort fa-fw"></span></th>
+                <th jhiSortBy="description"><span jhiTranslate="arcadeanalyticsApp.dataSet.description">Description</span> <span class="fa fa-sort fa-fw"></span></th>
+                <th jhiSortBy="query"><span jhiTranslate="arcadeanalyticsApp.dataSet.query">Query</span> <span class="fa fa-sort fa-fw"></span></th>
+                <th jhiSortBy="limit"><span jhiTranslate="arcadeanalyticsApp.dataSet.limit">Limit</span> <span class="fa fa-sort fa-fw"></span></th>
+                <th jhiSortBy="skipEdgesNotInDataset"><span jhiTranslate="arcadeanalyticsApp.dataSet.skipEdgesNotInDataset">Skip Edges Not In Dataset</span> <span class="fa fa-sort fa-fw"></span></th>
+                <th jhiSortBy="skipIsolatedVertices"><span jhiTranslate="arcadeanalyticsApp.dataSet.skipIsolatedVertices">Skip Isolated Vertices</span> <span class="fa fa-sort fa-fw"></span></th>
+                <th jhiSortBy="dashboardName"><span jhiTranslate="arcadeanalyticsApp.dataSet.dashboard">Dashboard</span> <span class="fa fa-sort fa-fw"></span></th>
+                <th jhiSortBy="datasourceName"><span jhiTranslate="arcadeanalyticsApp.dataSet.datasource">Datasource</span> <span class="fa fa-sort fa-fw"></span></th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let dataSet of dataSets ;trackBy: trackId">
+                <td><a [routerLink]="['../data-set', dataSet.id ]">{{dataSet.id}}</a></td>
+                <td>{{dataSet.name}}</td>
+                <td>{{dataSet.description}}</td>
+                <td>{{dataSet.query}}</td>
+                <td>{{dataSet.limit}}</td>
+                <td>{{dataSet.skipEdgesNotInDataset}}</td>
+                <td>{{dataSet.skipIsolatedVertices}}</td>
+                <td>
+                    <div *ngIf="dataSet.dashboardId">
+                        <a [routerLink]="['../dashboard', dataSet.dashboardId  ]" >{{dataSet.dashboardName}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="dataSet.datasourceId">
+                        <a [routerLink]="['../data-source', dataSet.datasourceId  ]" >{{dataSet.datasourceName}}</a>
+                    </div>
+                </td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'data-set/'+ dataSet.id + '/edit'} }]"
+                                replaceUrl="true"
+                                class="btn btn-primary btn-sm">
+                            <span class="fa fa-pencil fa-fw"></span>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'data-set/'+ dataSet.id + '/delete'} }]"
+                                replaceUrl="true"
+                                class="btn btn-danger btn-sm">
+                            <span class="fa fa-remove fa-fw"></span>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div *ngIf="dataSets">
+        <br>
+        <br>
+        <div class="row">
+            <div class="col-lg-5 col-centered">
+                <pagination [boundaryLinks]="true" [totalItems]="totalItems" [(ngModel)]="page" [rotate]="false" [maxSize]="7" [itemsPerPage]="itemsPerPage"
+                            (pageChanged)="loadPage($event)" previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;"></pagination>
+            </div>
+        </div>
+    </div>
+    <br>
+    <br>
+    <br>
+</div>

@@ -1,0 +1,24 @@
+{
+    "arcadeanalyticsApp": {
+        "arcadeUser" : {
+            "home": {
+                "title": "Arcade Users",
+                "createLabel": "Arcade User erstellen",
+                "createOrEditLabel": "Arcade User erstellen oder bearbeiten",
+                "search": "Suche nach Arcade User"
+            },
+            "created": "Arcade User erstellt mit ID {{ param }}",
+            "updated": "Arcade User aktualisiert mit ID {{ param }}",
+            "deleted": "Arcade User gelöscht mit ID {{ param }}",
+            "delete": {
+                "question": "Soll Arcade User {{ id }} wirklich dauerhaft gelöscht werden?"
+            },
+            "detail": {
+                "title": "Arcade User"
+            },
+            "user": "User",
+            "workspaces": "Workspaces",
+            "company": "Company"
+        }
+    }
+}

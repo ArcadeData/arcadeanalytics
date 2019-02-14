@@ -1,0 +1,52 @@
+#noResults {
+    text-align: center;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+#title {
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 15px;
+}
+
+#resultsContainer {
+    overflow: auto;
+}
+
+#fullTextSearch ul {
+    font-size: 100%;
+    font-weight: normal;
+    list-style: none;
+}
+
+#fullTextSearch ul li {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+#fullTextSearch ul li:hover {
+    background-color: #f2f2f2;
+    cursor: pointer;
+}
+
+#fullTextSearch ul li a:hover {
+    font-weight: normal;
+}
+
+.itemSelected {
+    background-color: #f2f2f2;
+}
+
+.resultName {
+    color: black;
+}
+
+.resultNodeInfo {
+    color: lightgrey;
+}
+
+.resultDetail {
+    color: black;
+    font-size: x-small;
+}

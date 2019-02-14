@@ -1,0 +1,640 @@
+<!--Widget Header-->
+<div *ngIf="!minimizedView" class="row">
+        <div class="col-md-6" style="height: 35px;">
+            <h2 style="margin: 0px;">
+                <span>{{widget.name}}</span>
+            </h2>
+        </div>
+        <div class="col-md-6" style="height: 35px;">
+            <div class="btn-group flex-btn-group-container" style="position: relative; top: 10%;">
+                <a type="submit" [routerLink]="['/dashboard', widget['dashboardId']]" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
+                    (click)="checkSidebarStatusOnExit()">
+                    <span class="fa fa-2x fa-times"></span>
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <hr *ngIf="!minimizedView" style="margin-top: 5px;">
+    
+    <div class="widget-table" [id]="'widget-container_' + widgetId">
+    
+        <div style="display: table-row">
+    
+            <!-- Main sidebar -->
+            <div [id]="'widget-sidebar_' + widgetId" *ngIf="!minimizedView" class="sidebar sidebar-main sidebar-fixed sidebar-default widget-table-cell">
+                <div id="sidebar-dynamic" class="sidebar-content cell-content-wrapper" [ngStyle]="{'max-height': maxSidebarHeight}">
+                    <div class="sidebar-category sidebar-category-visible">
+                        <div class="category-content no-padding">
+    
+                            <ul id="firstLevelMenu" class="navigation navigation-main navigation-accordion">
+    
+                                <!-- Main -->
+                                <li id="layoutMenu">
+                                    <a>
+                                        <i class="fa fa-universal-access fa-2x"></i>
+                                        <span>Layout</span>
+                                    </a>
+                                    <ul>
+                                        <li>
+                                            <div class="row" style="padding: 0px 1px 0px 5px;">
+                                                <div class="col-md-6">
+                                                    <label>
+                                                        Show Legend:
+                                                    </label>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <ui-switch [(ngModel)]="showLegend" size="small" (ngModelChange)="updateBarChart()"></ui-switch>
+                                                </div>
+                                            </div>
+                                        </li>
+
+                                        <!-- X Axis Labels Options -->
+                                        <li>
+                                            <span class="submenu-header">
+                                                <b>Labels Layout Options</b>
+                                            </span>
+                                            <div class="row" style="padding: 0px 1px 0px 5px;">
+                                                <div class="col-md-6">
+                                                    <label>
+                                                        Show Labels:
+                                                    </label>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <ui-switch [(ngModel)]="labelOptions['show']" size="small" (ngModelChange)="updateBarChart()"></ui-switch>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="row" style="padding: 0px 1px 0px 5px;">
+                                                <div class="col-md-5">
+                                                    <label>
+                                                        Position:
+                                                    </label>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <select [(ngModel)]="labelOptions['position']" (ngModelChange)="updateBarChart()">
+                                                        <option value="top">top</option>
+                                                        <option value="left">left</option>
+                                                        <option value="right">right</option>
+                                                        <option value="bottom">bottom</option>
+                                                        <option value="inside" selected>inside</option>
+                                                        <option value="insideLeft">insideLeft</option>
+                                                        <option value="insideRight">insideRight</option>
+                                                        <option value="insideTop">insideTop</option>
+                                                        <option value="insideBottom">insideBottom</option>
+                                                        <option value="insideTopLeft">insideTopLeft</option>
+                                                        <option value="insideBottomLeft">insideBottomLeft</option>
+                                                        <option value="insideTopRight">insideTopRight</option>
+                                                        <option value="insideBottomRight">insideBottomRight</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-1" style="padding-left: 2px;">
+                                                    <i class="fa fa-question-circle command" aria-hidden="true" [popover]="positionTip" containerClass="sidebarPopover" placement="right"
+                                                        triggers="hover" container="body"></i>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="row" style="padding: 0px 1px 0px 5px;">
+                                                <div class="col-md-5">
+                                                    <label>
+                                                        Align:
+                                                    </label>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <select [(ngModel)]="labelOptions['align']" (ngModelChange)="updateBarChart()">
+                                                        <option value="right">left</option>
+                                                        <option value="center" selected>center</option>
+                                                        <option value="left">right</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-1" style="padding-left: 2px;">
+                                                    <i class="fa fa-question-circle command" aria-hidden="true" [popover]="alignTip" containerClass="sidebarPopover" placement="right"
+                                                        triggers="hover" container="body"></i>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="row" style="padding: 0px 1px 0px 5px;">
+                                                <div class="col-md-5">
+                                                    <label>
+                                                        Vertical Align:
+                                                    </label>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <select [(ngModel)]="labelOptions['verticalAlign']" (ngModelChange)="updateBarChart()">
+                                                        <option value="bottom">top</option>
+                                                        <option value="middle" selected>middle</option>
+                                                        <option value="top">bottom</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-1" style="padding-left: 2px;">
+                                                    <i class="fa fa-question-circle command" aria-hidden="true" [popover]="verticalAlignTip" containerClass="sidebarPopover"
+                                                        placement="right" triggers="hover" container="body"></i>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="row" style="padding: 0px 1px 0px 5px;">
+                                                <div class="col-md-4">
+                                                    <label>
+                                                        Rotate:
+                                                    </label>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <nouislider [config]="rotateLabelsSliderConfig" [(ngModel)]="labelOptions['rotate']" (ngModelChange)="updateBarChart()"></nouislider>
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <span>{{labelOptions['rotate']}}</span>
+                                                </div>
+                                                <div class="col-md-1" style="padding-left: 2px;">
+                                                    <i class="fa fa-question-circle command" aria-hidden="true" [popover]="rotateTip" containerClass="sidebarPopover" placement="right"
+                                                        triggers="hover" container="body"></i>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="row" style="padding: 0px 1px 0px 5px;">
+                                                <div class="col-md-4">
+                                                    <label>
+                                                        Distance:
+                                                    </label>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <nouislider [config]="labelsDistanceSliderConfig" [(ngModel)]="labelOptions['distance']" (ngModelChange)="updateBarChart()"></nouislider>
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <span>{{labelOptions['distance']}}</span>
+                                                </div>
+                                                <div class="col-md-1" style="padding-left: 2px;">
+                                                    <i class="fa fa-question-circle command" aria-hidden="true" [popover]="distanceTip" containerClass="sidebarPopover"
+                                                        placement="right" triggers="hover" container="body"></i>
+                                                </div>
+                                            </div>
+                                        </li>
+
+                                        <!-- X Axis Labels Options -->
+                                        <li>
+                                            <span class="submenu-header">
+                                                <b>X Axis Labels Layout Options</b>
+                                            </span>
+                                            <div class="row" style="padding: 0px 1px 0px 5px;">
+                                                <div class="col-md-6">
+                                                    <label>
+                                                        Show Labels:
+                                                    </label>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <ui-switch [(ngModel)]="xAxisLabelOptions['show']" size="small" (ngModelChange)="updateBarChart()"></ui-switch>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="row" style="padding: 0px 1px 0px 5px;">
+                                                <div class="col-md-5">
+                                                    <label>
+                                                        Align:
+                                                    </label>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <select [(ngModel)]="xAxisLabelOptions['align']" (ngModelChange)="updateBarChart()">
+                                                        <option value="right" selected>left</option>
+                                                        <option value="center">center</option>
+                                                        <option value="left">right</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-1" style="padding-left: 2px;">
+                                                    <i class="fa fa-question-circle command" aria-hidden="true" [popover]="alignTip" containerClass="sidebarPopover" placement="right"
+                                                        triggers="hover" container="body"></i>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="row" style="padding: 0px 1px 0px 5px;">
+                                                <div class="col-md-5">
+                                                    <label>
+                                                        Vertical Align:
+                                                    </label>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <select [(ngModel)]="xAxisLabelOptions['verticalAlign']" (ngModelChange)="updateBarChart()">
+                                                        <option value="bottom" selected>top</option>
+                                                        <option value="middle">middle</option>
+                                                        <option value="top">bottom</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-1" style="padding-left: 2px;">
+                                                    <i class="fa fa-question-circle command" aria-hidden="true" [popover]="verticalAlignTip" containerClass="sidebarPopover"
+                                                        placement="right" triggers="hover" container="body"></i>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="row" style="padding: 0px 1px 0px 5px;">
+                                                <div class="col-md-4">
+                                                    <label>
+                                                        Rotate:
+                                                    </label>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <nouislider [config]="rotateLabelsSliderConfig" [(ngModel)]="xAxisLabelOptions['rotate']" (ngModelChange)="updateBarChart()"></nouislider>
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <span>{{xAxisLabelOptions['rotate']}}</span>
+                                                </div>
+                                                <div class="col-md-1" style="padding-left: 2px;">
+                                                    <i class="fa fa-question-circle command" aria-hidden="true" [popover]="axisRotateTip" containerClass="sidebarPopover" placement="right"
+                                                        triggers="hover" container="body"></i>
+                                                </div>
+                                            </div>
+                                        </li>
+
+                                        <!-- Y Axis Labels Options -->
+                                        <li>
+                                            <span class="submenu-header">
+                                                <b>Y Axis Labels Layout Options</b>
+                                            </span>
+                                            <div class="row" style="padding: 0px 1px 0px 5px;">
+                                                <div class="col-md-6">
+                                                    <label>
+                                                        Show Labels:
+                                                    </label>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <ui-switch [(ngModel)]="yAxisLabelOptions['show']" size="small" (ngModelChange)="updateBarChart()"></ui-switch>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="row" style="padding: 0px 1px 0px 5px;">
+                                                <div class="col-md-5">
+                                                    <label>
+                                                        Align:
+                                                    </label>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <select [(ngModel)]="yAxisLabelOptions['align']" (ngModelChange)="updateBarChart()">
+                                                        <option value="right">left</option>
+                                                        <option value="center">center</option>
+                                                        <option value="left" selected>right</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-1" style="padding-left: 2px;">
+                                                    <i class="fa fa-question-circle command" aria-hidden="true" [popover]="alignTip" containerClass="sidebarPopover" placement="right"
+                                                        triggers="hover" container="body"></i>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="row" style="padding: 0px 1px 0px 5px;">
+                                                <div class="col-md-5">
+                                                    <label>
+                                                        Vertical Align:
+                                                    </label>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <select [(ngModel)]="yAxisLabelOptions['verticalAlign']" (ngModelChange)="updateBarChart()">
+                                                        <option value="bottom">top</option>
+                                                        <option value="middle" selected>middle</option>
+                                                        <option value="top">bottom</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-1" style="padding-left: 2px;">
+                                                    <i class="fa fa-question-circle command" aria-hidden="true" [popover]="verticalAlignTip" containerClass="sidebarPopover"
+                                                        placement="right" triggers="hover" container="body"></i>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="row" style="padding: 0px 1px 0px 5px;">
+                                                <div class="col-md-4">
+                                                    <label>
+                                                        Rotate:
+                                                    </label>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <nouislider [config]="rotateLabelsSliderConfig" [(ngModel)]="yAxisLabelOptions['rotate']" (ngModelChange)="updateBarChart()"></nouislider>
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <span>{{yAxisLabelOptions['rotate']}}</span>
+                                                </div>
+                                                <div class="col-md-1" style="padding-left: 2px;">
+                                                    <i class="fa fa-question-circle command" aria-hidden="true" [popover]="axisRotateTip" containerClass="sidebarPopover" placement="right"
+                                                        triggers="hover" container="body"></i>
+                                                </div>
+                                            </div>
+                                        </li>
+
+                                    </ul>
+                                </li>
+                                <li id="multiSeriesMenu">
+                                    <a>
+                                        <i class="fa fa fa-bar-chart fa-2x" [ngStyle]="!sidebarCollapsed && {'margin-right': '11.25px'}"></i>
+                                        <span>Multi Series</span>
+                                    </a>
+                                    <ul>
+                                        <li>
+                                            <div class="row" style="padding: 5px 1px 0px 5px;">
+                                                <div class="col-md-12">
+                                                    <div class="row">
+                                                        <div *ngIf="dataSourceMetadata" class="col-lg-5">
+                                                            <label for="multiSeriesClassSelection">Class</label>
+                                                            <select id="multiSeriesClassSelection" class="form-control" [(ngModel)]="multiSeriesSelectedClass" (ngModelChange)="updateMultiSeriesSelectedClassProperties()">
+                                                                <option *ngFor="let className of allClassesNames" [ngValue]="className"> {{className}} </option>
+                                                            </select>
+                                                        </div>
+                                                        <div *ngIf="dataSourceMetadata" class="col-lg-5">
+                                                            <label for="multiSeriesPropertySelection">Property</label>
+                                                            <select id="multiSeriesPropertySelection" class="form-control" [(ngModel)]="multiSeriesSelectedProperty">
+                                                                <option *ngFor="let propertyName of multiSeriesSelectedClassProperties" [ngValue]="propertyName"> {{propertyName}} </option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-lg-2">
+                                                            <span *ngIf="multiSeriesSelectedClass && multiSeriesSelectedProperty" class="addMultiSeriesClassDef fa fa-plus fa-2x addMultiSeriesClassDefEnabled"
+                                                                (click)="addNewMultiSeriesClass()"></span>
+                                                            <span *ngIf="!multiSeriesSelectedClass || !multiSeriesSelectedProperty" class="addMultiSeriesClassDef fa fa-plus fa-2x addMultiSeriesClassDefDisabled"></span>
+                                                        </div>
+                                                    </div>
+                                                    <br/>
+                                                    <div class="row">
+                                                        <div class="table-responsive">
+                                                            <table class="table timeline-table">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th *ngFor="let column of tableColumns" [ngStyle]="{'width': column['width']}">
+                                                                            {{column['text']}}
+                                                                        </th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr *ngFor="let seriesName of (multiSeriesName2info | objectKeys)">
+                                                                        <td *ngFor="let column of tableColumns">
+                                                                            <div *ngIf="column['text'] === 'Class'" [popover]="multiSeriesName2info[seriesName]['className']" placement="top" triggers="hover" container="body">
+                                                                                {{multiSeriesName2info[seriesName]['className']}}
+                                                                            </div>
+                                                                            <div *ngIf="column['text'] === 'Property'" [popover]="multiSeriesName2info[seriesName]['property']" placement="top"
+                                                                                triggers="hover" container="body">
+                                                                                {{multiSeriesName2info[seriesName]['property']}}
+                                                                            </div>
+                                                                            <div *ngIf="column['text'] === 'Count'">
+                                                                                <span *ngIf="dataSourceMetadata['nodesClasses'][multiSeriesName2info[seriesName]['className']]"
+                                                                                    [popover]="dataSourceMetadata.nodesClasses[multiSeriesName2info[seriesName]['className']].cardinality" placement="top"
+                                                                                    triggers="hover" container="body">
+                                                                                        {{dataSourceMetadata.nodesClasses[multiSeriesName2info[seriesName]['className']].cardinality}}
+                                                                                </span>
+                                                                                <span *ngIf="dataSourceMetadata['edgesClasses'][multiSeriesName2info[seriesName]['className']]"
+                                                                                    [popover]="dataSourceMetadata.edgesClasses[multiSeriesName2info[seriesName]['className']].cardinality" placement="top"
+                                                                                    triggers="hover" container="body">
+                                                                                        {{dataSourceMetadata.edgesClasses[multiSeriesName2info[seriesName]['className']].cardinality}}
+                                                                                </span>
+                                                                            </div>
+                                                                            <div *ngIf="column['text'] === ''" class="td-button btn-group flex-btn-group-container">
+                                                                                <button class="btn btn-danger btn-xxs" (click)="removeMultiSeriesClass(seriesName)">
+                                                                                    <span class="fa fa-remove"></span>
+                                                                                </button>
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                            <br/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-2">
+                                                            <button type="submit" class="btn btn-primary btn-xs" (click)="runSeriesComputation('multi')" [disabled]="(multiSeriesName2info | objectKeys).length === 0">
+                                                                <span>Run &nbsp;</span>
+                                                                <span class="fa fa-play"></span>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li id="settingsMenu">
+                                    <a>
+                                        <i class="fa fa-cogs fa-2x" [ngStyle]="!sidebarCollapsed && {'margin-right': '12.92px'}"></i>
+                                        <span>Settings</span>
+                                    </a>
+                                    <ul>
+                                        <li>
+                                            <div class="row" style="padding: 0px 1px 0px 5px;">
+                                                <div class="col-md-7">
+                                                    <label>
+                                                        Min Value Occurrences:
+                                                    </label>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <input id="minDocCountForm" class="form-control" type="number" min="1" [max]="minDocCountSliderUpperValue" step="1" style="height: 20px;" [(ngModel)]="minDocCount"/>
+                                                </div>
+                                                <div class="col-md-1" style="padding-left: 2px;">
+                                                    <i class="fa fa-question-circle command" aria-hidden="true" [popover]="minDocCountTooltip" containerClass="sidebarPopover" placement="right"
+                                                        triggers="hover" container="body"></i>
+                                                </div>
+                                            </div>
+                                            <div class="noui-slider-info has-pips slider-container" id="minDocCountSliderContainer">
+                                                <nouislider #minDocCountSlider [config]="minDocCountSliderConfig" [(ngModel)]="minDocCount"></nouislider>
+                                            </div>
+                                            <ng-template #minDocCountTooltip>
+                                                <div [innerHtml]="minDocCountTip"></div>
+                                            </ng-template>
+                                        </li>
+                                        <li>
+                                            <div class="row" style="padding: 0px 1px 0px 5px;">
+                                                <div class="col-md-7">
+                                                    <label>
+                                                        Most Relevant Values Occurrences:
+                                                    </label>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <input id="maxValuesPerFieldForm" class="form-control" type="number" min="1" [max]="maxValuesPerFieldSliderUpperValue" step="1" style="height: 20px;" [(ngModel)]="maxValuesPerField"/>
+                                                </div>
+                                                <div class="col-md-1" style="padding-left: 2px;">
+                                                    <i class="fa fa-question-circle command" aria-hidden="true" [popover]="maxValuesPerFieldTooltip" containerClass="sidebarPopover"
+                                                        placement="right" triggers="hover" container="body"></i>
+                                                </div>
+                                            </div>
+                                            <div class="noui-slider-info has-pips slider-container" id="maxValuesPerFieldSliderContainer">
+                                                <nouislider #maxValuesPerFieldSlider [config]="maxValuesPerFieldSliderConfig" [(ngModel)]="maxValuesPerField"></nouislider>
+                                            </div>
+                                            <ng-template #maxValuesPerFieldTooltip>
+                                                <div [innerHtml]="maxValuesPerFieldTip"></div>
+                                            </ng-template>
+                                        </li>
+                                        <li>
+                                            <div class="row" style="padding: 0px 1px 0px 5px;">
+                                                <div class="col-md-2">
+                                                    <button type="submit" class="btn btn-primary btn-xs" (click)="runSeriesComputation()">
+                                                        <span>Update &nbsp;</span>
+                                                        <span class="fa fa-play"></span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li id="snapshotMenu">
+                                    <a>
+                                        <i class="fa fa-camera fa-2x" [ngStyle]="!sidebarCollapsed && {'margin-right': '12.92px'}"></i>
+                                        <span>Snapshot</span>
+                                    </a>
+                                    <ul>
+                                        <snapshot-menu *ngIf="widget" #snapshotMenu [widgetId]="widget.id" (snapshotLoaded)="updateBarChartWidgetFromSnapshot($event)"></snapshot-menu>
+                                    </ul>
+                                </li>
+                                <li id="exportMenu">
+                                    <a>
+                                        <i class="fa fa-download fa-2x" [ngStyle]="!sidebarCollapsed && {'margin-right': '16.84px'}"></i>
+                                        <span>Export</span>
+                                    </a>
+                                    <ul>
+                                        <li>
+                                            <br/>
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label">File Name</label>
+                                                <div class="col-md-9">
+                                                    <input type="text" id="fileName" class="form-control" [(ngModel)]="fileName" name="fileName" placeholder="File name without extension"
+                                                        required/>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <br>
+                                        <br>
+                                        <br>
+                                        <li [ngClass]="{'li-disabled': !fileName}">
+                                            <a (click)="barChartExport(barChart.getConnectedDataURL({type: 'png', pixelRatio: 3, backgroundColor: 'transparent'}), 'image/png')" [ngClass]="{'link-disabled': !fileName}">
+                                                Export as PNG
+                                            </a>
+                                        </li>
+                                        <li [ngClass]="{'li-disabled': !fileName}">
+                                            <a (click)="barChartExport(barChart.getConnectedDataURL({type: 'jpeg', pixelRatio: 3, backgroundColor: '#fff'}), 'image/jpeg')" [ngClass]="{'link-disabled': !fileName}">
+                                                Export as JPEG
+                                            </a>
+                                        </li>
+                                        <li [ngClass]="{'li-disabled': !fileName}">
+                                            <a (click)="barChartExport(undefined, 'json')" [ngClass]="{'link-disabled': !fileName}">
+                                                Export as JSON
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="menu-separator">
+                                    <hr>
+                                </li>
+                                <li>
+                                    <a class="sidebar-control sidebar-main-toggle hidden-xs" (click)="toggleSideBar()">
+                                        <i class="fa fa-desktop fa-2x position-left" [ngStyle]="!sidebarCollapsed && {'margin-right': '13.14px'}"></i>
+                                        <span>Expand/Collapse</span>
+                                    </a>
+                                </li>
+                                <!-- /main -->
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    
+    
+            <!-- Main viewport -->
+            <div [id]="'widget-viewport_' + widgetId" class="widget-table-cell widget-viewport">
+    
+                <tabset>
+                    <tab id="barChartTab" heading="Bar Chart" [active]="barChartTabActive" (select)="switchTab('bar-chart')">
+                        <div [id]="'viewport-container_' + widgetId" class="cell-content-wrapper panel panel-flat" [ngClass]="{'no-border': minimizedView}">
+    
+                            <i *ngIf="showSpinner" class="fa fa-spinner fa-pulse fa-3x fa-fw wait-spinner" aria-hidden="true"></i>
+
+                            <!--Bar Chart Viewport-->
+                            <div [id]="'barChart_' + widgetId" class="viewport bar-chart-viewport" [ngStyle]="{height: widgetHeight}">
+    
+                                <!--'Click To Edit' message-->
+                                <div *ngIf="!series && minimizedView && !embedded">
+                                    <a [routerLink]="['/widget', widget['id']]">
+                                        <h2 class="empty-widget-message" [ngStyle]="{top: getEmptyWidgetMessageHeight()}">Click here to Edit the Widget</h2>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </tab>
+                    <tab *ngIf="dataSource && !minimizedView" id="datasourceTab" heading="Datasource" [active]="datasourceTabActive" (select)="switchTab('datasource')">
+                        <div [id]="'viewport-container_' + widgetId" class="cell-content-wrapper panel panel-flat" style="border-top: none; border-top-left-radius: 0px; border-top-right-radius: 0px;"
+                            [ngClass]="{'no-border': minimizedView}">
+    
+                            <!-- Datasource Viewport -->
+                            <data-source-info [dataSource]="dataSource" [height]="widgetHeight" (datasourceIndexingCall)="callDatasourceIndexing()"></data-source-info>
+    
+                        </div>
+                    </tab>
+                </tabset>
+    
+                <!-- Toolbar -->
+                <div *ngIf="!minimizedView" id="upperToolBar" class="navbar navbar-default" [ngStyle]="{height: toolbarHeight}"
+                    [popover]="startingPopoverMessage" [isOpen]="startingPopoverMustBeOpen" placement="bottom" container="body" (mouseover)="closePopover('startingPopover')" triggers="">
+    
+                    <!-- Left nav -->
+                    <ul class="nav navbar-nav navbar-center col-md-11">
+                        <li class="col-md-4">
+                            <div *ngIf="dataSourceMetadata" class="class-form">
+                                <span>Class</span>&nbsp;
+                                <select id="classSelection" class="form-control" [(ngModel)]="selectedClass" (ngModelChange)="handleSelectedClassModelChanging()">
+                                    <option *ngFor="let className of allClassesNames" [ngValue]="className"> {{className}} </option>
+                                </select>
+                            </div>
+                        </li>
+                        <li class="col-md-5">
+                            <div *ngIf="dataSourceMetadata" class="property-form">
+                                <span>Property</span>&nbsp;
+                                <select id="propertySelection" class="form-control" [(ngModel)]="selectedProperty" (ngModelChange)="handleSelectedPropertyModelChanging()">
+                                    <option *ngFor="let propertyName of selectedClassProperties" [ngValue]="propertyName"> {{propertyName}} </option>
+                                </select>
+                            </div>
+                        </li>
+                        <li class="col-md-3 no-padding">
+                            <div *ngIf="dataSourceMetadata && selectedClass" class="cardinality-info">
+                                <div class="col-md-10 no-padding">
+                                    <span>Cardinality:</span>
+                                    <span id="classTotalCount">
+                                        <span *ngIf="dataSourceMetadata['nodesClasses'][selectedClass]">
+                                            {{dataSourceMetadata.nodesClasses[selectedClass].cardinality}}
+                                        </span>
+                                        <span *ngIf="dataSourceMetadata['edgesClasses'][selectedClass]">
+                                            {{dataSourceMetadata.edgesClasses[selectedClass].cardinality}}
+                                        </span>
+                                    </span>
+                                </div>
+                                <div class="col-md-2 no-padding">
+                                    <i *ngIf="selectedClass && selectedProperty" class="fa fa-play command" (click)="runSeriesComputation('single')"></i>
+                                    <i *ngIf="!selectedClass || !selectedProperty" class="fa fa-play command link-disabled"></i>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+    
+                    <ul class="nav navbar-nav navbar-right col-md-1">
+                        <li>
+                            <a *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_EDITOR']" (click)="saveAll()">
+                                <i class="fa fa-save" title="Save"></i>
+                            </a>
+                            <a *jhiHasAnyAuthority="'ROLE_READER'" class="disabled">
+                                <i class="fa fa-save" title="Save"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+    
+                <!--Full Text Search-->
+                <div *ngIf="renderFullTextSearchView" [id]="'fullTextSearch_' + widgetId" class='fulltext-search' [ngStyle]="{'max-height': widgetHeight, padding: '0px'}">
+                    <fulltext-search [datasourceId]="widget['dataSourceId']" [searchTerm]="searchTerm" [componentHeight]="widgetHeight" (queryEmitter)="loadNodesFromIds($event)"
+                        (noSuchIndexEmitter)="resetFullTextSearch(true)" (closeEmitter)="resetFullTextSearch(true)"></fulltext-search>
+                </div>
+    
+                <div *ngIf="minimizedView" style="opacity: 0; height: 1px; font-size: 1px;">
+                    <!--Used to update the view when only width changes-->
+                    {{widgetColumnWidth}}
+                </div>
+            </div>
+        </div>
+    </div>

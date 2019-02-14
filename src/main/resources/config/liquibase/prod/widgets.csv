@@ -1,0 +1,4 @@
+id;name;jhi_type;dashboard_id;data_source_id;has_snapshot
+100;Demodb (ORIENTDB);graph;100;100;false
+110;Demodb (ORIENTDB);graph;110;110;false
+120;Demodb (ORIENTDB);graph;120;120;false

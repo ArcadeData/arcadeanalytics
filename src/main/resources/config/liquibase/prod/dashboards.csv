@@ -1,0 +1,4 @@
+id;name;description;workspace_id
+100;admin default;default dashboard of admin;100
+110;user default;default dashboard of user;110
+120;demo first dashboard;demo first dashboard;120

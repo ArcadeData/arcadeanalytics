@@ -1,0 +1,11 @@
+{
+    "configuration": {
+        "title": "Arcade",
+        "subtitle": "Configurazione",
+        "filter": "Filtro (per prefisso)",
+        "table": {
+            "prefix": "Prefisso",
+            "properties": "Proprietà"
+        }
+    }
+}

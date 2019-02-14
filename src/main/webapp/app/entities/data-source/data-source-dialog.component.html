@@ -1,0 +1,191 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+
+    <div class="modal-header">
+        <h4 class="modal-title" id="myDataSourceLabel" jhiTranslate="arcadeanalyticsApp.dataSource.home.createOrEditLabel">Create or edit a Data Source</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <div *ngIf="dataSource">
+            <div class="form-group" [hidden]="!dataSource.id">
+                <label for="id" jhiTranslate="global.field.id">ID</label>
+                <input type="text" class="form-control" id="id" name="id"
+                       [(ngModel)]="dataSource.id" readonly />
+            </div>
+            <div class="form-group">
+                <label class="form-control-label" jhiTranslate="arcadeanalyticsApp.dataSource.name" for="field_name">Name</label>
+                <input type="text" class="form-control" name="name" id="field_name"
+                       [(ngModel)]="dataSource.name" required/>
+                <div [hidden]="!(editForm.controls.name?.dirty && editForm.controls.name?.invalid)">
+                    <small class="form-text text-danger"
+                           [hidden]="!editForm.controls.name?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                    </small>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-control-label" jhiTranslate="arcadeanalyticsApp.dataSource.description" for="field_description">Description</label>
+                <input type="text" class="form-control" name="description" id="field_description"
+                       [(ngModel)]="dataSource.description" />
+            </div>
+            <div *ngIf="datasourceType" class="form-group">
+                <label class="form-control-label" jhiTranslate="arcadeanalyticsApp.dataSource.type" for="field_type">Type</label>
+                <ng-select id="field_type" name="field_type"
+                           [multiple]="false"
+                           [items]="datasourceTypes"
+                           [active]="[initialDatasourceType]"
+                           (selected)="updateDatasourceTypeFromEvent($event)"
+                           placeholder="Select data source type"></ng-select>
+            </div>
+            <div *ngIf="datasourceType === 'RDBMS'" class="form-group">
+                <label class="form-control-label" for="field_rdbmsType">Source DBMS</label>
+                <select id="field_rdbmsType" class="form-control" name="type" [(ngModel)]="rdbmsType" (ngModelChange)="updateDatasourceType()">
+                    <option *ngFor="let rdbmsType of rdbmsDatasourceTypes" [ngValue]="rdbmsType['type']">{{rdbmsType['name']}}</option>
+                </select>
+            </div>
+
+            <div *ngIf="datasourceType === 'GREMLIN'" class="form-group">
+                <label class="form-control-label" for="field_gremlinImpl">Gremlin Implementation</label>
+                <select id="field_gremlinImpl" class="form-control" name="type" [(ngModel)]="gremlinImpl" (ngModelChange)="updateDatasourceType()">
+                    <option *ngFor="let gremlinType of gremlinDatasourceTypes" [ngValue]="gremlinType['type']">{{gremlinType['name']}}</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-control-label" jhiTranslate="arcadeanalyticsApp.dataSource.server" for="field_server">Server</label>
+                <input type="text" class="form-control" name="server" id="field_server"
+                       [(ngModel)]="dataSource.server" (ngModelChange)="updateTestConnectionFlag()"/>
+            </div>
+            <div class="form-group">
+                <label class="form-control-label" jhiTranslate="arcadeanalyticsApp.dataSource.port" for="field_port">Port</label>
+                <input type="number" class="form-control" name="port" id="field_port"
+                       [(ngModel)]="dataSource.port" (ngModelChange)="updateTestConnectionFlag()"/>
+            </div>
+            <div class="form-group">
+                <label class="form-control-label" jhiTranslate="arcadeanalyticsApp.dataSource.database" for="field_database">Database</label>
+                <input type="text" class="form-control" name="database" id="field_database"
+                       [(ngModel)]="dataSource.database" (ngModelChange)="updateTestConnectionFlag()"/>
+            </div>
+            <div class="form-group">
+                <label class="form-control-label" jhiTranslate="arcadeanalyticsApp.dataSource.username" for="field_username">Username</label>
+                <input type="text" class="form-control" name="username" id="field_username"
+                       [(ngModel)]="dataSource.username" (ngModelChange)="updateTestConnectionFlag()"/>
+            </div>
+            <div class="form-group">
+                <label class="form-control-label" jhiTranslate="arcadeanalyticsApp.dataSource.password" for="field_password">Password</label>
+                <input type="text" class="form-control" name="password" id="field_password"
+                       [(ngModel)]="dataSource.password" (ngModelChange)="updateTestConnectionFlag()"/>
+            </div>
+            <div *ngIf="datasourceType === 'RDBMS'" class="form-group">
+                <label class="form-control-label" jhiTranslate="arcadeanalyticsApp.dataSource.aggregateJoinTables" for="aggregation_strategy">Aggregate Join Tables</label>
+                <input type="checkbox" name="aggregation_git statusstrategy" id="aggregation_strategy"
+                       [(ngModel)]="dataSource['aggregationEnabled']"/>
+            </div>
+            <div *ngIf="datasourceType === 'RDBMS'" class="form-group">
+                <label class="form-control-label" jhiTranslate="arcadeanalyticsApp.dataSource.additionalConnProps" for="additional_connection_props">Additional Connection Properties</label>
+                <input type="checkbox" name="additional_connection_props" id="additional_connection_props"
+                       [(ngModel)]="connectionPropsView" (ngModelChange)="updateTestConnectionFlag()"/>
+            </div>
+            <div *ngIf="connectionPropsView" class="form-group">
+                <span style="display: block; margin-bottom: 10px;">
+                    <b>New Property</b>
+                </span>
+                <div class="row">
+                    <div class="col-lg-5">
+                        <label for="propertyName">Property Name</label>
+                        <input class="form-control" type="text" name="propertyName" id="propertyName"
+                               [(ngModel)]="newCurrentProperty['propertyName']"/>
+                    </div>
+                    <div class="col-lg-5">
+                        <label for="propertyValue">Property Value</label>
+                        <input class="form-control" type="text" name="propertyValue" id="propertyValue"
+                               [(ngModel)]="newCurrentProperty['propertyValue']"/>
+                    </div>
+                    <div class="col-lg-2">
+                        <span class="addConnectionProperty fa fa-plus fa-2x" (click)="addNewConnectionProperty()"
+                              [ngClass]="{addConnectionPropertyEnabled: newCurrentProperty['propertyName'] && newCurrentProperty['propertyValue'],
+                        addConnectionPropertyDisabled: !newCurrentProperty['propertyName'] || !newCurrentProperty['propertyValue']}"></span>
+                    </div>
+                </div>
+                <br/>
+                <div class="row">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th *ngFor="let column of tableColumns">
+                                    {{column['text']}}
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr *ngFor="let property of connectionProperties">
+                                <td *ngFor="let column of tableColumns">
+                                    <div *ngIf="column['text'].length > 0">
+                                        {{property[column['id']]}}
+                                    </div>
+                                    <div *ngIf="column['text'].length <= 0" class="btn-group flex-btn-group-container">
+                                        <button class="btn btn-danger btn-xs" (click)="removeNewConnectionProperty(property['propertyName'])">
+                                            <span class="fa fa-remove"></span>
+                                            <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <br/>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-control-label" jhiTranslate="arcadeanalyticsApp.dataSource.sshFlag" for="field_remote">Use SSH Tunnel</label>
+                <input type="checkbox" name="remote" id="field_remote"
+                       [(ngModel)]="dataSource.remote" (ngModelChange)="updateTestConnectionFlag()"/>
+            </div>
+            <div *ngIf="dataSource.remote" class="form-group">
+                <label class="form-control-label" jhiTranslate="arcadeanalyticsApp.dataSource.gateway" for="field_gateway">Gateway</label>
+                <input type="text" class="form-control" name="gateway" id="field_gateway"
+                       [(ngModel)]="dataSource.gateway" (ngModelChange)="updateTestConnectionFlag()"/>
+            </div>
+            <div *ngIf="dataSource.remote" class="form-group">
+                <label class="form-control-label" jhiTranslate="arcadeanalyticsApp.dataSource.sshUser" for="field_sshUser">Ssh User</label>
+                <input type="text" class="form-control" name="sshUser" id="field_sshUser"
+                       [(ngModel)]="dataSource.sshUser" (ngModelChange)="updateTestConnectionFlag()"/>
+            </div>
+            <div *ngIf="dataSource.remote" class="form-group">
+                <label class="form-control-label" jhiTranslate="arcadeanalyticsApp.dataSource.sshPort" for="field_sshPort">Ssh Port</label>
+                <input type="number" class="form-control" name="sshPort" id="field_sshPort"
+                       [(ngModel)]="dataSource.sshPort" (ngModelChange)="updateTestConnectionFlag()"/>
+            </div>
+
+            <div class="form-group">
+                <label class="form-control-label" jhiTranslate="arcadeanalyticsApp.dataSource.workspace" for="field_workspace">Workspace</label>
+                <select class="form-control" id="field_workspace" name="workspace" [(ngModel)]="dataSource.workspaceId" >
+                    <option [ngValue]="workspaceOption.id" *ngFor="let workspaceOption of workspaces; trackBy: trackWorkspaceById">{{workspaceOption['name']}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="modal-footer" style="padding-left: 10px; padding-top: 10px;">
+            <div class="row">
+                <div class="btn-group pull-left">
+                    <a *ngIf="!canTestConnection" class="btn btn-primary" disabled>
+                        <span class="fa fa-plug"></span>&nbsp;<span>Test Connection</span>
+                    </a>
+                    <a *ngIf="canTestConnection" class="btn btn-primary" (click)="testConnection()">
+                        <span class="fa fa-plug"></span>&nbsp;<span>Test Connection</span>
+                    </a>
+                </div>
+            </div>
+            <br/>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">
+                <span class="fa fa-ban"></span>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+            </button>
+
+            <button *ngIf="!dataSource" type="submit" class="btn btn-primary" disabled>
+                <span class="fa fa-save"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+            </button>
+            <button *ngIf="dataSource" type="submit" class="btn btn-primary" [disabled]="!dataSource['name']">
+                <span class="fa fa-save"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+            </button>
+        </div>
+</form>

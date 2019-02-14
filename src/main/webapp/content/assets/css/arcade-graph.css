@@ -1,0 +1,47 @@
+.noUI-base {
+    padding: 0px 5px 0px 5px;
+}
+
+.form-control {
+  padding: 7px !important;
+}
+
+.navigation-accordion li ul li a {
+  padding: 0px 1px 0px 5px !important;
+}
+
+.graphMenuPropertyKey {
+  width: 30%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 0px 1px 0px 5px;
+  vertical-align: text-top;
+}
+
+.graphMenuPropertyValue {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 0px 1px 0px 5px;
+  vertical-align: text-top;
+}
+
+.qtip-bootstrap {
+  font-size: 10px !important;
+  line-height: normal !important;
+}
+
+.qtip-bootstrap td {
+  padding: 0px 2px 0px 0px !important;
+}
+
+.qtip-titlebar {
+  font-size: 12px !important;
+}
+
+.popover {
+    max-width: 100%;
+    margint-left: 100px;
+}
+

@@ -1,0 +1,112 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+
+    <div class="modal-header">
+        <h4 class="modal-title" id="myMediaLabel" jhiTranslate="arcadeanalyticsApp.media.home.uploadLabel">Upload File</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" (click)="clear()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <div *ngIf="media">
+            <div class="row">
+                <div class="col-lg-6" style="height: 250px;">
+                    <div ng2FileDrop style="height: 100%;" [ngClass]="{'file-over': hasBaseDropZoneOver, 'file-dropped': fileAdded}" (fileOver)="fileOverBase($event)"
+                        (onFileDrop)="onFileDrop($event)" [uploader]="uploader" class="well my-drop-zone">
+                        <div *ngIf="uploader.queue.length === 0" style="text-align: center; position: relative; top: 20%;">
+                            <h5>
+                                Drag & Drop
+                            </h5>
+                            <label for="file-input">
+                                <i class="addMedia fa fa-plus fa-4x" aria-hidden="true"></i>
+                            </label>
+                            <input id="file-input" type="file" class="uploading-file-preview" ng2FileSelect [uploader]="uploader" style="display:none"
+                                (change)="onFileSelect($event)" accept="image/*" />
+                        </div>
+                        <div *ngIf="uploader.queue.length > 0" style="text-align: center; position: relative;">
+                            <div class="row">
+
+                                <div class="kv-file-content" style="height: 125px;">
+                                    <img [src]="filePreviewUrl" class="uploading-file-preview" *ngIf="filePreviewUrl" />
+                                    <br>
+                                </div>
+                                <div class="file-thumbnail-footer">
+                                    <div class="file-footer-caption">
+                                        <samp>{{uploader['queue'][0]['some']['name']}}
+                                            <br> ({{uploader['queue'][0]['some']['size']}} KB)</samp>
+                                    </div>
+                                    <div class="file-actions" style="padding: 3px;">
+                                        <div class="file-footer-buttons">
+                                            <button type="button" class="kv-file-remove btn btn-xs btn-default" title="Remove file" (click)="removeFile()">
+                                                <i class="fa fa-trash text-danger"></i>
+                                            </button>
+                                            <button type="button" class="kv-file-zoom btn btn-xs btn-default" title="View Details" (click)="openFile(media.fileContentType, media.file)">
+                                                <i class="fa fa-search-plus"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6" style="height: 250px;">
+                    <h4>
+                        <p>
+                            You can drag & drop a file on the area on the left or click "
+                            <b>+</b>" to pick the file.
+                            <br> Then choose a name and a category, eventually click on the
+                            <b>Upload</b> button.
+                        </p>
+                    </h4>
+                    <div id="upload-status"></div>
+                </div>
+            </div>
+            <br/>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="form-group">
+                        <label class="form-control-label" jhiTranslate="arcadeanalyticsApp.media.name" for="field_name">Name</label>
+                        <input type="text" class="form-control" name="name" id="field_name" [(ngModel)]="media.name" required/>
+                        <div [hidden]="!(editForm.controls.name?.dirty && editForm.controls.name?.invalid)">
+                            <small class="form-text text-danger" [hidden]="!editForm.controls.name?.errors?.required" jhiTranslate="entity.validation.required">
+                                This field is required.
+                            </small>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-control-label" jhiTranslate="arcadeanalyticsApp.media.description" for="field_description">Description</label>
+                        <input type="text" class="form-control" name="description" id="field_description" [(ngModel)]="media.description" />
+                    </div>
+                    <div class="form-group">
+                        <label class="form-control-label" jhiTranslate="arcadeanalyticsApp.media.category" for="field_category">Category</label>
+                        <select class="form-control" name="category" [(ngModel)]="chosenCategory" id="field_category" (change)="updateMediaCategory()">
+                            <option value="BROWSERS">{{'BROWSERS'}}</option>
+                            <option value="BUILDINGS">{{'BUILDINGS'}}</option>
+                            <option value="BUSINESS">{{'BUSINESS'}}</option>
+                            <option value="CHARACTERS">{{'CHARACTERS'}}</option>
+                            <option value="COMMUNICATION">{{'COMMUNICATION'}}</option>
+                            <option value="ENTERTAINMENT">{{'ENTERTAINMENT'}}</option>
+                            <option value="GEO">{{'GEO'}}</option>
+                            <option value="ICONS">{{'ICONS'}}</option>
+                            <option value="PEOPLE">{{'PEOPLE'}}</option>
+                            <option value="PICTURES">{{'PICTURES'}}</option>
+                            <option value="SCIENCE">{{'SCIENCE'}}</option>
+                            <option value="TECHNOLOGY">{{'TECHNOLOGY'}}</option>
+                            <option value="VEHICLES">{{'VEHICLES'}}</option>
+                            <option value="MISCELLANEOUS">{{'MISCELLANEOUS'}}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="clear()">
+            <span class="fa fa-ban"></span>&nbsp;
+            <span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+        <button type="submit" [disabled]="editForm.form.invalid || isSaving  || (!media || !media['file'])" class="btn btn-primary">
+            <span class="fa fa-arrow-circle-o-up"></span>&nbsp;
+            <span>Upload</span>
+        </button>
+    </div>
+</form>

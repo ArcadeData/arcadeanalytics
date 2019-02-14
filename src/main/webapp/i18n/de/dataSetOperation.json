@@ -1,0 +1,24 @@
+{
+    "arcadeanalyticsApp": {
+        "dataSetOperation" : {
+            "home": {
+                "title": "Data Set Operations",
+                "createLabel": "Data Set Operation erstellen",
+                "createOrEditLabel": "Data Set Operation erstellen oder bearbeiten",
+                "search": "Suche nach Data Set Operation"
+            },
+            "created": "Data Set Operation erstellt mit ID {{ param }}",
+            "updated": "Data Set Operation aktualisiert mit ID {{ param }}",
+            "deleted": "Data Set Operation gelöscht mit ID {{ param }}",
+            "delete": {
+                "question": "Soll Data Set Operation {{ id }} wirklich dauerhaft gelöscht werden?"
+            },
+            "detail": {
+                "title": "Data Set Operation"
+            },
+            "createdAt": "Created At",
+            "operation": "Operation",
+            "dataset": "Dataset"
+        }
+    }
+}

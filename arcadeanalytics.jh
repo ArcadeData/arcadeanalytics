@@ -1,0 +1,156 @@
+entity  Workspace {
+	name String required,
+    description String
+}
+
+entity Company {
+	name String required,
+    description String
+}
+
+entity Contract {
+	name String required,
+    description String,
+    type ContractType,
+    maxWorkspaces Integer,
+    maxDashboards Integer,
+    maxWidgets Integer,
+    maxTraversal Integer,
+    maxElements Integer,
+    maxPower Integer,
+    ha Boolean
+}
+
+enum ContractType {
+    FREE, SILVER, GOLD, CUSTOM
+}
+
+
+entity Dashboard {
+	name String required,
+    description String,
+    layout TextBlob
+}
+
+
+entity Widget {
+	name String required,
+    type String,
+    hasSnapshot Boolean
+}
+
+entity WidgetSnapshot {
+    createdAt LocalDate,
+    data TextBlob
+}
+
+enum DataSourceType {
+    ORIENTDB,
+    GREMLIN_ORIENTDB,
+    NEO4J,
+    NEO4J_MEMGRAPH,
+    JANUSGRAPH,
+    TIGERGRAPH,
+	NEPTUPE,
+    COSMOSDB,
+	RDBMS_ORACLE,
+    RDBMS_MSQSLSERVER,
+    RDBMS_MYSQL,
+    RDBMS_POSTGRESQL,
+    RDBMS_HSQL,
+    RDF,
+    ARANGO
+}
+
+
+entity DataSource {
+	name String required,
+    description String,
+    type DataSourceType,
+    indexing IndexingStatus,
+    server String,
+    port Integer,
+    username String,
+    password String,
+    remote Boolean,
+    gateway String,
+    sshUser String,
+    sshPort Integer
+}
+
+
+enum IndexingStatus {
+    NOT_INDEXED, INDEXING, INDEXED
+}
+
+entity DataSourceIndex {
+    startedAt LocalDate required,
+    endedAt LocalDate,
+    documents Long,
+    status Boolean,
+    report String
+}
+
+
+entity DataSet {
+	name String required
+}
+
+entity DataSetOperation {
+	createdAt LocalDate required,
+	operation String required
+}
+
+
+enum MediaCategory {
+    BROWSERS,
+    BUILDINGS,
+    BUSINESS,
+    CHARACTERS,
+    COMMUNICATION,
+    ENTERTAINMENT,
+    GEO,
+    ICONS,
+    PEOPLE,
+    PICTURES,
+    SCIENCE,
+    TECHNOLOGY,
+    VEHICLES,
+    MISCELLANEOUS
+}
+
+
+entity Media {
+	name String required,
+    description String,
+    category MediaCategory,
+    file Blob
+}
+
+entity ArcadeUser {
+}
+
+relationship OneToOne {
+	Widget{dataSet} to DataSet{widget}
+	ArcadeUser{user} to User
+}
+
+relationship OneToMany {
+  Workspace{dashboard} to Dashboard{workspace},
+  Workspace{dataSource} to DataSource{workspace},
+  Dashboard{widget} to Widget{dashboard},
+  DataSource{dataSourceIndex} to DataSourceIndex{dataSource},
+  Widget{snapshot} to WidgetSnapshot{widget},
+  DataSet{operations} to DataSetOperation{dataset},
+  Company{users} to ArcadeUser{company},
+  ArcadeUser{workspaces} to Workspace{user}
+}
+relationship ManyToOne {
+	Company{contract} to Contract,
+	Widget{dataSource} to DataSource
+}
+
+dto * with mapstruct
+paginate * with pagination
+
+service Media, Widget with serviceClass

@@ -1,0 +1,403 @@
+/**
+ * Cytoscape panzoom
+ */
+
+.cy-panzoom {
+    z-index: 10 !important;
+}
+/**
+ * Ckeditor styling
+ */
+
+// toolbar hidden when in minimized view
+.defaultMinimizedEditor .cke_top {
+    display: none;
+}
+
+.defaultMinimizedEditor .cke_chrome {
+    border: none;
+}
+
+.cke_toolbar_last {
+    display: none !important;
+}
+
+/**
+ * NavBar component - select component styling
+ */
+
+ #dashboardSelect .ui-select-container {
+    width: 100%;
+}
+
+#dashboardSelect .ui-select-match > .ui-select-toggle > .ui-select-match-text {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow-x: hidden;
+    width: 100%;
+}
+
+#dashboardSelect .ui-select-match > .ui-select-toggle > .caret {
+    position: absolute;
+    height: 10px;
+    top: 65%;
+    right: 5px;
+    margin-top: -2px;
+}
+
+#dashboardSelect ul {
+    max-height: 250px;
+    overflow: auto;
+    background-color: white;
+}
+
+#dashboardSelect .ui-select-match-item {
+    padding: 5px;
+    max-width: 180px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow-x: hidden;
+}
+
+#dashboardSelect .ui-select-match-item span {
+    font-size: 12px;
+}
+
+#dashboardSelect a.dropdown-item > div {
+    font-size: 12px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow-x: hidden;
+    display: block;
+}
+
+#dashboardSelect a {
+    color: black;
+    padding-left: 5%;
+    padding-right: 5%;
+}
+
+#dashboardSelect a:hover {
+    background-color: transparent;
+}
+
+#dashboardSelect li a:hover {
+    background-color: #428bca;
+    /*float: left;*/
+    min-width: 100%;
+}
+
+/**
+ * Filter menu: select styling
+ */
+
+.filterValueSelect ul {
+    max-height: 250px !important;
+    overflow: auto !important;
+    background-color: white !important;
+}
+
+.filterValueSelect .ui-select-match-item {
+    padding: 5px !important;
+}
+
+.filterValueSelect .ui-select-match-item span {
+    font-size: 11px !important;
+    max-width: 188px !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+    overflow-x: hidden !important;
+    display: block !important;
+}
+
+.filterValueSelect a.dropdown-item > div {
+    font-size: 11px !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+    overflow-x: hidden !important;
+    display: block !important;
+}
+
+.filterValueSelect a {
+    color: black !important;
+}
+
+.filterValueSelect a:hover {
+    background-color: transparent !important;
+}
+
+.filterValueSelect li a:hover {
+    background-color: #428bca !important;
+    /*float: left;*/
+    min-width: 100% !important;
+}
+
+.custom-panel {
+    padding: 5px;
+}
+
+#filter_reset_all {
+    margin: 10px;
+}
+
+input,
+input::-webkit-input-placeholder {
+    font-size: 11px;
+}
+
+/**
+ * Filter menu and Table Columns: accordion styling
+ */
+
+.panel-group {
+    margin-bottom: 0px;
+}
+
+.panel-body {
+    padding: 10px;
+}
+
+.accordion-toggle .btn {
+    padding: 0px;
+}
+
+.outer-accordion {
+    border-color: white;
+}
+
+.outer-accordion .panel-heading {
+    background-color: #b7e3ff;
+    height: 30px;
+}
+
+.outer-accordion .panel-title {
+    text-align: center;
+    font-weight: bold;
+    top: 3px;
+    position: relative;
+    font-size: 13px;
+}
+
+.outer-accordion > .panel-collapse > .panel-body {
+    border-color: white;
+    border-top: none;
+}
+
+.inner-accordion {
+    border-color: white;
+}
+
+.inner-accordion .panel-heading {
+    /*background-color: #d3f5ff;*/
+    background-color: #f9f9f9;
+}
+
+.inner-accordion .panel-title {
+    font-size: 11px;
+    font-weight: normal;
+}
+
+/**
+ * Traverse menu: panels styling
+ */
+
+traverse-menu .custom-panel {
+    padding: 0px;
+}
+
+traverse-menu .panel-body {
+    padding: 5px;
+}
+
+traverse-menu .panel-body ul li {
+    height: 18px;
+}
+
+traverse-menu .panel-body ul li:last-child {
+    padding-bottom: 5px;
+}
+
+/**
+ * Element menu (vertex-menu and edge-menu): panels styling
+ */
+
+vertex-menu .custom-panel {
+    padding: 0px;
+}
+
+vertex-menu .custom-panel .panel-body {
+    padding: 5px;
+}
+
+vertex-menu .custom-panel2 {
+    padding: 0px;
+}
+
+vertex-menu .custom-panel2 .panel-body {
+    padding: 10px;
+}
+
+edge-menu .custom-panel {
+    padding: 0px;
+}
+
+edge-menu .custom-panel .panel-body {
+    padding: 5px;
+}
+
+edge-menu .custom-panel2 {
+    padding: 0px;
+}
+
+edge-menu .custom-panel2 .panel-body {
+    padding: 10px;
+}
+
+/**
+ * Timeline
+ */
+
+timeline .vis-timeline {
+    border-color: #ddd;
+    border-radius: 3px 3px 0px 0px;
+}
+
+.firstCustomTime {
+    background-color: #6E94FF;
+}
+
+.secondCustomTime {
+    background-color: #6E94FF;
+}
+
+.vis-item-content {
+    display: none;
+}
+
+.vis-item .vis-dot {
+    border-width: 7px;
+    border-radius: 7px;
+}
+
+.vis-foreground {
+    filter: url(#metaballs);
+}
+
+/*
+ * VivaGraphJS
+ */
+
+.viewport canvas {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+}
+
+/*
+ * Tabs
+ */
+
+ .widget-viewport > .tab-container > ul {
+    margin: 0px;
+}
+
+.widget-viewport > .tab-container > ul a {
+    font-weight: normal;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+}
+
+/**
+ * Table Component Pagination
+ */
+
+table-data .pagination .page-link {
+    font-weight: normal;
+    padding: 2px 0px;
+    min-width: 30px;
+    height: 27px;
+} 
+table-data .pagination .page-link:hover {
+    font-weight: bold;
+}
+
+/**
+ * Widgets' Upper Toolbar
+ */
+
+ #upperToolBar {
+    z-index: 1;
+    min-height: 35px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    border: 1px solid;
+    border-color: #ddd;
+    border-radius: 3px;
+}
+
+#upperToolBar li > a {
+    padding: 6px;
+}
+
+#upperToolBar .navbar-header {
+    width: 250px;
+    margin: 0px 30px 0px 0px;
+}
+
+#upperToolBar #activateTimelineShortcut {
+    background-color: lightblue;
+}
+#upperToolBar #activateTimelineShortcut:hover {
+    background-color: lightblue;
+}
+
+/*
+ * Sliders
+ */
+ 
+nouislider {
+    padding: 5%;
+    padding-top: 0%;
+    padding-bottom: 15%;
+}
+
+.slider-container {
+    padding: 0px 8px;
+    margin-bottom: 30px;
+}
+
+.noUi-handle {
+    transform: scale(0.75,0.75) !important; 
+}
+
+.noUi-value-horizontal {
+    margin-left: 0px !important;
+}
+
+/*
+ * General
+ */
+
+.col-centered {
+    float: none;
+    margin: 0 auto;
+}
+
+.popover.datasourceAlertPopover {
+    left: 5% !important;
+}
+
+.wait-spinner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 3;
+}
+
+input[type="radio"], input[type="checkbox"] {
+    margin-left: 5px;
+    margin-right: 5px;
+}

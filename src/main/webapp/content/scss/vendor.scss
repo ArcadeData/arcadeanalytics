@@ -1,0 +1,86 @@
+/* after changing this file run 'yarn run webpack:build' */
+$fa-font-path: '~font-awesome/fonts';
+
+/***************************
+put Sass variables here:
+eg $input-color: red;
+****************************/
+
+// Override Bootstrap variables
+@import "bootstrap-variables";
+
+
+/*
+ * Basic imports
+ */
+@import '../assets/css/bootstrap.min.css';
+@import './global.scss';
+@import '../../../../../node_modules/font-awesome/scss/font-awesome.scss';
+
+
+/*
+ * Limitless imports
+ */
+
+// stylesheets imports
+
+@import '../assets/css/bootstrap.vertical-tabs.css';
+@import '../assets/css/bootstrap-iconpicker.min.css';
+@import '../assets/css/google-roboto.css';
+@import '../assets/css/jquery.gridster.min.css';
+
+@import '../assets/css/icons/fontawesome/styles.min.css';
+@import '../assets/css/extras/jquery.dataTables.min.css';
+@import '../assets/css/extras/dataTables.fontAwesome.css';
+@import '../assets/css/icons/icomoon/style.css';
+@import '../assets/css/core.css';
+@import '../assets/css/components.min.css';
+@import '../assets/css/colors.min.css';
+@import '../assets/css/extras/animate.min.css';
+@import '../assets/css/arcade-app.css';
+@import '../assets/css/fonts.css';
+@import '../assets/css/cytoscape.js-panzoom.css';
+@import '../assets/css/arcade-graph.css';
+@import '../assets/css/bootstrap-tokenfield.min.css';
+@import '../assets/css/tokenfield-typeahead.min.css';
+@import '../assets/css/jquery.qtip.min.css';
+
+@import '../assets/css/fontselect-alternate.css';
+
+/*
+ * PNotify import: pnotify 3 styling imported and applied on pnotify 4
+ */
+@import './pnotify3/pnotify.brighttheme.css';
+
+/*
+ * Dragula
+ */
+ @import '../../../../../node_modules/dragula/dist/dragula.css';
+
+/*
+ * Ui Switch
+ */
+ @import '../../../../../node_modules/ngx-ui-switch/ui-switch.component.scss';
+
+/*
+ * GraphWidget Context Menu
+ */
+@import '../../../../../node_modules/cytoscape-context-menus/cytoscape-context-menus.css';
+@import 'graph-widget-context-menu';
+
+/*
+ * GraphWidget Timeline
+ */
+@import '../../../../../node_modules/vis/dist/vis.css';
+
+/*
+ * Sliders
+ *
+ * Nouislider style manually copied into the project static asset and imported, 
+ * as the webpack is not able to fetch it from the node_modules path.
+ * Than, at each nouislider dependency update the nouislider.min.css has to be copied again inside the project asset.
+ */
+@import '../assets/css/nouislider.min.css';
+
+
+@import './global-components.scss';

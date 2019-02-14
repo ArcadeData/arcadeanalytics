@@ -1,0 +1,60 @@
+### Workflow
+
+#### Diagram
+
+Quisque facilisis nunc lectus, sit amet facilisis libero ornare commodo.
+
+[source,ascii]
+----
+                                      +------------------+
+                                      |                  |
+                                      |      Step 1      |
+                                      |                  |
+                                      +---------+--------+
+                                                |
+                                                ˇ
+   +------------------+               +------------------+
+   |                  |   if valid¹   |                  |
+ +-|    Step 2 bis²   | - - - - - - - |      Step 2      |
+ | |                  |               |                  |
+ | +------------------+               +---------+--------+
+ |                                              |
+ |                                              ˇ
+ | +------------------+               +------------------+
+ | |                  |               |                  |
+ +-|    Step 3 bis²   | - - - - - - - |      Step 3      |
+ | |                  |               |                  |
+ | +------------------+               +------------------+
+ |
+ |                  +--------------------+
+ |                  |                    |
+ +------------------|       Step 4       |
+ |                  |                    |
+ |                  +--------------------+
+ |
+ |                  +--------------------+
+ |                  |                    |
+ +------------------|       Step 5       |
+                    |                    |
+                    +--------------------+
+----
+<1> See <<Step explanation>>.
+<2> See <<Generation & Data>>.
+
+#### Step explanation
+
+Ut egestas, odio et placerat dignissim, nibh quam egestas dolor, at sollicitudin nunc eros id enim *_vitae arcu_*.
+
+[NOTE]
+====
+.*_vitae arcu_*: mauris feugiat, felis eget lacinia congue:
+* suscipit,
+* non ornare,
+* purus (kg),
+* elementum (cm),
+* molestie sit amet (hours/week).
+====
+
+IMPORTANT: Placerat non _vitae arcu_  scelerisque molestie hendrerit.
+
+

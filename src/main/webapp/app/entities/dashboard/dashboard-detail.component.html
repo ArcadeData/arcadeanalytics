@@ -1,0 +1,251 @@
+<div *ngIf="dashboard">
+
+    <!--Dashboard Header-->
+    <div *ngIf="!embedded" class="row">
+        <div class="col-md-6">
+            <h2 style="margin: 0px;">
+                <span jhiTranslate="arcadeanalyticsApp.dashboard.detail.title">Dashboard</span> {{dashboard.name}}
+            </h2>
+        </div>
+        <div class="col-md-6">
+            <div class="btn-group flex-btn-group-container">
+                <button *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_EDITOR']" class="btn btn-info btn-sm" [routerLink]="['/', { outlets: { popup: ['widget-new'] } }]"
+                    [queryParams]="{ dashboardId: dashboard.id }">
+                    <span class="fa fa-puzzle-piece fa-fw"></span>
+                    <span class="hidden-sm-down">Add new Widget</span>
+                </button>
+                <button *jhiHasAnyAuthority="['ROLE_READER']" class="btn btn-info btn-sm" disabled>
+                    <span class="fa fa-puzzle-piece fa-fw"></span>
+                    <span class="hidden-sm-down">Add new Widget</span>
+                </button>
+
+                <button *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_EDITOR']" type="submit" [routerLink]="['/', { outlets: { popup: 'dashboard/'+ dashboard.id + '/edit'} }]"
+                    replaceUrl="true" class="btn btn-primary btn-sm">
+                    <span class="fa fa-pencil fa-fw"></span>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                </button>
+                <button *jhiHasAnyAuthority="['ROLE_READER']" type="submit" class="btn btn-primary btn-sm" disabled>
+                    <span class="fa fa-pencil fa-fw"></span>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                </button>
+
+                <button *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_EDITOR']" type="submit" [routerLink]="['/', { outlets: { popup: 'dashboard/'+ dashboard.id + '/delete'} }]"
+                    replaceUrl="true" class="btn btn-danger btn-sm">
+                    <span class="fa fa-remove fa-fw"></span>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                </button>
+                <button *jhiHasAnyAuthority="['ROLE_READER']" type="submit" class="btn btn-danger btn-sm" disabled>
+                    <span class="fa fa-remove fa-fw"></span>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                </button>
+                
+                <button *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_EDITOR']" type="submit" (click)="openShareModal('dashboard', dashboard)"
+                    replaceUrl="true" class="btn btn-success btn-sm">
+                    <span class="fa fa-share-alt fa-fw"></span>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.share">Share</span>
+                </button>
+                <button *jhiHasAnyAuthority="['ROLE_READER']" type="submit" class="btn btn-success btn-sm" disabled>
+                    <span class="fa fa-share-alt fa-fw"></span>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.share">Share</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <hr *ngIf="!embedded">
+
+    <!--Dashboard Content-->
+
+    <!-- Page container -->
+    <div id="dashboard" *ngIf="widgetsRetrieved">
+        <div class="row tabbable">
+
+            <div class="col-lg-12" style="padding: 0px 0px 40px 0px">
+                <div id="widgetsContainer" [dragula]='"bag-items"' [(dragulaModel)]="dashboard['widgets']" (drop)="saveDashboardWithCurrentLayout()">
+                    <div class="widgetContainer" *ngFor="let widget of dashboard['widgets']" [ngClass]="{
+                        'col-lg-2': dashboard['layout']['widgetsLayoutInfo'].get(widget['id'])['width'] === 2,
+                        'col-lg-3': dashboard['layout']['widgetsLayoutInfo'].get(widget['id'])['width'] === 3,
+                        'col-lg-4': dashboard['layout']['widgetsLayoutInfo'].get(widget['id'])['width'] === 4,
+                        'col-lg-5': dashboard['layout']['widgetsLayoutInfo'].get(widget['id'])['width'] === 5,
+                        'col-lg-6': dashboard['layout']['widgetsLayoutInfo'].get(widget['id'])['width'] === 6,
+                        'col-lg-7': dashboard['layout']['widgetsLayoutInfo'].get(widget['id'])['width'] === 7,
+                        'col-lg-8': dashboard['layout']['widgetsLayoutInfo'].get(widget['id'])['width'] === 8,
+                        'col-lg-9': dashboard['layout']['widgetsLayoutInfo'].get(widget['id'])['width'] === 9,
+                        'col-lg-10': dashboard['layout']['widgetsLayoutInfo'].get(widget['id'])['width'] === 10,
+                        'col-lg-11': dashboard['layout']['widgetsLayoutInfo'].get(widget['id'])['width'] === 11,
+                        'col-lg-12': dashboard['layout']['widgetsLayoutInfo'].get(widget['id'])['width'] === 12
+                        }" [ngStyle]="{padding: widgetContainerPadding}">
+
+                        <div class="panel panel-default" [id]="'panel_' + widget.id" style="margin-bottom: 0px;">
+                            <div class="panel-heading" [ngStyle]="{height: panelHeadingHeight, padding: '5px'}">
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                    <h5 class="panel-title" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                                        {{widget['name']}}
+                                    </h5>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="padding-left: 0px; padding-right: 0px;">
+                                    <ul class="icons-list pull-right">
+                                        <li *ngIf="widget.type === 'graph' || widget.type === 'table' || widget.type.includes('chart')" [ngClass]="{'li-disabled': embedded}">
+                                            <a *ngIf="!embedded" [routerLink]="['/widget', widget['id']]" title="Open">
+                                                <i class="fa fa-arrows" aria-hidden="true"></i>
+                                            </a>
+                                            <a *ngIf="embedded" title="Open" style="pointer-events: none; opacity: 0.6;">
+                                                <i class="fa fa-arrows" aria-hidden="true"></i>
+                                            </a>
+                                        </li>
+                                        <li *ngIf="widget.type == 'text-editor'" [ngStyle]="{'li-disabled': embedded}">
+                                            <a *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_EDITOR']"
+                                                [routerLink]="['/widget', widget['id']]" title="Open">
+                                                <i class="fa fa-arrows" aria-hidden="true"></i>
+                                            </a>
+                                            <a *jhiHasAnyAuthority="['ROLE_READER']" class="disabled" title="Open">
+                                                <i class="fa fa-arrows" aria-hidden="true"></i>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a>
+                                                <i [id]="'grab_' + widget.id" class="fa fa-hand-rock-o" aria-hidden="true"></i>
+                                            </a>
+                                        </li>
+                                        <li dropdown>
+                                            <a href dropdownToggle (click)="false">
+                                                <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+                                            </a>
+                                            <ul *dropdownMenu class="dropdown-menu dropdown-menu-right">
+                                                <li>
+                                                    <a class="dropdown-item disabled">
+                                                        <i class="fa fa-clone"></i>&nbsp;Clone </a>
+                                                </li>
+                                                <li>
+                                                    <a class="dropdown-item disabled">
+                                                        <i class="fa fa-arrow-circle-right"></i>&nbsp;Move to... </a>
+                                                </li>
+
+                                                <li *ngIf="!embedded">
+                                                    <a class="dropdown-item" *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_EDITOR']" (click)="openShareModal('widget', widget)"
+                                                    [ngClass]="{'disabled': !widget['hasSnapshot']}">
+                                                        <i class="fa fa-share-alt" aria-hidden="true"></i>&nbsp;Share </a>
+                                                    <a class="dropdown-item disabled" *jhiHasAnyAuthority="['ROLE_READER']">
+                                                        <i class="fa fa-share-alt" aria-hidden="true"></i>&nbsp;Share </a>
+                                                </li>
+                                                <li *ngIf="embedded">
+                                                    <a class="dropdown-item disabled">
+                                                        <i class="fa fa-share-alt" aria-hidden="true"></i>&nbsp;Share
+                                                    </a>
+                                                </li>
+
+                                                <li *ngIf="!embedded">
+                                                    <a class="dropdown-item" *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_EDITOR']" [routerLink]="['/', { outlets: { popup: 'widget/'+ widget.id + '/edit'} }]"
+                                                    [queryParams]="{ id: widget.id }" replaceUrl="true">
+                                                        <i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;Edit
+                                                    </a>
+                                                    <a class="dropdown-item disabled" *jhiHasAnyAuthority="['ROLE_READER']">
+                                                        <i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;Edit
+                                                    </a>
+                                                </li>
+                                                <li *ngIf="embedded">
+                                                    <a class="dropdown-item disabled">
+                                                        <i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;Edit
+                                                    </a>
+                                                </li>
+
+                                                <li *ngIf="!embedded">
+                                                    <a class="dropdown-item" *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_EDITOR']" [routerLink]="['/', { outlets: { popup: 'widget/'+ widget.id + '/delete'} }]"
+                                                    [queryParams]="{ id: widget.id, hasConnectedWidgets: primaryWidget2secondaryWidgets[widget.id] ? true : false }" replaceUrl="true">
+                                                        <i class="fa fa-trash" aria-hidden="true"></i>&nbsp;Remove
+                                                    </a>
+                                                    <a class="dropdown-item disabled" *jhiHasAnyAuthority="['ROLE_READER']">
+                                                        <i class="fa fa-trash" aria-hidden="true"></i>&nbsp;Remove
+                                                    </a>
+                                                </li>
+                                                <li *ngIf="embedded">
+                                                    <a class="dropdown-item disabled">
+                                                        <i class="fa fa-trash" aria-hidden="true"></i>&nbsp;Remove
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                            <li>
+                                                <a class="panel-collapser" data-toggle="collapse" [attr.data-target]="'#collapsable_' + widget.id"
+                                                [ngClass]="{'collapsed': dashboard['layout']['widgetsLayoutInfo'].get(widget['id'])['collapsed']}"
+                                                (click)="updateWidgetLayoutCollapseStatus(widget.id, $event.target)">
+                                                </a>
+                                            </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div [id]="'collapsable_' + widget.id" class="panel-collapse collapse" 
+                                [ngClass]="{'show in': !dashboard['layout']['widgetsLayoutInfo'].get(widget['id'])['collapsed'], 'out': dashboard['layout']['widgetsLayoutInfo'].get(widget['id'])['collapsed']}">
+
+                                <!--CASE: Dashboard not embedded-->
+                                <div *ngIf="!embedded" class="panel-body">
+                                    <graph-widget *ngIf="widget.type == 'graph'" [widget]="widget" [widgetColumnWidth]="dashboard['layout']['widgetsLayoutInfo'].get(widget['id'])['width']"
+                                        [widgetHeight]="dashboard['layout']['widgetsLayoutInfo'].get(widget['id'])['height']"
+                                        [minimizedView]="true" [oldSnapshotToLoad]="widget.hasSnapshot">
+                                    </graph-widget>
+                                    <table-widget *ngIf="widget.type == 'table'" [widget]="widget" [widgetColumnWidth]="dashboard['layout']['widgetsLayoutInfo'].get(widget['id'])['width']"
+                                        [widgetHeight]="dashboard['layout']['widgetsLayoutInfo'].get(widget['id'])['height']"
+                                        [minimizedView]="true" [oldSnapshotToLoad]="widget.hasSnapshot">
+                                    </table-widget>
+                                    <independent-pie-chart-widget *ngIf="widget.type == 'independent-pie-chart' || widget.type == 'pie chart'" [widget]="widget" [widgetColumnWidth]="dashboard['layout']['widgetsLayoutInfo'].get(widget['id'])['width']"
+                                        [widgetHeight]="dashboard['layout']['widgetsLayoutInfo'].get(widget['id'])['height']"
+                                        [minimizedView]="true" [oldSnapshotToLoad]="widget.hasSnapshot">
+                                    </independent-pie-chart-widget>
+                                    <secondary-pie-chart-widget *ngIf="widget.type == 'secondary-pie-chart'" [widget]="widget" [widgetColumnWidth]="dashboard['layout']['widgetsLayoutInfo'].get(widget['id'])['width']"
+                                        [widgetHeight]="dashboard['layout']['widgetsLayoutInfo'].get(widget['id'])['height']"
+                                        [minimizedView]="true" [oldSnapshotToLoad]="widget.hasSnapshot">
+                                    </secondary-pie-chart-widget>
+                                    <independent-bar-chart-widget *ngIf="widget.type == 'independent-bar-chart' || widget.type == 'bar chart'" [widget]="widget" [widgetColumnWidth]="dashboard['layout']['widgetsLayoutInfo'].get(widget['id'])['width']"
+                                        [widgetHeight]="dashboard['layout']['widgetsLayoutInfo'].get(widget['id'])['height']"
+                                        [minimizedView]="true" [oldSnapshotToLoad]="widget.hasSnapshot">
+                                    </independent-bar-chart-widget>
+                                    <secondary-bar-chart-widget *ngIf="widget.type == 'secondary-bar-chart'" [widget]="widget" [widgetColumnWidth]="dashboard['layout']['widgetsLayoutInfo'].get(widget['id'])['width']"
+                                        [widgetHeight]="dashboard['layout']['widgetsLayoutInfo'].get(widget['id'])['height']"
+                                        [minimizedView]="true" [oldSnapshotToLoad]="widget.hasSnapshot">
+                                    </secondary-bar-chart-widget>
+                                    <texteditor-widget *ngIf="widget.type == 'text-editor' || widget.type == 'text editor'" [widget]="widget" [widgetColumnWidth]="dashboard['layout']['widgetsLayoutInfo'].get(widget['id'])['width']"
+                                        [widgetHeight]="dashboard['layout']['widgetsLayoutInfo'].get(widget['id'])['height']"
+                                        [minimizedView]="true" [oldSnapshotToLoad]="widget.hasSnapshot">
+                                    </texteditor-widget>
+                                </div>
+
+                                <!--CASE: embedded Dashboard-->
+                                <div *ngIf="embedded" class="panel-body">
+                                        <graph-widget *ngIf="widget.type == 'graph'" [widget]="widget" [widgetColumnWidth]="dashboard['layout']['widgetsLayoutInfo'].get(widget['id'])['width']"
+                                            [widgetHeight]="dashboard['layout']['widgetsLayoutInfo'].get(widget['id'])['height']"
+                                            [minimizedView]="true" [oldSnapshotToLoad]="widget.hasSnapshot" [embedded]="true">
+                                        </graph-widget>
+                                        <table-widget *ngIf="widget.type == 'table'" [widget]="widget" [widgetColumnWidth]="dashboard['layout']['widgetsLayoutInfo'].get(widget['id'])['width']"
+                                            [widgetHeight]="dashboard['layout']['widgetsLayoutInfo'].get(widget['id'])['height']"
+                                            [minimizedView]="true" [oldSnapshotToLoad]="widget.hasSnapshot" [embedded]="true">
+                                        </table-widget>
+                                        <independent-pie-chart-widget *ngIf="widget.type == 'independent-pie-chart' || widget.type == 'pie chart'" [widget]="widget" [widgetColumnWidth]="dashboard['layout']['widgetsLayoutInfo'].get(widget['id'])['width']"
+                                            [widgetHeight]="dashboard['layout']['widgetsLayoutInfo'].get(widget['id'])['height']"
+                                            [minimizedView]="true" [oldSnapshotToLoad]="widget.hasSnapshot" [embedded]="true">
+                                        </independent-pie-chart-widget>
+                                        <secondary-pie-chart-widget *ngIf="widget.type == 'secondary-pie-chart'" [widget]="widget" [widgetColumnWidth]="dashboard['layout']['widgetsLayoutInfo'].get(widget['id'])['width']"
+                                            [widgetHeight]="dashboard['layout']['widgetsLayoutInfo'].get(widget['id'])['height']"
+                                            [minimizedView]="true" [oldSnapshotToLoad]="widget.hasSnapshot" [embedded]="true">
+                                        </secondary-pie-chart-widget>
+                                        <independent-bar-chart-widget *ngIf="widget.type == 'independent-bar-chart' || widget.type == 'bar chart'" [widget]="widget" [widgetColumnWidth]="dashboard['layout']['widgetsLayoutInfo'].get(widget['id'])['width']"
+                                            [widgetHeight]="dashboard['layout']['widgetsLayoutInfo'].get(widget['id'])['height']"
+                                            [minimizedView]="true" [oldSnapshotToLoad]="widget.hasSnapshot" [embedded]="true">
+                                        </independent-bar-chart-widget>
+                                        <secondary-bar-chart-widget *ngIf="widget.type == 'secondary-bar-chart'" [widget]="widget" [widgetColumnWidth]="dashboard['layout']['widgetsLayoutInfo'].get(widget['id'])['width']"
+                                            [widgetHeight]="dashboard['layout']['widgetsLayoutInfo'].get(widget['id'])['height']"
+                                            [minimizedView]="true" [oldSnapshotToLoad]="widget.hasSnapshot" [embedded]="true">
+                                        </secondary-bar-chart-widget>
+                                        <texteditor-widget *ngIf="widget.type == 'text-editor' || widget.type == 'text editor'" [widget]="widget" [widgetColumnWidth]="dashboard['layout']['widgetsLayoutInfo'].get(widget['id'])['width']"
+                                            [widgetHeight]="dashboard['layout']['widgetsLayoutInfo'].get(widget['id'])['height']"
+                                            [minimizedView]="true" [oldSnapshotToLoad]="widget.hasSnapshot" [embedded]="true">
+                                        </texteditor-widget>
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /page container -->
+    </div>
+
+</div>

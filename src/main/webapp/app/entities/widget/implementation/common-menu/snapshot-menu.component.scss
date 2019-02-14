@@ -1,0 +1,18 @@
+#snapshotsTableContainer {
+    max-height: 250px;
+}
+
+td.snapshotItem {
+    padding-left: 6px;
+    padding-right: 6px;
+}
+
+td > a {
+    color: black;
+    padding: 0px;
+}
+
+#noSnapshotsMessage {
+    color: black;
+    font-weight: normal;
+}

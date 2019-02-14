@@ -1,0 +1,71 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+    <div class="modal-header">
+        <h4 class="modal-title" id="myWidgetLabel" jhiTranslate="arcadeanalyticsApp.widget.home.createLabel">Create a Widget</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" (click)="clear()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <div *ngIf="widget">
+            <div class="form-group" [hidden]="!widget.id">
+                <label for="id" jhiTranslate="global.field.id">ID</label>
+                <input type="text" class="form-control" id="id" name="id" [(ngModel)]="widget.id" readonly />
+            </div>
+            <div class="form-group">
+                <label class="form-control-label" jhiTranslate="arcadeanalyticsApp.widget.name" for="field_name">Name</label>
+                <input type="text" class="form-control" name="widgetName" id="field_name" [(ngModel)]="widget.name" required/>
+                <div [hidden]="!(editForm.controls.name?.dirty && editForm.controls.name?.invalid)">
+                    <small class="form-text text-danger" [hidden]="!editForm.controls.name?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                    </small>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-control-label" jhiTranslate="arcadeanalyticsApp.widget.type" for="field_type">Type</label>
+                <select class="form-control" name="widgetType" id="field_type" [(ngModel)]="userChosenWidgetType" (ngModelChange)="handleWidgetTypeChange()">
+                    <option *ngFor="let widgetType of widgetTypeUserChoices" [value]="widgetType"> {{widgetType}} </option>
+                </select>
+            </div>
+
+            <div *ngIf="userChosenWidgetType !== 'text editor'" class="form-group">
+                <label>Source</label>
+                <div class="form-group">
+                    <input type="radio" name="sourceType" [value]="'datasource'" [(ngModel)]="sourceType" [disabled]="false">
+                    <label class="form-control-label" jhiTranslate="arcadeanalyticsApp.widget.dataSource" for="field_dataSource">Data Source</label>
+                    <select *ngIf="sourceType === 'datasource'" class="form-control" id="field_dataSource" name="dataSource" [(ngModel)]="widget.dataSourceId">
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="dataSourceOption.id" *ngFor="let dataSourceOption of datasources; trackBy: trackDataSourceById">{{dataSourceOption.description}}</option>
+                    </select>
+                    <select *ngIf="sourceType === 'widget'" class="form-control" id="field_dataSource" name="dataSource" disabled>
+                    </select>
+                </div>
+
+                <div>
+                    <input type="radio" name="sourceType" [value]="'widget'" [(ngModel)]="sourceType" [disabled]="!userChosenWidgetType.includes('chart')">
+                    <label class="form-control-label" for="field_widget_source">Widget</label>
+                    <select *ngIf="sourceType === 'widget'" class="form-control" id="field_widget_source" name="widgetSource" [(ngModel)]="chosenPrimaryWidget"
+                        [ngClass]="{'disabled': sourceType === 'widget'}">
+                        <option [ngValue]="widgetOption" *ngFor="let widgetOption of availablePrimaryWidgets; trackBy: trackDataSourceById">{{widgetOption.name}}
+                            - {{widgetOption.type}}</option>
+                    </select>
+                    <select *ngIf="sourceType === 'datasource'" class="form-control" id="field_dataSource" name="widgetSource" disabled>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">
+                <span class="fa fa-ban"></span>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+            </button>
+            <button *ngIf="sourceType === 'datasource'" type="submit" class="btn btn-primary"
+            [disabled]="editForm.controls.widgetName?.invalid || editForm.controls.widgetType?.invalid || !widget?.dataSourceId || isSaving">
+                <span class="fa fa-save"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+            </button>
+            <button *ngIf="sourceType === 'widget'" type="submit" class="btn btn-primary"
+            [disabled]="editForm.controls.widgetName?.invalid || editForm.controls.widgetType?.invalid || !chosenPrimaryWidget || isSaving">
+                <span class="fa fa-save"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+            </button>
+            <button *ngIf="!sourceType" type="submit" class="btn btn-primary">
+                <span class="fa fa-save"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+            </button>
+        </div>
+    </div>
+</form>

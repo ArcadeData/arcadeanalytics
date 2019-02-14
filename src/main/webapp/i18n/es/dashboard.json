@@ -1,0 +1,28 @@
+{
+    "arcadeanalyticsApp": {
+        "dashboard" : {
+            "home": {
+                "title": "Arcade",
+                "subtitle": "Dashboards",
+                "createLabel": "Crear nuevo Dashboard",
+                "createOrEditLabel": "Crear o editar Dashboard",
+                "search": "Search for Dashboard"
+            },
+            "created": "Un nuevo Dashboard ha sido creado con el identificador '{{ param }}'",
+            "updated": "Un Dashboard ha sido actualizado con el identificador '{{ param }}'",
+            "deleted": "Un Dashboard ha sido eliminado con el identificador '{{ param }}'",
+            "delete": {
+                "question": "¿Seguro que quiere eliminar Dashboard '{{ name }}'?"
+            },
+            "detail": {
+                "title": "Dashboard"
+            },
+            "id": "Dashboard ID",
+            "name": "Name",
+            "description": "Description",
+            "widget": "Widget",
+            "dataset": "Dataset",
+            "workspace": "Workspace"
+        }
+    }
+}

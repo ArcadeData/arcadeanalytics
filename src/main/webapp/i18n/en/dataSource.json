@@ -1,0 +1,43 @@
+{
+    "arcadeanalyticsApp": {
+        "dataSource": {
+            "home": {
+                "title": "Data Sources",
+                "createLabel": "Create a new Data Source",
+                "createOrEditLabel": "Create or edit a Data Source",
+                "search": "Search for Data Source"
+            },
+            "created": "A new Data Source is created with identifier '{{ param }}'",
+            "updated": "A Data Source is updated with identifier '{{ param }}'",
+            "deleted": "A Data Source is deleted with identifier '{{ param }}'",
+            "delete": {
+                "question": "Are you sure you want to delete Data Source '{{ name }}'?"
+            },
+            "detail": {
+                "title": "Data Source"
+            },
+            "connection": {
+                "ok": "Connection to '{{param}}' works fine",
+                "fail": "Connection to '{{param}}' fails"
+            },
+            "name": "Name",
+            "description": "Description",
+            "type": "Type",
+            "indexing": "Indexing",
+            "server": "Server",
+            "port": "Port",
+            "database": "Database",
+            "username": "Username",
+            "password": "Password",
+            "joinTableAggregationEnabled": "Join Table Aggregation Enabled",
+            "aggregateJoinTables": "Aggregate Join Tables",
+            "additionalConnProps": "Additional Connection Properties",
+            "sshFlag": "Use SSH Tunnel",
+            "gateway": "Gateway",
+            "sshPort": "Ssh Port",
+            "sshUser": "Ssh User",
+            "dataSourceIndex": "Data Source Index",
+            "workspace": "Workspace"
+        }
+    }
+}

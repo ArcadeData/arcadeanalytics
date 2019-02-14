@@ -1,0 +1,31 @@
+
+<div *ngIf="arcadeUser">
+    <h2><span jhiTranslate="arcadeanalyticsApp.arcadeUser.detail.title">Arcade User</span> {{arcadeUser.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="arcadeanalyticsApp.arcadeUser.user">User</span></dt>
+        <dd>
+            {{arcadeUser.userId}}
+        </dd>
+        <dt><span jhiTranslate="arcadeanalyticsApp.arcadeUser.company">Company</span></dt>
+        <dd>
+            <div *ngIf="arcadeUser.companyId">
+                <a [routerLink]="['/company', arcadeUser.companyId]">{{arcadeUser.companyId}}</a>
+            </div>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'arcade-user/'+ arcadeUser.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

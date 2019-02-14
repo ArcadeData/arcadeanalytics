@@ -1,0 +1,27 @@
+{
+    "arcadeanalyticsApp": {
+        "workspace" : {
+            "home": {
+                "title": "Arcade",
+                "subtitle": "Workspaces",
+                "createLabel": "Crear nuevo Workspace",
+                "createOrEditLabel": "Crear o editar Workspace",
+                "search": "Search for Workspace"
+            },
+            "created": "Un nuevo Workspace ha sido creado con el identificador '{{ param }}'",
+            "updated": "Un Workspace ha sido actualizado con el identificador '{{ param }}'",
+            "deleted": "Un Workspace ha sido eliminado con el identificador '{{ param }}'",
+            "delete": {
+                "question": "¿Seguro que quiere eliminar Workspace '{{ name }}'?"
+            },
+            "detail": {
+                "title": "Workspace"
+            },
+            "name": "Name",
+            "description": "Description",
+            "dashboard": "Dashboard",
+            "datasource": "Datasource",
+            "user": "User"
+        }
+    }
+}

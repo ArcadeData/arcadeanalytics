@@ -1,0 +1,12 @@
+### Security & Authentication
+
+Suspendisse quis est nec sapien fermentum faucibus. Donec in elementum nulla. Suspendisse potenti. Integer pretium
+diam velit, quis blandit massa sollicitudin eget. Nam interdum, ante in volutpat tempor, urna sapien eleifend massa,
+non fringilla lacus eros ut nulla. Vestibulum id leo tortor. Nullam enim mi, laoreet ac mauris bibendum, euismod porta
+nisi. Vivamus aliquet risus in ligula molestie suscipit. Suspendisse convallis, dolor in vestibulum vulputate, ligula
+magna euismod tortor, quis pretium libero ligula id sem. Cras accumsan ultricies sapien a porttitor. Nam scelerisque
+velit vitae mollis egestas. Nunc justo odio, lobortis sit amet neque vel, dictum finibus augue. Donec vitae mauris quis
+ligula dictum fermentum. Suspendisse at sem enim. Quisque maximus augue odio, vitae fringilla nibh molestie convallis.
+
+TIP: Get an account by sending a request to <<Contact>>.
+

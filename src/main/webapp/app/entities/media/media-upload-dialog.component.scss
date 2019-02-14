@@ -1,0 +1,24 @@
+.my-drop-zone {
+    border: dotted 3px lightgray;
+}
+
+.file-over { /* Default class applied to drop zones on over */
+    border: dotted 3px orange;
+}
+
+.file-dropped { /* Default class applied to drop zones on over */
+    border: dotted 3px green;
+}
+
+.addMedia:hover {
+    cursor: pointer;
+}
+
+.uploading-file-preview {
+    max-width: 200px;
+    max-height: 120px;
+    height: 100%;
+    border-width: 1px;
+    border-color: #6f6f6f;
+    border-style: solid;
+}

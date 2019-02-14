@@ -1,0 +1,27 @@
+{
+    "arcadeanalyticsApp": {
+        "media" : {
+            "home": {
+                "title": "Arcade",
+                "subtitle": "Media",
+                "createLabel": "Crear nuevo Media",
+                "uploadLabel": "Upload File",
+                "createOrEditLabel": "Editar Media",
+                "search": "Search for Media"
+            },
+            "created": "Un nuevo Media ha sido creado con el identificador '{{ param }}'",
+            "updated": "Un Media ha sido actualizado con el identificador '{{ param }}'",
+            "deleted": "Un Media ha sido eliminado con el identificador '{{ param }}'",
+            "delete": {
+                "question": "¿Seguro que quiere eliminar Media '{{ name }}'?"
+            },
+            "detail": {
+                "title": "Media"
+            },
+            "name": "Name",
+            "description": "Description",
+            "category": "Category",
+            "file": "File"
+        }
+    }
+}

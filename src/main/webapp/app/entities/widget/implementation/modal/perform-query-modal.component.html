@@ -1,0 +1,19 @@
+<div class="modal-header">
+    <h4 class="modal-title pull-left">Query</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body text-center">
+    <p>
+        <span>
+        There are already more than <b>5000 nodes</b> in your analysis,
+        having too many nodes may deteriorate application performance and responsiveness.<br/>
+        Maybe you can delete useless nodes from your analysis.<br/><br/>
+        Do you still want to perform the query anyway?<br/><br/>
+        </span>
+    </p>
+    <button type="button" class="btn btn-default" (click)="action(true)" >Yes</button>
+    <button type="button" class="btn btn-primary" (click)="action(false)" >No</button>
+
+</div>

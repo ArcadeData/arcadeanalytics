@@ -1,0 +1,51 @@
+<div *ngIf="widgetLoaded" id="embeddedWidgetContainer">
+        <graph-widget *ngIf="widget.type == 'graph'" #widgetImplementation
+                    [widget]="widget"
+                    [widgetHeight]="'600px'"
+                    [minimizedView]="true"
+                    [oldSnapshotToLoad]="widget.hasSnapshot"
+                    [embedded]="true">
+        </graph-widget>
+        <table-widget *ngIf="widget.type == 'table'" #widgetImplementation
+                    [widget]="widget"
+                    [widgetHeight]="'600px'"
+                    [minimizedView]="true"
+                    [oldSnapshotToLoad]="widget.hasSnapshot"
+                    [embedded]="true">
+        </table-widget>
+        <independent-pie-chart-widget *ngIf="widget.type == 'independent-pie-chart' || widget.type == 'pie chart'" #widgetImplementation
+                    [widget]="widget" 
+                    [widgetHeight]="'600px'"
+                    [minimizedView]="true"
+                    [oldSnapshotToLoad]="widget.hasSnapshot"
+                    [embedded]="true">
+        </independent-pie-chart-widget>
+        <secondary-pie-chart-widget *ngIf="widget.type == 'secondary-pie-chart'" #widgetImplementation
+                    [widget]="widget" 
+                    [widgetHeight]="'600px'"
+                    [minimizedView]="true"
+                    [oldSnapshotToLoad]="widget.hasSnapshot"
+                    [embedded]="true">
+        </secondary-pie-chart-widget>
+        <independent-bar-chart-widget *ngIf="widget.type == 'independent-bar-chart' || widget.type == 'bar chart'" #widgetImplementation
+                    [widget]="widget" 
+                    [widgetHeight]="'600px'"
+                    [minimizedView]="true"
+                    [oldSnapshotToLoad]="widget.hasSnapshot"
+                    [embedded]="true">
+        </independent-bar-chart-widget>
+        <secondary-bar-chart-widget *ngIf="widget.type == 'secondary-bar-chart'" #widgetImplementation
+                    [widget]="widget" 
+                    [widgetHeight]="'600px'"
+                    [minimizedView]="true"
+                    [oldSnapshotToLoad]="widget.hasSnapshot"
+                    [embedded]="true">
+        </secondary-bar-chart-widget>
+        <texteditor-widget *ngIf="widget.type == 'text-editor' || widget.type == 'text editor'" #widgetImplementation
+                    [widget]="widget"
+                    [widgetHeight]="'600px'"
+                    [minimizedView]="true"
+                    [oldSnapshotToLoad]="widget.hasSnapshot"
+                    [embedded]="true">
+        </texteditor-widget>
+    </div>

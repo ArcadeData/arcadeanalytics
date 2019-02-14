@@ -1,0 +1,72 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+
+    <div class="modal-header">
+        <h4 class="modal-title" id="myDataSetLabel" jhiTranslate="arcadeanalyticsApp.dataSet.home.createOrEditLabel">Create or edit a Data Set</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <div *ngIf="dataSet">
+            <div class="form-group" [hidden]="!dataSet.id">
+                <label for="id" jhiTranslate="global.field.id">ID</label>
+                <input type="text" class="form-control" id="id" name="id"
+                       [(ngModel)]="dataSet.id" readonly />
+            </div>
+            <div class="form-group">
+                <label class="form-control-label" jhiTranslate="arcadeanalyticsApp.dataSet.name" for="field_name">Name</label>
+                <input type="text" class="form-control" name="name" id="field_name"
+                       [(ngModel)]="dataSet.name" required />
+                <div [hidden]="!(editForm.controls.name?.dirty && editForm.controls.name?.invalid)">
+                    <small class="form-text text-danger"
+                           [hidden]="!editForm.controls.name?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                    </small>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-control-label" jhiTranslate="arcadeanalyticsApp.dataSet.description" for="field_description">Description</label>
+                <input type="text" class="form-control" name="description" id="field_description"
+                       [(ngModel)]="dataSet.description"  />
+            </div>
+            <div class="form-group">
+                <label class="form-control-label" jhiTranslate="arcadeanalyticsApp.dataSet.query" for="field_query">Query</label>
+                <input type="text" class="form-control" name="query" id="field_query"
+                       [(ngModel)]="dataSet.query" required />
+                <div [hidden]="!(editForm.controls.query?.dirty && editForm.controls.query?.invalid)">
+                    <small class="form-text text-danger"
+                           [hidden]="!editForm.controls.query?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                    </small>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-control-label" jhiTranslate="arcadeanalyticsApp.dataSet.limit" for="field_limit">Limit</label>
+                <input type="number" class="form-control" name="limit" id="field_limit"
+                       [(ngModel)]="dataSet.limit"  />
+            </div>
+
+            <div class="form-group">
+                <label class="form-control-label" jhiTranslate="arcadeanalyticsApp.dataSet.dashboard" for="field_dashboard">Dashboard</label>
+                <select class="form-control" id="field_dashboard" name="dashboard" [(ngModel)]="dataSet.dashboardId" >
+                    <option [ngValue]="null"></option>
+                    <option [ngValue]="dashboardOption.id" *ngFor="let dashboardOption of dashboards; trackBy: trackDashboardById">{{dashboardOption.name}}</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-control-label" jhiTranslate="arcadeanalyticsApp.dataSet.datasource" for="field_datasource">Datasource</label>
+                <select class="form-control" id="field_datasource" name="datasource" [(ngModel)]="dataSet.datasourceId" >
+                    <option [ngValue]="null"></option>
+                    <option [ngValue]="dataSourceOption.id" *ngFor="let dataSourceOption of datasources; trackBy: trackDataSourceById">{{dataSourceOption.name}}</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">
+            <span class="fa fa-ban"></span>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+            <span class="fa fa-save"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+    </div>
+</form>

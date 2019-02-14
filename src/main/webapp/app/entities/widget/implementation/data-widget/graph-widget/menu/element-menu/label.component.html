@@ -1,0 +1,67 @@
+<ul>
+    <div class="form-group">
+        <label>Field:</label>
+        <select id="fieldLabel" class="select form-control"
+                [(ngModel)]="settings['fieldLabel']">
+            <option value="<empty>">&lt;empty&gt;</option>
+            <option value="id">@rid</option>
+            <option value="class">@class</option>
+            <option *ngFor="let property of (classProperties | objectKeys)" [ngValue]="classProperties[property].name"> 
+                    {{classProperties[property].name}}
+            </option>
+        </select>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div id="fontFamilyForm" class="form-group">
+                <label>Font Family:</label><br/>
+            </div>
+        </div>
+    </div><br/>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>Color:</label><br>
+                <input id="labelColor" class="form-control" [(colorPicker)]="settings['labelColor']" [value]="settings['labelColor']"
+                       [style.background]="settings['labelColor']" [cpPosition]="'top'" [cpPositionOffset]="'-5%'">
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label>Size (px):</label>
+                <input id="labelFontSize" class="form-control" type="number"
+                       min="1" max="50"
+                       [(ngModel)]="settings['labelFontSize']"/>
+            </div>
+        </div>
+    </div><br/>
+
+    <div *ngIf="element['type'] === 'v'" class="row">
+        <div class="col-md-8">
+            <div class="form-group">
+                <label>Vertical Position:</label>
+                <select id="labelVPosition" class="select form-control"
+                        [(ngModel)]="settings['labelVPosition']">
+                    <option value="center">Center</option>
+                    <option value="top">Top</option>
+                    <option value="bottom">Bottom</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <br/>
+    <div *ngIf="element['type'] === 'v'" class="row">
+        <div class="col-md-8">
+            <div class="form-group">
+                <label>Horizontal Position:</label>
+                <select id="labelHPosition" class="select form-control"
+                        [(ngModel)]="settings['labelHPosition']">
+                    <option value="center">Center</option>
+                    <option value="left">Left</option>
+                    <option value="right">Right</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</ul>

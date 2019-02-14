@@ -1,0 +1,40 @@
+
+<div *ngIf="media">
+    <h2><span jhiTranslate="arcadeanalyticsApp.media.detail.title">Media</span> {{media.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="arcadeanalyticsApp.media.name">Name</span></dt>
+        <dd>
+            <span>{{media.name}}</span>
+        </dd>
+        <dt><span jhiTranslate="arcadeanalyticsApp.media.description">Description</span></dt>
+        <dd>
+            <span>{{media.description}}</span>
+        </dd>
+        <dt><span jhiTranslate="arcadeanalyticsApp.media.category">Category</span></dt>
+        <dd>
+            <span jhiTranslate="{{'arcadeanalyticsApp.MediaCategory.' + media.category}}">{{media.category}}</span>
+        </dd>
+        <dt><span jhiTranslate="arcadeanalyticsApp.media.file">File</span></dt>
+        <dd>
+            <div *ngIf="media.file">
+                <a (click)="openFile(media.fileContentType, media.file)" jhiTranslate="entity.action.open">open</a>
+                {{media.fileContentType}}, {{byteSize(media.file)}}
+            </div>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'media/'+ media.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

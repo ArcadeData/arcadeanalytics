@@ -1,0 +1,93 @@
+<div *ngIf="inputElements.length > 0" [ngStyle]="{'height': headerHeight}">
+    <div class="row">
+        <div class="col-lg-9 col-centered" style="margin-top: 0.5%;">
+            <pagination [boundaryLinks]="true" 
+                        [totalItems]="totalItems" 
+                        [(ngModel)]="page" 
+                        [rotate]="false" 
+                        [maxSize]="7" 
+                        [itemsPerPage]="itemsPerPage"
+                        (pageChanged)="loadPage($event['page'])" 
+                        previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;"></pagination>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="inputElements.length > 0" class="table-responsive" [ngStyle]="{'overflow': 'auto', 'height': tableHeight}">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th *ngIf="selectionEnabled || deletionEnabled" class="operational-column">
+                    <span *ngIf="selectionColumnSortingStatus === 'NOT_SORTED'" class="fa fa-sort fa-fw sort-command" 
+                        (click)="sortInputElementsBySelectionColumn('asc')">
+                    </span>
+                    <span *ngIf="selectionColumnSortingStatus === 'SORTED_ASC'" class="fa fa-sort-desc fa-fw sort-command" 
+                        (click)="sortInputElementsBySelectionColumn('desc')">
+                    </span>
+                    <span *ngIf="selectionColumnSortingStatus === 'SORTED_DESC'" class="fa fa-sort-asc fa-fw sort-command" 
+                        (click)="sortInputElementsBySelectionColumn('asc')">
+                    </span>
+                </th>
+                <th *ngIf="classNameColumnIncluded">
+                    <div class="table-cell-content">
+                        <span>Class Name</span>
+                        <span *ngIf="classNameColumnSortingStatus === 'NOT_SORTED'" class="fa fa-sort fa-fw sort-command" 
+                            (click)="sortInputElementsByClassColumn('asc')">
+                        </span>
+                        <span *ngIf="classNameColumnSortingStatus === 'SORTED_ASC'" class="fa fa-sort-desc fa-fw sort-command" 
+                            (click)="sortInputElementsByClassColumn('desc')">
+                        </span>
+                        <span *ngIf="classNameColumnSortingStatus === 'SORTED_DESC'" class="fa fa-sort-asc fa-fw sort-command" 
+                            (click)="sortInputElementsByClassColumn('asc')">
+                        </span>
+                    </div>
+                </th>
+                <ng-container *ngFor="let property of columnsNames">
+                    <th align="center" valign="center">
+                        <div class="table-cell-content">
+                            <span>{{property}}</span>
+                            <span *ngIf="columnName2sortingStatus[property] === 'NOT_SORTED'" class="fa fa-sort fa-fw sort-command" 
+                                (click)="sortInputElementsByProperty('asc', property)">
+                            </span>
+                            <span *ngIf="columnName2sortingStatus[property] === 'SORTED_ASC'" class="fa fa-sort-desc fa-fw sort-command" 
+                                (click)="sortInputElementsByProperty('desc', property)">
+                            </span>
+                            <span *ngIf="columnName2sortingStatus[property] === 'SORTED_DESC'" class="fa fa-sort-asc fa-fw sort-command" 
+                                (click)="sortInputElementsByProperty('asc', property)">
+                            </span>
+                        </div>
+                    </th>
+                </ng-container>
+            </tr>
+        </thead>
+        <tbody>
+            <ng-container *ngFor="let element of pageElements">
+                <tr *ngIf="!element['data']['hidden']" [ngClass]="{'row-selected': !selectionEnabled && element['selected']}">
+                    <td *ngIf="selectionEnabled || deletionEnabled" align="center" valign="center" class="operational-column">
+                        <div class="col-md-6">
+                            <input *ngIf="selectionEnabled" type="checkbox" [(ngModel)]="element['selected']" (ngModelChange)="handleSelectionCheckboxElement(element)"
+                                [disabled]="!element['selectable']">
+                        </div>
+                        <div class="col-md-6">
+                            <button *ngIf="deletionEnabled" type="submit" class="btn btn-danger btn-xs" (click)="deleteElementById(element['data']['id'])">
+                                <span class="fa fa-trash"></span>
+                            </button>
+                        </div>
+                    </td>
+                    <td *ngIf="classNameColumnIncluded">
+                        <div class="table-cell-content">
+                            {{element['data']['class']}}
+                        </div>
+                    </td>
+                    <ng-container *ngFor="let property of columnsNames">
+                        <td>
+                            <div class="table-cell-content">
+                                {{element['data']['record'][property]}}
+                            </div>
+                        </td>
+                    </ng-container>
+                </tr>
+            </ng-container>
+        </tbody>
+    </table>
+</div>

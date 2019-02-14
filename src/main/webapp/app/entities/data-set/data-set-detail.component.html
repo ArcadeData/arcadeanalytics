@@ -1,0 +1,57 @@
+
+<div *ngIf="dataSet">
+    <h2><span jhiTranslate="arcadeanalyticsApp.dataSet.detail.title">Data Set</span> {{dataSet.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="arcadeanalyticsApp.dataSet.name">Name</span></dt>
+        <dd>
+            <span>{{dataSet.name}}</span>
+        </dd>
+        <dt><span jhiTranslate="arcadeanalyticsApp.dataSet.description">Description</span></dt>
+        <dd>
+            <span>{{dataSet.description}}</span>
+        </dd>
+        <dt><span jhiTranslate="arcadeanalyticsApp.dataSet.query">Query</span></dt>
+        <dd>
+            <span>{{dataSet.query}}</span>
+        </dd>
+        <dt><span jhiTranslate="arcadeanalyticsApp.dataSet.limit">Limit</span></dt>
+        <dd>
+            <span>{{dataSet.limit}}</span>
+        </dd>
+        <dt><span jhiTranslate="arcadeanalyticsApp.dataSet.skipEdgesNotInDataset">Skip Edges Not In Dataset</span></dt>
+        <dd>
+            <span>{{dataSet.skipEdgesNotInDataset}}</span>
+        </dd>
+        <dt><span jhiTranslate="arcadeanalyticsApp.dataSet.skipIsolatedVertices">Skip Isolated Vertices</span></dt>
+        <dd>
+            <span>{{dataSet.skipIsolatedVertices}}</span>
+        </dd>
+        <dt><span jhiTranslate="arcadeanalyticsApp.dataSet.dashboard">Dashboard</span></dt>
+        <dd>
+            <div *ngIf="dataSet.dashboardId">
+                <a [routerLink]="['/dashboard', dataSet.dashboardId]">{{dataSet.dashboardName}}</a>
+            </div>
+        </dd>
+        <dt><span jhiTranslate="arcadeanalyticsApp.dataSet.datasource">Datasource</span></dt>
+        <dd>
+            <div *ngIf="dataSet.datasourceId">
+                <a [routerLink]="['/data-source', dataSet.datasourceId]">{{dataSet.datasourceName}}</a>
+            </div>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'data-set/'+ dataSet.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

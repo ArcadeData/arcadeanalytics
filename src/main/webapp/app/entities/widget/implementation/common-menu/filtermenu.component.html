@@ -1,0 +1,17 @@
+<accordion [closeOthers]="true">
+    <accordion-group class="classAccordion" *ngFor="let vcName of (nodeClasses | objectKeys)" [heading]="vcName"
+        [panelClass]="outerAccordion" style="border-color: white;">
+        <div class="clearfix">
+            <accordion [closeOthers]="true">
+                <accordion-group class="fieldAccordion" *ngFor="let propName of (nodeClasses[vcName]['propertyValues'] | objectKeys)"
+                    (click)="updateCurrentSelectableItems(nodeClasses[vcName]['propertyValues'][propName])" [heading]="propName"
+                    [panelClass]="innerAccordion">
+                    <ng-select [id]="'select_' + vcName + '_' + propName" class="filterValueSelect" [multiple]="true"
+                        [items]="(nodeClasses[vcName]['propertyValues'][propName] | objectKeys)" (selected)="graphFilterResults({className: vcName, field: propName, values: this.active})"
+                        (removed)="graphFilterResults({className: vcName, field: propName, values: this.active})"
+                        placeholder="No values selected"></ng-select>
+                </accordion-group>
+            </accordion>
+        </div>
+    </accordion-group>
+</accordion>

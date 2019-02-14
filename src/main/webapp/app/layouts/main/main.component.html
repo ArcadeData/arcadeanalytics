@@ -1,0 +1,16 @@
+<div *ngIf="embeddedWidget === false && embeddedDashboard === false" class="navbar navbar-inverse">
+    <router-outlet name="navbar"></router-outlet>
+</div>
+
+<powered-by-label *ngIf="embeddedWidget === false && embeddedDashboard === true" [bottom]="false" [top]="true"></powered-by-label>
+
+<div id="pageContent" class="page-content">
+    <div id="root" [ngStyle]="{'padding': padding + 'px'}" 
+        [ngClass]="{'reducedBottomPadding': embeddedWidget && !embeddedDashboard, 'reducedTopPadding': !embeddedWidget && embeddedDashboard}">
+        <router-outlet></router-outlet>
+        <router-outlet name="popup"></router-outlet>
+    </div>
+</div>
+<jhi-footer *ngIf="embeddedWidget === false && embeddedDashboard === false"></jhi-footer>
+
+<powered-by-label *ngIf="embeddedWidget === true && embeddedDashboard === false" [bottom]="true" [top]="false"></powered-by-label>

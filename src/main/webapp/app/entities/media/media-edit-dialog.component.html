@@ -1,0 +1,78 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+
+    <div class="modal-header">
+        <h4 class="modal-title" id="myMediaLabel" jhiTranslate="arcadeanalyticsApp.media.home.createOrEditLabel">Create or edit a Media</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <div *ngIf="media">
+        <div class="form-group" [hidden]="!media.id">
+            <label for="id" jhiTranslate="global.field.id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                   [(ngModel)]="media.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="arcadeanalyticsApp.media.name" for="field_name">Name</label>
+            <input type="text" class="form-control" name="name" id="field_name"
+                [(ngModel)]="media.name" required/>
+            <div [hidden]="!(editForm.controls.name?.dirty && editForm.controls.name?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.name?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="arcadeanalyticsApp.media.description" for="field_description">Description</label>
+            <input type="text" class="form-control" name="description" id="field_description"
+                [(ngModel)]="media.description" />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="arcadeanalyticsApp.media.category" for="field_category">Category</label>
+            <select class="form-control" name="category" [(ngModel)]="media.category" id="field_category" >
+                <option value="BROWSERS">{{'BROWSERS'}}</option>
+                <option value="BUILDINGS">{{'BUILDINGS'}}</option>
+                <option value="BUSINESS">{{'BUSINESS'}}</option>
+                <option value="CHARACTERS">{{'CHARACTERS'}}</option>
+                <option value="COMMUNICATION">{{'COMMUNICATION'}}</option>
+                <option value="ENTERTAINMENT">{{'ENTERTAINMENT'}}</option>
+                <option value="GEO">{{'GEO'}}</option>
+                <option value="ICONS">{{'ICONS'}}</option>
+                <option value="PEOPLE">{{'PEOPLE'}}</option>
+                <option value="PICTURES">{{'PICTURES'}}</option>
+                <option value="SCIENCE">{{'SCIENCE'}}</option>
+                <option value="TECHNOLOGY">{{'TECHNOLOGY'}}</option>
+                <option value="VEHICLES">{{'VEHICLES'}}</option>
+                <option value="MISCELLANEOUS">{{'MISCELLANEOUS'}}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="arcadeanalyticsApp.media.file" for="field_file">File</label>
+            <div>
+                <div *ngIf="media.file" class="form-text text-danger clearfix">
+                    <a class="pull-left" (click)="openFile(media.fileContentType, media.file)" jhiTranslate="entity.action.open">open</a><br>
+                    <span class="pull-left">{{media.fileContentType}}, {{byteSize(media.file)}}</span>
+                    <button type="button" (click)="media.file=null;media.fileContentType=null;"
+                            class="btn btn-secondary btn-xs pull-right">
+                        <span class="fa fa-times"></span>
+                    </button>
+                </div>
+                <input type="file" id="file_file" (change)="setFileData($event, media, 'file', false)" jhiTranslate="entity.action.addblob"/>
+            </div>
+            <input type="hidden" class="form-control" name="file" id="field_file"
+                [(ngModel)]="media.file" />
+            <input type="hidden" class="form-control" name="fileContentType" id="field_fileContentType"
+                [(ngModel)]="media.fileContentType" />
+        </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">
+            <span class="fa fa-ban"></span>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+            <span class="fa fa-save"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+    </div>
+</form>

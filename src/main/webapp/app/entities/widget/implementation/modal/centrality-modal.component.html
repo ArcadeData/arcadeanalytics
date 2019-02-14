@@ -1,0 +1,125 @@
+<div class="modal-header">
+        <h4 class="modal-title pull-left">Centrality</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div *ngIf="config">
+            
+            <span class="sectionTitle">Execution Algorithm</span>
+            <hr/>
+            <div class="row">
+                <div class="form-group col-md-4">
+                    <label class="form-control-label" for="executionAlgorithm">Algorithm</label>
+                    <select id="executionAlgorithm" class="form-control" [(ngModel)]="config.executionAlgorithm">
+                        <option value="closeness-centrality">Closeness Centrality</option>
+                        <option value="betweenness-centrality">Betweenness Centrality</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-4">
+                    <label class="form-control-label" for="direction">Direction</label>
+                    <select id="direction" class="form-control" [(ngModel)]="config.directed">
+                        <option [ngValue]="true">directed</option>
+                        <option [ngValue]="false">undirected</option>
+                    </select>
+                </div>
+                <div *ngIf="config.executionAlgorithm === 'closeness-centrality'" class="form-group col-md-4">
+                    <label class="form-control-label" for="direction">Harmonic</label>
+                    <select id="direction" class="form-control" [(ngModel)]="config.harmonic">
+                        <option [ngValue]="true">true</option>
+                        <option [ngValue]="false">false</option>
+                    </select>
+                </div>
+            </div>
+            <br/>
+    
+            <span class="sectionTitle">Weight</span>
+            <hr/>
+            <div class="row">
+                <div class="form-group col-md-5">
+                    <label for="classSelect">Class</label>
+                    <select id="classSelect" class="form-control"
+                            [(ngModel)]="newInputClass" (ngModelChange)="updateEdgeClassProperties()">
+                            <option *ngFor="let class of choosableEdgeClassesNames" [ngValue]="class"> {{class}} </option>
+                    </select>
+                </div>
+                <div class="form-group col-md-5">
+                    <label for="propertySelect">Weight Property</label>
+                    <select id="propertySelect" class="form-control"[(ngModel)]="newInputProperty">
+                        <option *ngFor="let property of edgeClassProperties" [ngValue]="property.name" 
+                            [disabled]="property.type !== 'INTEGER' && property.type !== 'SMALLINT' && property.type !== 'LONG' && property.type !== 'NUMBER'"> 
+                            {{property.name}}
+                        </option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <span *ngIf="newInputClass && newInputProperty" 
+                            class="addEdgeClassDef fa fa-plus fa-2x addEdgeClassDefEnabled" 
+                            (click)="addNewEdgeClass()"></span>
+                    <span *ngIf="!newInputClass || !newInputProperty" 
+                            class="addEdgeClassDef fa fa-plus fa-2x addEdgeClassDefDisabled"></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="table-responsive">
+                    <table class="table timeline-table">
+                        <thead>
+                            <tr>
+                                <th *ngFor="let column of tableColumns" [ngStyle]="{'width': column['width']}">
+                                    {{column['text']}}
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let class of (config.weightFields | objectKeys)">
+                                <td *ngFor="let column of tableColumns">
+                                    <div *ngIf="column['text'] === 'Class'"
+                                        [popover]="class" placement="top" triggers="hover" container="body">
+                                        {{class}}
+                                    </div>
+                                    <div *ngIf="column['text'] === 'Weight Property'"
+                                        [popover]="config.weightFields[class]" placement="top" triggers="hover" container="body">
+                                            {{config.weightFields[class]}}
+                                    </div>
+                                    <div *ngIf="column['text'] === ''" class="td-button btn-group flex-btn-group-container">
+                                        <button class="btn btn-danger btn-xs" (click)="removeTimelineClass(class)">
+                                            <span class="fa fa-remove"></span>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <br/>
+                </div>
+            </div>
+            <br/>
+    
+            <span class="sectionTitle">Included Node Classes</span>
+            <hr/>
+            <div class="row">
+                <div class="form-group col-md-12">
+                    <label class="form-control-label" for="executionAlgorithm">All Node Classes Included</label>
+                    <input type="checkbox" id="allClassesIncluded" name="allClassesIncluded" 
+                        [(ngModel)]="config['allClassesIncluded']"></input>
+                </div>
+                <div class="form-group col-md-12">
+                    <label class="form-control-label" for="executionAlgorithm">Included Node Classes</label>
+                    <ng-select id="valuesSelect" [class]="vcName + '_' + propName"
+                                [multiple]="true"
+                                [items]="choosableNodeClassesNames"
+                                [active]="preselectedNodeClasses"
+                                [disabled]="config['allClassesIncluded']"
+                                (data)="updateSelectedValues($event)"
+                                placeholder="No Node Classes selected"></ng-select>
+                </div>
+            </div>
+        </div>    
+    </div>
+    <div class="modal-footer" style="padding-left: 10px; padding-top: 10px;">
+            <button *ngIf="config" type="button" class="btn btn-primary" (click)="save()">
+                <span class="fa fa-save"></span>&nbsp;<span>Save</span>
+            </button>
+    </div>
+        

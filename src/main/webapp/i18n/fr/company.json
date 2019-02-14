@@ -1,0 +1,26 @@
+{
+    "arcadeanalyticsApp": {
+        "company" : {
+            "home": {
+                "title": "Arcade",
+                "subtitle": "Companies",
+                "createLabel": "Créer un nouveau Company",
+                "createOrEditLabel": "Créer ou éditer un Company",
+                "search": "Recherche pour Company"
+            },
+            "created": "Un nouveau Company a été créé avec l'identifiant '{{ param }}'",
+            "updated": "Le Company avec l'identifiant '{{ param }}' a été mis à jour",
+            "deleted": "Le Company avec l'identifiant '{{ param }}' a été supprimé",
+            "delete": {
+                "question": "Etes-vous certain de vouloir supprimer le Company '{{ name }}' ?"
+            },
+            "detail": {
+                "title": "Company"
+            },
+            "name": "Name",
+            "description": "Description",
+            "users": "Users",
+            "contract": "Contract"
+        }
+    }
+}

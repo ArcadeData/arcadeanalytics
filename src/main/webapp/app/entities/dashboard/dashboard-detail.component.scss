@@ -1,0 +1,83 @@
+a.panel-collapser:after {
+    font-family:'FontAwesome';
+    font-size: 15px;
+    font-weight: 900;
+    content:"\f107";
+    float: right;
+    color: black;
+    transform: scale(1.3, 1.4);
+}
+
+a.collapsed:after {
+    font-family:'FontAwesome';
+    font-size: 15px;
+    font-weight: 900;
+    content:"\f106";
+    float: right;
+    color: black;
+    transform: scale(1.3, 1.4);
+}
+
+.panel-body {
+    padding: 0px;
+}
+
+.icons-list {
+    display: inline-block;
+}
+
+.icons-list .fa {
+    font-size: 15px;
+}
+
+.icons-list li {
+    margin: 10px;
+    vertical-align: top;
+}
+
+.disabled, .disabled:hover {
+    color: grey;
+    cursor: not-allowed;
+}
+
+ul {
+    list-style: none;
+    padding: 0px;
+}
+
+ul.nav-pills li {
+    font-size: 15px;
+}
+
+ul li.side-menu {
+    font-size: 15px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+#dashboardInfo {
+    font-size: 13px;
+    margin-top: 10px;
+}
+
+#dashboardInfo dl {
+    margin-left: 20px;
+}
+
+dd+dt {
+    margin-top: 10px;
+}
+
+dt {
+    margin-bottom: 0px;
+}
+
+.widgetContainer {
+    display: inline-block;
+    vertical-align: top;
+}
+
+.icons-list li {
+    margin: 7px;
+    vertical-align: top;
+}

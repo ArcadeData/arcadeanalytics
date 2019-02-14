@@ -1,0 +1,11 @@
+{
+    "configuration": {
+        "title": "Arcade",
+        "subtitle": "Configuration",
+        "filter": "Filter (by prefix)",
+        "table": {
+            "prefix": "Prefix",
+            "properties": "Properties"
+        }
+    }
+}

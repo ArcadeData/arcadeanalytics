@@ -1,0 +1,65 @@
+
+<div *ngIf="contract">
+    <h2><span jhiTranslate="arcadeanalyticsApp.contract.detail.title">Contract</span> {{contract.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="arcadeanalyticsApp.contract.name">Name</span></dt>
+        <dd>
+            <span>{{contract.name}}</span>
+        </dd>
+        <dt><span jhiTranslate="arcadeanalyticsApp.contract.description">Description</span></dt>
+        <dd>
+            <span>{{contract.description}}</span>
+        </dd>
+        <dt><span jhiTranslate="arcadeanalyticsApp.contract.type">Type</span></dt>
+        <dd>
+            <span jhiTranslate="{{'arcadeanalyticsApp.ContractType.' + contract.type}}">{{contract.type}}</span>
+        </dd>
+        <dt><span jhiTranslate="arcadeanalyticsApp.contract.maxWorkspaces">Max Workspaces</span></dt>
+        <dd>
+            <span>{{contract.maxWorkspaces}}</span>
+        </dd>
+        <dt><span jhiTranslate="arcadeanalyticsApp.contract.maxDashboards">Max Dashboards</span></dt>
+        <dd>
+            <span>{{contract.maxDashboards}}</span>
+        </dd>
+        <dt><span jhiTranslate="arcadeanalyticsApp.contract.maxWidgets">Max Widgets</span></dt>
+        <dd>
+            <span>{{contract.maxWidgets}}</span>
+        </dd>
+        <dt><span jhiTranslate="arcadeanalyticsApp.contract.maxElements">Max Elements</span></dt>
+        <dd>
+            <span>{{contract.maxElements}}</span>
+        </dd>
+        <dt><span jhiTranslate="arcadeanalyticsApp.contract.maxTraversal">Max Traversal</span></dt>
+        <dd>
+            <span>{{contract.maxTraversal}}</span>
+        </dd>
+        <dt><span jhiTranslate="arcadeanalyticsApp.contract.maxPower">Max Power</span></dt>
+        <dd>
+            <span>{{contract.maxPower}}</span>
+        </dd>
+        <dt><span jhiTranslate="arcadeanalyticsApp.contract.ha">Ha</span></dt>
+        <dd>
+            <span>{{contract.ha}}</span>
+        </dd>
+        <dt><span jhiTranslate="arcadeanalyticsApp.contract.pollingInterval">Polling Interval</span></dt>
+        <dd>
+            <span>{{contract.pollingInterval}}</span>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'contract/'+ contract.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

@@ -1,0 +1,36 @@
+<ul id="elementProperties">
+    <li>
+        <table style="width: 100%; table-layout: fixed;">
+            <tr>
+                <td class="graphMenuPropertyKey popover-enabled"
+                    popover="@class" placement="right" triggers="hover" container="body">
+                        @class:
+                </td>
+                <td class="graphMenuPropertyValue popover-enabled"
+                    [popover]="element['class']" placement="right" triggers="hover" container="body">
+                        {{element['class']}}
+                </td>
+            </tr>
+            <tr>
+                <td class="graphMenuPropertyKey popover-enabled"
+                    popover="@id" placement="right" triggers="hover" container="body">
+                        @id:
+                </td>
+                <td class="graphMenuPropertyValue popover-enabled"
+                    [popover]="element['id']" placement="right" triggers="hover" container="body">
+                        {{element['id']}}
+                </td>
+            </tr>
+            <tr *ngFor="let property of properties">
+                <td class="graphMenuPropertyKey popover-enabled"
+                    [popover]="property" placement="right" triggers="hover" container="body">
+                        {{property}}:
+                </td>
+                <td class="graphMenuPropertyValue popover-enabled"
+                    [popover]="element['record'][property]" placement="right" triggers="hover" container="body">
+                        {{element['record'][property]}}
+                </td>
+            </tr>
+        </table>
+    </li>
+</ul>

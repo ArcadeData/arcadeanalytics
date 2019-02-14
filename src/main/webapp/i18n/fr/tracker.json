@@ -1,0 +1,13 @@
+{
+    "tracker": {
+        "title": "Arcade",
+        "subtitle": "Activité des utilisateurs en temps réél",
+        "table": {
+            "userlogin": "Utilisateur",
+            "ipaddress": "Adresse IP",
+            "userAgent": "User agent",
+            "page": "Page en cours",
+            "time": "Heure"
+        }
+    }
+}

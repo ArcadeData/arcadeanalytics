@@ -1,0 +1,21 @@
+{
+    "arcadeanalyticsApp": {
+        "MediaCategory" : {
+            "null": "",
+            "BROWSERS": "BROWSERS",
+            "BUILDINGS": "BUILDINGS",
+            "BUSINESS": "BUSINESS",
+            "CHARACTERS": "CHARACTERS",
+            "COMMUNICATION": "COMMUNICATION",
+            "ENTERTAINMENT": "ENTERTAINMENT",
+            "GEO": "GEO",
+            "ICONS": "ICONS",
+            "PEOPLE": "PEOPLE",
+            "PICTURES": "PICTURES",
+            "SCIENCE": "SCIENCE",
+            "TECHNOLOGY": "TECHNOLOGY",
+            "VEHICLES": "VEHICLES",
+            "MISCELLANEOUS": "MISCELLANEOUS"
+        }
+    }
+}

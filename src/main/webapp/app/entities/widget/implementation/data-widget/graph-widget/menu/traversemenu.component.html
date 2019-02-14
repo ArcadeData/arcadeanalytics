@@ -1,0 +1,24 @@
+<accordion [closeOthers]="false">
+    <accordion-group [heading]="'Outgoing Edges (' + outgoingEdgesCount + ')'"
+                     [isDisabled]="outEdgeClass2countSize === 0"
+                     [isOpen]="outEdgeClass2countSize > 0" [panelClass]="customPanel">
+        <ul *ngIf="outEdgeClass2countSize > 0">
+            <li *ngFor="let edgeClass of outEdgeClass2count.keys()">
+                <a (click)="traverse(edgeClass, 'out')" class="item">
+                    <i class="fa fa-arrow-right" aria-hidden="true"></i> {{edgeClass}} ({{outEdgeClass2count.get(edgeClass)}})
+                </a>
+            </li>
+        </ul>
+    </accordion-group>
+    <accordion-group [heading]="'Incoming Edges (' + incomingEdgesCount + ')'"
+                     [isDisabled]="inEdgeClass2countSize === 0"
+                     [isOpen]="inEdgeClass2countSize > 0" panelClass="custom-panel">
+        <ul *ngIf="inEdgeClass2countSize > 0">
+            <li *ngFor="let edgeClass of inEdgeClass2count.keys()">
+                <a (click)="traverse(edgeClass, 'in')" class="item">
+                    <i class="fa fa-arrow-left" aria-hidden="true"></i> {{edgeClass}} ({{inEdgeClass2count.get(edgeClass)}})
+                </a>
+            </li>
+        </ul>
+    </accordion-group>
+</accordion>

@@ -1,0 +1,94 @@
+    <!--***************************************************************-->
+    <!--JHipster rendering-->
+    <!--***************************************************************-->
+
+    <!--<h2><span jhiTranslate="arcadeanalyticsApp.widget.detail.title">Widget</span> {{widget.id}}</h2>-->
+    <!--<jhi-alert-error></jhi-alert-error>-->
+
+    <!--<dl class="row-md jh-entity-details">-->
+        <!--<dt><span jhiTranslate="arcadeanalyticsApp.widget.name">Name</span></dt>-->
+        <!--<dd>-->
+            <!--<span>{{widget.name}}</span>-->
+        <!--</dd>-->
+        <!--<dt><span jhiTranslate="arcadeanalyticsApp.widget.type">Type</span></dt>-->
+        <!--<dd>-->
+            <!--<span>{{widget.type}}</span>-->
+        <!--</dd>-->
+        <!--<dt><span jhiTranslate="arcadeanalyticsApp.widget.width">Width</span></dt>-->
+        <!--<dd>-->
+            <!--<span>{{widget.width}}</span>-->
+        <!--</dd>-->
+        <!--<dt><span jhiTranslate="arcadeanalyticsApp.widget.dataset">Dataset</span></dt>-->
+        <!--<dd>-->
+            <!--<div *ngIf="widget.datasetId">-->
+                <!--<a [routerLink]="['/data-set', widget.datasetId]">{{widget.datasetId}}</a>-->
+            <!--</div>-->
+        <!--</dd>-->
+        <!--<dt><span jhiTranslate="arcadeanalyticsApp.widget.dashboard">Dashboard</span></dt>-->
+        <!--<dd>-->
+            <!--<div *ngIf="widget.dashboardId">-->
+                <!--<a [routerLink]="['/dashboard', widget.dashboardId]">{{widget.dashboardName}}</a>-->
+            <!--</div>-->
+        <!--</dd>-->
+    <!--</dl>-->
+
+    <!--<button type="submit"-->
+            <!--(click)="previousState()"-->
+            <!--class="btn btn-info">-->
+        <!--<span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>-->
+    <!--</button>-->
+
+    <!--<button type="button"-->
+            <!--[routerLink]="['/', { outlets: { popup: 'widget/'+ widget.id + '/edit'} }]"-->
+            <!--replaceUrl="true"-->
+            <!--class="btn btn-primary">-->
+        <!--<span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>-->
+    <!--</button>-->
+
+    <!--***************************************************************-->
+    <!--Mine rendering-->
+    <!--***************************************************************-->
+<div *ngIf="widgetLoaded">
+    <graph-widget *ngIf="widget.type == 'graph'" #widgetImplementation
+                   [widget]="widget"
+                  widgetHeight="570px"
+                  [minimizedView]="false"
+                  [oldSnapshotToLoad]="widget.hasSnapshot">
+    </graph-widget>
+    <table-widget *ngIf="widget.type == 'table'" #widgetImplementation
+                  [widget]="widget"
+                   widgetHeight="570px"
+                  [minimizedView]="false"
+                  [oldSnapshotToLoad]="widget.hasSnapshot">
+    </table-widget>
+    <independent-pie-chart-widget *ngIf="widget.type == 'independent-pie-chart' || widget.type == 'pie chart'" #widgetImplementation
+                    [widget]="widget" 
+                    widgetHeight="570px"
+                    [minimizedView]="false"
+                    [oldSnapshotToLoad]="widget.hasSnapshot">
+    </independent-pie-chart-widget>
+    <secondary-pie-chart-widget *ngIf="widget.type == 'secondary-pie-chart'" #widgetImplementation
+                    [widget]="widget" 
+                    widgetHeight="570px"
+                    [minimizedView]="false"
+                    [oldSnapshotToLoad]="widget.hasSnapshot">
+    </secondary-pie-chart-widget>
+    <independent-bar-chart-widget *ngIf="widget.type == 'independent-bar-chart' || widget.type == 'bar chart'" #widgetImplementation
+                    [widget]="widget" 
+                    widgetHeight="570px"
+                    [minimizedView]="false"
+                    [oldSnapshotToLoad]="widget.hasSnapshot">
+    </independent-bar-chart-widget>
+    <secondary-bar-chart-widget *ngIf="widget.type == 'secondary-bar-chart'" #widgetImplementation
+                    [widget]="widget" 
+                    widgetHeight="570px"
+                    [minimizedView]="false"
+                    [oldSnapshotToLoad]="widget.hasSnapshot">
+    </secondary-bar-chart-widget>
+    <texteditor-widget *ngIf="widget.type == 'text-editor' || widget.type == 'text editor'" #widgetImplementation
+                  [widget]="widget"
+                  widgetHeight="450px"
+                  [minimizedView]="false"
+                  [oldSnapshotToLoad]="widget.hasSnapshot">
+    </texteditor-widget>
+</div>

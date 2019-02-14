@@ -1,0 +1,42 @@
+.addEdgeClassDef {
+    display: block;
+    margin-top: 32px;
+}
+
+.addEdgeClassDefEnabled {
+    cursor: pointer;
+}
+
+.addEdgeClassDefDisabled {
+    cursor: not-allowed;
+    color: lightgrey;
+}
+
+.table {
+    width: 100%;
+    table-layout: fixed;
+}
+
+.table > thead > tr > th, 
+.table > tbody > tr > th, 
+.table > tfoot > tr > th, 
+.table > thead > tr > td, 
+.table > tbody > tr > td, 
+.table > tfoot > tr > td {
+    padding: 5px;
+}
+
+.table td {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow-x: hidden;
+}
+
+hr {
+    margin-top: 10px;
+}
+
+.sectionTitle {
+    font-size: 15px;
+    font-weight: 600;
+}

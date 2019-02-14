@@ -1,0 +1,20 @@
+jhi-footer {
+    z-index: 2;
+    position: fixed;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+}
+
+#pageContent {
+    padding: 22px;
+    margin-bottom: 50px;
+}
+
+.reducedBottomPadding {
+    padding-bottom: 10px !important;
+}
+
+.reducedTopPadding {
+    padding-top: 10px !important;
+}

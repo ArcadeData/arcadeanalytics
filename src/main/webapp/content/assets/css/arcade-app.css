@@ -1,0 +1,80 @@
+.datatable-responsive td {
+  padding: 1px 0px 1px 15px !important;
+}
+
+.dataTables_info {
+  padding-left: 10px !important;
+}
+
+.dataTables_paginate {
+  padding-right: 10px !important;
+}
+
+.dataTables_length {
+  padding-right: 10px !important;
+}
+
+.media-library td {
+  padding: 1px 0px 1px 15px !important;
+}
+
+.media-library .dataTables_wrapper {
+  padding: 20px 10px 20px 10px;
+}
+.sp-replacer {
+  height: 25px !important;
+  padding: 1px 1px 1px 5px !important;
+}
+
+.nav-tabs-vertical>.nav-tabs {
+  width: auto;
+}
+
+.nav-tabs-left>.tab-content {
+  padding: 0px 4px 0px 4px;
+}
+
+.navigation-accordion li ul li, .navigation-accordion li ul li:first-child {
+  padding-top: 0px;
+}
+
+.navigation-accordion li ul li a {
+  padding: 5px 10px 5px 10px !important;
+  min-height: 25px;
+}
+
+.bfh-googlefonts .bfh-selectbox-options a {
+  background-image:url(../images/bootstrap-formhelpers-googlefonts.png) !important;
+}
+
+.navigation-main li a {
+  padding: 0px 15px;
+}
+.menu-same-top {
+  top: 0px !important;
+}
+
+.movable {
+  cursor: move;
+}
+
+.tab-pane .panel-group .panel {
+ border: none;
+}
+.panel-heading {
+  padding: 2px 3px 2px 3px;
+}
+
+.filterGroupCount {
+ float: none !important;
+ border-radius: 100px 100px 100px 100px !important;
+}
+
+.link-disabled {
+    pointer-events: none;
+    opacity: 0.6;
+}
+
+.li-disabled:hover {
+    cursor: not-allowed;
+}

@@ -1,0 +1,45 @@
+<div class="modal-header">
+    <h4 class="modal-title pull-left">Page Rank</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <div *ngIf="config">
+        <div class="row">
+            <div class="col-md-5">
+                <label class="form-control-label" for="direction">Damping Factor</label>
+            </div>
+            <div class="col-md-3">
+                <input id="dampingFactor" class="form-control" type="number" 
+                    min="0.01" max="1" step="0.01" [(ngModel)]="config.dampingFactor"/>
+            </div>
+        </div>
+        <br/>
+        <div class="row">
+            <div class="col-md-5">
+                <label class="form-control-label" for="direction">Precision</label>
+            </div>
+            <div class="col-md-3">
+                <input id="dampingFactor" class="form-control" type="number" 
+                    min="0.01" max="1" step="0.01" [(ngModel)]="config.precision"/>
+            </div>
+        </div>
+        <br/>
+        <div class="row">
+            <div class="col-md-5">
+                <label class="form-control-label" for="direction">Iterations</label>
+            </div>
+            <div class="col-md-3">
+                <input id="dampingFactor" class="form-control" type="number" 
+                        min="1" max="50" step="1" [(ngModel)]="config.iterations"/>
+            </div>
+        </div>
+    </div>    
+</div>
+<div class="modal-footer" style="padding-left: 10px; padding-top: 10px;">
+    <button *ngIf="config" type="button" class="btn btn-primary" (click)="save()">
+        <span class="fa fa-save"></span>&nbsp;<span>Save</span>
+    </button>
+</div>
+        

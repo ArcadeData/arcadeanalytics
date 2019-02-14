@@ -1,0 +1,18 @@
+<div class="modal-header">
+    <h4 class="modal-title pull-left">Traverse</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body text-center">
+    <p>
+        <span>
+        You are loading more than <b>300 connections</b> in your analysis, having too many elements may
+            deteriorate application performance and responsiveness.<br/><br/>
+        Do you still want to traverse all the connections anyway?<br/><br/>
+        </span>
+    </p>
+    <button type="button" class="btn btn-default" (click)="action(true)" >Yes</button>&nbsp;
+    <button type="button" class="btn btn-primary" (click)="action(false)" >No</button>
+
+</div>

@@ -1,0 +1,12 @@
+{
+    "logs": {
+        "title": "Arcade",
+        "subtitle": "Logs",
+        "nbloggers": "There are {{ total }} loggers.",
+        "filter": "Filter",
+        "table": {
+            "name": "Name",
+            "level": "Level"
+        }
+    }
+}

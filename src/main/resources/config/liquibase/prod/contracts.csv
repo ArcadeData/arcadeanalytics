@@ -1,0 +1,6 @@
+id;name;description;jhi_type;max_workspaces;max_dashboards;max_widgets;max_elements;max_traversal
+1;DEMO;Demo Contract;DEMO;1;1;4;1000;100
+2;FREE;Free Contract;FREE;1;1;4;1000;100
+3;SILVER;Silver Contract;SILVER;1;5;6;5000;1000
+4;GOLD;Gold Contract;GOLD;10;10;10000;10000;2000
+5;CUSTOM;Custom Contract;CUSTOM;10;10;100;1000;3000

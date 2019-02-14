@@ -1,0 +1,24 @@
+{
+    "arcadeanalyticsApp": {
+        "dataSetOperation" : {
+            "home": {
+                "title": "DataSetOperations",
+                "createLabel": "Genera un nuovo Data Set Operation",
+                "createOrEditLabel": "Genera o modifica un Data Set Operation",
+                "search": "Cerca Data Set Operation"
+            },
+            "created": "&Egrave; stato generato un nuovo Data Set Operation con identificatore {{ param }}",
+            "updated": "&Egrave; stato aggiornato Data Set Operation identificato da {{ param }}",
+            "deleted": "&Egrave; stato eliminato Data Set Operation con identificatore {{ param }}",
+            "delete": {
+                "question": "Sei sicuro di volere eliminare Data Set Operation {{ id }}?"
+            },
+            "detail": {
+                "title": "Data Set Operation"
+            },
+            "createdAt": "Created At",
+            "operation": "Operation",
+            "dataset": "Dataset"
+        }
+    }
+}

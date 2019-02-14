@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <property name="now" value="now()" dbms="h2"/>
+
+    <property name="now" value="current_timestamp" dbms="postgresql"/>
+
+    <property name="floatType" value="float4" dbms="postgresql, h2"/>
+    <property name="floatType" value="float" dbms="mysql, oracle, mssql"/>
+
+    <!--
+        Added the entity DataSet.
+    -->
+    <changeSet id="20171009082541-1" author="jhipster" context="dev, prod">
+        <addDefaultValue tableName="jhi_user" columnName="created_date" columnDataType="timestamp" defaultValueDate="${now}"/>
+        <loadData encoding="UTF-8"
+                  file="config/liquibase/prod/users.csv"
+                  separator=";"
+                  tableName="jhi_user">
+            <column name="activated" type="boolean"/>
+            <column name="created_date" type="timestamp"/>
+
+        </loadData>
+        <dropDefaultValue tableName="jhi_user" columnName="created_date" columnDataType="datetime"/>
+
+        <loadData encoding="UTF-8"
+                  file="config/liquibase/prod/users_authorities.csv"
+                  separator=";"
+                  tableName="jhi_user_authority">
+        </loadData>
+        <loadData encoding="UTF-8"
+                  file="config/liquibase/prod/contracts.csv"
+                  separator=";"
+                  tableName="contract">
+        </loadData>
+        <loadData encoding="UTF-8"
+                  file="config/liquibase/prod/companies.csv"
+                  separator=";"
+                  tableName="company">
+        </loadData>
+        <loadData encoding="UTF-8"
+                  file="config/liquibase/prod/arcadeUsers.csv"
+                  separator=";"
+                  tableName="arcade_user">
+        </loadData>
+        <loadData encoding="UTF-8"
+                  file="config/liquibase/prod/workspaces.csv"
+                  separator=";"
+                  tableName="workspace">
+        </loadData>
+        <loadData encoding="UTF-8"
+                  file="config/liquibase/prod/dashboards.csv"
+                  separator=";"
+                  tableName="dashboard">
+        </loadData>
+        <loadData encoding="UTF-8"
+                  file="config/liquibase/prod/datasources.csv"
+                  separator=";"
+                  tableName="data_source">
+        </loadData>
+        <loadData encoding="UTF-8"
+                  file="config/liquibase/prod/widgets.csv"
+                  separator=";"
+                  tableName="widget">
+        </loadData>
+
+    </changeSet>
+    <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here, do not remove-->
+</databaseChangeLog>

@@ -1,0 +1,124 @@
+<!--Widget Header-->
+<div *ngIf="!minimizedView" class="row">
+    <div class="col-md-6" style="height: 35px;">
+        <h2 style="margin: 0px;">
+            <span>{{widget.name}}</span>
+        </h2>
+    </div>
+    <div class="col-md-6" style="height: 35px;">
+        <div class="btn-group flex-btn-group-container" style="position: relative; top: 10%;">
+            <a type="submit" [routerLink]="['/dashboard', widget['dashboardId']]" routerLinkActive="active"
+                [routerLinkActiveOptions]="{exact: true}" style="margin-left: 10px;" (click)="checkSidebarStatusOnExit()">
+                <span class="fa fa-2x fa-times"></span>
+            </a>
+        </div>
+    </div>
+</div>
+
+<hr *ngIf="!minimizedView" style="margin-top: 5px; margin-bottom: 30px;">
+
+<div class="widget-table" [id]="'widget-container_' + widgetId">
+
+    <div style="display: table-row">
+
+        <!-- Main sidebar -->
+        <div [id]="'widget-sidebar_' + widgetId" *ngIf="!minimizedView" class="sidebar sidebar-main sidebar-fixed sidebar-default widget-table-cell">
+            <div id="sidebar-dynamic" class="sidebar-content cell-content-wrapper" [ngStyle]="{height: sidebarHeight}">
+                <div class="sidebar-category sidebar-category-visible">
+                    <div class="category-content no-padding">
+
+                        <ul id="firstLevelMenu" class="navigation navigation-main navigation-accordion">
+
+                            <!-- Main -->
+                            <li id="snapshotMenu">
+                                <a>
+                                    <i class="fa fa-camera fa-2x" [ngStyle]="!sidebarCollapsed && {'margin-right': '12.92px'}"></i>
+                                    <span>Snapshot</span>
+                                </a>
+                                <ul>
+                                    <snapshot-menu *ngIf="widget" #snapshotMenu [widgetId]="widget.id" (snapshotLoaded)="updateTextEditorFromSnapshot($event)"></snapshot-menu>
+                                </ul>
+                            </li>
+                            <li id="saveMenu">
+                                <a (click)="saveAll()">
+                                    <i class="fa fa-save fa-2x" [ngStyle]="!sidebarCollapsed && {'margin-right': '15.7px'}"></i>
+                                    <span>Save</span>
+                                </a>
+                            </li>
+                            <!-- <li id="exportMenu">
+                                <a>
+                                    <i class="fa fa-download fa-2x" [ngStyle]="!sidebarCollapsed && {'margin-right': '16.84px'}"></i>
+                                    <span>Export</span>
+                                </a>
+                                <ul>
+                                    <li>
+                                        <br />
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">File Name</label>
+                                            <div class="col-md-9">
+                                                <input type="text" id="fileName" class="form-control" [(ngModel)]="fileName"
+                                                    name="fileName" placeholder="File name without extension" required />
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <li [ngClass]="{'li-disabled': !fileName}">
+                                        <a *ngIf="true" (click)="graphExport(cy.png(), 'image/png')" [ngClass]="{'link-disabled': !fileName}">
+                                            Export as PDF
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li> -->
+                            <li class="menu-separator">
+                                <hr>
+                            </li>
+                            <li>
+                                <a class="sidebar-control sidebar-main-toggle hidden-xs" (click)="toggleSideBar()">
+                                    <i class="fa fa-desktop fa-2x position-left" [ngStyle]="!sidebarCollapsed && {'margin-right': '13.14px'}"></i>
+                                    <span>Expand/Collapse</span>
+                                </a>
+                            </li>
+                            <!-- /main -->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Main viewport -->
+        <div [id]="'widget-viewport_' + widgetId" class="widget-table-cell widget-viewport">
+
+            <div [id]="'viewport-container_' + widgetId" class="cell-content-wrapper panel panel-flat no-border">
+
+                <!--Table Viewport-->
+                <div [id]="'text_' + widgetId" class="viewport" [ngStyle]="{height: widgetHeight}">
+                
+                    <div *ngIf="minimizedView && !snapshotAlreadyLoaded && !embedded" [ngStyle]="{height: widgetHeight}">
+                        <!--'Click To Edit' message-->
+                        <a [routerLink]="['/widget', widget['id']]">
+                            <h2 class="empty-widget-message" [ngStyle]="{top: getEmptyWidgetMessageHeight()}">Click here to
+                                Edit the Widget</h2>
+                        </a>
+                    </div>
+                
+                    <div *ngIf="minimizedView && snapshotAlreadyLoaded" [ngStyle]="{height: widgetHeight}">
+                        <ckeditor *ngIf="content !== undefined" [ngClass]="{'defaultMinimizedEditor': minimizedView}" [(ngModel)]="content"
+                            [config]="config" [readonly]="true" (ready)="makeLinksClickable($event)" debounce="500">
+                        </ckeditor>
+                    </div>
+                
+                    <div *ngIf="!minimizedView" [ngStyle]="{height: widgetHeight}">
+                        <ckeditor *ngIf="!minimizedView" [ngClass]="{'defaultEditor': !minimizedView}" [(ngModel)]="content" [config]="config"
+                            (change)="setToSave()" [readonly]="false" debounce="500">
+                        </ckeditor>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>

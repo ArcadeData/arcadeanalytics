@@ -1,0 +1,13 @@
+configurations {
+    connectors
+}
+
+dependencies {
+    compile "com.arcadeanalytics:arcade-data:1.0.0"
+    compile "com.arcadeanalytics:arcade-connectors-base:1.0.0"
+    connectors "com.arcadeanalytics:arcade-connectors-orientdb2:1.0.0"
+    connectors "com.arcadeanalytics:arcade-connectors-gremlin:1.0.0"
+    connectors "com.arcadeanalytics:arcade-connectors-neo4j3:1.0.0"
+    connectors "com.arcadeanalytics:arcade-connectors-rdbms:1.0.0"
+}
+

@@ -1,0 +1,10 @@
+{
+    "arcadeanalyticsApp": {
+        "IndexingStatus" : {
+            "undefined": "",
+            "NOT_INDEXED": "NOT_INDEXED",
+            "INDEXING": "INDEXING",
+            "INDEXED": "INDEXED"
+        }
+    }
+}

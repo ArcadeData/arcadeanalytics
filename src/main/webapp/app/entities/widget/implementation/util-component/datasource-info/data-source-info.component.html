@@ -1,0 +1,113 @@
+<div [ngStyle]="{padding: '30px', height: height}">
+    <h2>
+        <span jhiTranslate="arcadeanalyticsApp.dataSource.detail.title">Data Source</span> {{dataSource.id}}</h2>
+    <hr>
+    <div class="row" style="margin-bottom: 30px; min-height: 360px;">
+        <div class="col-md-4">
+            <div class="col-md-12 datasourceInfoItem">
+                <span class="datasourceInfoLabel" jhiTranslate="arcadeanalyticsApp.dataSource.name">Name</span>
+                <span>{{dataSource.name}}</span>
+            </div>
+            <div class="col-md-12 datasourceInfoItem">
+                <span class="datasourceInfoLabel" jhiTranslate="arcadeanalyticsApp.dataSource.description">Description</span>
+                <span>{{dataSource.description}}</span>
+            </div>
+            <div class="col-md-12 datasourceInfoItem">
+                <span class="datasourceInfoLabel" jhiTranslate="arcadeanalyticsApp.dataSource.type">Type</span>
+                <span jhiTranslate="{{'arcadeanalyticsApp.DataSourceType.' + dataSource.type}}">{{dataSource.type}}</span>
+            </div>
+            <div class="col-md-12 datasourceInfoItem">
+                <span class="datasourceInfoLabel" jhiTranslate="arcadeanalyticsApp.dataSource.indexing">Indexing</span>
+                <div class="col-md-5" style="padding: 0px;">
+                    <span *ngIf="dataSource['indexing']" jhiTranslate="{{'arcadeanalyticsApp.IndexingStatus.' + dataSource.indexing}}">{{dataSource.indexing}}</span>
+                    <span *ngIf="!dataSource['indexing']" jhiTranslate="{{'arcadeanalyticsApp.IndexingStatus.NOT_INDEXED'}}">NOT_INDEXED</span>
+                </div>
+                <div class="col-md-7" style="padding: 0px;">
+                    <button id="indexDatasourceButton" type="button" class="btn btn-sm btn-primary" *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_EDITOR']"
+                        (click)="callDatasourceIndexing()">
+                        <i class="fa fa-refresh fa-fw" aria-hidden="true"></i>
+                        <span>Index Datasource</span>
+                    </button>
+                    <button id="indexDatasourceButton" type="button" class="btn btn-xs btn-primary" *jhiHasAnyAuthority="['ROLE_READER']" disabled>
+                        <i class="fa fa-refresh fa-fw" aria-hidden="true"></i>
+                        <span>Index Datasource</span>
+                    </button>
+                </div>
+            </div>
+            <div class="col-md-12 datasourceInfoItem">
+                <span class="datasourceInfoLabel" jhiTranslate="arcadeanalyticsApp.dataSource.workspace">Workspace</span>
+                <div *ngIf="workspace">
+                    <a [routerLink]="['/workspace', workspace.id]">{{workspace.name}} ({{workspace.id}})</a><br/>
+                    <span>{{workspace.description}}</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="col-md-12 datasourceInfoItem">
+                <span class="datasourceInfoLabel" jhiTranslate="arcadeanalyticsApp.dataSource.server">Server</span>
+                <span>{{dataSource.server}}</span>
+            </div>
+            <div class="col-md-12 datasourceInfoItem">
+                <span class="datasourceInfoLabel" jhiTranslate="arcadeanalyticsApp.dataSource.port">Port</span>
+                <span>{{dataSource.port}}</span>
+            </div>
+            <div class="col-md-12 datasourceInfoItem">
+                <span class="datasourceInfoLabel" jhiTranslate="arcadeanalyticsApp.dataSource.sshFlag">Use SSh Tunnel</span>
+                <span>{{dataSource.remote}}</span>
+            </div>
+            <div *ngIf="dataSource.remote" class="col-md-12 datasourceInfoItem">
+                <span class="datasourceInfoLabel" jhiTranslate="arcadeanalyticsApp.dataSource.gateway">Gateway</span>
+                <span>{{dataSource.gateway}}</span>
+            </div>
+            <div *ngIf="dataSource.remote" class="col-md-12 datasourceInfoItem">
+                <span class="datasourceInfoLabel" jhiTranslate="arcadeanalyticsApp.dataSource.sshPort">Ssh Port</span>
+                <span>{{dataSource.sshPort}}</span>
+            </div>
+            <div *ngIf="dataSource.remote" class="col-md-12 datasourceInfoItem">
+                <span class="datasourceInfoLabel" jhiTranslate="arcadeanalyticsApp.dataSource.sshUser">Ssh User</span>
+                <span>{{dataSource.sshUser}}</span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="col-md-12 datasourceInfoItem">
+                <span class="datasourceInfoLabel" jhiTranslate="arcadeanalyticsApp.dataSource.database">Database</span>
+                <span>{{dataSource.database}}</span>
+            </div>
+            <div class="col-md-12 datasourceInfoItem">
+                <span class="datasourceInfoLabel" jhiTranslate="arcadeanalyticsApp.dataSource.username">Username</span>
+                <span>{{dataSource.username}}</span>
+            </div>
+            <div class="col-md-12 datasourceInfoItem">
+                <span class="datasourceInfoLabel" jhiTranslate="arcadeanalyticsApp.dataSource.password">Password</span>
+                <span>{{dataSource.password}}</span>
+            </div>
+            <div *ngIf="dataSource.type.toString().startsWith('RDBMS_')"
+                class="col-md-12 datasourceInfoItem">
+                <span class="datasourceInfoLabel" jhiTranslate="arcadeanalyticsApp.dataSource.joinTableAggregationEnabled">Join Table
+                    Aggregation Enabled</span>
+                <span>{{dataSource.aggregationEnabled}}</span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 btn-group">
+            <button *ngIf="!canTestConnection" class="btn btn-primary" disabled>
+                <span class="fa fa-plug"></span>&nbsp;
+                <span>Test Connection</span>
+            </button>
+            <button *ngIf="canTestConnection" class="btn btn-primary" (click)="testConnection()">
+                <span class="fa fa-plug"></span>&nbsp;
+                <span>Test Connection</span>
+            </button>
+            <button type="button" *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_EDITOR']" class="btn btn-primary" [routerLink]="['/', { outlets: { popup: 'data-source/'+ dataSource.id + '/edit'} }]"
+                replaceUrl="true">
+                <span class="fa fa-pencil"></span>&nbsp;
+                <span jhiTranslate="entity.action.edit"> Edit</span>
+            </button>
+            <button type="button" *jhiHasAnyAuthority="['ROLE_READER']" class="btn btn-primary" disabled>
+                <span class="fa fa-pencil"></span>&nbsp;
+                <span jhiTranslate="entity.action.edit"> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

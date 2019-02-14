@@ -1,0 +1,30 @@
+<div class="modal-header">
+    <h4 class="modal-title pull-left">Share Widget</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <p>You can share the {{resourceType}} by embedding the code below in a desired page.</p>
+    </div>
+    <div *ngIf="resource" class="row" id="resource-status-switch">
+        <div class="col-md-3">
+            <label>
+                Open {{resourceType}}:
+            </label>
+        </div>
+        <div class="col-md-6">
+            <ui-switch [(ngModel)]="resource['shared']" size="small" (ngModelChange)="updateResourceAccordingToShareFlag()"></ui-switch>
+        </div>
+    </div>
+    <div class="row">
+        <textarea id="embedding-code" class="form-control" [(ngModel)]="embeddingIframe" rows="3" readonly></textarea>
+    </div>
+</div>
+<div class="modal-footer" style="padding-left: 10px; padding-top: 10px;">
+    <button type="button" class="btn btn-primary" (click)="copyToClipboard()">
+        <span class="fa fa-save"></span>&nbsp;<span>Copy</span>
+    </button>
+</div>
+    

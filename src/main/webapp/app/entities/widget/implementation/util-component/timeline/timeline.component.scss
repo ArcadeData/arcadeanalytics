@@ -1,0 +1,33 @@
+#timeline-container {
+    margin-bottom: 60px;
+    margin-top: 10px,
+}
+
+.ctrl-commands-menu {
+    top: -1px;
+    position: relative;
+    right: 0;
+    margin: 10px;
+    padding: 3px;
+    width: 100%;
+    margin: 0px;
+    border: solid;
+    border-width: 1px;
+    border-color: #ddd;
+    border-radius: 0px 0px 3px 3px;
+}
+
+.ctrl-command {
+    cursor: pointer;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.commands-group {
+    padding: 0px;
+    padding-left: 10px;
+}
+
+.ctrlCommandClicked {
+    color: #ef4d4d;
+}

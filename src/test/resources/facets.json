@@ -1,0 +1,232 @@
+{
+    "took": 76,
+    "timed_out": false,
+    "_shards": {
+        "total": 5,
+        "successful": 5,
+        "failed": 0
+    },
+    "hits": {
+        "total": 104,
+        "max_score": 0.0,
+        "hits": []
+    },
+    "aggregations": {
+        "type": {
+            "doc_count_error_upper_bound": 0,
+            "sum_other_doc_count": 0,
+            "buckets": [
+                {
+                    "key": "edge",
+                    "doc_count": 71,
+                    "class": {
+                        "doc_count_error_upper_bound": 0,
+                        "sum_other_doc_count": 0,
+                        "buckets": [
+                            {
+                                "key": "Played",
+                                "doc_count": 71,
+                                "FT_home_score": {
+                                    "doc_count_error_upper_bound": 0,
+                                    "sum_other_doc_count": 0,
+                                    "buckets": []
+                                },
+                                "date": {
+                                    "doc_count_error_upper_bound": 0,
+                                    "sum_other_doc_count": 0,
+                                    "buckets": []
+                                },
+                                "FT_away_score": {
+                                    "doc_count_error_upper_bound": 0,
+                                    "sum_other_doc_count": 0,
+                                    "buckets": []
+                                },
+                                "side": {
+                                    "doc_count_error_upper_bound": 0,
+                                    "sum_other_doc_count": 0,
+                                    "buckets": [
+                                        {
+                                            "key": "home",
+                                            "doc_count": 41
+                                        },
+                                        {
+                                            "key": "away",
+                                            "doc_count": 30
+                                        }
+                                    ]
+                                },
+                                "league": {
+                                    "doc_count_error_upper_bound": 0,
+                                    "sum_other_doc_count": 0,
+                                    "buckets": []
+                                },
+                                "FT_result": {
+                                    "doc_count_error_upper_bound": 0,
+                                    "sum_other_doc_count": 0,
+                                    "buckets": []
+                                },
+                                "name": {
+                                    "doc_count_error_upper_bound": 0,
+                                    "sum_other_doc_count": 0,
+                                    "buckets": []
+                                },
+                                "season": {
+                                    "doc_count_error_upper_bound": 0,
+                                    "sum_other_doc_count": 0,
+                                    "buckets": []
+                                },
+                                "HT_home_score": {
+                                    "doc_count_error_upper_bound": 0,
+                                    "sum_other_doc_count": 0,
+                                    "buckets": []
+                                },
+                                "referee": {
+                                    "doc_count_error_upper_bound": 0,
+                                    "sum_other_doc_count": 0,
+                                    "buckets": []
+                                },
+                                "HT_away_score": {
+                                    "doc_count_error_upper_bound": 0,
+                                    "sum_other_doc_count": 0,
+                                    "buckets": []
+                                },
+                                "HT_result": {
+                                    "doc_count_error_upper_bound": 0,
+                                    "sum_other_doc_count": 0,
+                                    "buckets": []
+                                }
+                            }
+                        ]
+                    }
+                },
+                {
+                    "key": "node",
+                    "doc_count": 33,
+                    "class": {
+                        "doc_count_error_upper_bound": 0,
+                        "sum_other_doc_count": 0,
+                        "buckets": [
+                            {
+                                "key": "Team",
+                                "doc_count": 33,
+                                "FT_home_score": {
+                                    "doc_count_error_upper_bound": 0,
+                                    "sum_other_doc_count": 0,
+                                    "buckets": []
+                                },
+                                "date": {
+                                    "doc_count_error_upper_bound": 0,
+                                    "sum_other_doc_count": 0,
+                                    "buckets": []
+                                },
+                                "FT_away_score": {
+                                    "doc_count_error_upper_bound": 0,
+                                    "sum_other_doc_count": 0,
+                                    "buckets": []
+                                },
+                                "side": {
+                                    "doc_count_error_upper_bound": 0,
+                                    "sum_other_doc_count": 0,
+                                    "buckets": []
+                                },
+                                "league": {
+                                    "doc_count_error_upper_bound": 0,
+                                    "sum_other_doc_count": 0,
+                                    "buckets": []
+                                },
+                                "FT_result": {
+                                    "doc_count_error_upper_bound": 0,
+                                    "sum_other_doc_count": 0,
+                                    "buckets": []
+                                },
+                                "name": {
+                                    "doc_count_error_upper_bound": 0,
+                                    "sum_other_doc_count": 20,
+                                    "buckets": [
+                                        {
+                                            "key": "AC Milan",
+                                            "doc_count": 1
+                                        },
+                                        {
+                                            "key": "AS Roma",
+                                            "doc_count": 1
+                                        },
+                                        {
+                                            "key": "Atalanta",
+                                            "doc_count": 1
+                                        },
+                                        {
+                                            "key": "Bari",
+                                            "doc_count": 1
+                                        },
+                                        {
+                                            "key": "Bologna",
+                                            "doc_count": 1
+                                        },
+                                        {
+                                            "key": "Brescia",
+                                            "doc_count": 1
+                                        },
+                                        {
+                                            "key": "Cagliari",
+                                            "doc_count": 1
+                                        },
+                                        {
+                                            "key": "Carpi",
+                                            "doc_count": 1
+                                        },
+                                        {
+                                            "key": "Catania",
+                                            "doc_count": 1
+                                        },
+                                        {
+                                            "key": "Cesena",
+                                            "doc_count": 1
+                                        },
+                                        {
+                                            "key": "Chievo Verona",
+                                            "doc_count": 1
+                                        },
+                                        {
+                                            "key": "Crotone",
+                                            "doc_count": 1
+                                        },
+                                        {
+                                            "key": "Empoli",
+                                            "doc_count": 1
+                                        }
+                                    ]
+                                },
+                                "season": {
+                                    "doc_count_error_upper_bound": 0,
+                                    "sum_other_doc_count": 0,
+                                    "buckets": []
+                                },
+                                "HT_home_score": {
+                                    "doc_count_error_upper_bound": 0,
+                                    "sum_other_doc_count": 0,
+                                    "buckets": []
+                                },
+                                "referee": {
+                                    "doc_count_error_upper_bound": 0,
+                                    "sum_other_doc_count": 0,
+                                    "buckets": []
+                                },
+                                "HT_away_score": {
+                                    "doc_count_error_upper_bound": 0,
+                                    "sum_other_doc_count": 0,
+                                    "buckets": []
+                                },
+                                "HT_result": {
+                                    "doc_count_error_upper_bound": 0,
+                                    "sum_other_doc_count": 0,
+                                    "buckets": []
+                                }
+                            }
+                        ]
+                    }
+                }
+            ]
+        }
+    }
+}

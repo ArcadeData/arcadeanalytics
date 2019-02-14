@@ -1,0 +1,4 @@
+id;name;description;user_id
+100;admin default;first workspace of admin;3
+110;user default;first workspace of user;4
+120;workspace of demo ;workspace of demo player;5

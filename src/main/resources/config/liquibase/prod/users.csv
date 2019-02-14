@@ -1,0 +1,2 @@
+id;login;password_hash;first_name;last_name;email;image_url;activated;lang_key;created_by;last_modified_by
+5;demo;$2a$10$mDc2KuEFzdhcG1X4p138/.P8HhQFZNxUDXvqv6u5KiyScKmiXw5bG;Play;The Demo;demo@localhost;;true;en;system;system

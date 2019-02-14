@@ -1,0 +1,231 @@
+.widget-table {
+    width: 100%;
+    height : 100%;
+    display: table;
+    table-layout: fixed;
+}
+
+.widget-table-cell {
+    display: table-cell;
+    position: relative;
+}
+
+.cell-content-wrapper {
+    margin: 0px;
+}
+
+tab .cell-content-wrapper {
+    border-top: none;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+}
+
+.viewport {
+    width: 100%;
+    display: block;
+    position: relative;
+    top: 0px;
+    left: 0px;
+}
+
+li a {
+    font-weight: normal;
+}
+
+.empty-widget-message {
+    position: relative;
+    text-align: center;
+    margin: 0px;
+}
+
+.fulltext-search {
+    position: absolute;
+    float: left;
+    top: 40px;
+    width: 80%;
+    z-index: 3;
+    padding-top: 10px;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #ededed;
+    background-color: white;
+}
+
+#fullTextSearchInput {
+    height: 23px;
+}
+
+#fullTextSearchClear {
+    position: absolute;
+    right: 12px;
+    top: -6px;
+    bottom: 0;
+    height: 14px;
+    margin: auto;
+    font-size: 14px;
+    cursor: pointer;
+    color: #ccc;
+}
+
+/*
+ * Sidebar options
+ */
+
+.vertical-overflow-scroll {
+    overflow-y: auto;
+}
+
+.submenu-vertical-overflow {
+    overflow-y: auto;
+    max-height: 400px;
+}
+
+.sidebarPopover {
+    padding-left: 15px;
+}
+
+.menu-separator {
+    text-align: center;
+    color: #999;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.menu-separator hr {
+    width: 80%;
+}
+
+.sidebar-default .navigation li a {
+    color: #333;
+}
+
+.navigation>li>a {
+    min-height: 35px;
+}
+
+.navigation>li>a>i {
+    font-size: 1.8em;
+}
+
+.navigation li .inner-menu-icon {
+    margin-top: 3px;
+    cursor: pointer;
+}
+
+.navigation>li>a>span {
+    margin-left: 5px;
+    vertical-align: middle;
+}
+
+.disabled, .disabled:hover {
+    color: grey;
+    cursor: not-allowed;
+}
+
+.fetchNodesFromClassCommand {
+    display: block;
+    margin-top: 32px;
+}
+
+.fetchNodesFromClassCommandEnabled {
+    cursor: pointer;
+}
+
+.fetchNodesFromClassCommandDisabled {
+    cursor: not-allowed;
+    color: lightgrey;
+}
+
+.command:hover {
+    cursor: pointer;
+}
+
+.commandDisabled {
+    cursor: not-allowed;
+    color: lightgrey;
+}
+
+/*
+ * Upper ToolBar
+ */
+ #upperToolBar {
+    width: 60%;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.class-form, .property-form, .cardinality-info {
+    margin-top: 5px;
+    margin-right: 2px;
+}
+
+#upperToolBar #classSelection,
+#upperToolBar #propertySelection,
+#upperToolBar #limitSelection {
+    height: 23px;
+    display: inline-block;
+}
+
+#upperToolBar #classSelection {
+    width: 80%;
+}
+
+#upperToolBar #propertySelection {
+    width: 75%
+}
+
+#upperToolBar #limitSelection {
+    width: 41%;
+    padding: 5px !important;
+}
+
+#upperToolBar #classTotalCount {
+    width: 55px;
+}
+
+.bar-chart-viewport {
+    overflow: hidden;
+}
+
+.navbar-nav {
+    margin-left: 0px;
+}
+
+/*
+ * Multi series
+ */
+ 
+
+.addMultiSeriesClassDef {
+    display: block;
+    margin-top: 32px;
+}
+
+.addMultiSeriesClassDefEnabled {
+    cursor: pointer;
+}
+
+.addMultiSeriesClassDefDisabled {
+    cursor: not-allowed;
+    color: lightgrey;
+}
+
+.table {
+    width: 100%;
+    table-layout: fixed;
+}
+
+.table > thead > tr > th, 
+.table > tbody > tr > th, 
+.table > tfoot > tr > th, 
+.table > thead > tr > td, 
+.table > tbody > tr > td, 
+.table > tfoot > tr > td {
+    padding: 5px;
+}
+
+.table td {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow-x: hidden;
+}

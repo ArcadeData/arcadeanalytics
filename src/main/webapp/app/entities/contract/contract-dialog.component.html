@@ -1,0 +1,98 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+
+    <div class="modal-header">
+        <h4 class="modal-title" id="myContractLabel" jhiTranslate="arcadeanalyticsApp.contract.home.createOrEditLabel">
+            Create or edit a Contract</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;
+        </button>
+    </div>
+    <div class="modal-body">
+        <div *ngIf="contract">
+            <div class="form-group" [hidden]="!contract.id">
+                <label for="id" jhiTranslate="global.field.id">ID</label>
+                <input type="text" class="form-control" id="id" name="id"
+                       [(ngModel)]="contract.id" readonly/>
+            </div>
+            <div class="form-group">
+                <label class="form-control-label" jhiTranslate="arcadeanalyticsApp.contract.name"
+                       for="field_name">Name</label>
+                <input type="text" class="form-control" name="name" id="field_name"
+                       [(ngModel)]="contract.name" required/>
+                <div [hidden]="!(editForm.controls.name?.dirty && editForm.controls.name?.invalid)">
+                    <small class="form-text text-danger"
+                           [hidden]="!editForm.controls.name?.errors?.required"
+                           jhiTranslate="entity.validation.required">
+                        This field is required.
+                    </small>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-control-label" jhiTranslate="arcadeanalyticsApp.contract.description"
+                       for="field_description">Description</label>
+                <input type="text" class="form-control" name="description" id="field_description"
+                       [(ngModel)]="contract.description"/>
+            </div>
+            <div class="form-group">
+                <label class="form-control-label" jhiTranslate="arcadeanalyticsApp.contract.type"
+                       for="field_type">Type</label>
+                <select class="form-control" name="type" [(ngModel)]="contract.type" id="field_type">
+                    <option value="FREE">{{'arcadeanalyticsApp.ContractType.FREE' | translate}}</option>
+                    <option value="SILVER">{{'arcadeanalyticsApp.ContractType.SILVER' | translate}}</option>
+                    <option value="GOLD">{{'arcadeanalyticsApp.ContractType.GOLD' | translate}}</option>
+                    <option value="CUSTOM">{{'arcadeanalyticsApp.ContractType.CUSTOM' | translate}}</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-control-label" jhiTranslate="arcadeanalyticsApp.contract.maxWorkspaces"
+                       for="field_maxWorkspaces">Max Workspaces</label>
+                <input type="number" class="form-control" name="maxWorkspaces" id="field_maxWorkspaces"
+                       [(ngModel)]="contract.maxWorkspaces"/>
+            </div>
+            <div class="form-group">
+                <label class="form-control-label" jhiTranslate="arcadeanalyticsApp.contract.maxDashboards"
+                       for="field_maxDashboards">Max Dashboards</label>
+                <input type="number" class="form-control" name="maxDashboards" id="field_maxDashboards"
+                       [(ngModel)]="contract.maxDashboards"/>
+            </div>
+            <div class="form-group">
+                <label class="form-control-label" jhiTranslate="arcadeanalyticsApp.contract.maxWidgets"
+                       for="field_maxWidgets">Max Widgets</label>
+                <input type="number" class="form-control" name="maxWidgets" id="field_maxWidgets"
+                       [(ngModel)]="contract.maxWidgets"/>
+            </div>
+            <div class="form-group">
+                <label class="form-control-label" jhiTranslate="arcadeanalyticsApp.contract.maxElements"
+                       for="field_maxElements">Max Elements</label>
+                <input type="number" class="form-control" name="maxElements" id="field_maxElements"
+                       [(ngModel)]="contract.maxElements"/>
+            </div>
+            <div class="form-group">
+                <label class="form-control-label" jhiTranslate="arcadeanalyticsApp.contract.maxTraversal"
+                       for="field_maxTraversal">Max Traversal</label>
+                <input type="number" class="form-control" name="maxTraversal" id="field_maxTraversal"
+                       [(ngModel)]="contract.maxTraversal"/>
+            </div>
+            <div class="form-group">
+                <label class="form-control-label" jhiTranslate="arcadeanalyticsApp.contract.maxPower"
+                       for="field_maxPower">Max Power</label>
+                <input type="number" class="form-control" name="maxPower" id="field_maxPower"
+                       [(ngModel)]="contract.maxPower"/>
+            </div>
+            <div class="form-group">
+                <label class="form-control-label" jhiTranslate="arcadeanalyticsApp.contract.ha"
+                       for="field_ha">Ha</label>
+                <input type="checkbox" class="form-control" name="ha" id="field_ha"
+                       [(ngModel)]="contract.ha"/>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">
+            <span class="fa fa-ban"></span>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+            <span class="fa fa-save"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+    </div>
+</form>

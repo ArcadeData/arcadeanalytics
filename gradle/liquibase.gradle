@@ -1,0 +1,121 @@
+import org.gradle.internal.os.OperatingSystem
+
+configurations {
+    liquibase
+}
+
+dependencies {
+//    liquibase "org.liquibase.ext:liquibase-hibernate5"
+    compile group: 'org.liquibase.ext', name: 'liquibase-hibernate5', version: '3.6'
+
+}
+
+if (OperatingSystem.current().isWindows()) {
+    task pathingLiquibaseJar(type: Jar) {
+        dependsOn configurations.liquibase
+        appendix = 'pathingLiquibase'
+
+        doFirst {
+            manifest {
+                attributes 'Class-Path':
+                sourceSets.main.runtimeClasspath.plus(configurations.liquibase)
+                    .collect {
+                    it.toURL().toString().replaceFirst(/file:\/+/, '/')
+                }.join(' ')
+            }
+        }
+    }
+}
+
+task initPaths(dependsOn: compileJava) {
+    group = "liquibase"
+    if (OperatingSystem.current().isWindows()) {
+        dependsOn pathingLiquibaseJar
+    }
+}
+
+def liquibaseCommand(command) {
+    javaexec {
+        if (OperatingSystem.current().isWindows()) {
+            classpath files(pathingLiquibaseJar.archivePath)
+        } else {
+            classpath sourceSets.main.runtimeClasspath
+            classpath configurations.liquibase
+        }
+        main = "liquibase.integration.commandline.Main"
+
+        args "--changeLogFile=src/main/resources/config/liquibase/master.xml"
+        args "--referenceUrl=hibernate:spring:com.arcadeanalytics.domain?dialect=org.hibernate.dialect.H2Dialect&hibernate.physical_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy&hibernate.implicit_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy"
+        args "--username=arcadeanalytics"
+        args "--password="
+        args "--url=jdbc:h2:file:./build/h2db/db/arcadeanalytics"
+        args "--driver=org.h2.Driver"
+        args command
+    }
+}
+
+def liquibaseOfflineCommand(command) {
+    javaexec {
+        if (OperatingSystem.current().isWindows()) {
+            classpath files(pathingLiquibaseJar.archivePath)
+        } else {
+            classpath sourceSets.main.runtimeClasspath
+            classpath configurations.liquibase
+        }
+        main = "liquibase.integration.commandline.Main"
+
+        args "--changeLogFile=src/main/resources/config/liquibase/master.xml"
+        args "--referenceUrl=hibernate:spring:com.arcadeanalytics.domain?dialect=org.hibernate.dialect.H2Dialect&hibernate.physical_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy&hibernate.implicit_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy"
+        args "--username=arcadeanalytics"
+        args "--password="
+        args "--url=offline:postgresql"
+        args command
+    }
+}
+
+task liquibaseDiffChangeLog(dependsOn: initPaths) {
+    doLast {
+        liquibaseCommand("diffChangeLog")
+    }
+}
+
+task liquibaseClearChecksums(dependsOn: initPaths) {
+    doLast {
+        liquibaseCommand("clearChecksums")
+    }
+}
+
+task liquibaseUpdateSQL(dependsOn: initPaths) {
+    doLast {
+        liquibaseOfflineCommand("updateSQL")
+    }
+}
+
+task liquibaseClearCheckSums(dependsOn: compileJava, type: JavaExec) {
+    group = "liquibase"
+
+    if (OperatingSystem.current().isWindows()) {
+        dependsOn pathingLiquibaseJar
+        doFirst {
+            classpath = files(pathingLiquibaseJar.archivePath)
+        }
+    } else {
+        classpath sourceSets.main.runtimeClasspath
+        classpath configurations.liquibase
+    }
+    main = "liquibase.integration.commandline.Main"
+
+    args "--changeLogFile=src/main/resources/config/liquibase/changelog/" + buildTimestamp() + "_changelog.xml"
+    args "--referenceUrl=hibernate:spring:com.arcadeanalytics.domain?dialect=org.hibernate.dialect.H2Dialect&hibernate.physical_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy&hibernate.implicit_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy"
+    args "--username=arcadeanalytics"
+    args "--password="
+    args "--url=jdbc:h2:file:./build/h2db/db/arcadeanalytics"
+    args "--driver=org.h2.Driver"
+    args "clearCheckSums"
+}
+
+def buildTimestamp() {
+    def date = new Date()
+    def formattedDate = date.format('yyyyMMddHHmmss')
+    return formattedDate
+}

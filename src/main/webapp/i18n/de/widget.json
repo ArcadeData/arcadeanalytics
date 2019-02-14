@@ -1,0 +1,29 @@
+{
+    "arcadeanalyticsApp": {
+        "widget" : {
+            "home": {
+                "title": "Arcade",
+                "subtitle": "Widgets",
+                "createLabel": "Widget erstellen",
+                "editLabel": "Widget bearbeiten",
+                "search": "Suche nach Widget"
+            },
+            "created": "Widget erstellt mit ID '{{ param }}'",
+            "updated": "Widget aktualisiert mit ID '{{ param }}'",
+            "deleted": "Widget gelöscht mit ID '{{ param }}'",
+            "delete": {
+                "question": "Soll Widget '{{ name }}' wirklich dauerhaft gelöscht werden?"
+            },
+            "detail": {
+                "title": "Widget"
+            },
+            "name": "Name",
+            "type": "Type",
+            "hasSnapshot": "Has Snapshot",
+            "dataSet": "Data Set",
+            "snapshot": "Snapshot",
+            "dataSource": "Data Source",
+            "dashboard": "Dashboard"
+        }
+    }
+}

@@ -1,0 +1,133 @@
+<div>
+    <h2>
+        <span jhiTranslate="arcadeanalyticsApp.media.home.subtitle">Media</span>
+        <button *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_EDITOR']" class="btn btn-primary pull-right jh-create-entity create-media"
+            [routerLink]="['/', { outlets: { popup: ['media-new'] } }]">
+            <span class="fa fa-plus fa-fw"></span>
+            <span class="hidden-sm-down" jhiTranslate="arcadeanalyticsApp.media.home.uploadLabel">
+                Upload File
+            </span>
+        </button>
+        <button *jhiHasAnyAuthority="['ROLE_READER']" class="btn btn-primary pull-right jh-create-entity create-media" disabled>
+            <span class="fa fa-plus fa-fw"></span>
+            <span class="hidden-sm-down" jhiTranslate="arcadeanalyticsApp.media.home.uploadLabel">
+                Upload File
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <div class="row">
+        <div class="col-sm-12">
+            <form name="searchForm" class="form-inline">
+                <div class="input-group br w-100 mt-3">
+                    <input id="searchInput" type="text" class="form-control" [(ngModel)]="currentSearch" name="currentSearch" (keydown)="handleSearchOnKeydown($event)"
+                        placeholder="{{ 'arcadeanalyticsApp.media.home.search' | translate }}">
+
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button" (click)="search(currentSearch)">
+                            <span class="fa fa-search"></span>
+                        </button>
+                        <button class="btn btn-default" type="button" (click)="clear()" title="Clear">
+                            <span class="fa fa-trash"></span>
+                        </button>
+                    </span>
+                </div>
+            </form>
+        </div>
+    </div>
+    <br/>
+    <div class="table-responsive" *ngIf="media">
+        <table class="table table-striped">
+            <thead>
+                <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
+                    <!--<th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <span class="fa fa-sort fa-fw"></span></th>-->
+                    <th jhiSortBy="file">
+                        <span>Preview</span>
+                        <span class="fa fa-sort fa-fw"></span>
+                    </th>
+                    <th jhiSortBy="name">
+                        <span jhiTranslate="arcadeanalyticsApp.media.name">Name</span>
+                        <span class="fa fa-sort fa-fw"></span>
+                    </th>
+                    <th jhiSortBy="description">
+                        <span jhiTranslate="arcadeanalyticsApp.media.description">Description</span>
+                        <span class="fa fa-sort fa-fw"></span>
+                    </th>
+                    <th jhiSortBy="category">
+                        <span jhiTranslate="arcadeanalyticsApp.media.category">Category</span>
+                        <span class="fa fa-sort fa-fw"></span>
+                    </th>
+                    <th jhiSortBy="file">
+                        <span jhiTranslate="arcadeanalyticsApp.media.file">File Info</span>
+                        <span class="fa fa-sort fa-fw"></span>
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let media of media ;trackBy: trackId">
+                    <!--<td><a [routerLink]="['../media', media.id ]">{{media.id}}</a></td>-->
+                    <td>
+                        <img class="image-preview" [src]="media['file']" (click)="openModal(previewModal, media)" popover="Click to enlarge" placement="top"
+                            container="body" triggers="hover" />
+                    </td>
+                    <td>{{media.name}}</td>
+                    <td>{{media.description}}</td>
+                    <td>{{media.category}}</td>
+                    <td>
+                        <span *ngIf="media.file">Type: {{media.fileContentType}} &nbsp;&nbsp;&nbsp; Size: {{byteSize(media['file']['changingThisBreaksApplicationSecurity'])}}</span>
+                    </td>
+                    <td class="text-right">
+                        <div class="btn-group flex-btn-group-container">
+                            <button type="submit" *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_EDITOR']" [routerLink]="['/', { outlets: { popup: 'media/'+ media.id + '/edit'} }]"
+                                replaceUrl="true" class="btn btn-primary btn-sm">
+                                <span class="fa fa-pencil fa-fw"></span>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                            </button>
+                            <button type="submit" *jhiHasAnyAuthority="['ROLE_READER']" class="btn btn-primary btn-sm" disabled>
+                                <span class="fa fa-pencil fa-fw"></span>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                            </button>
+
+                            <button type="submit" *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_EDITOR']" [routerLink]="['/', { outlets: { popup: 'media/'+ media.id + '/delete'} }]"
+                                replaceUrl="true" class="btn btn-danger btn-sm">
+                                <span class="fa fa-remove fa-fw"></span>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                            </button>
+                            <button type="submit" *jhiHasAnyAuthority="['ROLE_READER']" class="btn btn-danger btn-sm" disabled>
+                                <span class="fa fa-remove fa-fw"></span>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div *ngIf="media">
+        <br>
+        <br>
+        <div class="row">
+            <div class="col-lg-5 col-centered">
+                <pagination [boundaryLinks]="true" [totalItems]="totalItems" [(ngModel)]="page" [rotate]="false" [maxSize]="7" [itemsPerPage]="itemsPerPage"
+                    (pageChanged)="loadPage($event)" previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;"></pagination>
+            </div>
+        </div>
+    </div>
+    <br>
+    <br>
+    <br>
+
+    <ng-template #previewModal>
+        <div class="modal-header">
+            <h4 class="modal-title pull-left">File Preview</h4>
+            <button type="button" class="close pull-right" aria-label="Close" (click)="closePreviewModal()">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div *ngIf="currentMediaForPreview" class="modal-body">
+            <img class="image-preview-large" [src]="currentMediaForPreview['file']" />
+        </div>
+    </ng-template>
+</div>

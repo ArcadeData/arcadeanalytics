@@ -1,0 +1,32 @@
+.image-preview {
+    max-width: 40px;
+    cursor: pointer;
+}
+
+.modal-body {
+    height: 250px;
+}
+
+.modal-body img.image-preview-large {
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    min-width: 200px;
+}
+
+.col-centered {
+    float: none;
+    margin: 0 auto;
+}
+
+#mediaSearchClear {
+    position: absolute;
+    right: 40px;
+    top: -15px;
+    bottom: 0;
+    height: 14px;
+    margin: auto;
+    font-size: 14px;
+    cursor: pointer;
+    color: #ccc;
+}

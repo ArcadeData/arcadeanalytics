@@ -1,0 +1,26 @@
+#poweredBy {
+    text-align: right;
+}
+
+.logo .logo-img {
+    height: 20px;
+    width: 35px;
+    display: inline-block;
+    vertical-align: text-bottom;
+    background: url("../../../content/images/logo/arcade-favico.png") no-repeat center center;
+    background-size: contain;
+}
+
+.logo {
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.bottomMargin {
+    margin: 0 0 10px;
+}
+
+.topMargin {
+    margin: 0px;
+    margin-top: 10px;
+}

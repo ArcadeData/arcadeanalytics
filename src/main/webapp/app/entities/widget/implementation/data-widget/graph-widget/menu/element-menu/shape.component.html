@@ -1,0 +1,617 @@
+<ul>
+    <li *ngIf="element['type'] === 'v'">
+        <div class="row">
+            <div class="col-md-12">
+
+                <div class="form-group">
+                    <div class="col-md-6">
+                        <label class="form-control-label">Fixed Sizing</label>
+                        <input type="radio" name="sizingStrategy" [value]="'fixed'" [(ngModel)]="sizingStrategy"
+                            [disabled]="false">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-control-label">Linear Sizing</label>
+                        <input type="radio" name="sizingStrategy" [value]="'linear'" [(ngModel)]="sizingStrategy"
+                            [disabled]="false">
+                    </div>
+                </div>
+
+                <div>
+                    <div *ngIf="sizingStrategy === 'fixed'" id="fixedSizeSettings" class="row">
+                        <br>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Width (px):</label>
+                                <input id="nodeShapeWidth" type="number" class="form-control" [min]="NODE_MIN_SIZE"
+                                    [max]="NODE_MAX_SIZE" [(ngModel)]="settings['shapeWidth']" (mouseout)="forceNumericInputForElementSize('shapeWidth')">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Height (px):</label>
+                                <input id="nodeShapeHeight" type="number" class="form-control" [min]="NODE_MIN_SIZE"
+                                    [max]="NODE_MAX_SIZE" [(ngModel)]="settings['shapeHeight']" (mouseout)="forceNumericInputForElementSize('shapeHeight')">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div *ngIf="sizingStrategy === 'linear'" id="linearSizeSettings" class="row">
+                        <div class="col-md-12" style="padding-bottom: 10px;">
+                            <br>
+                            <div class="form-group">
+                                <label>Weight Field:</label>
+                                <select id="nodeFieldWeight" class="select form-control" [(ngModel)]="settings['fieldWeight']">
+                                    <option value="<empty>">&lt;empty&gt;</option>
+                                    <option *ngIf="element['type'] === 'v'" value="@edgeCount">&lt;edge count&gt;</option>
+                                    <option *ngFor="let property of (classProperties | objectKeys)" [ngValue]="classProperties[property].name"
+                                        [disabled]="classProperties[property].type !== 'INTEGER' && classProperties[property].type !== 'SMALLINT' && 
+                                                classProperties[property].type !== 'LONG' && classProperties[property].type !== 'NUMBER'">
+                                        {{classProperties[property].name}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div *ngIf="settings['fieldWeight'] !== '<empty>'">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Min Size (px):</label>
+                                    <input id="nodeShapeLinearMinSize" class="form-control" type="number" [min]="NODE_MIN_SIZE"
+                                        [max]="settings['maxLinearValue'] - 1" [(ngModel)]="settings['minLinearValue']"
+                                        (mouseout)="forceNumericInputForLinearSizeRanges('min')">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Max Size (px):</label>
+                                    <!-- should be: [min]="settings['minLinearValue']+1" but it's interpreted as a string concatenation,
+                                    btw the value is checked and corrected by the validation function on mouseout event-->
+                                    <input id="nodeShapeLinearMaxSize" class="form-control" type="number" [min]="settings['minLinearValue']"
+                                        [max]="NODE_MAX_SIZE" [(ngModel)]="settings['maxLinearValue']" (mouseout)="forceNumericInputForLinearSizeRanges('max')">
+                                </div>
+                            </div>
+                        </div>
+                        <div *ngIf="settings['fieldWeight'] === '<empty>'">
+                            <div class="col-md-12">
+                                Please select a weight field in order to exploit elements' linear sizing.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Color:</label><br>
+                    <input id="shapeColor" class="form-control" [(colorPicker)]="settings['shapeColor']" [value]="settings['shapeColor']"
+                        [style.background]="settings['shapeColor']" [cpPosition]="'top'" [cpPositionOffset]="'-5%'">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Image:</label><br>
+                    <a>
+                        <div *ngIf="settings['shapeImage']">
+                            <img id="shapeImage" [src]="settings['shapeImage']" style="width: 100px; height: 100px;" />
+                            <div class="btn-group flex-btn-group-container">
+                                <button class="btn btn-xs btn-primary" (click)="openMediaLibrary(mediaLibrary)">Change</button>
+                                <button class="btn btn-xs btn-primary" (click)="cleanBackgroundImageField()">
+                                    <i class="fa fa-trash" aria-hidden="true"></i>
+                                </button>
+                            </div>
+
+                        </div>
+                        <div *ngIf="!settings['shapeImage']">
+                            <div id="addImage" (click)="openMediaLibrary(mediaLibrary)" style="width: 100px; height: 100px;"></div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Border<br>Color:</label><br>
+                    <input id="borderColor" class="form-control" [(colorPicker)]="settings['borderColor']" [value]="settings['borderColor']"
+                        [style.background]="settings['borderColor']" [cpPosition]="'top'" [cpPositionOffset]="'-5%'">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Border<br>Width (px):</label><br>
+                    <input id="borderWidth" type="text" class="form-control" type="number" [min]="NODE_BORDER_MIN_SIZE"
+                        [max]="NODE_BORDER_MAX_SIZE" data-preferred-format="hex" [(ngModel)]="settings['borderWidth']"
+                        (mouseout)="forceNumericInputForElementSize('borderWidth')">
+                </div>
+            </div>
+        </div>
+        </div>
+    </li>
+
+    <li *ngIf="element['type'] === 'e'">
+        <div class="row">
+            <div class="col-md-12">
+
+                <div class="form-group">
+                    <div class="col-md-6">
+                        <label class="form-control-label">Fixed Sizing</label>
+                        <input type="radio" name="sizingStrategy" [value]="'fixed'" [(ngModel)]="sizingStrategy"
+                            [disabled]="false">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-control-label">Linear Sizing</label>
+                        <input type="radio" name="sizingStrategy" [value]="'linear'" [(ngModel)]="sizingStrategy"
+                            [disabled]="false">
+                    </div>
+                </div>
+
+                <div>
+                    <div *ngIf="sizingStrategy === 'fixed'" id="fixedSizeSettings" class="row">
+
+                        <div class="col-md-6"><br>
+                            <div class="form-group">
+                                <label>Line Width (px):</label>
+                                <input id="edgeLineSize" class="form-control" type="number" [min]="EDGE_MIN_SIZE" [max]="EDGE_MAX_SIZE"
+                                    [(ngModel)]="settings['lineWidth']" (mouseout)="forceNumericInputForElementSize('lineWidth')">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div *ngIf="sizingStrategy === 'linear'" id="linearSizeSettings" class="row">
+                        <div class="col-md-12" style="padding-bottom: 10px;">
+                            <br>
+                            <div class="form-group">
+                                <label>Weight Field:</label>
+                                <select id="edgeFieldWeight" class="select form-control" [(ngModel)]="settings['fieldWeight']">
+                                    <option value="<empty>">&lt;empty&gt;</option>
+                                    <option *ngIf="element['type'] === 'v'" value="@edgeCount">&lt;edge count&gt;</option>
+                                    <option *ngFor="let property of (classProperties | objectKeys)" [ngValue]="classProperties[property].name"
+                                        [disabled]="property.type !== 'INTEGER' && property.type !== 'SMALLINT' && property.type !== 'LONG' && property.type !== 'NUMBER'">
+                                        {{classProperties[property].name}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div *ngIf="settings['fieldWeight'] !== '<empty>'">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Min Size (px):</label>
+                                    <input id="edgeShapeLinearMinSize" class="form-control" type="number" [min]="EDGE_MIN_SIZE"
+                                        [max]="settings['maxLinearValue'] - 1" [(ngModel)]="settings['minLinearValue']"
+                                        (mouseout)="forceNumericInputForLinearSizeRanges('min')">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Max Size (px):</label>
+                                    <input id="edgeShapeLinearMaxSize" class="form-control" type="number" [min]="settings['minLinearValue'] + 1"
+                                        [max]="EDGE_MAX_SIZE" [(ngModel)]="settings['maxLinearValue']" (mouseout)="forceNumericInputForLinearSizeRanges('max')">
+                                </div>
+                            </div>
+                        </div>
+                        <div *ngIf="settings['fieldWeight'] === '<empty>'">
+                            <div class="col-md-12">
+                                Please select a weight field in order to exploit elements' linear sizing.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Line Color:</label><br>
+                    <input id="edgeColor" class="form-control" [(colorPicker)]="settings['lineColor']" [value]="settings['lineColor']"
+                        [style.background]="settings['lineColor']" [cpPosition]="'top'" [cpPositionOffset]="'-5%'">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Line Style:</label>
+                    <select id="lineStyle" class="select form-control" [(ngModel)]="settings['lineStyle']">
+                        <option value="solid">Solid</option>
+                        <option value="dotted">Dotted</option>
+                        <option value="dashed">Dashed</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Source Arrow Color:</label><br>
+                    <input id="sourceArrowColor" class="form-control" [(colorPicker)]="settings['sourceArrowColor']"
+                        [value]="settings['sourceArrowColor']" [style.background]="settings['sourceArrowColor']"
+                        [cpPosition]="'top'" [cpPositionOffset]="'-5%'">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Source Arrow Shape:</label>
+                    <select id="sourceArrowShape" class="select form-control" [(ngModel)]="settings['sourceArrowShape']">
+                        <option value="none">None</option>
+                        <option value="triangle">Triangle</option>
+                        <option value="triangle-tee">Triangle Tee</option>
+                        <option value="triangle-backcurve">Triangle Backcurve</option>
+                        <option value="square">Square</option>
+                        <option value="circle">Circle</option>
+                        <option value="diamond">Diamond</option>
+                    </select>
+                </div>
+            </div>
+        </div><br />
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Target Arrow <br>Color:</label><br>
+                    <input id="targetArrowColor" class="form-control" [(colorPicker)]="settings['targetArrowColor']"
+                        [value]="settings['targetArrowColor']" [style.background]="settings['targetArrowColor']"
+                        [cpPosition]="'top'" [cpPositionOffset]="'-5%'">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Target Arrow <br>Shape:</label>
+                    <select id="targetArrowShape" class="select form-control" [(ngModel)]="settings['targetArrowShape']">
+                        <option value="none">None</option>
+                        <option value="triangle">Triangle</option>
+                        <option value="triangle-tee">Triangle Tee</option>
+                        <option value="triangle-backcurve">Triangle Backcurve</option>
+                        <option value="square">Square</option>
+                        <option value="circle">Circle</option>
+                        <option value="diamond">Diamond</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </li>
+</ul>
+
+<ng-template #mediaLibrary>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Choose Image</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+
+        <i *ngIf="showSpinner" class="fa fa-spinner fa-pulse fa-3x fa-fw wait-spinner" aria-hidden="true"></i>
+
+        <div class="row" style="margin-bottom: 15px;">
+            <div class="col-sm-12">
+                <form name="searchForm" class="form-inline">
+                    <div class="input-group br w-100 mt-3">
+                        <input id="searchInput" type="text" class="form-control" [(ngModel)]="currentMediaSearch" name="currentSearch"
+                            (keydown)="handleSearchOnKeydown($event)" placeholder="{{ 'arcadeanalyticsApp.media.home.search' | translate }}">
+
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button" (click)="search(currentMediaSearch)"><span
+                                    class="fa fa-search"></span></button>
+                            <button class="btn btn-default" type="button" (click)="clear()" title="Clear"><span class="fa fa-trash"></span></button>
+                        </span>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div *ngIf="mediaResults && mediaResults.length > 0" class="resultList">
+            <div class="imageListContainer" style="padding: 20px; padding-bottom: 0px;">
+                <div class="imageList">
+                    <ul>
+                        <li *ngFor="let media of mediaResults" (click)="updateImage(media['file'])">
+                            <div class="col-lg-3">
+                                <img class="image-preview" [src]="media['file']" />
+                            </div>
+                            <div class="col-lg-9">
+                                <span>{{media['name']}}</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <accordion [closeOthers]="true">
+
+            <accordion-group *ngIf="category2media.has('MISCELLANEOUS')" [heading]="'Miscellaneous (' + category2media.get('MISCELLANEOUS').length + ')'"
+                [isOpen]="false" [isDisabled]="false">
+                <div class="imageListContainer">
+                    <div class="imageList">
+                        <ul>
+                            <li *ngFor="let media of category2media.get('MISCELLANEOUS')" (click)="updateImage(media['file'])">
+                                <div class="col-lg-3">
+                                    <img class="image-preview" [src]="media['file']" />
+                                </div>
+                                <div class="col-lg-9">
+                                    <span>{{media['name']}}</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </accordion-group>
+            <accordion-group *ngIf="!category2media.has('MISCELLANEOUS')" [heading]="'Miscellaneous (0)'" [isOpen]="false"
+                [isDisabled]="true">
+            </accordion-group>
+
+            <accordion-group *ngIf="category2media.has('BROWSERS')" [heading]="'Browsers (' + category2media.get('BROWSERS').length + ')'"
+                [isOpen]="false" [isDisabled]="false">
+                <div class="imageListContainer">
+                    <div class="imageList">
+                        <ul>
+                            <li *ngFor="let media of category2media.get('BROWSERS')" (click)="updateImage(media['file'])">
+                                <div class="col-lg-3">
+                                    <img class="image-preview" [src]="media['file']" />
+                                </div>
+                                <div class="col-lg-9">
+                                    <span>{{media['name']}}</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </accordion-group>
+            <accordion-group *ngIf="!category2media.has('BROWSERS')" [heading]="'Browsers (0)'" [isOpen]="false"
+                [isDisabled]="true">
+            </accordion-group>
+
+            <accordion-group *ngIf="category2media.has('BUILDINGS')" [heading]="'Buildings (' + category2media.get('BUILDINGS').length + ')'"
+                [isOpen]="false" [isDisabled]="false">
+                <div class="imageListContainer">
+                    <div class="imageList">
+                        <ul>
+                            <li *ngFor="let media of category2media.get('BUILDINGS')" (click)="updateImage(media['file'])">
+                                <div class="col-lg-3">
+                                    <img class="image-preview" [src]="media['file']" />
+                                </div>
+                                <div class="col-lg-9">
+                                    <span>{{media['name']}}</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </accordion-group>
+            <accordion-group *ngIf="!category2media.has('BUILDINGS')" [heading]="'Buildings (0)'" [isOpen]="false"
+                [isDisabled]="true">
+            </accordion-group>
+
+            <accordion-group *ngIf="category2media.has('BUSINESS')" [heading]="'Business (' + category2media.get('BUSINESS').length + ')'"
+                [isOpen]="false" [isDisabled]="false">
+                <div class="imageListContainer">
+                    <div class="imageList">
+                        <ul>
+                            <li *ngFor="let media of category2media.get('BUSINESS')" (click)="updateImage(media['file'])">
+                                <div class="col-lg-3">
+                                    <img class="image-preview" [src]="media['file']" />
+                                </div>
+                                <div class="col-lg-9">
+                                    <span>{{media['name']}}</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </accordion-group>
+            <accordion-group *ngIf="!category2media.has('BUSINESS')" [heading]="'Business (0)'" [isOpen]="false"
+                [isDisabled]="true">
+            </accordion-group>
+
+            <accordion-group *ngIf="category2media.has('CHARACTERS')" [heading]="'Characters (' + category2media.get('CHARACTERS').length + ')'"
+                [isOpen]="false" [isDisabled]="false">
+                <div class="imageListContainer">
+                    <div class="imageList">
+                        <ul>
+                            <li *ngFor="let media of category2media.get('CHARACTERS')" (click)="updateImage(media['file'])">
+                                <div class="col-lg-3">
+                                    <img class="image-preview" [src]="media['file']" />
+                                </div>
+                                <div class="col-lg-9">
+                                    <span>{{media['name']}}</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </accordion-group>
+            <accordion-group *ngIf="!category2media.has('CHARACTERS')" [heading]="'Characters (0)'" [isOpen]="false"
+                [isDisabled]="true">
+            </accordion-group>
+
+            <accordion-group *ngIf="category2media.has('COMMUNICATION')" [heading]="'Communication (' + category2media.get('COMMUNICATION').length + ')'"
+                [isOpen]="false" [isDisabled]="false">
+                <div class="imageListContainer">
+                    <div class="imageList">
+                        <ul>
+                            <li *ngFor="let media of category2media.get('COMMUNICATION')" (click)="updateImage(media['file'])">
+                                <div class="col-lg-3">
+                                    <img class="image-preview" [src]="media['file']" />
+                                </div>
+                                <div class="col-lg-9">
+                                    <span>{{media['name']}}</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </accordion-group>
+            <accordion-group *ngIf="!category2media.has('COMMUNICATION')" [heading]="'Communication (0)'" [isOpen]="false"
+                [isDisabled]="true">
+            </accordion-group>
+
+            <accordion-group *ngIf="category2media.has('ENTERTAINMENT')" [heading]="'Entertainment (' + category2media.get('ENTERTAINMENT').length + ')'"
+                [isOpen]="false" [isDisabled]="false">
+                <div class="imageListContainer">
+                    <div class="imageList">
+                        <ul>
+                            <li *ngFor="let media of category2media.get('ENTERTAINMENT')" (click)="updateImage(media['file'])">
+                                <div class="col-lg-3">
+                                    <img class="image-preview" [src]="media['file']" />
+                                </div>
+                                <div class="col-lg-9">
+                                    <span>{{media['name']}}</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </accordion-group>
+            <accordion-group *ngIf="!category2media.has('ENTERTAINMENT')" [heading]="'Entertainment (0)'" [isOpen]="false"
+                [isDisabled]="true">
+            </accordion-group>
+
+            <accordion-group *ngIf="category2media.has('GEO')" [heading]="'Geo (' + category2media.get('GEO').length + ')'"
+                [isOpen]="false" [isDisabled]="false">
+                <div class="imageListContainer">
+                    <div class="imageList">
+                        <ul>
+                            <li *ngFor="let media of category2media.get('GEO')" (click)="updateImage(media['file'])">
+                                <div class="col-lg-3">
+                                    <img class="image-preview" [src]="media['file']" />
+                                </div>
+                                <div class="col-lg-9">
+                                    <span>{{media['name']}}</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </accordion-group>
+            <accordion-group *ngIf="!category2media.has('GEO')" [heading]="'Geo (0)'" [isOpen]="false" [isDisabled]="true">
+            </accordion-group>
+
+            <accordion-group *ngIf="category2media.has('ICONS')" [heading]="'Icons (' + category2media.get('ICONS').length + ')'"
+                [isOpen]="false" [isDisabled]="false">
+                <div class="imageListContainer">
+                    <div class="imageList">
+                        <ul>
+                            <li *ngFor="let media of category2media.get('ICONS')" (click)="updateImage(media['file'])">
+                                <div class="col-lg-3">
+                                    <img class="image-preview" [src]="media['file']" />
+                                </div>
+                                <div class="col-lg-9">
+                                    <span>{{media['name']}}</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </accordion-group>
+            <accordion-group *ngIf="!category2media.has('ICONS')" [heading]="'Icons (0)'" [isOpen]="false" [isDisabled]="true">
+            </accordion-group>
+
+            <accordion-group *ngIf="category2media.has('PEOPLE')" [heading]="'People (' + category2media.get('PEOPLE').length + ')'"
+                [isOpen]="false" [isDisabled]="false">
+                <div class="imageListContainer">
+                    <div class="imageList">
+                        <ul>
+                            <li *ngFor="let media of category2media.get('PEOPLE')" (click)="updateImage(media['file'])">
+                                <div class="col-lg-3">
+                                    <img class="image-preview" [src]="media['file']" />
+                                </div>
+                                <div class="col-lg-9">
+                                    <span>{{media['name']}}</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </accordion-group>
+            <accordion-group *ngIf="!category2media.has('PEOPLE')" [heading]="'People (0)'" [isOpen]="false"
+                [isDisabled]="true">
+            </accordion-group>
+
+            <accordion-group *ngIf="category2media.has('PICTURES')" [heading]="'Pictures (' + category2media.get('PICTURES').length + ')'"
+                [isOpen]="false" [isDisabled]="false">
+                <div class="imageListContainer">
+                    <div class="imageList">
+                        <ul>
+                            <li *ngFor="let media of category2media.get('PICTURES')" (click)="updateImage(media['file'])">
+                                <div class="col-lg-3">
+                                    <img class="image-preview" [src]="media['file']" />
+                                </div>
+                                <div class="col-lg-9">
+                                    <span>{{media['name']}}</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </accordion-group>
+            <accordion-group *ngIf="!category2media.has('PICTURES')" [heading]="'Pictures (0)'" [isOpen]="false"
+                [isDisabled]="true">
+            </accordion-group>
+
+            <accordion-group *ngIf="category2media.has('SCIENCE')" [heading]="'Science (' + category2media.get('SCIENCE').length + ')'"
+                [isOpen]="false" [isDisabled]="false">
+                <div class="imageListContainer">
+                    <div class="imageList">
+                        <ul>
+                            <li *ngFor="let media of category2media.get('SCIENCE')" (click)="updateImage(media['file'])">
+                                <div class="col-lg-3">
+                                    <img class="image-preview" [src]="media['file']" />
+                                </div>
+                                <div class="col-lg-9">
+                                    <span>{{media['name']}}</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </accordion-group>
+            <accordion-group *ngIf="!category2media.has('SCIENCE')" [heading]="'Science (0)'" [isOpen]="false"
+                [isDisabled]="true">
+            </accordion-group>
+
+            <accordion-group *ngIf="category2media.has('TECHNOLOGY')" [heading]="'Technology (' + category2media.get('TECHNOLOGY').length + ')'"
+                [isOpen]="false" [isDisabled]="false">
+                <div class="imageListContainer">
+                    <div class="imageList">
+                        <ul>
+                            <li *ngFor="let media of category2media.get('TECHNOLOGY')" (click)="updateImage(media['file'])">
+                                <div class="col-lg-3">
+                                    <img class="image-preview" [src]="media['file']" />
+                                </div>
+                                <div class="col-lg-9">
+                                    <span>{{media['name']}}</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </accordion-group>
+            <accordion-group *ngIf="!category2media.has('TECHNOLOGY')" [heading]="'Technology (0)'" [isOpen]="false"
+                [isDisabled]="true">
+            </accordion-group>
+
+            <accordion-group *ngIf="category2media.has('VEHICLES')" [heading]="'Vehicles (' + category2media.get('VEHICLES').length + ')'"
+                [isOpen]="false" [isDisabled]="false">
+                <div class="imageListContainer">
+                    <div class="imageList">
+                        <ul>
+                            <li *ngFor="let media of category2media.get('VEHICLES')" (click)="updateImage(media['file'])">
+                                <div class="col-lg-3">
+                                    <img class="image-preview" [src]="media['file']" />
+                                </div>
+                                <div class="col-lg-9">
+                                    <span>{{media['name']}}</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </accordion-group>
+            <accordion-group *ngIf="!category2media.has('VEHICLES')" [heading]="'Vehicles (0)'" [isOpen]="false"
+                [isDisabled]="true">
+            </accordion-group>
+        </accordion>
+    </div>
+</ng-template>

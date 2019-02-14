@@ -1,0 +1,13 @@
+.addConnectionProperty {
+    display: block;
+    margin-top: 32px;
+}
+
+.addConnectionPropertyEnabled {
+    cursor: pointer;
+}
+
+.addConnectionPropertyDisabled {
+    cursor: not-allowed;
+    color: lightgrey;
+}

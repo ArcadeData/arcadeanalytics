@@ -1,0 +1,33 @@
+{
+    "arcadeanalyticsApp": {
+        "contract" : {
+            "home": {
+                "title": "Arcade",
+                "subtitle": "Contracts",
+                "createLabel": "Genera un nuovo Contract",
+                "createOrEditLabel": "Genera o modifica un Contract",
+                "search": "Cerca Contract"
+            },
+            "created": "&Egrave; stato generato un nuovo Contract con identificatore {{ param }}",
+            "updated": "&Egrave; stato aggiornato Contract identificato da {{ param }}",
+            "deleted": "&Egrave; stato eliminato Contract con identificatore {{ param }}",
+            "delete": {
+                "question": "Sei sicuro di volere eliminare Contract {{ id }}?"
+            },
+            "detail": {
+                "title": "Contract"
+            },
+            "name": "Name",
+            "description": "Description",
+            "type": "Type",
+            "maxWorkspaces": "Max Workspaces",
+            "maxDashboards": "Max Dashboards",
+            "maxWidgets": "Max Widgets",
+            "maxElements": "Max Elements",
+            "maxTraversal": "Max Traversal",
+            "maxPower": "Max Power",
+            "ha": "Ha",
+            "pollingInterval": "Polling Interval"
+        }
+    }
+}

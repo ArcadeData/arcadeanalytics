@@ -1,0 +1,316 @@
+{
+    "elements": {
+        "nodes": [
+            {
+                "data": {
+                    "id": "13_0",
+                    "type": "v",
+                    "class": "Movies",
+                    "record": {
+                        "@out": {
+                            "hasGenera": 3
+                        },
+                        "@edgeCount": 2080,
+                        "@in": {
+                            "rated": 2077
+                        },
+                        "id": 1,
+                        "title": "Toy Story (1995)"
+                    }
+                },
+                "position": {
+                    "x": 666.2407407407408,
+                    "y": 257.14074074074074
+                },
+                "group": "nodes",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Movies"
+            },
+            {
+                "data": {
+                    "id": "14_2",
+                    "type": "v",
+                    "class": "Genres",
+                    "record": {
+                        "@out": {},
+                        "@edgeCount": 1200,
+                        "@in": {
+                            "hasGenera": 1200
+                        },
+                        "description": "Comedy"
+                    }
+                },
+                "position": {
+                    "x": 701.5,
+                    "y": 300
+                },
+                "group": "nodes",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Genres"
+            },
+            {
+                "data": {
+                    "id": "14_1",
+                    "type": "v",
+                    "class": "Genres",
+                    "record": {
+                        "@out": {},
+                        "@edgeCount": 251,
+                        "@in": {
+                            "hasGenera": 251
+                        },
+                        "description": "Children's"
+                    }
+                },
+                "position": {
+                    "x": 656.5,
+                    "y": 345
+                },
+                "group": "nodes",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Genres"
+            },
+            {
+                "data": {
+                    "id": "14_0",
+                    "type": "v",
+                    "class": "Genres",
+                    "record": {
+                        "@out": {},
+                        "@edgeCount": 105,
+                        "@in": {
+                            "hasGenera": 105
+                        },
+                        "description": "Animation"
+                    }
+                },
+                "position": {
+                    "x": 611.5,
+                    "y": 300
+                },
+                "group": "nodes",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "Genres"
+            }
+        ],
+        "edges": [
+            {
+                "data": {
+                    "id": "15_2",
+                    "source": "13_0",
+                    "target": "14_2",
+                    "class": "hasGenera",
+                    "type": "e",
+                    "record": {
+                        "@out": {},
+                        "@in": {}
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "hasGenera"
+            },
+            {
+                "data": {
+                    "id": "15_1",
+                    "source": "13_0",
+                    "target": "14_1",
+                    "class": "hasGenera",
+                    "type": "e",
+                    "record": {
+                        "@out": {},
+                        "@in": {}
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "hasGenera"
+            },
+            {
+                "data": {
+                    "id": "15_0",
+                    "source": "13_0",
+                    "target": "14_0",
+                    "class": "hasGenera",
+                    "type": "e",
+                    "record": {
+                        "@out": {},
+                        "@in": {}
+                    }
+                },
+                "position": {},
+                "group": "edges",
+                "removed": false,
+                "selected": false,
+                "selectable": true,
+                "locked": false,
+                "grabbable": true,
+                "classes": "hasGenera"
+            }
+        ]
+    },
+    "style": [
+        {
+            "selector": "node",
+            "style": {
+                "border-width": "1px",
+                "border-color": "#a0a0a0",
+                "font-size": "9px",
+                "min-zoomed-font-size": "10px",
+                "width": "30px",
+                "height": "30px"
+            }
+        },
+        {
+            "selector": "edge",
+            "style": {
+                "font-size": "9px",
+                "line-color": "#e1eaea",
+                "text-margin-y": "12px",
+                "target-arrow-color": "#e1eaea",
+                "target-arrow-shape": "triangle",
+                "min-zoomed-font-size": "10px",
+                "edge-distances": "node-position",
+                "opacity": "1",
+                "label": "data(label)",
+                "text-rotation": "autorotate",
+                "curve-style": "bezier"
+            }
+        },
+        {
+            "selector": ".faded",
+            "style": {
+                "opacity": "0.1",
+                "background-image-opacity": "0.1",
+                "background-opacity": "0.1",
+                "text-opacity": "0"
+            }
+        },
+        {
+            "selector": ".highlighted",
+            "style": {
+                "border-width": "5px",
+                "opacity": "1",
+                "background-color": "#61bffc",
+                "line-color": "#61bffc",
+                "target-arrow-color": "#61bffc",
+                "transition-property": "background-color, line-color, target-arrow-color"
+            }
+        },
+        {
+            "selector": ".invisible",
+            "style": {
+                "visibility": "hidden"
+            }
+        },
+        {
+            "selector": "node.Movies",
+            "style": {
+                "font-size": "9px",
+                "color": "#000000",
+                "label": "data(id)",
+                "text-valign": "top",
+                "text-halign": "center",
+                "width": "30px",
+                "height": "30px",
+                "background-color": "#ffc3af",
+                "border-width": "1px",
+                "border-color": "#a0a0a0"
+            }
+        },
+        {
+            "selector": "node.Genres",
+            "style": {
+                "font-size": "9px",
+                "color": "#000000",
+                "label": "data(record.description)",
+                "text-valign": "top",
+                "text-halign": "center",
+                "width": "30px",
+                "height": "30px",
+                "background-color": "#e2c6ff",
+                "border-width": "1px",
+                "border-color": "#a0a0a0"
+            }
+        },
+        {
+            "selector": "edge.hasGenera",
+            "style": {
+                "font-size": "9px",
+                "color": "#000000",
+                "label": "",
+                "source-arrow-shape": "none",
+                "source-arrow-color": "#ffffff",
+                "target-arrow-shape": "triangle",
+                "target-arrow-color": "#cdcdcd",
+                "line-style": "solid",
+                "line-color": "#cdcdcd",
+                "width": "1px"
+            }
+        },
+        {
+            "selector": "edge:selected.hasGenera",
+            "style": {
+                "overlay-padding": "6px",
+                "overlay-opacity": "0.3",
+                "overlay-color": "red"
+            }
+        },
+        {
+            "selector": "node:selected",
+            "style": {
+                "border-width": "5px",
+                "border-color": "red"
+            }
+        }
+    ],
+    "zoomingEnabled": true,
+    "userZoomingEnabled": true,
+    "zoom": 4.106463878326996,
+    "minZoom": 0.1,
+    "maxZoom": 10,
+    "panningEnabled": true,
+    "userPanningEnabled": true,
+    "pan": {
+        "x": -2040.3935361216727,
+        "y": -914.486692015209
+    },
+    "boxSelectionEnabled": true,
+    "renderer": {
+        "name": "canvas"
+    },
+    "hideEdgesOnViewport": true,
+    "textureOnViewport": false,
+    "wheelSensitivity": 1,
+    "motionBlur": false,
+    "nodeClasses": "[[\"Movies\",{\"color\":\"#ffc3af\",\"count\":1,\"selected\":1,\"settings\":{\"fieldLabel\":\"id\",\"fieldWeight\":\"\",\"sizePolicy\":\"fixed\",\"labelFontSize\":\"9px\",\"labelColor\":\"#000000\",\"labelVPosition\":\"top\",\"labelHPosition\":\"center\",\"shapeWidth\":\"30\",\"shapeHeight\":\"30\",\"shapeColor\":\"#ffc3af\",\"borderWidth\":1,\"borderColor\":\"#a0a0a0\"},\"hidden\":0}],[\"Genres\",{\"color\":\"#e2c6ff\",\"count\":3,\"hidden\":0,\"selected\":0,\"settings\":{\"labelFontSize\":\"9\",\"labelColor\":\"#000000\",\"fieldLabel\":\"description\",\"labelVPosition\":\"top\",\"labelHPosition\":\"center\",\"shapeWidth\":\"30px\",\"shapeHeight\":\"30px\",\"shapeColor\":\"#e2c6ff\",\"borderWidth\":\"1px\",\"borderColor\":\"#a0a0a0\"}}]]",
+    "edgeClasses": "[[\"hasGenera\",{\"color\":\"#cdcdcd\",\"count\":3,\"selected\":0,\"settings\":{\"fieldLabel\":\"\",\"fieldWeight\":\"\",\"sizePolicy\":\"fixed\",\"labelFontSize\":\"9px\",\"labelColor\":\"#000000\",\"sourceArrowColor\":\"#ffffff\",\"sourceArrowShape\":\"none\",\"targetArrowColor\":\"#cdcdcd\",\"targetArrowShape\":\"triangle\",\"lineStyle\":\"solid\",\"lineColor\":\"#cdcdcd\",\"lineWidth\":\"1\"},\"hidden\":0}]]",
+    "lastLayoutName": "breadthfirstCircle",
+    "spacingFactor": 0.75
+}

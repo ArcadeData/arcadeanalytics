@@ -1,0 +1,30 @@
+{
+    "arcadeanalyticsApp": {
+        "dataSet" : {
+            "home": {
+                "title": "Arcade",
+                "subtitle": "DataSets",
+                "createLabel": "Créer un nouveau Data Set",
+                "createOrEditLabel": "Créer ou éditer un Data Set",
+                "search": "Recherche pour Data Set"
+            },
+            "created": "Un nouveau Data Set a été créé avec l'identifiant '{{ param }}'",
+            "updated": "Le Data Set avec l'identifiant '{{ param }}' a été mis à jour",
+            "deleted": "Le Data Set avec l'identifiant '{{ param }}' a été supprimé",
+            "delete": {
+                "question": "Etes-vous certain de vouloir supprimer le Data Set '{{ name }}' ?"
+            },
+            "detail": {
+                "title": "Data Set"
+            },
+            "name": "Name",
+            "description": "Description",
+            "query": "Query",
+            "limit": "Limit",
+            "skipEdgesNotInDataset": "Skip Edges Not In Dataset",
+            "skipIsolatedVertices": "Skip Isolated Vertices",
+            "dashboard": "Dashboard",
+            "datasource": "Datasource"
+        }
+    }
+}

@@ -1,0 +1,79 @@
+
+<div *ngIf="dataSource">
+    <h2><span jhiTranslate="arcadeanalyticsApp.dataSource.detail.title">Data Source</span> {{dataSource.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="arcadeanalyticsApp.dataSource.name">Name</span></dt>
+        <dd>
+            <span>{{dataSource.name}}</span>
+        </dd>
+        <dt><span jhiTranslate="arcadeanalyticsApp.dataSource.description">Description</span></dt>
+        <dd>
+            <span>{{dataSource.description}}</span>
+        </dd>
+        <dt><span jhiTranslate="arcadeanalyticsApp.dataSource.type">Type</span></dt>
+        <dd>
+            <span jhiTranslate="{{'arcadeanalyticsApp.DataSourceType.' + dataSource.type}}">{{dataSource.type}}</span>
+        </dd>
+        <dt><span jhiTranslate="arcadeanalyticsApp.dataSource.indexing">Indexing</span></dt>
+        <dd>
+            <span jhiTranslate="{{'arcadeanalyticsApp.IndexingStatus.' + dataSource.indexing}}">{{dataSource.indexing}}</span>
+        </dd>
+        <dt><span jhiTranslate="arcadeanalyticsApp.dataSource.server">Server</span></dt>
+        <dd>
+            <span>{{dataSource.server}}</span>
+        </dd>
+        <dt><span jhiTranslate="arcadeanalyticsApp.dataSource.port">Port</span></dt>
+        <dd>
+            <span>{{dataSource.port}}</span>
+        </dd>
+        <dt><span jhiTranslate="arcadeanalyticsApp.dataSource.database">Database</span></dt>
+        <dd>
+            <span>{{dataSource.database}}</span>
+        </dd>
+        <dt><span jhiTranslate="arcadeanalyticsApp.dataSource.username">Username</span></dt>
+        <dd>
+            <span>{{dataSource.username}}</span>
+        </dd>
+        <dt><span jhiTranslate="arcadeanalyticsApp.dataSource.password">Password</span></dt>
+        <dd>
+            <span>{{dataSource.password}}</span>
+        </dd>
+        <dt><span jhiTranslate="arcadeanalyticsApp.dataSource.sshFlag">Use SSh Tunnel</span></dt>
+        <dd>
+            <span>{{dataSource.remote}}</span>
+        </dd>
+        <dt><span jhiTranslate="arcadeanalyticsApp.dataSource.gateway">Gateway</span></dt>
+        <dd>
+            <span>{{dataSource.gateway}}</span>
+        </dd>
+        <dt><span jhiTranslate="arcadeanalyticsApp.dataSource.sshPort">Ssh Port</span></dt>
+        <dd>
+            <span>{{dataSource.sshPort}}</span>
+        </dd>
+        <dt><span jhiTranslate="arcadeanalyticsApp.dataSource.sshUser">Ssh User</span></dt>
+        <dd>
+            <span>{{dataSource.sshUser}}</span>
+        </dd>
+        <dt><span jhiTranslate="arcadeanalyticsApp.dataSource.workspace">Workspace</span></dt>
+        <dd>
+            <div *ngIf="dataSource.workspaceId">
+                <a [routerLink]="['/workspace', dataSource.workspaceId]">{{dataSource.workspaceName}}</a>
+            </div>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'data-source/'+ dataSource.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>
