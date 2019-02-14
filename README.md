@@ -1,6 +1,16 @@
+# Arcade Analytics - Play With Data
 
-# arcadeanalytics
-This application was generated using JHipster 4.11.1, you can find documentation and help at [http://www.jhipster.tech/documentation-archive/v4.11.1](http://www.jhipster.tech/documentation-archive/v4.11.1).
+To launch ArcadeAnalytics just run (needs docker installed)
+
+    docker-compose -f src/main/docker/app.yml up
+    
+and the go to 
+    
+    http://localhost:8080/
+    
+login as _user_ with password _user_
+
+For detailed instructions on how to use Arcade got to the [https://arcadeanalytics.com/usermanual/](manual) 
 
 ## Development
 
