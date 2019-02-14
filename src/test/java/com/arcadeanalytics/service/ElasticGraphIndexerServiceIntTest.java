@@ -33,7 +33,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class ElasticGraphIndexerServiceIntTest {
 
     @ClassRule
-    public static GenericContainer container = new GenericContainer("arcade/orientdb-demokit:latest")
+    public static GenericContainer container = new GenericContainer("arcadeanalytics/orientdb:latest")
         .withExposedPorts(2424)
         .waitingFor(Wait.forListeningPort());
 
