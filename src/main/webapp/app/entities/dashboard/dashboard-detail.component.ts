@@ -47,6 +47,7 @@ export class DashboardDetailComponent implements OnInit, AfterViewInit, AfterVie
     widgetsRetrieved: boolean = false;
     showFullSideMenu: boolean = true;
     differ: any;
+    widgetsLayoutsLoaded: boolean = false;
 
     alreadySavingDashboardMessage: boolean = false;
 
@@ -131,6 +132,9 @@ export class DashboardDetailComponent implements OnInit, AfterViewInit, AfterVie
         this.initSizesAccordingToWidgetsContainer().subscribe((completed) => {
             if (completed) {
                 this.prepareWidgets();
+                if (!this.dashboard['layout']['widgetsLayoutInfo']) {
+                    this.initWidgetsWithDeafultLayout();
+                }
             }
         });
     }
@@ -207,11 +211,11 @@ export class DashboardDetailComponent implements OnInit, AfterViewInit, AfterVie
      * then returns a boolean representing if the work succeeded or not.
      */
     initSizesAccordingToWidgetsContainer(): Observable<boolean> {
-        this.widgetsContainerWidth = (<any>$('#widgetsContainer')).get(0);
+        this.widgetsContainerWidth = (<any>$('#dashboardBody')).get(0);
         if (this.widgetsContainerWidth) {
             this.widgetContainerPaddingNum = parseInt(this.widgetContainerPadding.replace('px', ''), 10);
             this.doublePadding = 2 * this.widgetContainerPaddingNum;
-            this.widgetsContainerWidth = (<any>$('#widgetsContainer')).width();
+            this.widgetsContainerWidth = (<any>$('#dashboardBody')).width();
             this.gridStepValue = Math.round((1 / 12) * this.widgetsContainerWidth);
 
             this.gridStep2size = {
@@ -327,14 +331,10 @@ export class DashboardDetailComponent implements OnInit, AfterViewInit, AfterVie
         // first default settings if it's the first loading and default order applied (maintaining retrievedWidgets order)
         if (!this.dashboard['layout']['widgetsLayoutInfo']) {
 
+            // just add the widgets to the dashboard, the default layout will be added after the
+            // initSizesAccordingToWidgetsContainer() method will be executed
             for (const widget of retrievedWidgets) {
                 this.dashboard.addWidget(widget);
-            }
-
-            for (const widget of retrievedWidgets) {
-                const height: string = this.defaultWidgetHeight + 'px';
-                const layout = this.buildDeaultLayoutInfo(widget.id, height);
-                this.dashboard.addWidgetLayoutInfo(layout);
             }
         } else {
             // adding widgets following the layout order
@@ -346,11 +346,22 @@ export class DashboardDetailComponent implements OnInit, AfterViewInit, AfterVie
                     }
                 }
             });
+
+            this.widgetsLayoutsLoaded = true;
         }
 
         // a new dashboard with new connected widgets was loaded, so we must run again jquery ui to enable panels resizing
         // we do that by setting this check variable to false so that, at the next view check, ui resizable() will be applied
         this.panelInitialResizingActivated = false;
+    }
+
+    initWidgetsWithDeafultLayout() {
+        for (const widget of this.dashboard['widgets']) {
+            const height: string = this.defaultWidgetHeight + 'px';
+            const layout = this.buildDeaultLayoutInfo(widget.id, height);
+            this.dashboard.addWidgetLayoutInfo(layout);
+        }
+        this.widgetsLayoutsLoaded = true;
     }
 
     previousState() {

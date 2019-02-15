@@ -60,8 +60,8 @@
     <div id="dashboard" *ngIf="widgetsRetrieved">
         <div class="row tabbable">
 
-            <div class="col-lg-12" style="padding: 0px 0px 40px 0px">
-                <div id="widgetsContainer" [dragula]='"bag-items"' [(dragulaModel)]="dashboard['widgets']" (drop)="saveDashboardWithCurrentLayout()">
+            <div id="dashboardBody" class="col-lg-12" style="padding: 0px 0px 40px 0px">
+                <div id="widgetsContainer" *ngIf="widgetsLayoutsLoaded" [dragula]='"bag-items"' [(dragulaModel)]="dashboard['widgets']" (drop)="saveDashboardWithCurrentLayout()">
                     <div class="widgetContainer" *ngFor="let widget of dashboard['widgets']" [ngClass]="{
                         'col-lg-2': dashboard['layout']['widgetsLayoutInfo'].get(widget['id'])['width'] === 2,
                         'col-lg-3': dashboard['layout']['widgetsLayoutInfo'].get(widget['id'])['width'] === 3,
