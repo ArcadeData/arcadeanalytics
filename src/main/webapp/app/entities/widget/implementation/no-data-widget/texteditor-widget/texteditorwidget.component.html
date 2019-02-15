@@ -91,10 +91,12 @@
         <!-- Main viewport -->
         <div [id]="'widget-viewport_' + widgetId" class="widget-table-cell widget-viewport">
 
+            <div *ngIf="minimizedView" style="min-height: 1px; max-height: 1px;"></div>
+
             <div [id]="'viewport-container_' + widgetId" class="cell-content-wrapper panel panel-flat no-border">
 
                 <!--Table Viewport-->
-                <div [id]="'text_' + widgetId" class="viewport" [ngStyle]="{height: widgetHeight}">
+                <div [id]="'text_' + widgetId" class="viewport" [ngStyle]="{height: widgetHeight}" [ngClass]="{'leveller-top-margin': minimizedView}">
                 
                     <div *ngIf="minimizedView && !snapshotAlreadyLoaded && !embedded" [ngStyle]="{height: widgetHeight}">
                         <!--'Click To Edit' message-->
