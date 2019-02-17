@@ -1,0 +1,22 @@
+language: java
+service: docker
+
+
+before_install:
+  - docker version
+  - docker info
+
+before_cache:
+  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+cache:
+  directories:
+    - $HOME/.gradle/caches/
+    - $HOME/.gradle/wrapper/
+
+notifications:
+  email:
+    - ro.franchini@gmail.com
+
+jdk:
+  - openjdk8
