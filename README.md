@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/ArcadeAnalytics/arcadeanalytics.svg?branch=master)](https://travis-ci.org/ArcadeAnalytics/arcadeanalytics)
+
 # Arcade Analytics - Play With Data
 
 To launch ArcadeAnalytics just run (needs docker installed)
