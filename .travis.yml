@@ -18,5 +18,8 @@ notifications:
   email:
     - ro.franchini@gmail.com
 
+script:
+  ./gradlew clean test
+
 jdk:
   - openjdk8
