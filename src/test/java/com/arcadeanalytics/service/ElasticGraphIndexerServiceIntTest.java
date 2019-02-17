@@ -158,7 +158,7 @@ public class ElasticGraphIndexerServiceIntTest {
     public void shouldProvideFacetingOverNodesPropertyValuesWithClassesAndProperty() throws IOException {
         //search for all
         SearchQueryDTO queryDTO = new SearchQueryDTO();
-        queryDTO.setQuery("*:*");
+        queryDTO.setQuery("@class:Countries");
         List<Sprite> docs = service.search(dataSource, queryDTO);
 
         //search limited to 10
