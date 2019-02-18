@@ -12,7 +12,7 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "org.jetbrains.kotlin:kotlin-allopen:$kotlin_version"
         classpath "org.jetbrains.kotlin:kotlin-noarg:$kotlin_version"
-        classpath "io.spring.gradle:propdeps-plugin:0.0.9.RELEASE"
+        classpath "io.spring.gradle:propdeps-plugin:0.0.10.RELEASE"
         classpath "gradle.plugin.org.detoeuf:swagger-codegen-plugin:1.7.4"
         //jhipster-needle-gradle-buildscript-dependency - JHipster will add additional gradle build script plugins here
     }
