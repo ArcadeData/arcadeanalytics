@@ -1,3 +1,4 @@
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Build Status](https://travis-ci.org/ArcadeAnalytics/arcadeanalytics.svg?branch=master)](https://travis-ci.org/ArcadeAnalytics/arcadeanalytics)
 
 # Arcade Analytics - Play With Data
@@ -11,6 +12,8 @@ and the go to
     http://localhost:8080/
     
 login as _user_ with password _user_
+
+The Docker compose starts ArcadeAnalytics, a PostgreSQL database, an Elastic instance and an OrientDB with its _demodb_ preloaded.
 
 For detailed instructions on how to use Arcade got to the [https://arcadeanalytics.com/usermanual/](manual) 
 
