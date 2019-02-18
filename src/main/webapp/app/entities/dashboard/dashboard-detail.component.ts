@@ -131,17 +131,17 @@ export class DashboardDetailComponent implements OnInit, AfterViewInit, AfterVie
     ngAfterViewInit(): void {
         this.initSizesAccordingToWidgetsContainer().subscribe((completed) => {
             if (completed) {
-                this.prepareWidgets();
                 if (!this.dashboard['layout']['widgetsLayoutInfo']) {
                     this.initWidgetsWithDeafultLayout();
                 }
+                this.prepareWidgets();
             }
         });
     }
 
     prepareWidgets() {
         const presentPanels = (<any>$('.widgetContainer'));
-        if (!this.panelInitialResizingActivated && presentPanels.length > 0) {
+        if (!this.panelInitialResizingActivated && presentPanels.length > 0 && this.widgetsLayoutsLoaded === true) {
             this.enableResizingForAllWidgets();
             this.panelInitialResizingActivated = true;
         } else {
