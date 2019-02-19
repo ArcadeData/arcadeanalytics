@@ -7,7 +7,7 @@ To launch ArcadeAnalytics just run (needs docker installed)
 
     docker-compose -f src/main/docker/app.yml up
     
-and the go to 
+and then go to 
     
     http://localhost:8080/
     
@@ -15,7 +15,7 @@ login as _user_ with password _user_
 
 The Docker compose starts ArcadeAnalytics, a PostgreSQL database, an Elastic instance and an OrientDB with its _demodb_ preloaded.
 
-For detailed instructions on how to use Arcade got to the [https://arcadeanalytics.com/usermanual/](manual) 
+For detailed instructions on how to use Arcade go to the [https://arcadeanalytics.com/usermanual/](manual) 
 
 ## Development
 
@@ -60,7 +60,7 @@ Service workers are commented by default, to enable them please uncomment the fo
     }
 </script>
 ```
-* The copy file option in webpack-common.js
+* The copy-file option in webpack-common.js
 ```js
 { from: './src/main/webapp/sw.js', to: 'sw.js' },
 ```
@@ -142,6 +142,7 @@ Unit tests are run by [Karma][] and written with [Jasmine][]. They're located in
 
 UI end-to-end tests are powered by [Protractor][], which is built on top of WebDriverJS. They're located in [src/test/javascript/e2e](src/test/javascript/e2e)
 and can be run by starting Spring Boot in one terminal (`./gradlew bootRun`) and running the tests (`yarn run e2e`) in a second one.
+
 ### Other tests
 
 Performance tests are run by [Gatling][] and written in Scala. They're located in [src/test/gatling](src/test/gatling) and can be run with:
