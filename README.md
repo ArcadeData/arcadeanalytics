@@ -15,7 +15,7 @@ login as _user_ with password _user_
 
 The Docker compose starts ArcadeAnalytics, a PostgreSQL database, an Elastic instance and an OrientDB with its _demodb_ preloaded.
 
-For detailed instructions on how to use Arcade go to the [https://arcadeanalytics.com/usermanual/](manual) 
+For detailed instructions on how to use Arcade go to the [manual](https://arcadeanalytics.com/usermanual/) 
 
 ## Development
 
