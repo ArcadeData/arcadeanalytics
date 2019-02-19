@@ -47,7 +47,7 @@ apply plugin: 'idea'
 dependencyManagement {
 
     imports {
-        mavenBom "io.projectreactor:reactor-bom:Bismuth-RELEASE"
+        mavenBom "io.projectreactor:reactor-bom:Californium-SR5"
         mavenBom 'io.github.jhipster:jhipster-dependencies:' + jhipster_dependencies_version
         //jhipster-needle-gradle-dependency-management - JHipster will add additional dependencies management here
     }
