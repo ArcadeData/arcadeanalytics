@@ -883,7 +883,8 @@ export class TableWidgetComponent extends DataWidgetComponent implements Primary
                 const currFilteredElements = classElements.filter((element) => {
                     const currElemData = element['data']['record'];
                     const currPropertyname = curreFilteringRule['property'];
-                    if (currElemData[currPropertyname] === currPropertyValue) {
+                    // tslint:disable-next-line:triple-equals
+                    if (currElemData[currPropertyname] == currPropertyValue) {
                         return true;
                     }
                     return false;

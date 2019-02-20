@@ -93,7 +93,7 @@
                                                 <i class="fa fa-arrows" aria-hidden="true"></i>
                                             </a>
                                         </li>
-                                        <li *ngIf="widget.type == 'text-editor'" [ngStyle]="{'li-disabled': embedded}">
+                                        <li *ngIf="widget.type === 'text-editor'" [ngStyle]="{'li-disabled': embedded}">
                                             <a *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_EDITOR']"
                                                 [routerLink]="['/widget', widget['id']]" title="Open">
                                                 <i class="fa fa-arrows" aria-hidden="true"></i>
