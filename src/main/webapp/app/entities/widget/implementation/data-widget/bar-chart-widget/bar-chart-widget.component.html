@@ -428,7 +428,7 @@
                                                     </label>
                                                 </div>
                                                 <div class="col-md-4">
-                                                    <input id="minDocCountForm" class="form-control" type="number" min="1" [max]="minDocCountSliderUpperValue" step="1" style="height: 20px;" [(ngModel)]="minDocCount"/>
+                                                    <input id="minDocCountForm" class="form-control small-vertical-padding" type="number" min="1" [max]="minDocCountSliderUpperValue" step="1" style="height: 20px;" [(ngModel)]="minDocCount"/>
                                                 </div>
                                                 <div class="col-md-1" style="padding-left: 2px;">
                                                     <i class="fa fa-question-circle command" aria-hidden="true" [popover]="minDocCountTooltip" containerClass="sidebarPopover" placement="right"
@@ -450,7 +450,7 @@
                                                     </label>
                                                 </div>
                                                 <div class="col-md-4">
-                                                    <input id="maxValuesPerFieldForm" class="form-control" type="number" min="1" [max]="maxValuesPerFieldSliderUpperValue" step="1" style="height: 20px;" [(ngModel)]="maxValuesPerField"/>
+                                                    <input id="maxValuesPerFieldForm" class="form-control small-vertical-padding" type="number" min="1" [max]="maxValuesPerFieldSliderUpperValue" step="1" style="height: 20px;" [(ngModel)]="maxValuesPerField"/>
                                                 </div>
                                                 <div class="col-md-1" style="padding-left: 2px;">
                                                     <i class="fa fa-question-circle command" aria-hidden="true" [popover]="maxValuesPerFieldTooltip" containerClass="sidebarPopover"
@@ -579,7 +579,7 @@
                         <li class="col-md-4">
                             <div *ngIf="dataSourceMetadata" class="class-form">
                                 <span>Class</span>&nbsp;
-                                <select id="classSelection" class="form-control" [(ngModel)]="selectedClass" (ngModelChange)="handleSelectedClassModelChanging()">
+                                <select id="classSelection" class="form-control small-vertical-padding" [(ngModel)]="selectedClass" (ngModelChange)="handleSelectedClassModelChanging()">
                                     <option *ngFor="let className of allClassesNames" [ngValue]="className"> {{className}} </option>
                                 </select>
                             </div>
@@ -587,7 +587,7 @@
                         <li class="col-md-5">
                             <div *ngIf="dataSourceMetadata" class="property-form">
                                 <span>Property</span>&nbsp;
-                                <select id="propertySelection" class="form-control" [(ngModel)]="selectedProperty" (ngModelChange)="handleSelectedPropertyModelChanging()">
+                                <select id="propertySelection" class="form-control small-vertical-padding" [(ngModel)]="selectedProperty" (ngModelChange)="handleSelectedPropertyModelChanging()">
                                     <option *ngFor="let propertyName of selectedClassProperties" [ngValue]="propertyName"> {{propertyName}} </option>
                                 </select>
                             </div>
