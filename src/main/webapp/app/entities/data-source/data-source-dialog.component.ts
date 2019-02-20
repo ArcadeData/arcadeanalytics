@@ -103,6 +103,10 @@ export class DataSourceDialogComponent implements OnInit, AfterViewChecked {
         {
             type: 'COSMOSDB',
             name: 'Cosmos'
+        },
+        {
+            type: 'JANUSGRAPH',
+            name: 'JanusGraph'
         }
     ];
 
@@ -245,6 +249,16 @@ export class DataSourceDialogComponent implements OnInit, AfterViewChecked {
                 };
                 this.rdbmsType = 'ORACLE';  // by default
                 this.gremlinImpl = 'COSMOSDB';  // by default
+                break;
+
+            case 'GREMLIN_JANUSGRAPH':
+                this.datasourceType = 'GREMLIN';
+                this.initialDatasourceType = {
+                    id: 'GREMLIN',
+                    text: 'Gremlin'
+                };
+                this.rdbmsType = 'ORACLE';  // by default
+                this.gremlinImpl = 'JANUSGRAPH';  // by default
                 break;
 
             case 'NEO4J':
@@ -436,6 +450,8 @@ export class DataSourceDialogComponent implements OnInit, AfterViewChecked {
                     this.dataSource['type'] = DataSourceType.GREMLIN_NEPTUNE;
                 } else if (this.gremlinImpl === 'COSMOSDB') {
                     this.dataSource['type'] = DataSourceType.GREMLIN_COSMOSDB;
+                } else if (this.gremlinImpl === 'JANUSGRAPH') {
+                    this.dataSource['type'] = DataSourceType.GREMLIN_JANUSGRAPH;
                 }
                 break;
 

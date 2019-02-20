@@ -44,6 +44,16 @@ public enum DataSourceType {
         public String language() {
             return "gremlin";
         }
+    }, GREMLIN_JANUSGRAPH {
+        @Override
+        public String connectionUrl() {
+            return "{server}:{port}";
+        }
+
+        @Override
+        public String language() {
+            return "gremlin";
+        }
     }, NEO4J {
         @Override
         public String connectionUrl() {

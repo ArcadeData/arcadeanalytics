@@ -5,6 +5,7 @@ export const enum DataSourceType {
     'GREMLIN_ORIENTDB',
     'GREMLIN_NEPTUNE',
     'GREMLIN_COSMOSDB',
+    'GREMLIN_JANUSGRAPH',
     'NEO4J',
     'NEO4J_MEMGRAPH',
     'JANUSGRAPH',
