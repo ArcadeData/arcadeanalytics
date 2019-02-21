@@ -2912,6 +2912,13 @@ cytoscape-dagre@^2.1.0:
   dependencies:
     dagre "^0.8.2"
 
+cytoscape-edgehandles@^3.5.0:
+  version "3.5.0"
+  resolved "https://registry.yarnpkg.com/cytoscape-edgehandles/-/cytoscape-edgehandles-3.5.0.tgz#5d800e335d3cd5720a421f49ce3c31e7f69ad347"
+  dependencies:
+    lodash.memoize "^4.1.2"
+    lodash.throttle "^4.1.1"
+
 cytoscape-panzoom@^2.5.2:
   version "2.5.3"
   resolved "https://registry.yarnpkg.com/cytoscape-panzoom/-/cytoscape-panzoom-2.5.3.tgz#edf041b5aa8be1cbe3c001f16a8b2193b46127a7"
@@ -7235,6 +7242,10 @@ lodash.templatesettings@^4.0.0:
   resolved "https://registry.yarnpkg.com/lodash.templatesettings/-/lodash.templatesettings-4.1.0.tgz#2b4d4e95ba440d915ff08bc899e4553666713316"
   dependencies:
     lodash._reinterpolate "~3.0.0"
+
+lodash.throttle@^4.1.1:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/lodash.throttle/-/lodash.throttle-4.1.1.tgz#c23e91b710242ac70c37f1e1cda9274cc39bf2f4"
 
 lodash.toarray@^4.4.0:
   version "4.4.0"
