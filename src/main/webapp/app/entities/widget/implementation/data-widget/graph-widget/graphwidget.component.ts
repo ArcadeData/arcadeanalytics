@@ -242,6 +242,10 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
     shortestPathSelectingNode;  // use to specify wich node we are selecting, 'from' or 'to'
     outputShortestPath;
 
+    // edge handles
+    cyEdgehandles;
+    edgeHandlesColor: string = '#00ee00';
+
     // force layout params
     forceLayoutDefaultParams: Object = {
         springLength: 400,
@@ -1037,6 +1041,66 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
             this.nodesCanvasContext = this.nodesCanvas.getContext('2d');
             this.textCanvas = this.nodesCanvasLayer.getCanvas();
             this.textContext = this.textCanvas.getContext('2d');
+
+            // the default values of each option are outlined below:
+            const cyEdgehandlesOptions = {
+                preview: true, // whether to show added edges preview before releasing selection
+                hoverDelay: 150, // time spent hovering over a target node before it is considered selected
+                handleNodes: 'node', // selector/filter function for whether edges can be made from a given node
+                snap: false, // when enabled, the edge can be drawn by just moving close to a target node (can be confusing on compound graphs)
+                snapThreshold: 50, // the target node must be less than or equal to this many pixels away from the cursor/finger
+                snapFrequency: 15, // the number of times per second (Hz) that snap checks done (lower is less expensive)
+                noEdgeEventsInDraw: false, // set events:no to edges during draws, prevents mouseouts on compounds
+                disableBrowserGestures: true, // during an edge drawing gesture, disable browser gestures such as two-finger trackpad swipe and pinch-to-zoom
+                handlePosition: function(node) {
+                    return 'middle top'; // sets the position of the handle in the format of "X-AXIS Y-AXIS" such as "left top", "middle top"
+                },
+                handleInDrawMode: false, // whether to show the handle in draw mode
+                edgeType: function(sourceNode, targetNode) {
+                    // can return 'flat' for flat edges between nodes or 'node' for intermediate node between them
+                    // returning null/undefined means an edge can't be added between the two nodes
+                    return 'flat';
+                },
+                loopAllowed: function(node) {
+                    // for the specified node, return whether edges from itself to itself are allowed
+                    return false;
+                },
+                nodeLoopOffset: -50, // offset for edgeType: 'node' loops
+                nodeParams: function(sourceNode, targetNode) {
+                    // for edges between the specified source and target
+                    // return element object to be passed to cy.add() for intermediary node
+                    return {};
+                },
+                edgeParams: function(sourceNode, targetNode, i) {
+                    // for edges between the specified source and target
+                    // return element object to be passed to cy.add() for edge
+                    // NB: i indicates edge index in case of edgeType: 'node'
+                    return {};
+                },
+                ghostEdgeParams: function() {
+                    // return element object to be passed to cy.add() for the ghost edge
+                    // (default classes are always added for you)
+                    return {};
+                },
+                start: function(sourceNode) {
+                    // fired when edgehandles interaction starts (drag on handle)
+                },
+                complete: function(sourceNode, targetNode, addedEles) {
+                    // fired when edgehandles is done and elements are added
+                },
+                hoverover: function(sourceNode, targetNode) {
+                    // fired when a target is hovered
+                },
+                drawon: function() {
+                    // fired when draw mode enabled
+                },
+                drawoff: function() {
+                    // fired when draw mode disabled
+                }
+            };
+
+            this.cyEdgehandles = this.cy.edgehandles(cyEdgehandlesOptions);
+
         });
 
         this.cytoscapeInitialized = true;
@@ -1396,6 +1460,20 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
                 }
             };
 
+            // edge handles' selector
+            const handleSelector: Object = {
+                selector: '.eh-handle',
+                style: {
+                    'background-color': 'red',
+                    'width': 7,
+                    'height': 7,
+                    'shape': 'ellipse',
+                    'overlay-opacity': 0,
+                    'border-width': 5, // makes the handle easier to hit
+                    'border-opacity': 0
+                }
+            };
+
             this.ngZone.runOutsideAngular(() => {
 
                 this.cy = cytoscape({
@@ -1409,7 +1487,8 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
                         nodeFadedSelector,
                         edgeFadedSelector,
                         highlightedSelector,
-                        invisibleSelector
+                        invisibleSelector,
+                        handleSelector
                     ],
 
                     zoom: 1,
@@ -1453,6 +1532,65 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
                 this.nodesCanvasContext = this.nodesCanvas.getContext('2d');
                 this.textCanvas = this.nodesCanvasLayer.getCanvas();
                 this.textContext = this.textCanvas.getContext('2d');
+
+                // the default values of each option are outlined below:
+            const cyEdgehandlesOptions = {
+                preview: true, // whether to show added edges preview before releasing selection
+                hoverDelay: 150, // time spent hovering over a target node before it is considered selected
+                handleNodes: 'node', // selector/filter function for whether edges can be made from a given node
+                snap: false, // when enabled, the edge can be drawn by just moving close to a target node (can be confusing on compound graphs)
+                snapThreshold: 50, // the target node must be less than or equal to this many pixels away from the cursor/finger
+                snapFrequency: 15, // the number of times per second (Hz) that snap checks done (lower is less expensive)
+                noEdgeEventsInDraw: false, // set events:no to edges during draws, prevents mouseouts on compounds
+                disableBrowserGestures: true, // during an edge drawing gesture, disable browser gestures such as two-finger trackpad swipe and pinch-to-zoom
+                handlePosition: function(node) {
+                    return 'middle top'; // sets the position of the handle in the format of "X-AXIS Y-AXIS" such as "left top", "middle top"
+                },
+                handleInDrawMode: false, // whether to show the handle in draw mode
+                edgeType: function(sourceNode, targetNode) {
+                    // can return 'flat' for flat edges between nodes or 'node' for intermediate node between them
+                    // returning null/undefined means an edge can't be added between the two nodes
+                    return 'flat';
+                },
+                loopAllowed: function(node) {
+                    // for the specified node, return whether edges from itself to itself are allowed
+                    return false;
+                },
+                nodeLoopOffset: -50, // offset for edgeType: 'node' loops
+                nodeParams: function(sourceNode, targetNode) {
+                    // for edges between the specified source and target
+                    // return element object to be passed to cy.add() for intermediary node
+                    return {};
+                },
+                edgeParams: function(sourceNode, targetNode, i) {
+                    // for edges between the specified source and target
+                    // return element object to be passed to cy.add() for edge
+                    // NB: i indicates edge index in case of edgeType: 'node'
+                    return {};
+                },
+                ghostEdgeParams: function() {
+                    // return element object to be passed to cy.add() for the ghost edge
+                    // (default classes are always added for you)
+                    return {};
+                },
+                start: function(sourceNode) {
+                    // fired when edgehandles interaction starts (drag on handle)
+                },
+                complete: function(sourceNode, targetNode, addedEles) {
+                    // fired when edgehandles is done and elements are added
+                },
+                hoverover: function(sourceNode, targetNode) {
+                    // fired when a target is hovered
+                },
+                drawon: function() {
+                    // fired when draw mode enabled
+                },
+                drawoff: function() {
+                    // fired when draw mode disabled
+                }
+            };
+
+            this.cyEdgehandles = this.cy.edgehandles(cyEdgehandlesOptions);
             });
 
             this.cytoscapeInitialized = true;
@@ -1501,7 +1639,9 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
         // adding style class selectors
         t = new Date();
         console.log('addStyleClassSelectors: starting (' + t + ', ms: ' + t.getMilliseconds() + ')');
+        let styles = this.cy.style();
         this.addCandidateStyleClassSelectors(this.loadingStyleClassSelectors);
+        styles = this.cy.style();
         t = new Date();
         console.log('addStyleClassSelectors: done (' + t + ', ms: ' + t.getMilliseconds() + ')\n');
 
@@ -1785,43 +1925,46 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
 
             // Draw model elements
             this.cy.nodes().forEach((node) => {
-                const nodePos = node.position();
-                const nodeWidth = node.width();
-                const nodeRadius = nodeWidth / 2;
-                const positioningAngle = -60;
+                const nodeData = node.data();
 
-                // drawing container cardinality circle
-                this.nodesCanvasContext.beginPath();
-                const cardinalityCircleXCenter = nodePos.x - nodeRadius * Math.cos(positioningAngle);
-                const cardinalityCircleYCenter = nodePos.y - nodeRadius * Math.sin(positioningAngle);
-                this.nodesCanvasContext.arc(cardinalityCircleXCenter, cardinalityCircleYCenter, this.cardinalityCircleRadius, 0, 2 * Math.PI);
-                const nodeStyle = node.style();
-                this.nodesCanvasContext.fillStyle = node.style('background-color');
-                this.nodesCanvasContext.fill();
-                // this.nodesCanvasContext.strokeStyle = node.style('line-color');
-                // this.nodesCanvasContext.stroke();
+                if (nodeData['class'] && nodeData['type'] && nodeData['record']) {
+                    const nodePos = node.position();
+                    const nodeWidth = node.width();
+                    const nodeRadius = nodeWidth / 2;
+                    const positioningAngle = -60;
 
-                // drawing cardinality text
-                const nodesCardinality = node.data()['edgeCount'];
-                const fontFace = node.style('font-family');
-                let fontSize = 10;
-                this.textContext.fillStyle = 'white';
-                this.textContext.textAlign = 'center';
-                this.textContext.textBaseline = 'middle';
-                this.textContext.font = fontSize + 'px ' + fontFace;
+                    // drawing container cardinality circle
+                    this.nodesCanvasContext.beginPath();
+                    const cardinalityCircleXCenter = nodePos.x - nodeRadius * Math.cos(positioningAngle);
+                    const cardinalityCircleYCenter = nodePos.y - nodeRadius * Math.sin(positioningAngle);
+                    this.nodesCanvasContext.arc(cardinalityCircleXCenter, cardinalityCircleYCenter, this.cardinalityCircleRadius, 0, 2 * Math.PI);
+                    this.nodesCanvasContext.fillStyle = node.style('background-color');
+                    this.nodesCanvasContext.fill();
+                    // this.nodesCanvasContext.strokeStyle = node.style('line-color');
+                    // this.nodesCanvasContext.stroke();
 
-                // adapting the font size to the cardinality circle width
-                const cardinalityCircleWidth = this.cardinalityCircleRadius * 2;
-                while (this.textContext.measureText(nodesCardinality).width > cardinalityCircleWidth) {
-                    fontSize--;
+                    // drawing cardinality text
+                    const nodesCardinality = node.data()['edgeCount'];
+                    const fontFace = node.style('font-family');
+                    let fontSize = 10;
+                    this.textContext.fillStyle = 'white';
+                    this.textContext.textAlign = 'center';
+                    this.textContext.textBaseline = 'middle';
                     this.textContext.font = fontSize + 'px ' + fontFace;
-                }
 
-                this.textContext.fillStyle = 'white';
-                this.textContext.textAlign = 'center';
-                this.textContext.textBaseline = 'middle';
-                this.textContext.font = fontSize + 'px ' + fontFace;
-                this.textContext.fillText(nodesCardinality, cardinalityCircleXCenter, cardinalityCircleYCenter);
+                    // adapting the font size to the cardinality circle width
+                    const cardinalityCircleWidth = this.cardinalityCircleRadius * 2;
+                    while (this.textContext.measureText(nodesCardinality).width > cardinalityCircleWidth) {
+                        fontSize--;
+                        this.textContext.font = fontSize + 'px ' + fontFace;
+                    }
+
+                    this.textContext.fillStyle = 'white';
+                    this.textContext.textAlign = 'center';
+                    this.textContext.textBaseline = 'middle';
+                    this.textContext.font = fontSize + 'px ' + fontFace;
+                    this.textContext.fillText(nodesCardinality, cardinalityCircleXCenter, cardinalityCircleYCenter);
+                }
             });
         }
     }
@@ -2313,11 +2456,49 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
             style: {
                 'overlay-padding': '6px',
                 'overlay-opacity': 0.3,
-                'overlay-color': 'red'
+                'overlay-color': this.edgeHandlesColor
             }
         };
 
-        this.loadingStyleClassSelectors = [...nodesClassesSelector, ...edgeClassesSelector, ...nodeSelectedSelector, ...edgeClassesSelectedSelector];
+        // handles selectors
+        const handleSourceSelector: Object = {
+            selector: '.eh-source',
+            style: {
+                'border-width': 5,
+                'border-color': this.edgeHandlesColor
+            }
+        };
+        const handleTargetSelector: Object = {
+            selector: '.eh-target',
+            style: {
+                'border-width': 5,
+                'border-color': this.edgeHandlesColor
+            }
+        };
+        const handlePreviewSelector: Object = {
+            selector: '.eh-preview, .eh-ghost-edge',
+            style: {
+                // 'background-color': this.edgeHandlesColor,
+                'line-color': this.edgeHandlesColor,
+                'target-arrow-color': this.edgeHandlesColor,
+                'source-arrow-color': this.edgeHandlesColor
+            }
+        };
+        const handlePreviewActiveSelector: Object = {
+            selector: '.eh-ghost-edge.eh-preview-active',
+            style: {
+                'opacity': 0
+            }
+        };
+
+        this.loadingStyleClassSelectors = [...nodesClassesSelector,
+            ...edgeClassesSelector,
+            ...edgeClassesSelectedSelector,
+            ...nodeSelectedSelector,
+            handleSourceSelector,
+            handleTargetSelector,
+            handlePreviewSelector,
+            handlePreviewActiveSelector];
     }
 
     getNodeStyleClassByClassName(nodeClassName: string): Object {
@@ -4509,6 +4690,25 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
 
         const currentJsonStyle: Object[] = this.getCytoscapeStyleClasses();
 
+        /*
+         * removinf from the starting candidate styles the following selectors
+         * that will be added again from the new candidate style classes:
+         * - node:selected
+         * - eh-source
+         * - eh-target
+         * - eh-preview
+         * - eh-preview-active
+         * - eh-ghost-edge
+         */
+        for (let i = 0; i < currentJsonStyle.length; i++) {
+            const classStyle = currentJsonStyle[i];
+            const selector = classStyle['selector'];
+            if (selector === 'node:selected' || (selector.startsWith('.eh-') && selector !== '.eh-handle')) {
+                currentJsonStyle.splice(i, 1);
+                i--;
+            }
+        }
+
         // adding the new elements to the current set of styles
         for (const currentStyle of newCandidateStyleClassSelectors) {
 
@@ -4538,22 +4738,6 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
                     }
                 }
             }
-        }
-
-        // removing node:selected class if not in last position in the array, then adding it again in order to have it in last position
-        let nodeSelectedClass: Object[] = undefined;
-
-        if (currentJsonStyle[currentJsonStyle.length - 1]['selector'] !== 'node:selected') {
-            let index;
-            for (index = 0; index < currentJsonStyle.length; index++) {
-                const currentStyle = currentJsonStyle[index];
-                if (currentStyle['selector'] === 'node:selected') {
-                    // removing node:selected class
-                    nodeSelectedClass = currentJsonStyle.splice(index, 1);
-                    break;
-                }
-            }
-            currentJsonStyle.push(nodeSelectedClass[0]);
         }
 
         // cy bug fix (percentage omitted): updating background fields if present with percentage values

@@ -12,6 +12,7 @@ import * as dagre from 'cytoscape-dagre';
 import * as cyqtip from 'cytoscape-qtip';
 import * as cxtmenu from 'cytoscape-context-menus';
 import * as cyCanvas from 'cytoscape-canvas';
+import * as cyEdgehandles from 'cytoscape-edgehandles';
 
 @Component({
     selector: 'jhi-main',
@@ -67,5 +68,6 @@ export class JhiMainComponent implements OnInit {
         cyqtip(cytoscape);
         cxtmenu(cytoscape, jquery);
         cyCanvas(cytoscape);
+        cytoscape.use(cyEdgehandles);
     }
 }

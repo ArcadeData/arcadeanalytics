@@ -35,6 +35,7 @@
     "cytoscape-cola": "^2.0.0",
     "cytoscape-context-menus": "^3.0.5",
     "cytoscape-dagre": "^2.1.0",
+    "cytoscape-edgehandles": "^3.5.0",
     "cytoscape-panzoom": "^2.5.2",
     "cytoscape-qtip": "^2.7.1",
     "datauri": "^1.0.5",
