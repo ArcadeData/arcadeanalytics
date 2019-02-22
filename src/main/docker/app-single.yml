@@ -1,0 +1,16 @@
+version: '2'
+services:
+  arcadeanalytics-stage:
+    image: arcadeanalytics/arcadeanalytics:latest-single
+    user: ${CURRENT_UID}
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod-single
+      - APPLICATION_PATH=/arcade
+      - APPLICATION_STORAGE_PATH=/arcade/storage
+      - APPLICATION_MEDIAPATH=WEB-INF/classes/public/content/media/
+      - APPLICATION_CONNECTORSPATH=/arcade-connectors
+      - JAVA_OPTS=-DSSH_PRIV_KEY=/arcade/.ssh/id_rsa -DSSH_PUB_KEY=/arcade/.ssh/id_rsa.pub
+    ports:
+      - 8080:8080
+    volumes:
+      - ~/.arcade-single-os/:/arcade/
