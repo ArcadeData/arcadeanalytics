@@ -1,0 +1,31 @@
+<div class="modal-header">
+    <h4 class="modal-title pull-left">Create Edge</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="discardTempEdge()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <p *ngIf="sourceNode && targetNode">Choose a class for the new edge from {{sourceNode['data']['id']}} to {{targetNode['data']['id']}}.</p>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <label>
+                Class:
+            </label>
+            <select *ngIf="edgeClassesNames" id="edgeClassSelection" class="form-control" [(ngModel)]="chosenEdgeClassName">
+                <option *ngFor="let className of edgeClassesNames" [ngValue]="className"> {{className}} </option>
+            </select>
+        </div>
+    </div>
+</div>
+<div class="modal-footer" style="padding-top: 40px;">
+    <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="discardTempEdge()">
+        <span class="fa fa-ban"></span>&nbsp;
+        <span jhiTranslate="graphwidget.queryModal.cancel">Cancel</span>
+    </button>
+    <button type="button" class="btn btn-primary" (click)="triggerEdgeSaving()" [ngClass]="{'disabled': !chosenEdgeClassName}">
+        <span>Save</span>
+        <i class="icon-arrow-right14 position-right"></i>
+    </button>
+</div>

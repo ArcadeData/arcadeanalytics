@@ -32,6 +32,8 @@ import {
     PageRankConfigModalComponent,
     CentralityConfigModalComponent,
     EmbedResourceModalComponent,
+    AddEdgeModalComponent,
+    AddNodeModalComponent,
     TextEditorWidgetComponent
 } from './';
 import {
@@ -92,7 +94,9 @@ const ENTITY_STATES = [
         ShortestPathConfigModalComponent,
         PageRankConfigModalComponent,
         CentralityConfigModalComponent,
-        EmbedResourceModalComponent
+        EmbedResourceModalComponent,
+        AddEdgeModalComponent,
+        AddNodeModalComponent
     ],
     entryComponents: [
         WidgetComponent,
@@ -127,7 +131,9 @@ const ENTITY_STATES = [
         ShortestPathConfigModalComponent,
         PageRankConfigModalComponent,
         CentralityConfigModalComponent,
-        EmbedResourceModalComponent
+        EmbedResourceModalComponent,
+        AddEdgeModalComponent,
+        AddNodeModalComponent
     ],
     providers: [
         WidgetService,
