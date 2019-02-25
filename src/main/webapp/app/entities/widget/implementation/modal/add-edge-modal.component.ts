@@ -32,14 +32,24 @@ export class AddEdgeModalComponent implements OnInit, AfterViewInit, OnDestroy {
 
     triggerEdgeSaving() {
         // trigger the edge-save event
-        this.eventManager.broadcast({ name: 'edgeClassChosenForNewEdge', edgeClassName: this.chosenEdgeClassName, action: 'save' });
+        this.eventManager.broadcast({
+            name: 'edgeClassChosenForNewEdge',
+            edgeClassName: this.chosenEdgeClassName,
+            action: 'save',
+            sourceNode: this.sourceNode,
+            targetNode: this.targetNode
+        });
 
         this.modalRef.hide();
     }
 
     discardTempEdge() {
         // trigger the edge-save event
-        this.eventManager.broadcast({ name: 'edgeClassChosenForNewEdge', edgeClassName: this.chosenEdgeClassName, action: 'cancel' });
+        this.eventManager.broadcast({
+            name: 'edgeClassChosenForNewEdge',
+            edgeClassName: this.chosenEdgeClassName,
+            action: 'cancel'
+        });
 
         this.modalRef.hide();
     }

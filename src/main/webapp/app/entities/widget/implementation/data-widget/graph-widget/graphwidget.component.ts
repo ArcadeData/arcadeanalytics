@@ -1327,8 +1327,10 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
             this.tempAddingEdge.data('class', className);
             this.tempAddingEdge.data('type', 'e');
             this.tempAddingEdge.data('record', { '@in': {}, '@out': {} });
+            this.tempAddingEdge.select();
 
-            const newEdge = this.tempAddingEdge.json();
+            const message = 'New edge from ' + event['sourceNode']['data']['id'] + ' to ' + event['sourceNode']['data']['id'] + ' correctly added.';
+            this.notificationService.push('success', 'Add Edge', message);
         } else if (event['action'] === 'cancel') {
             this.tempAddingEdge.remove();
         }
@@ -1344,6 +1346,8 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
 
     enableCyEdgeHandles() {
         this.cyEdgehandles.enable();
+        const message = 'Hover a source node, drag the new edge from the red handle and drop it on a target node.';
+        this.notificationService.push('info', 'Add Edge', message);
     }
 
     disableCyEdgeHandles() {
@@ -1897,9 +1901,6 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
                 }
             }
 
-            const nodes = this.cy.nodes().jsons();
-            const edges = this.cy.edges().jsons();
-
             clearTimeout(selectionTimeout);
             this.ngZone.runOutsideAngular(() => {
                 selectionTimeout = setTimeout(() => {
@@ -2078,6 +2079,19 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
                     onClickFunction: (event) => {
                         const node = event.target.json();
                         this.graphDeleteElementById(node['data']['id']);
+                    },
+                    hasTrailingDivider: false
+                },
+                {
+                    id: 'add-edge',
+                    content:
+                        `<span>
+                                <span class="context-menu-item-icon fa fa-long-arrow-right"/> Add Edge
+                            </span>`,
+                    tooltipText: 'Add Edge',
+                    selector: 'node',
+                    onClickFunction: () => {
+                        this.enableCyEdgeHandles();
                     },
                     hasTrailingDivider: false
                 },
