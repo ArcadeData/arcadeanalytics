@@ -1077,6 +1077,21 @@
                             <i class="fa fa-arrows-alt" title="Traverse All"></i>
                         </a>
                     </li>
+                    <li dropdown>
+                        <a dropdownToggle>
+                            <i class="fa fa-plus" title="Add Element"></i>
+                        </a>
+                        <ul *dropdownMenu class="dropdown-menu dropdown-menu-right">
+                            <li>
+                                <a class="dropdown-item" (click)="openAddNodeModal()">
+                                    <i class="fa fa-circle-o"></i>&nbsp;Add Node </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" (click)="enableCyEdgeHandles()">
+                                    <i class="fa fa-long-arrow-right"></i>&nbsp;Add Edge </a>
+                            </li>
+                        </ul>
+                    </li>
                     <li>
                         <a (click)="graphDeleteSelected('all')">
                             <i class="fa fa-trash" title="Delete"></i>

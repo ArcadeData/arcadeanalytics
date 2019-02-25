@@ -37,7 +37,7 @@ import { JhiEventManager } from 'ng-jhipster';
 
 import {
     PerformQueryModalComponent, PerformTraverseModalComponent, ShortestPathConfigModalComponent,
-    PageRankConfigModalComponent, CentralityConfigModalComponent
+    PageRankConfigModalComponent, CentralityConfigModalComponent, AddEdgeModalComponent, AddNodeModalComponent
 } from '../../modal';
 import { DataWidgetComponent } from '../datawidget.component';
 import { pageContentPadding } from '../../../../../global';
@@ -68,6 +68,8 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
 
     subsetSelectionSubscription: Subscription;
     datasetPropagationRequestSubscription: Subscription;
+    edgeClassChosenForNewEdgeSubscription: Subscription;
+    nodeClassChosenForNewNodeSubscription: Subscription;
 
     edgeClassesStyles: Map<string, Object>;
     edgeClassesNames: string[] = [];
@@ -261,9 +263,10 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
     shortestPathSelectingNode;  // use to specify wich node we are selecting, 'from' or 'to'
     outputShortestPath;
 
-    // edge handles
+    // edge handles and tmp variable
     cyEdgehandles;
     edgeHandlesColor: string = '#00ee00';
+    tempAddingEdge;
 
     // force layout params
     forceLayoutDefaultParams: Object = {
@@ -412,6 +415,10 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
 
         this.subscribeToEventBus();
 
+        this.edgeClassChosenForNewEdgeSubscription = this.eventManager.subscribe('edgeClassChosenForNewEdge', (event) => {
+            this.onEdgeClassNameChosenForNewEdge(event);
+        });
+
         // widget id init
         this.widgetId = this.widget['id'];
         this.fileName = this.widget['name'];
@@ -539,7 +546,9 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
     initLegendDraggable() {
         const legend = (<any>$('.graph-legend')).get(0);
         if (legend) {
-            (<any>$('.graph-legend')).draggable();
+            (<any>$('.graph-legend')).draggable({
+                containment: '.viewport'
+            });
         } else {
             this.ngZone.runOutsideAngular(() => {
                 setTimeout(() => {
@@ -1104,8 +1113,8 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
                 start: function(sourceNode) {
                     // fired when edgehandles interaction starts (drag on handle)
                 },
-                complete: function(sourceNode, targetNode, addedEles) {
-                    // fired when edgehandles is done and elements are added
+                complete: (sourceNode, targetNode, addedEles) => {
+                    this.onAddEdgeAnimationComplete(sourceNode, targetNode, addedEles);
                 },
                 hoverover: function(sourceNode, targetNode) {
                     // fired when a target is hovered
@@ -1113,13 +1122,21 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
                 drawon: function() {
                     // fired when draw mode enabled
                 },
-                drawoff: function() {
+                drawoff: () => {
                     // fired when draw mode disabled
+                },
+                cancel: () => {
+                    // fired when edgehandles are cancelled (incomplete gesture)
+                    this.disableCyEdgeHandles();
+                },
+                stop: () => {
+                    // fired when edgehandles are cancelled (incomplete gesture)
+                    this.disableCyEdgeHandles();
                 }
             };
 
             this.cyEdgehandles = this.cy.edgehandles(cyEdgehandlesOptions);
-
+            this.cyEdgehandles.disable();
         });
 
         this.cytoscapeInitialized = true;
@@ -1287,6 +1304,55 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
         }
 
         this.toSave = false;
+    }
+
+    onAddEdgeAnimationComplete(sourceNode: any, targetNode: any, addedEles: any): any {
+        this.tempAddingEdge = addedEles[0];
+
+        // let the user choose the edge class through a modal
+        const modalRef = this.modalService.show(AddEdgeModalComponent);
+        modalRef.content.edgeClassesNames = this.edgeClassesNames;
+        modalRef.content.sourceNode = sourceNode.json();
+        modalRef.content.targetNode = targetNode.json();
+    }
+
+    // triggered after the edge class name of the current adding-edge has been chosen
+    onEdgeClassNameChosenForNewEdge(event: Object) {
+
+        const className: string = event['edgeClassName'];
+
+        if (event['action'] === 'save') {
+            // add edge class
+            this.tempAddingEdge.addClass(className);
+            this.tempAddingEdge.data('class', className);
+            this.tempAddingEdge.data('type', 'e');
+            this.tempAddingEdge.data('record', { '@in': {}, '@out': {} });
+
+            const newEdge = this.tempAddingEdge.json();
+        } else if (event['action'] === 'cancel') {
+            this.tempAddingEdge.remove();
+        }
+
+        // leaving add-edge mode
+        this.leaveAddEdgeMode();
+    }
+
+    leaveAddEdgeMode() {
+        this.disableCyEdgeHandles();
+        this.tempAddingEdge = undefined;
+    }
+
+    enableCyEdgeHandles() {
+        this.cyEdgehandles.enable();
+    }
+
+    disableCyEdgeHandles() {
+        this.cyEdgehandles.disable();
+    }
+
+    openAddNodeModal() {
+        const modalRef = this.modalService.show(AddNodeModalComponent);
+        modalRef.content.nodeClassesNames = this.nodeClassesNames;
     }
 
     initSelection(elements) {
@@ -1595,8 +1661,8 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
                 start: function(sourceNode) {
                     // fired when edgehandles interaction starts (drag on handle)
                 },
-                complete: function(sourceNode, targetNode, addedEles) {
-                    // fired when edgehandles is done and elements are added
+                complete: (sourceNode, targetNode, addedEles) => {
+                    this.onAddEdgeAnimationComplete(sourceNode, targetNode, addedEles);
                 },
                 hoverover: function(sourceNode, targetNode) {
                     // fired when a target is hovered
@@ -1610,6 +1676,7 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
             };
 
             this.cyEdgehandles = this.cy.edgehandles(cyEdgehandlesOptions);
+            this.cyEdgehandles.disable();
             });
 
             this.cytoscapeInitialized = true;
@@ -1829,6 +1896,9 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
                     this.removeTraverseSubmenu();
                 }
             }
+
+            const nodes = this.cy.nodes().jsons();
+            const edges = this.cy.edges().jsons();
 
             clearTimeout(selectionTimeout);
             this.ngZone.runOutsideAngular(() => {
@@ -2475,7 +2545,7 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
             style: {
                 'overlay-padding': '6px',
                 'overlay-opacity': 0.3,
-                'overlay-color': this.edgeHandlesColor
+                'overlay-color': 'red'
             }
         };
 
@@ -4833,6 +4903,10 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
     }
 
     applyLastLayout(animationSpeed?: number, options?: Object) {
+
+        // disabling the handles if enabled
+        this.cyEdgehandles.disable();
+
         if (this.cy) {
             if (this.cy.elements().length > 0) {
                 if (this.lastLayoutName != null && this.cy.elements().length > 0) {

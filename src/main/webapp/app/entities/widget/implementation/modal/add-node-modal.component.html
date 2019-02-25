@@ -1,0 +1,31 @@
+<div class="modal-header">
+    <h4 class="modal-title pull-left">Create Node</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <p>Choose a class for the new node.</p>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <label>
+                Class:
+            </label>
+            <select *ngIf="nodeClassesNames" id="nodeClassSelection" class="form-control" [(ngModel)]="chosenNodeClass">
+                <option *ngFor="let className of nodeClassesNames" [ngValue]="className"> {{className}} </option>
+            </select>
+        </div>
+    </div>
+</div>
+<div class="modal-footer" style="padding-top: 40px;">
+    <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="modalRef.hide()">
+        <span class="fa fa-ban"></span>&nbsp;
+        <span jhiTranslate="graphwidget.queryModal.cancel">Cancel</span>
+    </button>
+    <button type="button" class="btn btn-primary" (click)="saveNode()" [ngClass]="{'disabled': !chosenNodeClass}">
+        <span>Save</span>
+        <i class="icon-arrow-right14 position-right"></i>
+    </button>
+</div>
