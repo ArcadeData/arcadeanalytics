@@ -3,6 +3,7 @@ import { BsModalRef } from 'ngx-bootstrap';
 import { NotificationService } from 'app/shared/services';
 import 'rxjs/add/observable/of';
 import { WidgetService } from '../..';
+import { JhiEventManager } from 'ng-jhipster';
 
 @Component({
     selector: 'jhi-resource-embed-popup',
@@ -12,9 +13,10 @@ import { WidgetService } from '../..';
 export class AddNodeModalComponent implements OnInit, AfterViewInit, OnDestroy {
 
     nodeClassesNames: string[];
-    chosenNodeClass: string;
+    chosenNodeClassName: string;
 
-    constructor(protected notificationService: NotificationService,
+    constructor(private eventManager: JhiEventManager,
+        protected notificationService: NotificationService,
         public modalRef: BsModalRef,
         protected widgetService: WidgetService) { }
 
@@ -26,9 +28,13 @@ export class AddNodeModalComponent implements OnInit, AfterViewInit, OnDestroy {
     ngOnDestroy() {
     }
 
-    saveEdge() {
-        // save the edge
-        // TODO
+    triggerNodeSaving() {
+        // trigger the edge-save event
+        this.eventManager.broadcast({
+            name: 'nodeClassChosenForNewNode',
+            nodeClassName: this.chosenNodeClassName,
+            action: 'save'
+        });
 
         this.modalRef.hide();
     }

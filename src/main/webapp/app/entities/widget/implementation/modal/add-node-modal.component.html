@@ -13,7 +13,7 @@
             <label>
                 Class:
             </label>
-            <select *ngIf="nodeClassesNames" id="nodeClassSelection" class="form-control" [(ngModel)]="chosenNodeClass">
+            <select *ngIf="nodeClassesNames" id="nodeClassSelection" class="form-control" [(ngModel)]="chosenNodeClassName">
                 <option *ngFor="let className of nodeClassesNames" [ngValue]="className"> {{className}} </option>
             </select>
         </div>
@@ -24,7 +24,7 @@
         <span class="fa fa-ban"></span>&nbsp;
         <span jhiTranslate="graphwidget.queryModal.cancel">Cancel</span>
     </button>
-    <button type="button" class="btn btn-primary" (click)="saveNode()" [ngClass]="{'disabled': !chosenNodeClass}">
+    <button type="button" class="btn btn-primary" (click)="triggerNodeSaving()" [ngClass]="{'disabled': !chosenNodeClassName}">
         <span>Save</span>
         <i class="icon-arrow-right14 position-right"></i>
     </button>
