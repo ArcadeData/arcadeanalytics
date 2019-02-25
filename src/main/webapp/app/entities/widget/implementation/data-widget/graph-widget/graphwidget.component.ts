@@ -1342,10 +1342,7 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
             this.graphUnselectAll();
 
             const addedNode = this.cy.add(newNode)
-            // .addClass(className)
             .select();
-
-            const x = addedNode.json();
 
             const message = 'New node ' + addedNode.id() + ' correctly added.';
             this.notificationService.push('success', 'Add Node', message);
