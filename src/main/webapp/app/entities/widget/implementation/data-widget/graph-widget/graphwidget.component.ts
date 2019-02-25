@@ -415,10 +415,6 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
 
         this.subscribeToEventBus();
 
-        this.edgeClassChosenForNewEdgeSubscription = this.eventManager.subscribe('edgeClassChosenForNewEdge', (event) => {
-            this.onEdgeClassNameChosenForNewEdge(event);
-        });
-
         // widget id init
         this.widgetId = this.widget['id'];
         this.fileName = this.widget['name'];
@@ -463,6 +459,7 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
         });
 
         this.registerChangeInDashboards();
+        this.registerAddingElementsEvents();
 
         if (!this.embedded) {
             // authorities and depending params init
@@ -481,10 +478,24 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
         );
     }
 
+    registerAddingElementsEvents() {
+        this.edgeClassChosenForNewEdgeSubscription = this.eventManager.subscribe('edgeClassChosenForNewEdge', (event) => {
+            this.onEdgeClassNameChosenForNewEdge(event);
+        });
+
+        this.nodeClassChosenForNewNodeSubscription = this.eventManager.subscribe('nodeClassChosenForNewNode', (event) => {
+            this.onNodeClassNameChosenForNewEdge(event);
+        });
+    }
+
     ngOnChanges(changes: SimpleChanges): void {}
 
     ngOnDestroy() {
         this.eventManager.destroy(this.dashboardPanelResizedSubscriber);
+        this.eventManager.destroy(this.subsetSelectionSubscription);
+        this.eventManager.destroy(this.datasetPropagationRequestSubscription);
+        this.eventManager.destroy(this.edgeClassChosenForNewEdgeSubscription);
+        this.eventManager.destroy(this.nodeClassChosenForNewNodeSubscription);
 
         // destroying context menu instance if any
         if (this.contextMenuInstance) {
@@ -1306,6 +1317,46 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
         this.toSave = false;
     }
 
+    // triggered after the node class name of the current adding-node has been chosen
+    onNodeClassNameChosenForNewEdge(event: Object) {
+
+        const className: string = event['nodeClassName'];
+
+        if (event['action'] === 'save') {
+            // add new node class
+            const newNode = {
+                group: 'nodes',
+                data: {
+                    type: 'v',
+                    class: className,
+                    edgeCount: 0,
+                    record: { '@in': {}, '@out': {} }
+                },
+                selected: false, // whether the element is selected (default false)
+                selectable: true, // whether the selection state is mutable (default true)
+                locked: false, // when locked a node's position is immutable (default false)
+                grabbable: true, // whether the node can be grabbed and moved by the user
+                classes: className,
+            };
+
+            this.graphUnselectAll();
+
+            const addedNode = this.cy.add(newNode)
+            // .addClass(className)
+            .select();
+
+            const x = addedNode.json();
+
+            const message = 'New node ' + addedNode.id() + ' correctly added.';
+            this.notificationService.push('success', 'Add Node', message);
+
+            if (this.applyLastLayout) {
+                this.applyLastLayout();
+            }
+        }
+
+    }
+
     onAddEdgeAnimationComplete(sourceNode: any, targetNode: any, addedEles: any): any {
         this.tempAddingEdge = addedEles[0];
 
@@ -1327,6 +1378,8 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
             this.tempAddingEdge.data('class', className);
             this.tempAddingEdge.data('type', 'e');
             this.tempAddingEdge.data('record', { '@in': {}, '@out': {} });
+
+            this.graphUnselectAll();
             this.tempAddingEdge.select();
 
             const message = 'New edge from ' + event['sourceNode']['data']['id'] + ' to ' + event['sourceNode']['data']['id'] + ' correctly added.';
