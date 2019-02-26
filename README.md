@@ -3,6 +3,10 @@
 
 # Arcade Analytics - Play With Data
 
+Docker images of Arcade and demo databases are available on [Docker hub](https://cloud.docker.com/u/arcadeanalytics/)
+
+## Quick start 
+
 To launch ArcadeAnalytics just run (needs docker installed)
 
     docker-compose -f src/main/docker/app.yml up
@@ -13,11 +17,46 @@ and then go to
     
 login as _user_ with password _user_
 
+To be able to create new users, fill the properties inside the compose:
+
+          - SPRING_EMAIL_HOST=smtp.gmail.com
+          - SPRING_EMAIL_PORT=587
+          - SPRING_EMAIL_USERNAME=
+          - SPRING_EMAIL_PASSWORD=
+          - JHNIPSTER_MAIL_FROM=
+          - JHNIPSTER_MAIL_BASE-URL=
+
+Then restart the container and login with admin/admin credentials.
+
 The Docker compose starts ArcadeAnalytics, a PostgreSQL database, an Elastic instance and an OrientDB with its _demodb_ preloaded.
 
 For detailed instructions on how to use Arcade read the [manual](https://arcadeanalytics.com/usermanual/) 
 
+## Start with "single" (embedded) image
+
+Arcade is provided as a all-embedded image, where hsql and embedded Elasicsearch are used instead of Postgresql and ES on separate containers.
+
+    docker-compose -f src/main/docker/app-single.yml up
+
+This compose doesn't start containers with test databases
+
+## Run support containers with test databases
+
+Compose configurations with preconfigured databases are provided in the src/main/docker directory:
+* OrientDB with preconfigured demodb
+* Postgres with dvd rental demo database
+* Mysql with sakila (dvd rental) demo database
+
+To run a db container use the provided compose:
+
+    docker-compose -f src/main/docker/postgresql-dvd-rental.yml up
+
+    docker-compose -f src/main/docker/orientdb2.yml up
+
+
 ## Development
+
+*NOTE*: Arcade was built using JHipster
 
 Before you can build this project, you must install and configure the following dependencies on your machine:
 
