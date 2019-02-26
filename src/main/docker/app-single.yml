@@ -1,7 +1,7 @@
 version: '2'
 services:
   arcadeanalytics-stage:
-    image: arcadeanalytics/arcadeanalytics:latest-single
+    image: arcadeanalytics/arcadeanalytics-single:latest
     user: ${CURRENT_UID}
     environment:
       - SPRING_PROFILES_ACTIVE=prod-single
