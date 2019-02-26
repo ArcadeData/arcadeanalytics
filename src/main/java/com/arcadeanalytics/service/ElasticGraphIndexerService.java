@@ -93,8 +93,9 @@ public class ElasticGraphIndexerService {
     /**
      * Perform indexing of the given {@link DataSource} fetching data with the given set of queries
      *
-     * @param datasource
+     * @param datasource the {@link DataSource} to be indexed
      * @param queries    a set of queries used to fetch data from the {@link DataSource}
+     * @return a future with the {@link DataSourceIndex} descriptor
      */
     @Async
     @Timed
@@ -174,9 +175,10 @@ public class ElasticGraphIndexerService {
     /**
      * Search over the indexed {@link DataSource} by the given query.
      *
-     * @param dataSource
-     * @param query
+     * @param dataSource the datasource
+     * @param query      the lucene query
      * @return the list of results
+     * @throws IOException if somethig goes wrong
      */
     @Timed
     public List<Sprite> search(DataSource dataSource, SearchQueryDTO query) throws IOException {

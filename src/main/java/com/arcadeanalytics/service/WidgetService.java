@@ -120,7 +120,8 @@ public class WidgetService {
     /**
      * Save a widget.
      *
-     * @param widgetDTO the entity to save
+     * @param widgetDTO    the entity to save
+     * @param dataSourceId the dataSource id
      * @return the persisted entity
      */
     public WidgetDTO save(WidgetDTO widgetDTO, Long dataSourceId) {
@@ -282,8 +283,8 @@ public class WidgetService {
     /**
      * Returns the latest snapshot
      *
-     * @param id
-     * @return
+     * @param id of the widget
+     * @return The snapshot as String
      */
     public Optional<String> getSnapshot(Long id) {
 
@@ -297,8 +298,8 @@ public class WidgetService {
     /**
      * Returns the latest snapshot
      *
-     * @param uuid
-     * @return
+     * @param uuid the uuid of the widget (used whe n sharing)
+     * @return the snapshot as string
      */
     public Optional<String> getSnapshotForEmbed(UUID uuid) {
 
@@ -314,9 +315,9 @@ public class WidgetService {
     /**
      * Returns the snapshot with the given filename, or the last id the given file name is "last"
      *
-     * @param id
-     * @param fileName
-     * @return
+     * @param id       widget
+     * @param fileName file name
+     * @return snapshot Json as string
      */
     public Optional<String> getSnapshot(Long id, String fileName) {
 
@@ -499,8 +500,8 @@ public class WidgetService {
     /**
      * Utility method that verifies if the requested widget is visible to the current user
      *
-     * @param id
-     * @return
+     * @param id widget id
+     * @return the Widget
      */
     private Optional<Widget> getWidgetIfAllowed(Long id) {
 

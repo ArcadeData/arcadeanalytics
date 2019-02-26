@@ -55,8 +55,8 @@ public class UserJWTController {
     /**
      * Method added to support ZOHO integration
      *
-     * @param loginVM
-     * @return
+     * @param loginVM the login
+     * @return the token
      */
     @PostMapping(value = "/authenticate", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @Timed

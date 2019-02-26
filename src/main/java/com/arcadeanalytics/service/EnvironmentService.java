@@ -32,7 +32,6 @@ import java.util.Optional;
  */
 @Service
 @Transactional
-
 public class EnvironmentService {
 
     private static final String TEMPLATE_USER_NAME = "user";
@@ -50,12 +49,15 @@ public class EnvironmentService {
     private final WidgetRepository widgetRepository;
 
     private final WidgetSearchRepository widgetSearchRepository;
+
     private final ArcadeUserRepository arcadeUserRepository;
 
     private final CompanyRepository companyRepository;
 
     private final DataSourceIndexRepository dataSourceIndexRepository;
+
     private final ElasticGraphIndexerService elasticGraphIndexerService;
+
     private final FileSystemDataProvider fileSystemDataProvider;
 
     public EnvironmentService(WorkspaceRepository workspaceRepository,
@@ -86,8 +88,8 @@ public class EnvironmentService {
     /**
      * Creates a base environment copying {@link Dashboard}s from the template user
      *
-     * @param user
-     * @param contractType
+     * @param user         the {@link User}
+     * @param contractType the {@link ContractType}
      */
     public void createBaseEnvironment(User user, ContractType contractType) {
 
@@ -171,7 +173,7 @@ public class EnvironmentService {
     /**
      * Delete the environment of a {@link User}: {@link Workspace}s, {@link Dashboard}s, {@link DataSource}s
      *
-     * @param user
+     * @param user the {@link User}
      */
     public void destroyEnvironment(User user) {
 
@@ -199,7 +201,7 @@ public class EnvironmentService {
     /**
      * Deletes a {@link DataSource}, the full-text index associated and the history of index processing
      *
-     * @param dataSource
+     * @param dataSource the {@link DataSource}
      */
     public void deleteDataSource(DataSource dataSource) {
         elasticGraphIndexerService.deleteIndex(dataSource);
@@ -214,7 +216,7 @@ public class EnvironmentService {
     /**
      * Deletes a {@link Dashboard} and all off its {@link Widget}s from search system too
      *
-     * @param dashboard
+     * @param dashboard the {@link Dashboard}
      */
     public void deleteDashboard(Dashboard dashboard) {
         final List<Widget> widgets = widgetRepository.findByDashboard(dashboard);

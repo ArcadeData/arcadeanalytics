@@ -13,8 +13,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.net.URISyntaxException;
-
 /**
  * REST controller for managing Elasticsearch process.
  */
@@ -31,12 +29,14 @@ public class ElasticsearchIndexResource {
     }
 
     /**
-     * POST  /elasticsearch/process -> Reindex all Elasticsearch documents
+     * POST  /elasticsearch/process  Reindex all Elasticsearch documents
+     *
+     * @return what happened
      */
     @PostMapping("/elasticsearch/index")
     @Timed
     @Secured(AuthoritiesConstants.ADMIN)
-    public ResponseEntity<Void> reindexAll() throws URISyntaxException {
+    public ResponseEntity<Void> reindexAll() {
         log.info("REST request to reindex Elasticsearch by user : {}", SecurityUtils.getCurrentUserLogin());
         elasticsearchIndexService.reindexAll();
         return ResponseEntity.accepted()

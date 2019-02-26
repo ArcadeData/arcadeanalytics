@@ -115,6 +115,7 @@ public class WidgetResource {
     /**
      * GET  /widgets : get all the widgets.
      *
+     * @param id {@link com.arcadeanalytics.domain.Dashboard} id
      * @param pageable the pagination information
      * @return the ResponseEntity with status 200 (OK) and the list of widgets in body
      */

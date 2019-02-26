@@ -49,7 +49,11 @@ public class DataSourceSearchResource {
     }
 
     /**
-     * GET  /search/index/datasource/{id} -> (Re)index a datasource
+     * GET  /search/index/datasource/{id}  (Re)index a datasource
+     *
+     * @param id    the Datasource id
+     * @param query the lucene query
+     * @return 200ok if indexing was good
      */
     @GetMapping("/_search/data-sources/index/{id}")
     @Timed
@@ -69,7 +73,10 @@ public class DataSourceSearchResource {
     }
 
     /**
-     * DEL /search/index/datasource/{id} -> (Re)index a datasource
+     * DEL /search/index/datasource/{id} (Re)index a datasource
+     *
+     * @param id the Datasource id
+     * @return the ResponseEntity with status 201 (deleted) and with body the new dataSourceDTO
      */
     @DeleteMapping("/_search/data-sources/index/{id}")
     @Timed
@@ -86,7 +93,17 @@ public class DataSourceSearchResource {
     }
 
     /**
-     * GET  /search/index/data-source/aggregate/{id} -> aggregate whole data-source
+     * GET  /search/index/data-source/aggregate/{id}
+     * <p>
+     * aggregate the whole data-source
+     *
+     * @param id                Datasource id
+     * @param classes           set of classes
+     * @param fields            set of fields
+     * @param minDocCount       min doc count to include a facet
+     * @param maxValuesPerField max valure to fetch per every field
+     * @return the facet tree
+     * @throws IOException if something goes wrong while aggregating
      */
     @GetMapping("/_search/data-sources/aggregate/{id}")
     @Timed
@@ -105,6 +122,15 @@ public class DataSourceSearchResource {
 
     /**
      * POST  /search/index/data-source/aggregate/{id} aggregate the data-source using the id list provided inside {@link SearchQueryDTO} as filter
+     *
+     * @param id                Datasource id
+     * @param query             the search query to be used as filter
+     * @param classes           set of classes
+     * @param fields            set of fields
+     * @param minDocCount       min doc count to include a facet
+     * @param maxValuesPerField max valure to fetch per every field
+     * @return the facet tree
+     * @throws IOException if something goes wrong while aggregating
      */
     @PostMapping("/_search/data-sources/aggregate/{id}")
     @Timed
@@ -124,6 +150,11 @@ public class DataSourceSearchResource {
 
     /**
      * SEARCH  /_search/data-sources/{id}/ search inside the dataSource for documents matching the query.
+     *
+     * @param id    the Datasource id
+     * @param query the lucene query
+     * @return the documents
+     * @throws IOException is something goes wrong
      */
     @PostMapping("/_search/data-sources/{id}")
     @Timed
