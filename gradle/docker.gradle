@@ -35,7 +35,7 @@ task buildDockerSingle(type: DockerBuildImage, dependsOn: 'copyDockerFiles') {
     group = "Docker"
     inputDir = project.file("${project.buildDir}/docker")
     def date = new Date().format('yyyyMMdd')
-    tags = ["arcadeanalytics/arcadeanalytics:latest-single".toString(), "arcadeanalytics/arcadeanalytics:${date}-single".toString(), "arcadeanalytic/arcadeanalytics:${project.version}-single".toString()]
+    tags = ["arcadeanalytics/arcadeanalytics-single:latest".toString(), "arcadeanalytics/arcadeanalytics-single:${date}".toString(), "arcadeanalytic/arcadeanalytics-single:${project.version}".toString()]
 }
 
 
