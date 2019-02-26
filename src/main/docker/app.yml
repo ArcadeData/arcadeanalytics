@@ -34,9 +34,15 @@ services:
       - 9200:9200
       - 9300:9300
   arcadeanalytics-orientdb:
-    image: arcadeanalytics/orientdb:2.2.36
-    environment:
-      ORIENTDB_ROOT_PASSWORD: arcade
-    ports:
-      - 2480:2480
-      - 2424:2424
+    extends:
+      file: orientdb2.yml
+      service: arcadeanalytics-orientdb
+# uncomment to startup demo database
+#  arcadeanalytics-postgresql-dvd-rental:
+#    extends:
+#      file: postgresql-dvd-rental.yml
+#      service: arcadeanalytics-postgresql-dvd-rental
+#  arcadeanalytics-mysql-sakila:
+#    extends:
+#      file: mysql-sakila.yml
+#      service: arcadeanalytics-mysql-sakila

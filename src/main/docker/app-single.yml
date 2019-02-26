@@ -1,6 +1,6 @@
 version: '2'
 services:
-  arcadeanalytics-stage:
+  arcadeanalytics-single:
     image: arcadeanalytics/arcadeanalytics-single:latest
     user: ${CURRENT_UID}
     environment:
@@ -13,4 +13,17 @@ services:
     ports:
       - 8080:8080
     volumes:
-      - ~/.arcade-single-os/:/arcade/
+      - ~/.arcade-single/:/arcade/
+# uncomment to startup demo database(s)
+#  arcadeanalytics-orientdb:
+#    extends:
+#      file: orientdb2.yml
+#      service: arcadeanalytics-orientdb
+#  arcadeanalytics-postgresql-dvd-rental:
+#    extends:
+#      file: postgresql-dvd-rental.yml
+#      service: arcadeanalytics-postgresql-dvd-rental
+#  arcadeanalytics-mysql-sakila:
+#    extends:
+#      file: mysql-sakila.yml
+#      service: arcadeanalytics-mysql-sakila
