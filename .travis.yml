@@ -5,6 +5,7 @@ service: docker
 before_install:
   - docker version
   - docker info
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
 
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
@@ -19,7 +20,11 @@ notifications:
     - ro.franchini@gmail.com
 
 script:
-  ./gradlew clean test
+  - ./gradlew clean test
+  - ./gradlew clean  bootRepackage buildDocker -x test -Pprod  -PnodeInstall --no-daemon
+  - docker push arcadeanalytics/arcadeanalytics:latest
+  - ./gradlew clean  bootRepackage buildDockerSingle  -x test -Pprod  -PnodeInstall --no-daemon
+  - docker push arcadeanalytics/arcadeanalytics-single:latest
 
 jdk:
   - openjdk8
