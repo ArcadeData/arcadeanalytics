@@ -134,6 +134,7 @@ jhipster:
 # ===================================================================
 
 application:
+    templateUser: user
     mediaPath: WEB-INF/classes/public/content/media/
     connectorsPath: ./arcade-connectors
     storage:

@@ -20,6 +20,7 @@ import com.arcadeanalytics.repository.WorkspaceRepository;
 import com.arcadeanalytics.repository.search.WidgetSearchRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -60,6 +61,8 @@ public class EnvironmentService {
 
     private final FileSystemDataProvider fileSystemDataProvider;
 
+    private final String templateUserName;
+
     public EnvironmentService(WorkspaceRepository workspaceRepository,
                               DashboardRepository dashboardRepository,
                               DataSetRepository dataSetRepository,
@@ -70,7 +73,8 @@ public class EnvironmentService {
                               CompanyRepository companyRepository,
                               DataSourceIndexRepository dataSourceIndexRepository,
                               ElasticGraphIndexerService elasticGraphIndexerService,
-                              FileSystemRepository fileSystemRepository) {
+                              FileSystemRepository fileSystemRepository,
+                              Environment env) {
         this.workspaceRepository = workspaceRepository;
         this.dashboardRepository = dashboardRepository;
         this.dataSetRepository = dataSetRepository;
@@ -83,6 +87,9 @@ public class EnvironmentService {
         this.elasticGraphIndexerService = elasticGraphIndexerService;
         this.fileSystemDataProvider = new FileSystemDataProvider(fileSystemRepository);
 
+        templateUserName = env.getProperty("application.templateUser", TEMPLATE_USER_NAME);
+
+        log.info("template user name is:: {}", templateUserName);
     }
 
     /**
@@ -127,7 +134,7 @@ public class EnvironmentService {
 
     private boolean createDataSources(Workspace workspace, Dashboard dashboard) {
 
-        widgetRepository.findByDashboardWorkspaceUserUserLogin(TEMPLATE_USER_NAME)
+        widgetRepository.findByDashboardWorkspaceUserUserLogin(templateUserName)
                 .stream()
                 .forEach(widget -> {
 
