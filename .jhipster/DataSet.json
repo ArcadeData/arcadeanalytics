@@ -1,0 +1,33 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "operations",
+            "otherEntityName": "dataSetOperation",
+            "otherEntityRelationshipName": "dataset"
+        },
+        {
+            "relationshipType": "one-to-one",
+            "relationshipName": "widget",
+            "otherEntityName": "widget",
+            "ownerSide": false,
+            "otherEntityRelationshipName": "dataSet"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "name",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        }
+    ],
+    "changelogDate": "20180321140901",
+    "entityTableName": "data_set",
+    "dto": "mapstruct",
+    "pagination": "pagination",
+    "service": "no",
+    "jpaMetamodelFiltering": false
+}

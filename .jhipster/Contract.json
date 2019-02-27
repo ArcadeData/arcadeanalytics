@@ -1,0 +1,60 @@
+{
+    "fluentMethods": true,
+    "relationships": [],
+    "fields": [
+        {
+            "fieldName": "name",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "description",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "type",
+            "fieldType": "ContractType",
+            "fieldValues": "DEMO,FREE,SILVER,GOLD,CUSTOM"
+        },
+        {
+            "fieldName": "maxWorkspaces",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "maxDashboards",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "maxWidgets",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "maxElements",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "maxTraversal",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "maxPower",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "ha",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "pollingInterval",
+            "fieldType": "Integer"
+        }
+    ],
+    "changelogDate": "20180321140855",
+    "dto": "mapstruct",
+    "service": "no",
+    "entityTableName": "contract",
+    "jpaMetamodelFiltering": false,
+    "pagination": "pagination"
+}
