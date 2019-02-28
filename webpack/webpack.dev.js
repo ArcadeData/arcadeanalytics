@@ -17,7 +17,7 @@ const ENV = 'development';
 module.exports = webpackMerge(commonConfig({ env: ENV }), {
     devtool: 'eval-source-map',
     devServer: {
-        contentBase: './build/www',
+        contentBase: './target/www',
         proxy: [{
             context: [
                 /* jhipster-needle-add-entity-to-webpack - JHipster will add entity api paths here */
@@ -50,7 +50,7 @@ module.exports = webpackMerge(commonConfig({ env: ENV }), {
         themelimitless: './src/main/webapp/content/assets/js/core/app.min.js'
     },
     output: {
-        path: utils.root('build/www'),
+        path: utils.root('target/www'),
         filename: 'app/[name].bundle.js',
         chunkFilename: 'app/[id].chunk.js'
     },
@@ -68,7 +68,7 @@ module.exports = webpackMerge(commonConfig({ env: ENV }), {
                     {
                         loader: 'cache-loader',
                         options: {
-                          cacheDirectory: path.resolve('build/cache-loader')
+                          cacheDirectory: path.resolve('target/cache-loader')
                         }
                     },
                     {

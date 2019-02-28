@@ -26,8 +26,7 @@ module.exports = webpackMerge(commonConfig({ env: ENV }), {
         themelimitless: './src/main/webapp/content/assets/js/core/app.min.js'
     },
     output: {
-        // path: utils.root('build/www'),
-        path: utils.root('build/resources/main/public'),
+        path: utils.root('target/www'),
         filename: 'app/[name].[hash].bundle.js',
         chunkFilename: 'app/[id].[hash].chunk.js'
     },

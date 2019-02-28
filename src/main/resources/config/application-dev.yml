@@ -41,15 +41,15 @@ spring:
             hibernate.cache.use_second_level_cache: true
             hibernate.cache.use_query_cache: false
             hibernate.generate_statistics: true
-            hibernate.cache.region.factory_class: io.github.jhipster.config.jcache.NoDefaultJCacheRegionFactory
+            hibernate.cache.region.factory_class: io.github.jhipster.config.jcache.BeanClassLoaderAwareJCacheRegionFactory
     data:
         elasticsearch:
             cluster-name:
             cluster-nodes:
             properties:
                 path:
-                    logs: build/elasticsearch/log
-                    data: build/elasticsearch/data
+                    logs: target/elasticsearch/log
+                    data: target/elasticsearch/data
     mail:
         host: smtp.gmail.com
         port: 587

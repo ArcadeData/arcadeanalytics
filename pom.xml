@@ -18,7 +18,7 @@
         <maven.version>3.0.0</maven.version>
         <java.version>1.8</java.version>
         <scala.version>2.12.1</scala.version>
-        <node.version>v8.9.4</node.version>
+        <node.version>v10.15.1</node.version>
         <yarn.version>v1.3.2</yarn.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -59,7 +59,7 @@
         <maven-resources-plugin.version>3.0.1</maven-resources-plugin.version>
         <maven-surefire-plugin.version>2.18.1</maven-surefire-plugin.version>
         <maven-war-plugin.version>2.6</maven-war-plugin.version>
-        <dockerfile-maven-plugin.version>1.3.4</dockerfile-maven-plugin.version>
+        <dockerfile-maven-plugin.version>1.4.10</dockerfile-maven-plugin.version>
         <frontend-maven-plugin.version>1.6</frontend-maven-plugin.version>
         <gatling-maven-plugin.version>2.2.1</gatling-maven-plugin.version>
         <jacoco-maven-plugin.version>0.7.9</jacoco-maven-plugin.version>
@@ -394,6 +394,8 @@
             <artifactId>spring-social-twitter</artifactId>
         </dependency>
 
+        <!--custom dependencies-->
+
         <dependency>
             <groupId>org.jetbrains.kotlin</groupId>
             <artifactId>kotlin-stdlib-jdk8</artifactId>
@@ -455,6 +457,46 @@
         <defaultGoal>spring-boot:run</defaultGoal>
         <plugins>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy</id>
+                        <phase>initialize</phase>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/arcade-connectors</outputDirectory>
+                            <overWriteReleases>false</overWriteReleases>
+                            <overWriteSnapshots>true</overWriteSnapshots>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>com.arcadeanalytics</groupId>
+                                    <artifactId>arcade-connectors-neo4j3</artifactId>
+                                    <version>1.0.2</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>com.arcadeanalytics</groupId>
+                                    <artifactId>arcade-connectors-orientdb2</artifactId>
+                                    <version>1.0.2</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>com.arcadeanalytics</groupId>
+                                    <artifactId>arcade-connectors-gremlin</artifactId>
+                                    <version>1.0.2</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>com.arcadeanalytics</groupId>
+                                    <artifactId>arcade-connectors-rdbms</artifactId>
+                                    <version>1.0.2</version>
+                                </artifactItem>
+                            </artifactItems>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
                 <groupId>io.gatling</groupId>
                 <artifactId>gatling-maven-plugin</artifactId>
                 <version>${gatling-maven-plugin.version}</version>
@@ -492,9 +534,9 @@
                     </compilerPlugins>
 
                     <!--<pluginOptions>-->
-                        <!--&lt;!&ndash; Each annotation is placed on its own line &ndash;&gt;-->
-                        <!--<option>all-open:annotation=com.my.Annotation</option>-->
-                        <!--<option>all-open:annotation=com.their.AnotherAnnotation</option>-->
+                    <!--&lt;!&ndash; Each annotation is placed on its own line &ndash;&gt;-->
+                    <!--<option>all-open:annotation=com.my.Annotation</option>-->
+                    <!--<option>all-open:annotation=com.their.AnotherAnnotation</option>-->
                     <!--</pluginOptions>-->
                 </configuration>
 
@@ -780,28 +822,28 @@
                     -->
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>com.spotify</groupId>
-                <artifactId>dockerfile-maven-plugin</artifactId>
-                <version>${dockerfile-maven-plugin.version}</version>
-                <!--
-                Uncomment the section below to build the docker image with mvn package and and push it with mvn deploy
-                <executions>
-                    <execution>
-                    <id>default</id>
-                    <goals>
-                        <goal>build</goal>
-                        <goal>push</goal>
-                    </goals>
-                    </execution>
-                </executions>
-                -->
-                <configuration>
-                    <repository>arcadeanalytics</repository>
-                    <tag>latest</tag>
-                    <contextDirectory>${project.build.directory}</contextDirectory>
-                </configuration>
-            </plugin>
+            <!--<plugin>-->
+                <!--<groupId>com.spotify</groupId>-->
+                <!--<artifactId>dockerfile-maven-plugin</artifactId>-->
+                <!--<version>${dockerfile-maven-plugin.version}</version>-->
+                <!--&lt;!&ndash;-->
+                <!--Uncomment the section below to build the docker image with mvn package and and push it with mvn deploy-->
+                <!--<executions>-->
+                    <!--<execution>-->
+                    <!--<id>default</id>-->
+                    <!--<goals>-->
+                        <!--<goal>build</goal>-->
+                        <!--<goal>push</goal>-->
+                    <!--</goals>-->
+                    <!--</execution>-->
+                <!--</executions>-->
+                <!--&ndash;&gt;-->
+                <!--<configuration>-->
+                    <!--<repository>arcadeanalytics/arcadeanalytics</repository>-->
+                    <!--<tag>latest</tag>-->
+                    <!--<contextDirectory>${project.build.directory}</contextDirectory>-->
+                <!--</configuration>-->
+            <!--</plugin>-->
             <plugin>
                 <!--
                     Plugin that provides API-first development using swagger-codegen to
@@ -1100,11 +1142,215 @@
                             </includeOnlyProperties>
                         </configuration>
                     </plugin>
+
+                    <plugin>
+                        <groupId>com.spotify</groupId>
+                        <artifactId>dockerfile-maven-plugin</artifactId>
+                        <version>${dockerfile-maven-plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <id>default</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>build</goal>
+                                    <goal>tag</goal>
+                                    <!--<goal>push</goal>-->
+                                </goals>
+                                <configuration>
+                                    <tag>latest</tag>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>tag-version</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>tag</goal>
+                                    <!--<goal>push</goal>-->
+                                </goals>
+                                <configuration>
+                                    <tag>${project.version}</tag>
+                                </configuration>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <repository>arcadeanalytics/arcadeanalytics</repository>
+                            <contextDirectory>${project.build.directory}</contextDirectory>
+                        </configuration>
+                    </plugin>
+
+
                 </plugins>
             </build>
             <properties>
                 <!-- default Spring profiles -->
                 <spring.profiles.active>prod${profile.swagger}${profile.no-liquibase}</spring.profiles.active>
+            </properties>
+        </profile>
+        <profile>
+            <id>prod-single</id>
+            <dependencies>
+                <dependency>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-undertow</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>com.h2database</groupId>
+                    <artifactId>h2</artifactId>
+                </dependency>
+            </dependencies>
+            <build>
+                <finalName>${project.artifactId}-single-${project.version}</finalName>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-clean-plugin</artifactId>
+                        <version>${maven-clean-plugin.version}</version>
+                        <configuration>
+                            <filesets>
+                                <fileset>
+                                    <directory>target/www/</directory>
+                                </fileset>
+                            </filesets>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-war-plugin</artifactId>
+                        <version>${maven-war-plugin.version}</version>
+                        <configuration>
+                            <failOnMissingWebXml>false</failOnMissingWebXml>
+                            <warSourceDirectory>target/www/</warSourceDirectory>
+                            <webResources>
+                                <resource>
+                                    <directory>src/main/webapp</directory>
+                                    <includes>
+                                        <include>WEB-INF/**</include>
+                                    </includes>
+                                </resource>
+                            </webResources>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.springframework.boot</groupId>
+                        <artifactId>spring-boot-maven-plugin</artifactId>
+                        <version>${spring-boot.version}</version>
+                        <configuration>
+                            <mainClass>${start-class}</mainClass>
+                            <executable>true</executable>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>build-info</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>com.github.eirslett</groupId>
+                        <artifactId>frontend-maven-plugin</artifactId>
+                        <version>${frontend-maven-plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <id>install node and yarn</id>
+                                <goals>
+                                    <goal>install-node-and-yarn</goal>
+                                </goals>
+                                <configuration>
+                                    <nodeVersion>${node.version}</nodeVersion>
+                                    <yarnVersion>${yarn.version}</yarnVersion>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>yarn install</id>
+                                <goals>
+                                    <goal>yarn</goal>
+                                </goals>
+                                <configuration>
+                                    <arguments>install --force</arguments>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>webpack build test</id>
+                                <goals>
+                                    <goal>yarn</goal>
+                                </goals>
+                                <phase>test</phase>
+                                <configuration>
+                                    <arguments>run webpack:test</arguments>
+                                    <yarnInheritsProxyConfigFromMaven>false</yarnInheritsProxyConfigFromMaven>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>webpack build prod</id>
+                                <goals>
+                                    <goal>yarn</goal>
+                                </goals>
+                                <phase>generate-resources</phase>
+                                <configuration>
+                                    <arguments>run webpack:prod</arguments>
+                                    <yarnInheritsProxyConfigFromMaven>false</yarnInheritsProxyConfigFromMaven>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>pl.project13.maven</groupId>
+                        <artifactId>git-commit-id-plugin</artifactId>
+                        <version>2.2.4</version>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>revision</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <failOnNoGitDirectory>false</failOnNoGitDirectory>
+                            <generateGitPropertiesFile>true</generateGitPropertiesFile>
+                            <includeOnlyProperties>
+                                <includeOnlyProperty>^git.commit.id.abbrev$</includeOnlyProperty>
+                                <includeOnlyProperty>^git.commit.id.describe$</includeOnlyProperty>
+                                <includeOnlyProperty>^git.branch$</includeOnlyProperty>
+                            </includeOnlyProperties>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>com.spotify</groupId>
+                        <artifactId>dockerfile-maven-plugin</artifactId>
+                        <version>${dockerfile-maven-plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <id>default</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>build</goal>
+                                    <goal>tag</goal>
+                                    <!--<goal>push</goal>-->
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>tag</id>
+                                <goals>
+                                    <goal>tag</goal>
+                                    <!--<goal>push</goal>-->
+                                </goals>
+                                <configuration>
+                                    <tag>${project.version}</tag>
+                                </configuration>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <repository>arcadeanalytics/arcadeanalytics-single</repository>
+                            <tag>latest</tag>
+                            <contextDirectory>${project.build.directory}</contextDirectory>
+                        </configuration>
+                    </plugin>
+
+                </plugins>
+            </build>
+            <properties>
+                <!-- default Spring profiles -->
+                <spring.profiles.active>prod-single${profile.swagger}${profile.no-liquibase}</spring.profiles.active>
             </properties>
         </profile>
         <profile>
