@@ -15,8 +15,8 @@ notifications:
     - ro.franchini@gmail.com
 
 script:
-  - ./mvnw clean  -DskipTests deploy  -Pprod -Prelease
-  - ./mvnw clean  -DskipTests deploy  -Pprod-single -Prelease
+  - ./mvnw clean  -DskipTests deploy  -Pprod -fae --settings .travis/settings.xml
+  - ./mvnw clean  -DskipTests deploy  -Pprod-single -fae --settings .travis/settings.xml
 
 jdk:
   - openjdk8
