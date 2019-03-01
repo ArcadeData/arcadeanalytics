@@ -5,9 +5,14 @@ services:
     environment:
       - SPRING_PROFILES_ACTIVE=prod,swagger
       - SPRING_DATASOURCE_URL=jdbc:postgresql://arcadeanalytics-postgresql:5432/arcadeanalytics
-      - JHIPSTER_SLEEP=10 # gives time for the database to boot before the application
       - SPRING_DATA_ELASTICSEARCH_CLUSTER_NODES=arcadeanalytics-elasticsearch:9300
+      - SPRING_EMAIL_HOST=smtp.gmail.com
+      - SPRING_EMAIL_PORT=587
+      - SPRING_EMAIL_USERNAME=
+      - SPRING_EMAIL_PASSWORD=
+      - JHIPSTER_SLEEP=10 # gives time for the database to boot before the application
       - APPLICATION_PATH=/arcade
+      - APPLICATION_MEDIAPATH=/content/media/
       - APPLICATION_STORAGE_PATH=/arcade/storage
       - APPLICATION_CONNECTORSPATH=/arcade-connectors
       - JAVA_OPTS=-DSSH_PRIV_KEY=/arcade/.ssh/id_rsa -DSSH_PUB_KEY=/arcade/.ssh/id_rsa.pub

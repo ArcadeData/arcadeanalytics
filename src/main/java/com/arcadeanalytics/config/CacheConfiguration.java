@@ -15,6 +15,7 @@ import org.springframework.context.annotation.Configuration;
 
 import java.util.concurrent.TimeUnit;
 
+
 @Configuration
 @EnableCaching
 @AutoConfigureAfter(value = {MetricsConfiguration.class})
@@ -37,7 +38,8 @@ public class CacheConfiguration {
     @Bean
     public JCacheManagerCustomizer cacheManagerCustomizer() {
         return cm -> {
-            cm.createCache("users", jcacheConfiguration);
+            cm.createCache(com.arcadeanalytics.repository.UserRepository.USERS_BY_LOGIN_CACHE, jcacheConfiguration);
+            cm.createCache(com.arcadeanalytics.repository.UserRepository.USERS_BY_EMAIL_CACHE, jcacheConfiguration);
             cm.createCache(com.arcadeanalytics.domain.User.class.getName(), jcacheConfiguration);
             cm.createCache(com.arcadeanalytics.domain.Authority.class.getName(), jcacheConfiguration);
             cm.createCache(com.arcadeanalytics.domain.User.class.getName() + ".authorities", jcacheConfiguration);

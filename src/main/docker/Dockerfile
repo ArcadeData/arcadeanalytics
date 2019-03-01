@@ -8,7 +8,7 @@ ADD *.war /app.war
 
 RUN mkdir /arcade-connectors
 
-ADD arcade-connectors-*.jar /arcade-connectors/
+ADD arcade-connectors/arcade-connectors-*.jar /arcade-connectors/
 
 EXPOSE 8080
 

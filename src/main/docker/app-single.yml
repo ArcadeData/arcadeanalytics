@@ -5,9 +5,15 @@ services:
     user: ${CURRENT_UID}
     environment:
       - SPRING_PROFILES_ACTIVE=prod-single
+      - SPRING_EMAIL_HOST=smtp.gmail.com
+      - SPRING_EMAIL_PORT=587
+      - SPRING_EMAIL_USERNAME=
+      - SPRING_EMAIL_PASSWORD=
+      - JHNIPSTER_MAIL_FROM=
+      - JHNIPSTER_MAIL_BASE-URL=
       - APPLICATION_PATH=/arcade
       - APPLICATION_STORAGE_PATH=/arcade/storage
-      - APPLICATION_MEDIAPATH=WEB-INF/classes/public/content/media/
+      - APPLICATION_MEDIAPATH=/content/media/
       - APPLICATION_CONNECTORSPATH=/arcade-connectors
       - JAVA_OPTS=-DSSH_PRIV_KEY=/arcade/.ssh/id_rsa -DSSH_PUB_KEY=/arcade/.ssh/id_rsa.pub
     ports:
