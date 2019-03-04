@@ -2,6 +2,7 @@ package com.arcadeanalytics.service;
 
 import com.arcadeanalytics.domain.ArcadeUser;
 import com.arcadeanalytics.domain.Dashboard;
+import com.arcadeanalytics.domain.DataSet;
 import com.arcadeanalytics.domain.DataSource;
 import com.arcadeanalytics.domain.User;
 import com.arcadeanalytics.domain.Widget;
@@ -157,17 +158,17 @@ public class EnvironmentService {
                             .password(userDataSource.getPassword())
                             .workspace(workspace));
 
-//                DataSet dataSet = dataSetRepository.save(new DataSet()
-//                    .widget(widget)
-//                    .name(widget.getName()));
-//
-//                widgetRepository.save(new Widget()
-//                    .name(widget.getName())
-//                    .hasSnapshot(false)
-//                    .type(widget.getType())
-//                    .dashboard(dashboard)
-//                    .dataSource(dataSource))
-//                    .dataSet(dataSet);
+                    DataSet dataSet = dataSetRepository.save(new DataSet()
+                            .widget(widget)
+                            .name(widget.getName()));
+
+                    widgetRepository.save(new Widget()
+                            .name(widget.getName())
+                            .hasSnapshot(false)
+                            .type(widget.getType())
+                            .dashboard(dashboard)
+                            .dataSource(dataSource))
+                            .dataSet(dataSet);
 
                     //disable indexing of each datasource
                     //elasticGraphIndexerService.index(dataSource);

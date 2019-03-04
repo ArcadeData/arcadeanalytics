@@ -29,6 +29,8 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import static com.arcadeanalytics.repository.UserRepository.USERS_BY_LOGIN_CACHE;
+
 /**
  * Service class for managing users.
  */
@@ -36,7 +38,6 @@ import java.util.stream.Collectors;
 @Transactional
 public class UserService {
 
-    private static final String USERS_CACHE = "users";
     private final Logger log = LoggerFactory.getLogger(UserService.class);
     private final UserRepository userRepository;
 
@@ -77,7 +78,7 @@ public class UserService {
                     user.setActivated(true);
                     user.setActivationKey(null);
                     userSearchRepository.save(user);
-                    cacheManager.getCache(USERS_CACHE).evict(user.getLogin());
+                    cacheManager.getCache(USERS_BY_LOGIN_CACHE).evict(user.getLogin());
                     log.debug("Activated user: {}", user);
                     return user;
                 });
@@ -92,7 +93,7 @@ public class UserService {
                     user.setPassword(passwordEncoder.encode(newPassword));
                     user.setResetKey(null);
                     user.setResetDate(null);
-                    cacheManager.getCache(USERS_CACHE).evict(user.getLogin());
+                    cacheManager.getCache(USERS_BY_LOGIN_CACHE).evict(user.getLogin());
                     return user;
                 });
     }
@@ -103,7 +104,7 @@ public class UserService {
                 .map(user -> {
                     user.setResetKey(RandomUtil.generateResetKey());
                     user.setResetDate(Instant.now());
-                    cacheManager.getCache(USERS_CACHE).evict(user.getLogin());
+                    cacheManager.getCache(USERS_BY_LOGIN_CACHE).evict(user.getLogin());
                     return user;
                 });
     }
@@ -185,7 +186,7 @@ public class UserService {
                     user.setLangKey(langKey);
                     user.setImageUrl(imageUrl);
                     userSearchRepository.save(user);
-                    cacheManager.getCache(USERS_CACHE).evict(user.getLogin());
+                    cacheManager.getCache(USERS_BY_LOGIN_CACHE).evict(user.getLogin());
                     log.debug("Changed Information for User: {}", user);
                 });
     }
@@ -213,7 +214,7 @@ public class UserService {
                             .map(authorityRepository::findOne)
                             .forEach(managedAuthorities::add);
                     userSearchRepository.save(user);
-                    cacheManager.getCache(USERS_CACHE).evict(user.getLogin());
+                    cacheManager.getCache(USERS_BY_LOGIN_CACHE).evict(user.getLogin());
                     log.debug("Changed Information for User: {}", user);
                     return user;
                 })
@@ -226,7 +227,7 @@ public class UserService {
             environmentService.destroyEnvironment(user);
             userRepository.delete(user);
             userSearchRepository.delete(user);
-            cacheManager.getCache(USERS_CACHE).evict(login);
+            cacheManager.getCache(USERS_BY_LOGIN_CACHE).evict(login);
             log.debug("Deleted User: {}", user);
         });
     }
@@ -237,7 +238,7 @@ public class UserService {
                 .ifPresent(user -> {
                     String encryptedPassword = passwordEncoder.encode(password);
                     user.setPassword(encryptedPassword);
-                    cacheManager.getCache(USERS_CACHE).evict(user.getLogin());
+                    cacheManager.getCache(USERS_BY_LOGIN_CACHE).evict(user.getLogin());
                     log.debug("Changed password for User: {}", user);
                 });
     }
@@ -277,7 +278,7 @@ public class UserService {
             environmentService.destroyEnvironment(user);
             userRepository.delete(user);
             userSearchRepository.delete(user);
-            cacheManager.getCache(USERS_CACHE).evict(user.getLogin());
+            cacheManager.getCache(USERS_BY_LOGIN_CACHE).evict(user.getLogin());
         }
     }
 
