@@ -920,6 +920,38 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>license-maven-plugin</artifactId>
+                <version>1.19</version>
+                <configuration>
+                    <verbose>true</verbose>
+                    <projectName>Arcade Analytics</projectName>
+                    <inceptionYear>2018</inceptionYear>
+                    <organizationName>ArcadeAnalytics</organizationName>
+                    <licenseName>apache_v2</licenseName>
+                    <roots>
+                        <root>${project.basedir}/src/</root>
+                        <!--<root>${project.basedir}/src/main/java</root>-->
+                        <!--<root>${project.basedir}/src/main/kotlin</root>-->
+                        <!--<root>${project.basedir}/src/test/java</root>-->
+                        <!--<root>${project.basedir}/src/test/kotlin</root>-->
+                    </roots>
+                    <excludes>
+                        <exclude>**/*.js</exclude>
+                        <exclude>**/*.json</exclude>
+                        <exclude>**/*.csv</exclude>
+                    </excludes>
+                    <includes>
+                        <include>**/*.java</include>
+                        <include>**/*.kt</include>
+                        <include>**/*.xml</include>
+                        <include>**/*.ts</include>
+                        <include>**/*.yml</include>
+                    </includes>
+                </configuration>
+            </plugin>
+
             <!-- jhipster-needle-maven-add-plugin -->
         </plugins>
         <pluginManagement>
