@@ -871,28 +871,6 @@
                     -->
                 </configuration>
             </plugin>
-            <!--<plugin>-->
-            <!--<groupId>com.spotify</groupId>-->
-            <!--<artifactId>dockerfile-maven-plugin</artifactId>-->
-            <!--<version>${dockerfile-maven-plugin.version}</version>-->
-            <!--&lt;!&ndash;-->
-            <!--Uncomment the section below to build the docker image with mvn package and and push it with mvn deploy-->
-            <!--<executions>-->
-            <!--<execution>-->
-            <!--<id>default</id>-->
-            <!--<goals>-->
-            <!--<goal>build</goal>-->
-            <!--<goal>push</goal>-->
-            <!--</goals>-->
-            <!--</execution>-->
-            <!--</executions>-->
-            <!--&ndash;&gt;-->
-            <!--<configuration>-->
-            <!--<repository>arcadeanalytics/arcadeanalytics</repository>-->
-            <!--<tag>latest</tag>-->
-            <!--<contextDirectory>${project.build.directory}</contextDirectory>-->
-            <!--</configuration>-->
-            <!--</plugin>-->
             <plugin>
                 <!--
                     Plugin that provides API-first development using swagger-codegen to
@@ -932,10 +910,6 @@
                     <licenseName>apache_v2</licenseName>
                     <roots>
                         <root>${project.basedir}/src/</root>
-                        <!--<root>${project.basedir}/src/main/java</root>-->
-                        <!--<root>${project.basedir}/src/main/kotlin</root>-->
-                        <!--<root>${project.basedir}/src/test/java</root>-->
-                        <!--<root>${project.basedir}/src/test/kotlin</root>-->
                     </roots>
                     <excludes>
                         <exclude>**/*.js</exclude>
@@ -1235,7 +1209,6 @@
                                 <goals>
                                     <goal>build</goal>
                                     <goal>tag</goal>
-                                    <!--<goal>push</goal>-->
                                 </goals>
                                 <configuration>
                                     <tag>latest</tag>
@@ -1246,7 +1219,6 @@
                                 <phase>package</phase>
                                 <goals>
                                     <goal>tag</goal>
-                                    <!--<goal>push</goal>-->
                                 </goals>
                                 <configuration>
                                     <tag>${project.version}</tag>
@@ -1414,7 +1386,6 @@
                                 <goals>
                                     <goal>build</goal>
                                     <goal>tag</goal>
-                                    <!--<goal>push</goal>-->
                                 </goals>
                                 <configuration>
                                     <tag>latest</tag>
@@ -1424,11 +1395,17 @@
                                 <id>tag</id>
                                 <goals>
                                     <goal>tag</goal>
-                                    <!--<goal>push</goal>-->
                                 </goals>
                                 <configuration>
                                     <tag>${project.version}</tag>
                                 </configuration>
+                            </execution>
+                            <execution>
+                                <id>deploy</id>
+                                <phase>deploy</phase>
+                                <goals>
+                                    <goal>push</goal>
+                                </goals>
                             </execution>
                         </executions>
                         <configuration>
