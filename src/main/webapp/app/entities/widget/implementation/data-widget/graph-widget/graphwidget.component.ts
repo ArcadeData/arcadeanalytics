@@ -1106,7 +1106,7 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
                     // fired when edgehandles interaction starts (drag on handle)
                 },
                 complete: (sourceNode, targetNode, addedEles) => {
-                    this.onAddEdgeAnimationComplete(sourceNode, targetNode, addedEles);
+                    this.onAddEdgeAnimationComplete(sourceNode.json(), targetNode.json(), addedEles);
                 },
                 hoverover: function(sourceNode, targetNode) {
                     // fired when a target is hovered
@@ -1341,8 +1341,8 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
         // let the user choose the edge class through a modal
         const modalRef = this.modalService.show(AddEdgeModalComponent);
         modalRef.content.edgeClassesNames = this.edgeClassesNames;
-        modalRef.content.sourceNode = sourceNode.json();
-        modalRef.content.targetNode = targetNode.json();
+        modalRef.content.sourceNode = sourceNode;
+        modalRef.content.targetNode = targetNode;
     }
 
     // triggered after the edge class name of the current adding-edge has been chosen
@@ -1373,6 +1373,37 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
     leaveAddEdgeMode() {
         this.disableCyEdgeHandles();
         this.tempAddingEdge = undefined;
+    }
+
+    executeAddEdgeCommand(startGestureFromlastSelectedElem: boolean) {
+        if (!startGestureFromlastSelectedElem) {
+            const selectedNodes = this.getShownSelectedNodes();
+            if (selectedNodes.length === 2) {
+                // then directly add and between the 2 nodes
+                const sourceNode = selectedNodes[0];
+                const targetNode = selectedNodes[1];
+                const newEdge = {
+                    group: 'edges',
+                    data: {
+                        source: sourceNode['data']['id'],
+                        target: targetNode['data']['id'],
+                    },
+                    selected: false, // whether the element is selected (default false)
+                    selectable: true, // whether the selection state is mutable (default true)
+                    locked: false, // when locked a node's position is immutable (default false)
+                    grabbable: true, // whether the node can be grabbed and moved by the user
+                    classes: '' // a space separated list of class names that the element has
+                };
+                const addedEdge = this.cy.add(newEdge);
+
+                this.onAddEdgeAnimationComplete(sourceNode, targetNode, [addedEdge]);
+            } else {
+                this.enableCyEdgeHandles();
+            }
+        } else {
+            this.cyEdgehandles.enable();
+            this.cyEdgehandles.start(this.cy.$('#' + this.lastSelectedElement['data']['id']));
+        }
     }
 
     enableCyEdgeHandles() {
@@ -1697,7 +1728,7 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
                     // fired when edgehandles interaction starts (drag on handle)
                 },
                 complete: (sourceNode, targetNode, addedEles) => {
-                    this.onAddEdgeAnimationComplete(sourceNode, targetNode, addedEles);
+                    this.onAddEdgeAnimationComplete(sourceNode.json(), targetNode.json(), addedEles);
                 },
                 hoverover: function(sourceNode, targetNode) {
                     // fired when a target is hovered
@@ -2122,7 +2153,7 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
                     tooltipText: 'Add Edge',
                     selector: 'node',
                     onClickFunction: () => {
-                        this.enableCyEdgeHandles();
+                        this.executeAddEdgeCommand(true);
                     },
                     hasTrailingDivider: false
                 },
