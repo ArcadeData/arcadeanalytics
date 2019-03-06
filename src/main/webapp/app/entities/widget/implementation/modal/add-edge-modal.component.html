@@ -5,8 +5,10 @@
     </button>
 </div>
 <div class="modal-body">
-    <div class="row">
-        <p *ngIf="sourceNode && targetNode">Choose a class for the new edge from <b>{{sourceNode['data']['id']}}</b> to <b>{{targetNode['data']['id']}}</b>.</p>
+    <div *ngIf="sourceNode && targetNode" class="row">
+        <div class="col-md-12">
+            <p>Choose a class for the new edge from <b>{{sourceNode['data']['id']}}</b> to <b>{{targetNode['data']['id']}}</b>.</p>
+        </div>
     </div>
     <div class="row">
         <div class="col-md-12">
@@ -18,6 +20,29 @@
             </select>
         </div>
     </div>
+    <br/>
+    <div *ngIf="sourceNode && targetNode" class="row">
+            <div class="col-md-12">
+                <label>
+                    Direction:
+                </label><br/>
+                <div class="col-md-12" style="margin: 5px;">
+                    <span>
+                        <b>Source</b>: {{sourceNode['data']['id']}}
+                    </span>
+                </div>
+                <div class="col-md-12" style="margin: 5px;">
+                    <button class="btn btn-xs btn-primary">
+                        <i class="fa fa-exchange fa-rotate-90" aria-hidden="true" (click)="invertEdgeDirection()"></i>
+                    </button>
+                </div>
+                <div class="col-md-12" style="margin: 5px;">
+                    <span>
+                        <b>Target</b>: {{targetNode['data']['id']}}
+                    </span>
+                </div>
+            </div>
+        </div>
 </div>
 <div class="modal-footer" style="padding-top: 40px;">
     <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="discardTempEdge()">
