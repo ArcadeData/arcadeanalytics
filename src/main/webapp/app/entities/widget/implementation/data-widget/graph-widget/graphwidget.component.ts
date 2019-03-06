@@ -1376,6 +1376,10 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
             this.tempAddingEdge.data('type', 'e');
             this.tempAddingEdge.data('record', { '@in': {}, '@out': {} });
 
+            if (event['invertDirection']) {
+                this.invertCytoscapeEdgeDirection(this.tempAddingEdge);
+            }
+
             this.graphUnselectAll();
             this.tempAddingEdge.select();
 
@@ -1387,6 +1391,15 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
 
         // leaving add-edge mode
         this.leaveAddEdgeMode();
+    }
+
+    invertCytoscapeEdgeDirection(edge: any) {
+        const sourceId = edge.source().id();
+        const targetId = edge.target().id();
+        this.tempAddingEdge = edge.move({
+            source: targetId,
+            target: sourceId
+        });
     }
 
     leaveAddEdgeMode() {

@@ -16,6 +16,7 @@ export class AddEdgeModalComponent implements OnInit, AfterViewInit, OnDestroy {
     chosenEdgeClassName: string;
     sourceNode: any;
     targetNode: any;
+    invertDirection: boolean = false;
 
     constructor(private eventManager: JhiEventManager,
         protected notificationService: NotificationService,
@@ -37,7 +38,8 @@ export class AddEdgeModalComponent implements OnInit, AfterViewInit, OnDestroy {
             edgeClassName: this.chosenEdgeClassName,
             action: 'save',
             sourceNode: this.sourceNode,
-            targetNode: this.targetNode
+            targetNode: this.targetNode,
+            invertDirection: this.invertDirection
         });
 
         this.modalRef.hide();
@@ -52,6 +54,13 @@ export class AddEdgeModalComponent implements OnInit, AfterViewInit, OnDestroy {
         });
 
         this.modalRef.hide();
+    }
+
+    invertEdgeDirection() {
+        const tmp = this.sourceNode;
+        this.sourceNode = this.targetNode;
+        this.targetNode = tmp;
+        this.invertDirection = !this.invertDirection;
     }
 
 }
