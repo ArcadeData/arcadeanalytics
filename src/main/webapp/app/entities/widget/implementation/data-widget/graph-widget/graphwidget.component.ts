@@ -18,7 +18,7 @@ import { JhiEventManager } from 'ng-jhipster';
 
 import {
     PerformQueryModalComponent, PerformTraverseModalComponent, ShortestPathConfigModalComponent,
-    PageRankConfigModalComponent, CentralityConfigModalComponent, AddEdgeModalComponent, AddNodeModalComponent
+    PageRankConfigModalComponent, CentralityConfigModalComponent, AddEdgeModalComponent, AddNodeModalComponent, DirectAddEdgeModalComponent
 } from '../../modal';
 import { DataWidgetComponent } from '../datawidget.component';
 import { pageContentPadding } from '../../../../../global';
@@ -1379,24 +1379,52 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
         if (!startGestureFromlastSelectedElem) {
             const selectedNodes = this.getShownSelectedNodes();
             if (selectedNodes.length === 2) {
-                // then directly add and between the 2 nodes
+
+                // open modal to ask the user if he wants to connect directly the two selected nodes or not
+
                 const sourceNode = selectedNodes[0];
                 const targetNode = selectedNodes[1];
-                const newEdge = {
-                    group: 'edges',
-                    data: {
-                        source: sourceNode['data']['id'],
-                        target: targetNode['data']['id'],
-                    },
-                    selected: false, // whether the element is selected (default false)
-                    selectable: true, // whether the selection state is mutable (default true)
-                    locked: false, // when locked a node's position is immutable (default false)
-                    grabbable: true, // whether the node can be grabbed and moved by the user
-                    classes: '' // a space separated list of class names that the element has
-                };
-                const addedEdge = this.cy.add(newEdge);
 
-                this.onAddEdgeAnimationComplete(sourceNode, targetNode, [addedEdge]);
+                const subject = new Subject<boolean>();
+                const promise = new Promise((resolve, reject) => {
+                    const config = {
+                        backdrop: true,
+                        ignoreBackdropClick: true
+                      };
+                    this.modalRef = this.modalService.show(DirectAddEdgeModalComponent, config);
+                    this.modalRef.content.subject = subject;
+                    this.modalRef.content.sourceNode = sourceNode;
+                    this.modalRef.content.targetNode = targetNode;
+                    this.modalRef.content.subject.subscribe((choice) => {
+                        resolve(choice);
+                    });
+                    this.modalRef.content.onHide = (res) => {
+                        if (subject) {
+                            resolve(false);
+                        }
+                    };
+                });
+                promise.then((directConnection) => {
+                    if (directConnection) {
+                        // then directly add and between the 2 nodes
+                        const newEdge = {
+                            group: 'edges',
+                            data: {
+                                source: sourceNode['data']['id'],
+                                target: targetNode['data']['id'],
+                            },
+                            selected: false, // whether the element is selected (default false)
+                            selectable: true, // whether the selection state is mutable (default true)
+                            locked: false, // when locked a node's position is immutable (default false)
+                            grabbable: true, // whether the node can be grabbed and moved by the user
+                            classes: '' // a space separated list of class names that the element has
+                        };
+                        const addedEdge = this.cy.add(newEdge);
+                        this.onAddEdgeAnimationComplete(sourceNode, targetNode, [addedEdge]);
+                    } else {
+                        this.enableCyEdgeHandles();
+                    }
+                });
             } else {
                 this.enableCyEdgeHandles();
             }

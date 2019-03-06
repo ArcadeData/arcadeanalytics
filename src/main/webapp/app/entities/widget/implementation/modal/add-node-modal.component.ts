@@ -6,7 +6,7 @@ import { WidgetService } from '../..';
 import { JhiEventManager } from 'ng-jhipster';
 
 @Component({
-    selector: 'jhi-resource-embed-popup',
+    selector: 'jhi-add-node-modal',
     templateUrl: './add-node-modal.component.html',
     styleUrls: ['./add-node-modal.component.scss']
 })

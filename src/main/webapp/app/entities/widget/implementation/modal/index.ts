@@ -6,3 +6,4 @@ export * from './centrality-modal.component';
 export * from './embed-resource-modal.component';
 export * from './add-edge-modal.component';
 export * from './add-node-modal.component';
+export * from './direct-add-edge-modal.component';

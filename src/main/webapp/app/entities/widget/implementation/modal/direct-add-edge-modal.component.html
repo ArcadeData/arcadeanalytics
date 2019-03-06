@@ -1,0 +1,18 @@
+<div class="modal-header">
+    <h4 class="modal-title pull-left">Add Edge </h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="action(false)">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body text-center">
+    <div *ngIf="sourceNode && targetNode">
+        <p>
+            <span>
+                Do you want to connect node <b>{{sourceNode['data']['id']}}</b> with <b>{{targetNode['data']['id']}}</b>?
+            </span>
+        </p>
+    </div>
+    <button type="button" class="btn btn-default" (click)="action(true)">Yes</button>&nbsp;
+    <button type="button" class="btn btn-primary" (click)="action(false)">No</button>
+
+</div>
