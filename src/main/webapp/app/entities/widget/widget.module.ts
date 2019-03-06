@@ -53,6 +53,7 @@ import {
     EmbedResourceModalComponent,
     AddEdgeModalComponent,
     AddNodeModalComponent,
+    DirectAddEdgeModalComponent,
     TextEditorWidgetComponent
 } from './';
 import {
@@ -115,7 +116,8 @@ const ENTITY_STATES = [
         CentralityConfigModalComponent,
         EmbedResourceModalComponent,
         AddEdgeModalComponent,
-        AddNodeModalComponent
+        AddNodeModalComponent,
+        DirectAddEdgeModalComponent
     ],
     entryComponents: [
         WidgetComponent,
@@ -152,7 +154,8 @@ const ENTITY_STATES = [
         CentralityConfigModalComponent,
         EmbedResourceModalComponent,
         AddEdgeModalComponent,
-        AddNodeModalComponent
+        AddNodeModalComponent,
+        DirectAddEdgeModalComponent
     ],
     providers: [
         WidgetService,
