@@ -150,7 +150,7 @@
     "terser-webpack-plugin": "1.0.0",
     "to-string-loader": "1.1.5",
     "ts-node": "7.0.1",
-    "tslint": "5.11.0",
+    "tslint": "5.13.1",
     "tslint-loader": "3.6.0",
     "typescript": "3.1.6",
     "uglifyjs-webpack-plugin": "2.0.1",
