@@ -51,6 +51,7 @@
         <validation-api.version>1.1.0.Final</validation-api.version>
         <mapstruct.version>1.2.0.Final</mapstruct.version>
 
+        <arcade-connectors.version>1.0.3</arcade-connectors.version>
         <!-- Plugin versions -->
         <maven-clean-plugin.version>3.1.0</maven-clean-plugin.version>
         <maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
@@ -464,7 +465,7 @@
         <dependency>
             <groupId>com.arcadeanalytics</groupId>
             <artifactId>arcade-connectors-base</artifactId>
-            <version>1.0.2</version>
+            <version>${arcade-connectors.version}</version>
         </dependency>
 
         <dependency>
@@ -523,22 +524,22 @@
                                 <artifactItem>
                                     <groupId>com.arcadeanalytics</groupId>
                                     <artifactId>arcade-connectors-neo4j3</artifactId>
-                                    <version>1.0.2</version>
+                                    <version>${arcade-connectors.version}</version>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>com.arcadeanalytics</groupId>
                                     <artifactId>arcade-connectors-orientdb2</artifactId>
-                                    <version>1.0.2</version>
+                                    <version>${arcade-connectors.version}</version>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>com.arcadeanalytics</groupId>
                                     <artifactId>arcade-connectors-gremlin</artifactId>
-                                    <version>1.0.2</version>
+                                    <version>${arcade-connectors.version}</version>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>com.arcadeanalytics</groupId>
                                     <artifactId>arcade-connectors-rdbms</artifactId>
-                                    <version>1.0.2</version>
+                                    <version>${arcade-connectors.version}</version>
                                 </artifactItem>
                             </artifactItems>
                         </configuration>
