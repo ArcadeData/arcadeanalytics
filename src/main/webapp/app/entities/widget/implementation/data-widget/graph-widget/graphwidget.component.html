@@ -920,7 +920,7 @@
                                 <div class='legend-scale' *ngIf='!graphLegendCollapsedVertices'>
                                     <ul class='legend-labels'>
                                         <ng-container *ngIf="!graphLegendVerticesOrderedByCount">
-                                            <li *ngFor="let className of (dataSourceMetadata.nodesClasses | objectKeysByName)nodeClassesNames">
+                                            <li *ngFor="let className of (dataSourceMetadata.nodesClasses | objectKeysByName)">
                                                 <div [id]='"graph_vertexSelect_" + className' class="graph_vertexSelect legend-label" [ngStyle]="{'background': nodeClassesStyles.get(className).color}"
                                                     (click)='graphSelectElementsOfClass("node", className, "graph_vertexSelect_" + escapeSelector(className))'>
                                                     <div class="col-lg-7 legend-label-class-name" style="padding: 0px;">

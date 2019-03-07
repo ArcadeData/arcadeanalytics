@@ -18,6 +18,8 @@
  * #L%
  */
 import { Component, OnInit, OnDestroy, OnChanges, Input, SimpleChanges, AfterViewChecked } from '@angular/core';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap';
+import { EditElemPropertiesModalComponent } from 'app/entities/widget/implementation/modal/edit-elem-properties-modal.component';
 
 @Component({
     selector: 'element-properties',
@@ -30,9 +32,9 @@ export class PropertiesComponent implements OnInit, OnDestroy, OnChanges, AfterV
     @Input() styleClass: Object;
 
     public properties: string[];
+    modalRef: BsModalRef;
 
-    constructor() {
-    }
+    constructor(protected modalService: BsModalService) {}
 
     ngOnInit() { }
 
@@ -57,6 +59,11 @@ export class PropertiesComponent implements OnInit, OnDestroy, OnChanges, AfterV
         // (<any>$('.popover')).css('margin-left', '30px');
     }
 
-    ngOnDestroy() { }
+    ngOnDestroy() {}
+
+    openEditElementModal() {
+        this.modalRef = this.modalService.show(EditElemPropertiesModalComponent);
+        this.modalRef.content.element = JSON.parse(JSON.stringify(this.element));   // we pass the elem by value!
+    }
 
 }

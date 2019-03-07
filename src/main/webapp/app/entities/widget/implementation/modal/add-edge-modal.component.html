@@ -22,27 +22,27 @@
     </div>
     <br/>
     <div *ngIf="sourceNode && targetNode" class="row">
-            <div class="col-md-12">
-                <label>
-                    Direction:
-                </label><br/>
-                <div class="col-md-12" style="margin: 5px;">
-                    <span>
-                        <b>Source</b>: {{sourceNode['data']['id']}}
-                    </span>
-                </div>
-                <div class="col-md-12" style="margin: 5px;">
-                    <button class="btn btn-xs btn-primary">
-                        <i class="fa fa-exchange fa-rotate-90" aria-hidden="true" (click)="invertEdgeDirection()"></i>
-                    </button>
-                </div>
-                <div class="col-md-12" style="margin: 5px;">
-                    <span>
-                        <b>Target</b>: {{targetNode['data']['id']}}
-                    </span>
-                </div>
+        <div class="col-md-12">
+            <label>
+                Direction:
+            </label><br />
+            <div class="col-md-12" style="margin: 5px;">
+                <span>
+                    <b>Source</b>: {{sourceNode['data']['id']}}
+                </span>
+            </div>
+            <div class="col-md-12" style="margin: 5px;">
+                <button class="btn btn-xs btn-primary">
+                    <i class="fa fa-exchange fa-rotate-90" aria-hidden="true" (click)="invertEdgeDirection()"></i>
+                </button>
+            </div>
+            <div class="col-md-12" style="margin: 5px;">
+                <span>
+                    <b>Target</b>: {{targetNode['data']['id']}}
+                </span>
             </div>
         </div>
+    </div>
 </div>
 <div class="modal-footer" style="padding-top: 40px;">
     <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="discardTempEdge()">

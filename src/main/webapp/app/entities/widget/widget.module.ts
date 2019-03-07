@@ -54,6 +54,7 @@ import {
     AddEdgeModalComponent,
     AddNodeModalComponent,
     DirectAddEdgeModalComponent,
+    EditElemPropertiesModalComponent,
     TextEditorWidgetComponent
 } from './';
 import {
@@ -117,7 +118,8 @@ const ENTITY_STATES = [
         EmbedResourceModalComponent,
         AddEdgeModalComponent,
         AddNodeModalComponent,
-        DirectAddEdgeModalComponent
+        DirectAddEdgeModalComponent,
+        EditElemPropertiesModalComponent
     ],
     entryComponents: [
         WidgetComponent,
@@ -155,7 +157,8 @@ const ENTITY_STATES = [
         EmbedResourceModalComponent,
         AddEdgeModalComponent,
         AddNodeModalComponent,
-        DirectAddEdgeModalComponent
+        DirectAddEdgeModalComponent,
+        EditElemPropertiesModalComponent
     ],
     providers: [
         WidgetService,

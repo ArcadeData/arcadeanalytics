@@ -1,0 +1,104 @@
+<div class="modal-header">
+    <h4 class="modal-title pull-left">Update</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <div *ngIf="element">
+
+        <span class="updateTitle">:{{element['class']}} - {{element['id']}}</span>
+        <hr class="thiner-hr" />
+        <div class="row">
+            <div class="col-md-12">
+                <div class="editSection">
+                    <span class="sectionTitle">
+                        Properties
+                    </span>
+                </div>
+                <div *ngFor="let propertyName of (element['record'] | objectKeysByName)">
+                    <div *ngIf="propertyName !== '@in' && propertyName !== '@out' && propertyName !== '@edgeCount'" class="row propertyRow">
+                        <div class="col-md-4">
+                            <span><b>{{propertyName}}</b></span>
+                        </div>
+                        <div class="col-md-5">
+                            <input type="text" class="form-control" [(ngModel)]="element['record'][propertyName]"></span>
+                        </div>
+                        <div class="col-md-1">
+                            <button class="btn btn-danger btn-xs" (click)="removeProperty(propertyName)">
+                                <span class="fa fa-trash"></span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <br />
+            </div>
+        </div>
+        <div *ngIf="element['type'] === 'e' && element['source'] && element['target']" class="row">
+            <br />
+            <hr class="thiner-hr" />
+            <div class="col-md-12">
+                <div class="editSection">
+                    <span class="sectionTitle">
+                        Direction
+                    </span>
+                </div>
+                <div class="col-md-12" style="margin: 5px;">
+                    <span>
+                        <b>Source</b>: {{element['source']}}
+                    </span>
+                </div>
+                <div class="col-md-12" style="margin: 5px;">
+                    <button class="btn btn-xs btn-primary" (click)="invertEdgeDirection()">
+                        <i class="fa fa-exchange fa-rotate-90" aria-hidden="true"></i>
+                    </button>
+                </div>
+                <div class="col-md-12" style="margin: 5px;">
+                    <span>
+                        <b>Target</b>: {{element['target']}}
+                    </span>
+                </div>
+            </div>
+            <br />
+        </div>
+    </div>
+</div>
+<div class="modal-footer" style="padding-left: 10px; padding-top: 10px;">
+    <div class="col-md-12">
+        <div class="btn-group pull-left">
+            <button type="button" class="btn btn-primary" #popover="bs-popover" [popover]="popoverTemplate" popoverTitle="Add field"
+            placement="right" container="body" (onHidden)="newAddingProperty = undefined">
+                <span class="fa fa-plus"></span>&nbsp;<span>New field</span>
+            </button>
+            <ng-template #popoverTemplate>
+                <div class="row">
+                    <div class="col-md-12">
+                        <label>Field Name</label>
+                        <input type="text" class="form-control" [(ngModel)]="newAddingProperty"></span>
+                    </div>
+                </div>
+                <div class="row" style="margin-top: 15px;">
+                    <div class="col-md-12">
+                        <button type="button" class="btn btn-default btn-xs" (click)="popover.hide()">
+                            <span class="fa fa-ban"></span>&nbsp;<span>Close</span>
+                        </button>&nbsp;
+                        <button *ngIf="newAddingProperty" type="button" class="btn btn-primary btn-xs"
+                            (click)="addNewProperty(); popover.hide();">
+                            <span class="fa fa-plus"></span>&nbsp;<span>Add field</span>
+                        </button>
+                        <button *ngIf="!newAddingProperty" type="button" class="btn btn-primary btn-xs" disabled>
+                            <span class="fa fa-plus"></span>&nbsp;<span>Add field</span>
+                        </button>
+                    </div>
+                </div>
+            </ng-template>
+
+        </div>
+        <button type="button" class="btn btn-default" (click)="modalRef.hide()">
+            <span class="fa fa-ban"></span>&nbsp;<span>Cancel</span>
+        </button>
+        <button type="button" class="btn btn-primary" (click)="triggerElementUpdating()">
+            <span class="fa fa-save"></span>&nbsp;<span>Save Changes</span>
+        </button>
+    </div>
+</div>

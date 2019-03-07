@@ -70,6 +70,7 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
     datasetPropagationRequestSubscription: Subscription;
     edgeClassChosenForNewEdgeSubscription: Subscription;
     nodeClassChosenForNewNodeSubscription: Subscription;
+    elemPropertiesUpdateSubscription: Subscription;
 
     edgeClassesStyles: Map<string, Object>;
     edgeClassesNames: string[] = [];
@@ -460,6 +461,7 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
 
         this.registerChangeInDashboards();
         this.registerAddingElementsEvents();
+        this.registerUpdatingElementsEvents();
 
         if (!this.embedded) {
             // authorities and depending params init
@@ -488,6 +490,14 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
         });
     }
 
+    registerUpdatingElementsEvents() {
+        this.elemPropertiesUpdateSubscription = this.eventManager.subscribe('elementPropertiesUpdateRequest', (event) => {
+            if (event['action'] === 'update' && event['toUpdateElement']) {
+                this.updateCyElementData(event['toUpdateElement']);
+            }
+        });
+    }
+
     ngOnChanges(changes: SimpleChanges): void {}
 
     ngOnDestroy() {
@@ -496,6 +506,7 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
         this.eventManager.destroy(this.datasetPropagationRequestSubscription);
         this.eventManager.destroy(this.edgeClassChosenForNewEdgeSubscription);
         this.eventManager.destroy(this.nodeClassChosenForNewNodeSubscription);
+        this.eventManager.destroy(this.elemPropertiesUpdateSubscription);
 
         // destroying context menu instance if any
         if (this.contextMenuInstance) {
@@ -1391,6 +1402,36 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
 
         // leaving add-edge mode
         this.leaveAddEdgeMode();
+    }
+
+    updateCyElementData(elemData: any) {
+        const toUpdateElem = this.cy.$('#' + elemData['id'])[0];
+        if (toUpdateElem) {
+            toUpdateElem.data(elemData);
+
+            if (toUpdateElem.isEdge()) {
+                // updating the direction too
+                toUpdateElem.move(elemData);
+            }
+
+            let title: string;
+            let message: string;
+            if (toUpdateElem.isNode()) {
+                title = 'Node Update';
+                message = 'Node correctly updated';
+            } else {
+                title = 'Edge Update';
+                message = 'Node correctly updated';
+            }
+            this.notificationService.push('success', title, message);
+
+            // updating last selected element to make the properties menu update
+            this.lastSelectedElement = toUpdateElem.json();
+        } else {
+            const title: string = 'Update failed';
+            const message: string = 'The element cannot be updated as it is no longer present in the current dataset.';
+            this.notificationService.push('error', title, message);
+        }
     }
 
     invertCytoscapeEdgeDirection(edge: any) {

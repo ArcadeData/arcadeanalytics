@@ -1,34 +1,44 @@
 <ul id="elementProperties">
     <li>
+        <div class="row" style="padding: 5px 1px 10px 5px;">
+            <div class="col-md-12">
+                <div class="btn-group pull-right">
+                    <button type="button" class="btn btn-primary btn-xs" style="padding: 2px 4px;" (click)=openEditElementModal()>
+                        <span class="fa fa-pencil fa-fw"></span>
+                        <span>Edit</span>
+                    </button>
+                </div>
+            </div>
+        </div>
         <table style="width: 100%; table-layout: fixed;">
             <tr>
-                <td class="graphMenuPropertyKey popover-enabled"
-                    popover="@class" placement="right" triggers="hover" container="body">
-                        @class:
+                <td class="graphMenuPropertyKey popover-enabled" popover="@class" placement="right" triggers="hover"
+                    container="body">
+                    @class:
                 </td>
-                <td class="graphMenuPropertyValue popover-enabled"
-                    [popover]="element['class']" placement="right" triggers="hover" container="body">
-                        {{element['class']}}
+                <td class="graphMenuPropertyValue popover-enabled" [popover]="element['class']" placement="right"
+                    triggers="hover" container="body">
+                    {{element['class']}}
                 </td>
             </tr>
             <tr>
-                <td class="graphMenuPropertyKey popover-enabled"
-                    popover="@id" placement="right" triggers="hover" container="body">
-                        @id:
+                <td class="graphMenuPropertyKey popover-enabled" popover="@id" placement="right" triggers="hover"
+                    container="body">
+                    @id:
                 </td>
-                <td class="graphMenuPropertyValue popover-enabled"
-                    [popover]="element['id']" placement="right" triggers="hover" container="body">
-                        {{element['id']}}
+                <td class="graphMenuPropertyValue popover-enabled" [popover]="element['id']" placement="right"
+                    triggers="hover" container="body">
+                    {{element['id']}}
                 </td>
             </tr>
             <tr *ngFor="let property of properties">
-                <td class="graphMenuPropertyKey popover-enabled"
-                    [popover]="property" placement="right" triggers="hover" container="body">
-                        {{property}}:
+                <td class="graphMenuPropertyKey popover-enabled" [popover]="property" placement="right" triggers="hover"
+                    container="body">
+                    {{property}}:
                 </td>
-                <td class="graphMenuPropertyValue popover-enabled"
-                    [popover]="element['record'][property]" placement="right" triggers="hover" container="body">
-                        {{element['record'][property]}}
+                <td class="graphMenuPropertyValue popover-enabled" [popover]="element['record'][property]"
+                    placement="right" triggers="hover" container="body">
+                    {{element['record'][property]}}
                 </td>
             </tr>
         </table>
