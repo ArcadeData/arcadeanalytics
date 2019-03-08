@@ -266,7 +266,7 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
 
     // edge handles and tmp variable
     cyEdgehandles;
-    edgeHandlesColor: string = '#00ee00';
+    edgeHandlesColor: string = '#00ee00';   // green
     tempAddingEdge;
 
     // force layout params
@@ -1712,20 +1712,6 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
                 }
             };
 
-            // edge handles' selector
-            const handleSelector: Object = {
-                selector: '.eh-handle',
-                style: {
-                    'background-color': 'red',
-                    'width': 7,
-                    'height': 7,
-                    'shape': 'ellipse',
-                    'overlay-opacity': 0,
-                    'border-width': 5, // makes the handle easier to hit
-                    'border-opacity': 0
-                }
-            };
-
             this.ngZone.runOutsideAngular(() => {
 
                 this.cy = cytoscape({
@@ -1739,8 +1725,7 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
                         nodeFadedSelector,
                         edgeFadedSelector,
                         highlightedSelector,
-                        invisibleSelector,
-                        handleSelector
+                        invisibleSelector
                     ],
 
                     zoom: 1,
@@ -2727,6 +2712,18 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
         };
 
         // handles selectors
+        const handleSelector: Object = {
+            selector: '.eh-handle',
+            style: {
+                'background-color': 'red',
+                'width': 7,
+                'height': 7,
+                'shape': 'ellipse',
+                'overlay-opacity': 0,
+                'border-width': 5, // makes the handle easier to hit
+                'border-opacity': 0
+            }
+        };
         const handleSourceSelector: Object = {
             selector: '.eh-source',
             style: {
@@ -2761,6 +2758,7 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
             ...edgeClassesSelector,
             ...edgeClassesSelectedSelector,
             ...nodeSelectedSelector,
+            handleSelector,
             handleSourceSelector,
             handleTargetSelector,
             handlePreviewSelector,
@@ -4957,9 +4955,10 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
         const currentJsonStyle: Object[] = this.getCytoscapeStyleClasses();
 
         /*
-         * removinf from the starting candidate styles the following selectors
+         * removing from the starting candidate styles the following selectors
          * that will be added again from the new candidate style classes:
          * - node:selected
+         * - eh-handle
          * - eh-source
          * - eh-target
          * - eh-preview
@@ -4969,7 +4968,7 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
         for (let i = 0; i < currentJsonStyle.length; i++) {
             const classStyle = currentJsonStyle[i];
             const selector = classStyle['selector'];
-            if (selector === 'node:selected' || (selector.startsWith('.eh-') && selector !== '.eh-handle')) {
+            if (selector === 'node:selected' || (selector.startsWith('.eh-'))) {
                 currentJsonStyle.splice(i, 1);
                 i--;
             }
