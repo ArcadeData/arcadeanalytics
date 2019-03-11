@@ -38,7 +38,7 @@ Arcade is provided as a all-embedded image, where hsql and embedded Elasicsearch
 
     docker-compose -f src/main/docker/app-single.yml up
 
-This compose doesn't start containers with test databases
+This compose does not start containers with test databases
 
 ## Run support containers with test databases
 
@@ -52,6 +52,25 @@ To run a db container use the provided compose:
     docker-compose -f src/main/docker/postgresql-dvd-rental.yml up
 
     docker-compose -f src/main/docker/orientdb2.yml up
+
+
+## Configure SSH 
+
+AracadeAnalytics can connect to databases using an SSH tunnel.
+To do that, it needs the private and public keys to be used by the application.
+In the _app.yml_ or _app-single.yml_ :
+
+              - JAVA_OPTS=-DSSH_PRIV_KEY=/arcade/.ssh/id_rsa -DSSH_PUB_KEY=/arcade/.ssh/id_rsa.pub
+
+The directory /arcade inside the container is mounted as volume:
+
+            volumes:
+              - ~/.arcade/:/arcade/
+
+Create a directory in *~/.arcade/* named *.ssh* and put the private and public keys inside.
+The public key should be copied on the server used as ssh gateway too.
+
+
 
 
 ## Development
@@ -76,7 +95,7 @@ We use yarn scripts and [Webpack][] as our build system.
 Run the following commands in two separate terminals to create a blissful development experience where your browser
 auto-refreshes when files change on your hard drive.
 
-    ./gradlew
+    ./mvnw
     yarn start
 
 [Yarn][] is also used to manage CSS and JavaScript dependencies used in this application. You can upgrade dependencies by
@@ -156,7 +175,7 @@ Refer to [Doing API-First development][] for more details.
 
 To optimize the arcadeanalytics application for production, run:
 
-    ./gradlew -Pprod clean bootRepackage
+    ./mvnw -Pprod clean package
 
 This will concatenate and minify the client CSS and JavaScript files. It will also modify `index.html` so it references these new files.
 To ensure everything worked, run:
@@ -171,7 +190,7 @@ Refer to [Using JHipster in production][] for more details.
 
 To launch your application's tests, run:
 
-    ./gradlew test
+    ./mvnvtest
 
 ### Client tests
 
@@ -186,7 +205,7 @@ and can be run by starting Spring Boot in one terminal (`./gradlew bootRun`) and
 
 Performance tests are run by [Gatling][] and written in Scala. They're located in [src/test/gatling](src/test/gatling) and can be run with:
 
-    ./gradlew gatlingRun
+    ./mvnw gatling:test
 
 For more information, refer to the [Running tests page][].
 
@@ -204,7 +223,7 @@ To stop it and remove the container, run:
 You can also fully dockerize your application and all the services that it depends on.
 To achieve this, first build a docker image of your app by running:
 
-    ./gradlew bootRepackage -Pprod buildDocker
+    ./mvnw clean package -Pprod 
 
 Then run:
 
