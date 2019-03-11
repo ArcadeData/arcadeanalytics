@@ -7,7 +7,8 @@
 <div class="modal-body">
     <div *ngIf="sourceNode && targetNode" class="row">
         <div class="col-md-12">
-            <p>Choose a class for the new edge from <b>{{sourceNode['data']['id']}}</b> to <b>{{targetNode['data']['id']}}</b>.</p>
+            <p>Choose a class for the new edge from <b>{{sourceNode['data']['id']}}</b> to
+                <b>{{targetNode['data']['id']}}</b>.</p>
         </div>
     </div>
     <div class="row">
@@ -15,28 +16,31 @@
             <label>
                 Class:
             </label>
-            <select *ngIf="edgeClassesNames" id="edgeClassSelection" class="form-control" [(ngModel)]="chosenEdgeClassName">
+            <select *ngIf="edgeClassesNames" id="edgeClassSelection" class="form-control"
+                [(ngModel)]="chosenEdgeClassName">
                 <option *ngFor="let className of edgeClassesNames" [ngValue]="className"> {{className}} </option>
             </select>
         </div>
     </div>
-    <br/>
+    <br />
     <div *ngIf="sourceNode && targetNode" class="row">
         <div class="col-md-12">
-            <label>
-                Direction:
-            </label><br />
-            <div class="col-md-12" style="margin: 5px;">
+            <div class="editSection">
+                <span class="sectionTitle">
+                    Direction
+                </span>
+            </div>
+            <div class="col-md-5" style="margin: 5px; text-align: right;">
                 <span>
                     <b>Source</b>: {{sourceNode['data']['id']}}
                 </span>
             </div>
-            <div class="col-md-12" style="margin: 5px;">
-                <button class="btn btn-xs btn-primary">
-                    <i class="fa fa-exchange fa-rotate-90" aria-hidden="true" (click)="invertEdgeDirection()"></i>
+            <div class="col-md-1" style="margin: 5px; padding: 0px; text-align: center;">
+                <button class="btn btn-xs btn-primary" (click)="invertEdgeDirection()">
+                    <i class="fa fa-exchange" aria-hidden="true"></i>
                 </button>
             </div>
-            <div class="col-md-12" style="margin: 5px;">
+            <div class="col-md-5" style="margin: 5px;">
                 <span>
                     <b>Target</b>: {{targetNode['data']['id']}}
                 </span>
@@ -49,7 +53,8 @@
         <span class="fa fa-ban"></span>&nbsp;
         <span jhiTranslate="graphwidget.queryModal.cancel">Cancel</span>
     </button>
-    <button type="button" class="btn btn-primary" (click)="triggerEdgeSaving()" [ngClass]="{'disabled': !chosenEdgeClassName}">
+    <button type="button" class="btn btn-primary" (click)="triggerEdgeSaving()"
+        [ngClass]="{'disabled': !chosenEdgeClassName}">
         <span>Save</span>
         <i class="icon-arrow-right14 position-right"></i>
     </button>
