@@ -65,7 +65,7 @@
         <gatling-maven-plugin.version>2.2.1</gatling-maven-plugin.version>
         <jacoco-maven-plugin.version>0.8.3</jacoco-maven-plugin.version>
         <scala-maven-plugin.version>3.2.2</scala-maven-plugin.version>
-        <sonar-maven-plugin.version>3.2</sonar-maven-plugin.version>
+        <sonar-maven-plugin.version>3.6.0.1398</sonar-maven-plugin.version>
         <swagger-codegen-maven-plugin.version>2.2.3</swagger-codegen-maven-plugin.version>
 
         <!-- Sonar properties -->
