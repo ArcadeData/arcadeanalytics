@@ -497,7 +497,7 @@
         <dependency>
             <groupId>org.testcontainers</groupId>
             <artifactId>testcontainers</artifactId>
-            <version>1.10.7</version>
+            <version>1.10.6</version>
         </dependency>
 
         <!-- jhipster-needle-maven-add-dependency -->
