@@ -1405,6 +1405,17 @@
             <build>
                 <plugins>
                     <plugin>
+                        <artifactId>maven-release-plugin</artifactId>
+                        <configuration>
+                            <autoVersionSubmodules>true</autoVersionSubmodules>
+                            <useReleaseProfile>false</useReleaseProfile>
+                            <releaseProfiles>release</releaseProfiles>
+                            <goals>deploy</goals>
+                            <tagNameFormat>v@{project.version}</tagNameFormat>
+                            <arguments>-Dmaven.javadoc.skip=true -DskipTests=true</arguments>
+                        </configuration>
+                    </plugin>
+                    <plugin>
                         <groupId>org.codehaus.mojo</groupId>
                         <artifactId>build-helper-maven-plugin</artifactId>
                         <version>3.0.0</version>
