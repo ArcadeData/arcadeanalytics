@@ -16,7 +16,6 @@ notifications:
 
 script:
   - ./mvnw clean  -DskipTests deploy  -Pprod --quiet -fae --settings .travis/settings.xml
-  - ./mvnw clean  -DskipTests deploy  -Pprod-single --quiet -fae --settings .travis/settings.xml
 
 jdk:
   - openjdk8
