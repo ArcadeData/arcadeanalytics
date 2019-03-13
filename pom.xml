@@ -23,7 +23,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <project.testresult.directory>${project.build.directory}/test-results</project.testresult.directory>
-        <maven.build.timestamp.format>yyyyMMddHHmmss</maven.build.timestamp.format>
+        <maven.build.timestamp.format>yyyyMMddHHmm</maven.build.timestamp.format>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <argLine>-Djava.security.egd=file:/dev/./urandom -Xmx256m</argLine>
@@ -1222,7 +1222,7 @@
                                     <goal>tag</goal>
                                 </goals>
                                 <configuration>
-                                    <tag>${project.version}</tag>
+                                    <tag>${project.version}-${maven.build.timestamp}</tag>
                                 </configuration>
                             </execution>
                             <execution>
@@ -1237,6 +1237,7 @@
                             <repository>docker.io/arcadeanalytics/arcadeanalytics</repository>
                             <contextDirectory>${project.build.directory}</contextDirectory>
                             <useMavenSettingsForAuth>true</useMavenSettingsForAuth>
+
                         </configuration>
                     </plugin>
 
@@ -1393,12 +1394,13 @@
                                 </configuration>
                             </execution>
                             <execution>
-                                <id>tag</id>
+                                <id>tag-version</id>
+                                <phase>package</phase>
                                 <goals>
                                     <goal>tag</goal>
                                 </goals>
                                 <configuration>
-                                    <tag>${project.version}</tag>
+                                    <tag>${project.version}-${maven.build.timestamp}</tag>
                                 </configuration>
                             </execution>
                             <execution>
