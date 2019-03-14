@@ -51,7 +51,11 @@
         <validation-api.version>1.1.0.Final</validation-api.version>
         <mapstruct.version>1.2.0.Final</mapstruct.version>
 
+        <testcontainers.version>1.10.6</testcontainers.version>
+        <jung.version>2.1.1</jung.version>
+        <arcade-data.version>1.0.0</arcade-data.version>
         <arcade-connectors.version>1.0.4</arcade-connectors.version>
+
         <!-- Plugin versions -->
         <maven-clean-plugin.version>3.1.0</maven-clean-plugin.version>
         <maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
@@ -67,6 +71,7 @@
         <scala-maven-plugin.version>3.2.2</scala-maven-plugin.version>
         <sonar-maven-plugin.version>3.6.0.1398</sonar-maven-plugin.version>
         <swagger-codegen-maven-plugin.version>2.2.3</swagger-codegen-maven-plugin.version>
+
 
         <!-- Sonar properties -->
         <sonar.exclusions>src/main/webapp/content/**/*.*, src/main/webapp/i18n/*.js, target/www/**/*.*
@@ -460,7 +465,7 @@
         <dependency>
             <groupId>com.arcadeanalytics</groupId>
             <artifactId>arcade-data</artifactId>
-            <version>1.0.0</version>
+            <version>${arcade-data.version}</version>
         </dependency>
         <dependency>
             <groupId>com.arcadeanalytics</groupId>
@@ -471,33 +476,34 @@
         <dependency>
             <groupId>net.sf.jung</groupId>
             <artifactId>jung-api</artifactId>
-            <version>2.1.1</version>
+            <version>${jung.version}</version>
         </dependency>
         <dependency>
             <groupId>net.sf.jung</groupId>
             <artifactId>jung-graph-impl</artifactId>
-            <version>2.1.1</version>
+            <version>${jung.version}</version>
         </dependency>
         <dependency>
             <groupId>net.sf.jung</groupId>
             <artifactId>jung-algorithms</artifactId>
-            <version>2.1.1</version>
+            <version>${jung.version}</version>
         </dependency>
         <dependency>
             <groupId>net.sf.jung</groupId>
             <artifactId>jung-io</artifactId>
-            <version>2.1.1</version>
+            <version>${jung.version}</version>
         </dependency>
         <dependency>
             <groupId>net.sf.jung</groupId>
             <artifactId>jung-visualization</artifactId>
-            <version>2.1.1</version>
+            <version>${jung.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.testcontainers</groupId>
             <artifactId>testcontainers</artifactId>
-            <version>1.10.6</version>
+            <version>${testcontainers.version}</version>
+            <scope>test</scope>
         </dependency>
 
         <!-- jhipster-needle-maven-add-dependency -->
@@ -582,12 +588,6 @@
                         <!-- Or "spring" for the Spring support -->
                         <plugin>spring</plugin>
                     </compilerPlugins>
-
-                    <!--<pluginOptions>-->
-                    <!--&lt;!&ndash; Each annotation is placed on its own line &ndash;&gt;-->
-                    <!--<option>all-open:annotation=com.my.Annotation</option>-->
-                    <!--<option>all-open:annotation=com.their.AnotherAnnotation</option>-->
-                    <!--</pluginOptions>-->
                 </configuration>
 
                 <dependencies>
