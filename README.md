@@ -70,8 +70,10 @@ The directory /arcade inside the container is mounted as volume:
 Create a directory in *~/.arcade/* named *.ssh* and put the private and public keys inside.
 The public key should be copied on the server used as ssh gateway too.
 
+## Connect to Amazon AWS
 
-
+Read the dedicated [post](https://arcadeanalytics.com/amazon-neptune-hands-on/).
+Use your own SSH keys, as explained in the previous paragraph.
 
 ## Development
 
