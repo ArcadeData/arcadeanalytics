@@ -1,7 +1,7 @@
 version: '2'
 services:
   arcadeanalytics-app:
-    image: arcadeanalytics/arcadeanalytics:latest
+    image: arcadeanalytics/arcadeanalytics:1.0.0-RC1
     environment:
       - SPRING_PROFILES_ACTIVE=prod,swagger
       - SPRING_DATASOURCE_URL=jdbc:postgresql://arcadeanalytics-postgresql:5432/arcadeanalytics
