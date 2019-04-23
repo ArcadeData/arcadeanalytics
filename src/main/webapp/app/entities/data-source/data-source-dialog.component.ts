@@ -51,6 +51,10 @@ export class DataSourceDialogComponent implements OnInit, AfterViewChecked {
             text: 'OrientDB'
         },
         {
+            id: 'ORIENTDB3',
+            text: 'OrientDB 3'
+        },
+        {
             id: 'NEO4J',
             text: 'Neo4j'
         },
@@ -102,7 +106,7 @@ export class DataSourceDialogComponent implements OnInit, AfterViewChecked {
         {
             type: 'HSQL',
             name: 'Hyper SQL'
-        }        ,
+        },
         {
             type: 'DATA_WORLD',
             name: 'Data World (Beta)'
@@ -235,6 +239,16 @@ export class DataSourceDialogComponent implements OnInit, AfterViewChecked {
                 this.initialDatasourceType = {
                     id: 'ORIENTDB',
                     text: 'OrientDB'
+                };
+                this.rdbmsType = 'ORACLE';  // by default
+                this.gremlinImpl = 'ORIENTDB';  // by default
+                break;
+
+            case 'ORIENTDB3':
+                this.datasourceType = 'ORIENTDB3';
+                this.initialDatasourceType = {
+                    id: 'ORIENTDB3',
+                    text: 'OrientDB 3'
                 };
                 this.rdbmsType = 'ORACLE';  // by default
                 this.gremlinImpl = 'ORIENTDB';  // by default
@@ -414,13 +428,13 @@ export class DataSourceDialogComponent implements OnInit, AfterViewChecked {
 
         this.populateConnectionPropertiesFieldFromTable();
         this.dataSourceService.testConnection(this.dataSource).subscribe((res: Object) => {
-                const message = 'Connection alive';
-                this.notificationService.updateNotification(infoNotification, 'success', 'Data Source Connection', message, undefined, true);
-            }, (error: HttpErrorResponse) => {
-                const message = 'Connection NOT alive';
-                this.notificationService.updateNotification(infoNotification, 'error', 'Data Source Connection', message, undefined, true);
-                console.log(error.message);
-            });
+            const message = 'Connection alive';
+            this.notificationService.updateNotification(infoNotification, 'success', 'Data Source Connection', message, undefined, true);
+        }, (error: HttpErrorResponse) => {
+            const message = 'Connection NOT alive';
+            this.notificationService.updateNotification(infoNotification, 'error', 'Data Source Connection', message, undefined, true);
+            console.log(error.message);
+        });
     }
 
     save() {
@@ -429,12 +443,12 @@ export class DataSourceDialogComponent implements OnInit, AfterViewChecked {
         // saving datasource type
         this.updateDatasourceType();
 
-       this.populateConnectionPropertiesFieldFromTable();
+        this.populateConnectionPropertiesFieldFromTable();
 
-       // if description is empty it will be filled with the datasource name
-       if (!this.dataSource['description']) {
-        this.dataSource['description'] = this.dataSource['name'];
-       }
+        // if description is empty it will be filled with the datasource name
+        if (!this.dataSource['description']) {
+            this.dataSource['description'] = this.dataSource['name'];
+        }
 
         if (this.dataSource.id !== undefined) {
             this.subscribeToSaveResponse(
@@ -460,6 +474,10 @@ export class DataSourceDialogComponent implements OnInit, AfterViewChecked {
         switch (this.datasourceType) {
             case 'ORIENTDB':
                 this.dataSource['type'] = DataSourceType.ORIENTDB;
+                break;
+
+            case 'ORIENTDB3':
+                this.dataSource['type'] = DataSourceType.ORIENTDB3;
                 break;
 
             case 'GREMLIN':

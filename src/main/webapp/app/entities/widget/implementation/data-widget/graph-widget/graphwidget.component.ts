@@ -486,7 +486,7 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
         });
 
         this.nodeClassChosenForNewNodeSubscription = this.eventManager.subscribe('nodeClassChosenForNewNode', (event) => {
-            this.onNodeClassNameChosenForNewEdge(event);
+            this.onNodeClassNameChosenForNewNode(event);
         });
     }
 
@@ -1329,7 +1329,7 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
     }
 
     // triggered after the node class name of the current adding-node has been chosen
-    onNodeClassNameChosenForNewEdge(event: Object) {
+    onNodeClassNameChosenForNewNode(event: Object) {
 
         const className: string = event['nodeClassName'];
 

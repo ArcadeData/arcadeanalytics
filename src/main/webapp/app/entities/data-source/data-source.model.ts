@@ -21,6 +21,7 @@ import { BaseEntity } from './../../shared';
 
 export const enum DataSourceType {
     'ORIENTDB',
+    'ORIENTDB3',
     'GREMLIN_ORIENTDB',
     'GREMLIN_NEPTUNE',
     'GREMLIN_COSMOSDB',

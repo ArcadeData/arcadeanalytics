@@ -3,6 +3,7 @@
         "DataSourceType" : {
             "null": "",
             "ORIENTDB": "ORIENTDB",
+            "ORIENTDB3": "ORIENTDB3",
             "GREMLIN_ORIENTDB": "GREMLIN ORIENTDB",
             "GREMLIN_NEPTUNE": "GREMLIN NEPTUNE",
             "GREMLIN_COSMOSDB": "GREMLIN COSMOSDB",

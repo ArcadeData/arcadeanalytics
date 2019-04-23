@@ -34,6 +34,16 @@ public enum DataSourceType {
         public String language() {
             return "osql";
         }
+    },ORIENTDB3 {
+        @Override
+        public String connectionUrl() {
+            return "remote:{server}:{port}/{database}";
+        }
+
+        @Override
+        public String language() {
+            return "osql";
+        }
     }, GREMLIN_ORIENTDB {
         @Override
         public String connectionUrl() {
