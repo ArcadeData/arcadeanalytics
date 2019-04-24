@@ -54,7 +54,7 @@
         <testcontainers.version>1.11.2</testcontainers.version>
         <jung.version>2.1.1</jung.version>
         <arcade-data.version>1.0.0</arcade-data.version>
-        <arcade-connectors.version>1.0.4</arcade-connectors.version>
+        <arcade-connectors.version>1.0.5-SNAPSHOT</arcade-connectors.version>
 
         <!-- Plugin versions -->
         <maven-clean-plugin.version>3.1.0</maven-clean-plugin.version>
@@ -559,6 +559,11 @@
                                 <artifactItem>
                                     <groupId>com.arcadeanalytics</groupId>
                                     <artifactId>arcade-connectors-orientdb2</artifactId>
+                                    <version>${arcade-connectors.version}</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>com.arcadeanalytics</groupId>
+                                    <artifactId>arcade-connectors-orientdb3</artifactId>
                                     <version>${arcade-connectors.version}</version>
                                 </artifactItem>
                                 <artifactItem>
