@@ -49,8 +49,8 @@ spring:
             cluster-nodes:
             properties:
                 path:
-                    logs: build/elasticsearch/log
-                    data: build/elasticsearch/data
+                    logs: target/elasticsearch/log
+                    data: target/elasticsearch/data
     mail:
         host: localhost
     messages:
@@ -117,3 +117,7 @@ jhipster:
 application:
     stabdalone: false
     mediaPath: /content/media/
+    connectorsPath: target/arcade-connectors
+    storage:
+        path: target/storage/
+

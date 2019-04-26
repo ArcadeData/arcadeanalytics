@@ -36,7 +36,7 @@ public class FileSystemRepository {
     private final Logger log = LoggerFactory.getLogger(FileSystemRepository.class);
     private final Path rootPath;
 
-    public FileSystemRepository(@Value("${application.storage.path:build/storage}") String path) {
+    public FileSystemRepository(@Value("${application.storage.path:target/storage}") String path) {
 
 
         rootPath = Paths.get(path).toAbsolutePath().normalize();

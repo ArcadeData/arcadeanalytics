@@ -26,7 +26,7 @@ spring:
         serialization.indent_output: true
     datasource:
         type: com.zaxxer.hikari.HikariDataSource
-        url: jdbc:h2:file:./build/h2db/db/arcadeanalytics;DB_CLOSE_DELAY=-1
+        url: jdbc:h2:file:./target/h2db/db/arcadeanalytics;DB_CLOSE_DELAY=-1
         username: arcadeanalytics
         password:
     h2:
@@ -152,4 +152,4 @@ jhipster:
 
 application:
     storage:
-        path: build/storage/
+        path: target/storage/
