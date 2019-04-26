@@ -4,7 +4,7 @@
 
     <groupId>com.arcadeanalytics</groupId>
     <artifactId>arcadeanalytics</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1-SNAPSHOT</version>
     <packaging>war</packaging>
     <name>Arcadeanalytics</name>
 
@@ -132,7 +132,7 @@
     <scm>
         <connection>scm:git:https://github.com/ArcadeAnalytics/arcadeanalytics.git</connection>
         <url>https://github.com/ArcadeAnalytics/arcadeanalytics</url>
-        <tag>v1.0.0</tag>
+        <tag>HEAD</tag>
     </scm>
 
     <distributionManagement>
