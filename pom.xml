@@ -52,7 +52,7 @@
 
         <testcontainers.version>1.11.2</testcontainers.version>
         <jung.version>2.1.1</jung.version>
-        <arcade-data.version>1.0.0</arcade-data.version>
+        <arcade-data.version>1.0.1</arcade-data.version>
         <arcade-connectors.version>1.0.5</arcade-connectors.version>
 
         <!-- Plugin versions -->
