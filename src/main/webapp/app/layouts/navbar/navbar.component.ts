@@ -126,7 +126,9 @@ export class NavbarComponent implements OnInit, AfterViewChecked, OnDestroy {
         this.dashboardRouteLoadedSubscriber = this.eventManager.subscribe(
             'dashboardRouteLoaded',
             (response) => {
-                this.changeSelection(response['dashboardId']);
+                setTimeout(() => {
+                    this.changeSelection(response['dashboardId']);
+                }, 100);
             }
         );
     }
@@ -155,7 +157,6 @@ export class NavbarComponent implements OnInit, AfterViewChecked, OnDestroy {
      */
     changeSelection(dashboardId: number) {
         if (this.select) {
-
             // look for the correct item according to the dashboard id
             for (const currentItem of this.dashboardItems) {
                 if (currentItem['id'] === dashboardId) {
