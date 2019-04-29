@@ -84,12 +84,7 @@
         ],
         "variable-name": false,
         "whitespace": [
-            true,
-            "check-branch",
-            "check-decl",
-            "check-operator",
-            "check-separator",
-            "check-type"
+            true
         ],
         "prefer-const": true,
         "arrow-parens": [true],
