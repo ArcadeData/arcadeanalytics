@@ -114,7 +114,6 @@ export class DashboardDetailComponent implements OnInit, AfterViewInit, AfterVie
     }
 
     ngOnInit() {
-        // this.redirectEventEmitted = false;
         this.subscription = this.route.params.subscribe((params) => {
             this.load(params['id']);
         });
@@ -350,18 +349,15 @@ export class DashboardDetailComponent implements OnInit, AfterViewInit, AfterVie
         // first default settings if it's the first loading and default order applied (maintaining retrievedWidgets order)
         if (!this.dashboard['layout']['widgetsLayoutInfo']) {
 
-            this.dashboard['layout']['widgetsLayoutInfo'] = new Map();
-            const defaultHeight: string = this.defaultWidgetHeight + 'px';
-
             // just add the widgets to the dashboard, the default layout will be added after the
             // initSizesAccordingToWidgetsContainer() method will be executed
             for (const widget of retrievedWidgets) {
-                const defaultLayoutOptions = this.buildDeaultLayoutInfo(widget.id, defaultHeight);
                 this.dashboard.addWidget(widget);
-                this.dashboard['layout']['widgetsLayoutInfo'].set(defaultLayoutOptions['widgetId'], defaultLayoutOptions);
-                setTimeout(() => {     // waiting for the panel is rendered
-                    this.widgetActivateResizing(defaultLayoutOptions['widgetId'], defaultLayoutOptions['width']);
-                }, 50);
+            }
+            if (this.widgetsLayoutsLoaded) {
+                // case: we init the default layouts for all the widgets in a dashboard loaded
+                // through the dashboard select in the top navbar
+                this.initWidgetsWithDeafultLayout();
             }
         } else {
             // adding widgets following the layout order
@@ -373,9 +369,8 @@ export class DashboardDetailComponent implements OnInit, AfterViewInit, AfterVie
                     }
                 }
             });
+            this.widgetsLayoutsLoaded = true;
         }
-
-        this.widgetsLayoutsLoaded = true;
 
         // a new dashboard with new connected widgets was loaded, so we must run again jquery ui to enable panels resizing
         // we do that by setting this check variable to false so that, at the next view check, ui resizable() will be applied
