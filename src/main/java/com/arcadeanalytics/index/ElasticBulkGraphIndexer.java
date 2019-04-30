@@ -153,7 +153,7 @@ public class ElasticBulkGraphIndexer implements SpritePlayer {
         final String type = document.valueOf(ARCADE_TYPE);
 
         bulkRequest.add(client.prepareIndex(indexName, type, id)
-                .setSource(document.asRawMap()));
+                .setSource(document.asMap()));
 
         String className = document.valueOf("@class");
         Integer count = indexedByClass.getOrDefault(className, 0);
