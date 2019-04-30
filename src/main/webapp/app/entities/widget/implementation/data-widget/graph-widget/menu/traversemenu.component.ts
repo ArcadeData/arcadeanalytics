@@ -119,6 +119,12 @@ export class TraverseMenuComponent implements OnInit, OnChanges, AfterViewInit, 
             // if we are using the mode without nodes-passing we need to ask the parent component for the the selected nodes
             nodes = this.parentComponent.getShownSelectedNodes();
         }
+        nodes = nodes.filter((node) => {
+            if (node['data']['arcadeElement']) {
+                return false;
+            }
+            return true;
+        });
         for (const node of nodes) {
             nodeIds.push(node['data']['id']);
         }

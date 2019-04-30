@@ -1340,6 +1340,7 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
                 data: {
                     type: 'v',
                     class: className,
+                    arcadeElement: true,
                     edgeCount: 0,
                     record: { '@in': {}, '@out': {} }
                 },
@@ -1347,7 +1348,7 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
                 selectable: true, // whether the selection state is mutable (default true)
                 locked: false, // when locked a node's position is immutable (default false)
                 grabbable: true, // whether the node can be grabbed and moved by the user
-                classes: className,
+                classes: className
             };
 
             this.graphUnselectAll();
@@ -1386,6 +1387,7 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
             this.tempAddingEdge.data('class', className);
             this.tempAddingEdge.data('type', 'e');
             this.tempAddingEdge.data('record', { '@in': {}, '@out': {} });
+            this.tempAddingEdge.data('arcadeElement', true);
 
             if (event['invertDirection']) {
                 this.invertCytoscapeEdgeDirection(this.tempAddingEdge);
@@ -5799,7 +5801,7 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
         } else {
             let numberOfConnections: number = 0;
             const elementsIds: string[] = this.cy.nodes().filter((elem) => {
-                if (elem.selected()) {
+                if (elem.selected() && !elem.data()['arcadeElement']) {
                     numberOfConnections += elem.json()['data']['edgeCount'];
                     return true;
                 }
