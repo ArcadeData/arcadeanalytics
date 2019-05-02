@@ -9,9 +9,9 @@ package com.arcadeanalytics.web.rest;
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -156,64 +156,64 @@ public class WidgetResourceIntTest {
         final User user = userRepository.findOneByLogin("user").get();
 
         Contract contract = new Contract()
-            .name("FREE")
-            .type(ContractType.FREE)
-            .maxWorkspaces(1)
-            .maxTraversal(300)
-            .maxElements(300)
-            .maxDashboards(1)
-            .maxWidgets(1);
+                .name("FREE")
+                .type(ContractType.FREE)
+                .maxWorkspaces(1)
+                .maxTraversal(300)
+                .maxElements(300)
+                .maxDashboards(1)
+                .maxWidgets(1);
 
         em.persist(contract);
 
         Company company = new Company()
-            .name("company")
-            .contract(contract);
+                .name("company")
+                .contract(contract);
         em.persist(company);
 
         final ArcadeUser arcadeUser = new ArcadeUser()
-            .user(user)
-            .company(company);
+                .user(user)
+                .company(company);
         em.persist(arcadeUser);
 
         Workspace workspace = new Workspace()
-            .name(DEFAULT_NAME)
-            .description(DEFAULT_DESCRIPTION)
-            .user(arcadeUser);
+                .name(DEFAULT_NAME)
+                .description(DEFAULT_DESCRIPTION)
+                .user(arcadeUser);
 
         em.persist(workspace);
 
         Dashboard dashboard = new Dashboard()
-            .name(DEFAULT_NAME)
-            .description(DashboardResourceIntTest.DEFAULT_DESCRIPTION)
-            .layout(DashboardResourceIntTest.DEFAULT_LAYOUT)
-            .workspace(workspace);
+                .name(DEFAULT_NAME)
+                .description(DashboardResourceIntTest.DEFAULT_DESCRIPTION)
+                .layout(DashboardResourceIntTest.DEFAULT_LAYOUT)
+                .workspace(workspace);
 
         em.persist(dashboard);
 
         DataSource dataSource = new DataSource()
-            .name(DEFAULT_NAME)
-            .description(DEFAULT_DESCRIPTION)
-            .type(DataSourceType.ORIENTDB)
-            .indexing(IndexingStatus.INDEXING)
-            .server("server")
-            .port(1234)
-            .database("database")
-            .username("user")
-            .password("password")
-            .remote(false)
-            .workspace(workspace);
+                .name(DEFAULT_NAME)
+                .description(DEFAULT_DESCRIPTION)
+                .type(DataSourceType.ORIENTDB)
+                .indexing(IndexingStatus.INDEXING)
+                .server("server")
+                .port(1234)
+                .database("database")
+                .username("user")
+                .password("password")
+                .remote(false)
+                .workspace(workspace);
 
         em.persist(dataSource);
 
 
         Widget widget = new Widget()
-            .name(DEFAULT_NAME)
-            .type(DEFAULT_TYPE)
-            .hasSnapshot(DEFAULT_HAS_SNAPSHOT)
-            .shared(DEFAULT_IS_SHARED)
-            .dashboard(dashboard)
-            .dataSource(dataSource);
+                .name(DEFAULT_NAME)
+                .type(DEFAULT_TYPE)
+                .hasSnapshot(DEFAULT_HAS_SNAPSHOT)
+                .shared(DEFAULT_IS_SHARED)
+                .dashboard(dashboard)
+                .dataSource(dataSource);
 
 
         return widget;
@@ -224,11 +224,11 @@ public class WidgetResourceIntTest {
         MockitoAnnotations.initMocks(this);
         final WidgetResource widgetResource = new WidgetResource(widgetService);
         this.restWidgetMockMvc = MockMvcBuilders.standaloneSetup(widgetResource)
-            .setCustomArgumentResolvers(pageableArgumentResolver)
-            .setControllerAdvice(exceptionTranslator)
-            .setConversionService(createFormattingConversionService())
-            .setMessageConverters(jacksonMessageConverter, stringHttpMessageConverter)
-            .build();
+                .setCustomArgumentResolvers(pageableArgumentResolver)
+                .setControllerAdvice(exceptionTranslator)
+                .setConversionService(createFormattingConversionService())
+                .setMessageConverters(jacksonMessageConverter, stringHttpMessageConverter)
+                .build();
     }
 
     @Before
@@ -247,9 +247,9 @@ public class WidgetResourceIntTest {
         // Create the Widget
         WidgetDTO widgetDTO = widgetMapper.toDto(widget);
         restWidgetMockMvc.perform(post("/api/widgets")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(widgetDTO)))
-            .andExpect(status().isCreated());
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(widgetDTO)))
+                .andExpect(status().isCreated());
 
         // Validate the Widget in the database
         List<Widget> widgetList = widgetRepository.findAll();
@@ -276,16 +276,16 @@ public class WidgetResourceIntTest {
         // Create the Widget
         WidgetDTO widgetDTO = widgetMapper.toDto(widget);
         restWidgetMockMvc.perform(post("/api/widgets")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(widgetDTO)))
-            .andExpect(status().isCreated());
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(widgetDTO)))
+                .andExpect(status().isCreated());
 
         // max one widget is allowed
         widgetDTO = widgetMapper.toDto(widget);
         restWidgetMockMvc.perform(post("/api/widgets")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(widgetDTO)))
-            .andExpect(status().isInternalServerError());
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(widgetDTO)))
+                .andExpect(status().isInternalServerError());
 
     }
 
@@ -300,9 +300,9 @@ public class WidgetResourceIntTest {
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restWidgetMockMvc.perform(post("/api/widgets")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(widgetDTO)))
-            .andExpect(status().isBadRequest());
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(widgetDTO)))
+                .andExpect(status().isBadRequest());
 
         // Validate the Widget in the database
         List<Widget> widgetList = widgetRepository.findAll();
@@ -320,9 +320,9 @@ public class WidgetResourceIntTest {
         WidgetDTO widgetDTO = widgetMapper.toDto(widget);
 
         restWidgetMockMvc.perform(post("/api/widgets")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(widgetDTO)))
-            .andExpect(status().isBadRequest());
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(widgetDTO)))
+                .andExpect(status().isBadRequest());
 
         List<Widget> widgetList = widgetRepository.findAll();
         assertThat(widgetList).hasSize(databaseSizeBeforeTest);
@@ -338,13 +338,13 @@ public class WidgetResourceIntTest {
 
         // Get all the widgetList
         restWidgetMockMvc.perform(get("/api/widgets?sort=id,desc")
-            .with(user("admin").roles("ADMIN")))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(widget.getId().intValue())))
-            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
-            .andExpect(jsonPath("$.[*].type").value(hasItem(DEFAULT_TYPE.toString())))
-            .andExpect(jsonPath("$.[*].hasSnapshot").value(hasItem(DEFAULT_HAS_SNAPSHOT.booleanValue())));
+                .with(user("admin").roles("ADMIN")))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(jsonPath("$.[*].id").value(hasItem(widget.getId().intValue())))
+                .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
+                .andExpect(jsonPath("$.[*].type").value(hasItem(DEFAULT_TYPE.toString())))
+                .andExpect(jsonPath("$.[*].hasSnapshot").value(hasItem(DEFAULT_HAS_SNAPSHOT.booleanValue())));
     }
 
     @Test
@@ -356,14 +356,14 @@ public class WidgetResourceIntTest {
 
         // Get the widget
         restWidgetMockMvc.perform(get("/api/widgets/{id}", widget.getId()))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andExpect(jsonPath("$.id").value(widget.getId().intValue()))
-            .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()))
-            .andExpect(jsonPath("$.type").value(DEFAULT_TYPE.toString()))
-            .andExpect(jsonPath("$.dashboardId").isNotEmpty())
-            .andExpect(jsonPath("$.dataSourceId").isNotEmpty())
-            .andExpect(jsonPath("$.hasSnapshot").value(DEFAULT_HAS_SNAPSHOT.booleanValue()));
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(jsonPath("$.id").value(widget.getId().intValue()))
+                .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()))
+                .andExpect(jsonPath("$.type").value(DEFAULT_TYPE.toString()))
+                .andExpect(jsonPath("$.dashboardId").isNotEmpty())
+                .andExpect(jsonPath("$.dataSourceId").isNotEmpty())
+                .andExpect(jsonPath("$.hasSnapshot").value(DEFAULT_HAS_SNAPSHOT.booleanValue()));
     }
 
 
@@ -373,7 +373,7 @@ public class WidgetResourceIntTest {
     public void getNonExistingWidget() throws Exception {
         // Get the widget
         restWidgetMockMvc.perform(get("/api/widgets/{id}", Long.MAX_VALUE))
-            .andExpect(status().isNotFound());
+                .andExpect(status().isNotFound());
     }
 
     @Test
@@ -389,16 +389,16 @@ public class WidgetResourceIntTest {
         // Disconnect from session so that the updates on updatedWidget are not directly saved in db
         em.detach(updatedWidget);
         updatedWidget
-            .name(UPDATED_NAME)
-            .type(UPDATED_TYPE)
-            .hasSnapshot(UPDATED_HAS_SNAPSHOT);
+                .name(UPDATED_NAME)
+                .type(UPDATED_TYPE)
+                .hasSnapshot(UPDATED_HAS_SNAPSHOT);
 
         WidgetDTO widgetDTO = widgetMapper.toDto(updatedWidget);
 
         restWidgetMockMvc.perform(put("/api/widgets")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(widgetDTO)))
-            .andExpect(status().isOk());
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(widgetDTO)))
+                .andExpect(status().isOk());
 
         // Validate the Widget in the database
         List<Widget> widgetList = widgetRepository.findAll();
@@ -425,17 +425,17 @@ public class WidgetResourceIntTest {
         final String json = new String(Files.readAllBytes(Paths.get("./src/test/resources/snapshots/data-snapshot.json")), Charsets.UTF_8);
 
         restWidgetMockMvc.perform(put("/api/widgets/snapshot/" + widget.getId())
-            .contentType(MediaType.TEXT_PLAIN_VALUE)
-            .content(json))
-            .andExpect(status().isNoContent());
+                .contentType(MediaType.TEXT_PLAIN_VALUE)
+                .content(json))
+                .andExpect(status().isNoContent());
 
 
         final FileSystemDataProvider provider = new FileSystemDataProvider(fsRepo);
 
         final Optional<String> s = provider.fetchData(widget);
         Assertions.assertThat(s)
-            .isPresent()
-            .contains(json);
+                .isPresent()
+                .contains(json);
     }
 
 
@@ -451,15 +451,46 @@ public class WidgetResourceIntTest {
         final String json = "{'widget': 'data'}";
 
         restWidgetMockMvc.perform(put("/api/widgets/snapshot/{id}", widget.getId())
-            .contentType(MediaType.TEXT_PLAIN_VALUE)
-            .content(json))
-            .andExpect(status().isNoContent());
+                .contentType(MediaType.TEXT_PLAIN_VALUE)
+                .content(json))
+                .andExpect(status().isNoContent());
 
         restWidgetMockMvc.perform(get("/api/widgets/snapshot/{id}", widget.getId()))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-//            .andExpect(content().string(json))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(content().string("\"" + json + "\""));
+    }
+
+    @Test
+    @Transactional
+    @WithMockUser
+    public void shouldDeleteSnapshotWidgetData() throws Exception {
+
+        // Initialize the database
+        widgetRepository.saveAndFlush(widget);
+        widgetSearchRepository.save(widget);
+
+        final String json = "{'widget': 'data'}";
+
+        restWidgetMockMvc.perform(put("/api/widgets/snapshot/{id}", widget.getId())
+                .contentType(MediaType.TEXT_PLAIN_VALUE)
+                .content(json))
+                .andExpect(status().isNoContent());
+
+
+        restWidgetMockMvc.perform(get("/api/widgets/snapshot/{id}", widget.getId()))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(content().string("\"" + json + "\""));
+
+        final String filename = widgetService.getSnapshots(widget.getId()).get(0);
+        restWidgetMockMvc.perform(delete("/api/widgets/snapshot/{id}", widget.getId()).param("fileName", filename))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().string("true"));
         ;
+
+
     }
 
     @Test
@@ -473,10 +504,10 @@ public class WidgetResourceIntTest {
 
         Contract contract = new Contract();
         contract.maxElements(300)
-            .name("FREE")
-            .description("free")
-            .type(ContractType.FREE)
-            .maxWidgets(100);
+                .name("FREE")
+                .description("free")
+                .type(ContractType.FREE)
+                .maxWidgets(100);
         em.persist(contract);
 
         Company company = new Company();
@@ -488,24 +519,24 @@ public class WidgetResourceIntTest {
 
         em.persist(arcadeUser);
         Workspace workspace = new Workspace()
-            .name(DEFAULT_NAME)
-            .description(DEFAULT_DESCRIPTION)
-            .user(arcadeUser);
+                .name(DEFAULT_NAME)
+                .description(DEFAULT_DESCRIPTION)
+                .user(arcadeUser);
 
         em.persist(workspace);
 
         DataSource dataSource = new DataSource()
-            .name(DEFAULT_NAME)
-            .description(DEFAULT_DESCRIPTION)
-            .type(DataSourceType.ORIENTDB)
-            .indexing(IndexingStatus.INDEXING)
-            .server("server")
-            .port(1234)
-            .database("database")
-            .username("user")
-            .password("password")
-            .remote(false)
-            .workspace(workspace);
+                .name(DEFAULT_NAME)
+                .description(DEFAULT_DESCRIPTION)
+                .type(DataSourceType.ORIENTDB)
+                .indexing(IndexingStatus.INDEXING)
+                .server("server")
+                .port(1234)
+                .database("database")
+                .username("user")
+                .password("password")
+                .remote(false)
+                .workspace(workspace);
         em.persist(dataSource);
 
         // Create the Widget
@@ -513,9 +544,9 @@ public class WidgetResourceIntTest {
 
         // If the entity doesn't have an ID, it will be created instead of just being updated
         restWidgetMockMvc.perform(put("/api/widgets")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(widgetDTO)))
-            .andExpect(status().isCreated());
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(widgetDTO)))
+                .andExpect(status().isCreated());
 
         // Validate the Widget in the database
         List<Widget> widgetList = widgetRepository.findAll();
@@ -532,8 +563,8 @@ public class WidgetResourceIntTest {
 
         // Get the widget
         restWidgetMockMvc.perform(delete("/api/widgets/{id}", widget.getId())
-            .accept(TestUtil.APPLICATION_JSON_UTF8))
-            .andExpect(status().isOk());
+                .accept(TestUtil.APPLICATION_JSON_UTF8))
+                .andExpect(status().isOk());
 
         // Validate Elasticsearch is empty
         boolean widgetExistsInEs = widgetSearchRepository.exists(widget.getId());
@@ -553,12 +584,12 @@ public class WidgetResourceIntTest {
 
         // Search the widget
         restWidgetMockMvc.perform(get("/api/_search/widgets?query=id:" + widget.getId()))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(widget.getId().intValue())))
-            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
-            .andExpect(jsonPath("$.[*].type").value(hasItem(DEFAULT_TYPE.toString())))
-            .andExpect(jsonPath("$.[*].hasSnapshot").value(hasItem(DEFAULT_HAS_SNAPSHOT.booleanValue())))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(jsonPath("$.[*].id").value(hasItem(widget.getId().intValue())))
+                .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
+                .andExpect(jsonPath("$.[*].type").value(hasItem(DEFAULT_TYPE.toString())))
+                .andExpect(jsonPath("$.[*].hasSnapshot").value(hasItem(DEFAULT_HAS_SNAPSHOT.booleanValue())))
         ;
     }
 

@@ -9,9 +9,9 @@ package com.arcadeanalytics.provider;
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -108,6 +108,22 @@ public class FileSystemDataProvider {
         }
 
     }
+
+    public boolean deleteSnapshot(Widget widget, String filename) {
+
+        final Long id = widget.getId();
+
+        final Path file = widgets.resolve(id.toString()).resolve(filename);
+        log.info("deleting snapshot :: {}", file);
+        try {
+            return Files.deleteIfExists(file);
+        } catch (IOException e) {
+            log.error("unable to delete snapshot {} due to {} ", filename, e.getMessage());
+            return false;
+        }
+
+    }
+
 
     public List<String> getAllSnapshots(Widget widget) {
         final Long id = widget.getId();

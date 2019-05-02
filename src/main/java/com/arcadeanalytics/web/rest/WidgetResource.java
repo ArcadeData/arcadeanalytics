@@ -9,9 +9,9 @@ package com.arcadeanalytics.web.rest;
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -135,7 +135,7 @@ public class WidgetResource {
     /**
      * GET  /widgets : get all the widgets.
      *
-     * @param id {@link com.arcadeanalytics.domain.Dashboard} id
+     * @param id       {@link com.arcadeanalytics.domain.Dashboard} id
      * @param pageable the pagination information
      * @return the ResponseEntity with status 200 (OK) and the list of widgets in body
      */
@@ -240,6 +240,14 @@ public class WidgetResource {
         Optional<String> data = widgetService.getSnapshot(id, fileName);
 
         return ResponseUtil.wrapOrNotFound(data);
+    }
+
+    @DeleteMapping(value = "/widgets/snapshot/{id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @Timed
+    public ResponseEntity<Boolean> deleteWidgetSnapshot(@PathVariable Long id, @RequestParam(defaultValue = "last") String fileName) {
+        log.debug("REST request to delete Widget snapshot: {} ", fileName);
+
+        return ResponseUtil.wrapOrNotFound(Optional.of(widgetService.deleteSnapshot(id, fileName)));
     }
 
 
