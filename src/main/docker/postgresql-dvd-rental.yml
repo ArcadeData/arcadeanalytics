@@ -1,9 +1,9 @@
 version: '2'
 services:
   arcadeanalytics-postgresql-dvd-rental:
-  image: arcadeanalytics/postgres-dvdrental
-  environment:
-    - POSTGRES_USER=postgres
-    - POSTGRES_PASSWORD=postgres
-  ports:
-    - 5454:5432
+    image: arcadeanalytics/postgres-dvdrental
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - 5454:5432
