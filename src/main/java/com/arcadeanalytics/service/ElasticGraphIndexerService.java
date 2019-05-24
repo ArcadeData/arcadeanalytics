@@ -9,9 +9,9 @@ package com.arcadeanalytics.service;
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -27,8 +27,8 @@ import com.arcadeanalytics.domain.DataSourceIndex;
 import com.arcadeanalytics.domain.enumeration.IndexingStatus;
 import com.arcadeanalytics.index.ElasticBulkGraphIndexer;
 import com.arcadeanalytics.provider.DataSourceGraphProvider;
-import com.arcadeanalytics.provider.DataSourceGraphProviderFactory;
 import com.arcadeanalytics.provider.DataSourceInfo;
+import com.arcadeanalytics.provider.DataSourceProviderFactory;
 import com.arcadeanalytics.repository.DataSourceIndexRepository;
 import com.arcadeanalytics.repository.DataSourceRepository;
 import com.arcadeanalytics.service.dto.SearchQueryDTO;
@@ -89,7 +89,7 @@ public class ElasticGraphIndexerService {
 
     private final ObjectMapper mapper;
     private final CacheManager cacheManager;
-    private final DataSourceGraphProviderFactory dataSourceGraphProviderFactory;
+    private final DataSourceProviderFactory<DataSourceGraphProvider> dataSourceGraphProviderFactory;
 
     private final DataSourceIndexRepository dataSourceIndexRepository;
     private final DataSourceRepository dataSourceRepository;
@@ -101,7 +101,7 @@ public class ElasticGraphIndexerService {
                                       DataSourceIndexRepository dataSourceIndexRepository,
                                       ObjectMapper mapper,
                                       CacheManager cacheManager,
-                                      DataSourceGraphProviderFactory dataSourceGraphProviderFactory) {
+                                      DataSourceProviderFactory<DataSourceGraphProvider> dataSourceGraphProviderFactory) {
         this.searchTemplate = searchTemplate;
         this.dataSourceRepository = dataSourceRepository;
         this.dataSourceIndexRepository = dataSourceIndexRepository;

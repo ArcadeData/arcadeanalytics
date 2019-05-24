@@ -9,9 +9,9 @@ package com.arcadeanalytics.service;
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -24,6 +24,7 @@ import com.arcadeanalytics.config.Constants;
 import com.arcadeanalytics.domain.Authority;
 import com.arcadeanalytics.domain.User;
 import com.arcadeanalytics.domain.enumeration.ContractType;
+import com.arcadeanalytics.repository.ArcadeUserRepository;
 import com.arcadeanalytics.repository.AuthorityRepository;
 import com.arcadeanalytics.repository.UserRepository;
 import com.arcadeanalytics.repository.search.UserSearchRepository;
@@ -73,13 +74,17 @@ public class UserService {
 
     private final EnvironmentService environmentService;
 
+    private final ArcadeUserRepository arcadeUserRepository;
+
     public UserService(UserRepository userRepository,
                        PasswordEncoder passwordEncoder,
                        SocialService socialService,
                        UserSearchRepository userSearchRepository,
                        AuthorityRepository authorityRepository,
                        CacheManager cacheManager,
-                       EnvironmentService userEnvCreator) {
+                       EnvironmentService userEnvCreator,
+                       ArcadeUserRepository arcadeUserRepository
+    ) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.socialService = socialService;
@@ -87,6 +92,7 @@ public class UserService {
         this.authorityRepository = authorityRepository;
         this.cacheManager = cacheManager;
         this.environmentService = userEnvCreator;
+        this.arcadeUserRepository = arcadeUserRepository;
     }
 
 
@@ -234,6 +240,10 @@ public class UserService {
                             .map(authorityRepository::findOne)
                             .forEach(managedAuthorities::add);
                     userSearchRepository.save(user);
+
+
+                    environmentService.updateUser(user, ContractType.valueOf(Optional.ofNullable(userDTO.getContractType()).orElse(ContractType.DEMO.name())));
+
                     cacheManager.getCache(USERS_BY_LOGIN_CACHE).evict(user.getLogin());
                     log.debug("Changed Information for User: {}", user);
                     return user;
@@ -265,7 +275,16 @@ public class UserService {
 
     @Transactional(readOnly = true)
     public Page<UserDTO> getAllManagedUsers(Pageable pageable) {
-        return userRepository.findAllByLoginNot(pageable, Constants.ANONYMOUS_USER).map(UserDTO::new);
+        return userRepository.findAllByLoginNot(pageable, Constants.ANONYMOUS_USER)
+                .map(user -> {
+
+                    final String contractType = arcadeUserRepository.findByUser(user)
+                            .map(au -> au.getCompany().getContract().getName())
+                            .orElse(ContractType.DEMO.name());
+                    final UserDTO userDTO = new UserDTO(user);
+                    userDTO.setContractType(contractType);
+                    return userDTO;
+                });
     }
 
     @Transactional(readOnly = true)

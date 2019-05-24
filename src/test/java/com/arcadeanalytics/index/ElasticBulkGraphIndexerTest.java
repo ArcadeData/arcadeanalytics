@@ -9,9 +9,9 @@ package com.arcadeanalytics.index;
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -25,8 +25,8 @@ import com.arcadeanalytics.data.Sprite;
 import com.arcadeanalytics.domain.DataSource;
 import com.arcadeanalytics.domain.enumeration.DataSourceType;
 import com.arcadeanalytics.provider.DataSourceGraphProvider;
-import com.arcadeanalytics.provider.DataSourceGraphProviderFactory;
 import com.arcadeanalytics.provider.DataSourceInfo;
+import com.arcadeanalytics.provider.DataSourceProviderFactory;
 import com.arcadeanalytics.service.util.DataSourceUtil;
 import org.assertj.core.api.Assertions;
 import org.elasticsearch.action.search.SearchResponse;
@@ -57,7 +57,7 @@ public class ElasticBulkGraphIndexerTest {
     public ElasticsearchTemplate searchTemplate;
 
     @Autowired
-    DataSourceGraphProviderFactory graphProviderFactory;
+    DataSourceProviderFactory<DataSourceGraphProvider> graphProviderFactory;
 
     @Test
     public void shouldIndexGraphElements() {
@@ -85,19 +85,19 @@ public class ElasticBulkGraphIndexerTest {
             @Override
             public Sprite get() {
                 return new Sprite()
-                    .add(ARCADE_ID, "20_" + counter++)
-                    .add(ARCADE_TYPE, "node")
-                    .add("@class", "Person")
-                    .add("name", "rob")
-                    .add("surname", "frank")
-                    .add("date", LocalDate.now().minusDays(counter));
+                        .add(ARCADE_ID, "20_" + counter++)
+                        .add(ARCADE_TYPE, "node")
+                        .add("@class", "Person")
+                        .add("name", "rob")
+                        .add("surname", "frank")
+                        .add("date", LocalDate.now().minusDays(counter));
 
             }
         };
         //when
 
         IntStream.range(0, 2000).boxed()
-            .forEach(i -> indexer.play(spriteSupplier.get()));
+                .forEach(i -> indexer.play(spriteSupplier.get()));
 
         indexer.end();
 
@@ -108,11 +108,11 @@ public class ElasticBulkGraphIndexerTest {
         }
         Client client = searchTemplate.getClient();
         SearchResponse searchResponse = client.prepareSearch("testindex")
-            .setTypes("node")
-            .setSearchType(SearchType.DFS_QUERY_THEN_FETCH)
-            .setQuery(QueryBuilders.queryStringQuery("frank"))                 // Query
-            .execute()
-            .actionGet();
+                .setTypes("node")
+                .setSearchType(SearchType.DFS_QUERY_THEN_FETCH)
+                .setQuery(QueryBuilders.queryStringQuery("frank"))                 // Query
+                .execute()
+                .actionGet();
 
 
         Assertions.assertThat(searchResponse.getHits().getHits()).hasSize(10);
@@ -128,12 +128,12 @@ public class ElasticBulkGraphIndexerTest {
         DataSource dataSource = new DataSource();
         dataSource.setId(1L);
         dataSource.name("panamaPapers")
-            .type(DataSourceType.ORIENTDB)
-            .server("localhost")
-            .port(2424)
-            .database("PanamaPapers")
-            .username("admin")
-            .password("admin");
+                .type(DataSourceType.ORIENTDB)
+                .server("localhost")
+                .port(2424)
+                .database("PanamaPapers")
+                .username("admin")
+                .password("admin");
 
 
         ElasticBulkGraphIndexer indexer = new ElasticBulkGraphIndexer(searchTemplate.getClient(), dataSource.getId().toString());
@@ -154,10 +154,10 @@ public class ElasticBulkGraphIndexerTest {
         Client client = searchTemplate.getClient();
         SearchResponse searchResponse = client.prepareSearch(dataSource.getName().toLowerCase())
 //            .setTypes("vertex")
-            .setSearchType(SearchType.DFS_QUERY_THEN_FETCH)
-            .setQuery(QueryBuilders.queryStringQuery(query))                 // Query
-            .execute()
-            .actionGet();
+                .setSearchType(SearchType.DFS_QUERY_THEN_FETCH)
+                .setQuery(QueryBuilders.queryStringQuery(query))                 // Query
+                .execute()
+                .actionGet();
 
         SearchHit[] hits = searchResponse.getHits().getHits();
 

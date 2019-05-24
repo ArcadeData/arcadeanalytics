@@ -1,0 +1,42 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "dashboard",
+            "otherEntityName": "dashboard",
+            "otherEntityRelationshipName": "workspace"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "dataSource",
+            "otherEntityName": "dataSource",
+            "otherEntityRelationshipName": "workspace"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "user",
+            "otherEntityName": "arcadeUser",
+            "otherEntityField": "id"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "name",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "description",
+            "fieldType": "String"
+        }
+    ],
+    "changelogDate": "20180321140853",
+    "entityTableName": "workspace",
+    "dto": "mapstruct",
+    "pagination": "pagination",
+    "service": "no",
+    "jpaMetamodelFiltering": false
+}

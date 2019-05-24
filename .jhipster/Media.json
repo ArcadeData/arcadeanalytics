@@ -1,0 +1,33 @@
+{
+    "fluentMethods": true,
+    "relationships": [],
+    "fields": [
+        {
+            "fieldName": "name",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "description",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "category",
+            "fieldType": "MediaCategory",
+            "fieldValues": "BROWSERS,BUILDINGS,BUSINESS,CHARACTERS,COMMUNICATION,ENTERTAINMENT,GEO,ICONS,PEOPLE,PICTURES,SCIENCE,TECHNOLOGY,VEHICLES,MISCELLANEOUS"
+        },
+        {
+            "fieldName": "file",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "any"
+        }
+    ],
+    "changelogDate": "20180321140903",
+    "entityTableName": "media",
+    "dto": "mapstruct",
+    "pagination": "pagination",
+    "service": "serviceClass",
+    "jpaMetamodelFiltering": false
+}

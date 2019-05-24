@@ -9,9 +9,9 @@ package com.arcadeanalytics.web.rest;
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -30,8 +30,9 @@ import com.arcadeanalytics.domain.Workspace;
 import com.arcadeanalytics.domain.enumeration.ContractType;
 import com.arcadeanalytics.domain.enumeration.DataSourceType;
 import com.arcadeanalytics.domain.enumeration.IndexingStatus;
-import com.arcadeanalytics.provider.DataSourceGraphDataProviderFactory;
-import com.arcadeanalytics.provider.DataSourceMetadataProviderFactory;
+import com.arcadeanalytics.provider.DataSourceGraphDataProvider;
+import com.arcadeanalytics.provider.DataSourceMetadataProvider;
+import com.arcadeanalytics.provider.DataSourceProviderFactory;
 import com.arcadeanalytics.repository.ArcadeUserRepository;
 import com.arcadeanalytics.repository.DataSourceRepository;
 import com.arcadeanalytics.repository.UserRepository;
@@ -151,9 +152,9 @@ public class DataSourceResourceIntTest {
     private WebApplicationContext context;
 
     @Autowired
-    private DataSourceGraphDataProviderFactory dataSourceGraphDataProviderFactory;
+    private DataSourceProviderFactory<DataSourceGraphDataProvider> dataSourceGraphDataProviderFactory;
     @Autowired
-    private DataSourceMetadataProviderFactory dataSourceMetadataProviderFactory;
+    private DataSourceProviderFactory<DataSourceMetadataProvider> dataSourceMetadataProviderFactory;
 
     private MockMvc restDataSourceMockMvc;
 
@@ -164,18 +165,18 @@ public class DataSourceResourceIntTest {
 
         final User user = userRepository.findOneByLogin("user").get();
         Contract contract = new Contract()
-            .name("FREE")
-            .type(ContractType.FREE)
-            .maxWorkspaces(1)
-            .maxTraversal(300)
-            .maxElements(300)
-            .maxDashboards(1)
-            .maxWorkspaces(1);
+                .name("FREE")
+                .type(ContractType.FREE)
+                .maxWorkspaces(1)
+                .maxTraversal(300)
+                .maxElements(300)
+                .maxDashboards(1)
+                .maxWorkspaces(1);
         em.persist(contract);
 
         Company company = new Company()
-            .name("company")
-            .contract(contract);
+                .name("company")
+                .contract(contract);
         em.persist(company);
 
         final ArcadeUser arcadeUser = new ArcadeUser();
@@ -184,25 +185,25 @@ public class DataSourceResourceIntTest {
         em.persist(arcadeUser);
 
         Workspace workspace = new Workspace()
-            .name(DEFAULT_NAME)
-            .description(DEFAULT_DESCRIPTION)
-            .user(arcadeUser);
+                .name(DEFAULT_NAME)
+                .description(DEFAULT_DESCRIPTION)
+                .user(arcadeUser);
         em.persist(workspace);
 
         DataSource dataSource = new DataSource()
-            .name(DEFAULT_NAME)
-            .description(DEFAULT_DESCRIPTION)
-            .type(DEFAULT_TYPE)
-            .indexing(DEFAULT_INDEXING)
-            .server(DEFAULT_SERVER)
-            .port(DEFAULT_PORT)
-            .database(DEFAULT_DATABASE)
-            .username(DEFAULT_USERNAME)
-            .password(DEFAULT_PASSWORD)
-            .remote(DEFAULT_REMOTE)
-            .gateway(DEFAULT_GATEWAY)
-            .sshPort(DEFAULT_SSH_PORT)
-            .workspace(workspace);
+                .name(DEFAULT_NAME)
+                .description(DEFAULT_DESCRIPTION)
+                .type(DEFAULT_TYPE)
+                .indexing(DEFAULT_INDEXING)
+                .server(DEFAULT_SERVER)
+                .port(DEFAULT_PORT)
+                .database(DEFAULT_DATABASE)
+                .username(DEFAULT_USERNAME)
+                .password(DEFAULT_PASSWORD)
+                .remote(DEFAULT_REMOTE)
+                .gateway(DEFAULT_GATEWAY)
+                .sshPort(DEFAULT_SSH_PORT)
+                .workspace(workspace);
 
         return dataSource;
     }
@@ -211,16 +212,16 @@ public class DataSourceResourceIntTest {
     public void setup() {
         MockitoAnnotations.initMocks(this);
         final DataSourceResource dataSourceResource = new DataSourceResource(dataSourceRepository,
-            dataSourceMapper,
-            dataSourceSearchRepository,
-            cacheManager,
-            dataSourceGraphDataProviderFactory,
-            dataSourceMetadataProviderFactory);
+                dataSourceMapper,
+                dataSourceSearchRepository,
+                cacheManager,
+                dataSourceGraphDataProviderFactory,
+                dataSourceMetadataProviderFactory);
         this.restDataSourceMockMvc = MockMvcBuilders.standaloneSetup(dataSourceResource)
-            .setCustomArgumentResolvers(pageableArgumentResolver)
-            .setControllerAdvice(exceptionTranslator)
-            .setConversionService(createFormattingConversionService())
-            .setMessageConverters(jacksonMessageConverter).build();
+                .setCustomArgumentResolvers(pageableArgumentResolver)
+                .setControllerAdvice(exceptionTranslator)
+                .setConversionService(createFormattingConversionService())
+                .setMessageConverters(jacksonMessageConverter).build();
 
     }
 
@@ -238,9 +239,9 @@ public class DataSourceResourceIntTest {
         // Create the DataSource
         DataSourceDTO dataSourceDTO = dataSourceMapper.toDto(dataSource);
         restDataSourceMockMvc.perform(post("/api/data-sources")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(dataSourceDTO)))
-            .andExpect(status().isCreated());
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(dataSourceDTO)))
+                .andExpect(status().isCreated());
 
         // Validate the DataSource in the database
         List<DataSource> dataSourceList = dataSourceRepository.findAll();
@@ -271,9 +272,9 @@ public class DataSourceResourceIntTest {
         // Create the DataSource
         DataSourceDTO dataSourceDTO = dataSourceMapper.toDto(dataSource);
         final ResultActions resultActions = restDataSourceMockMvc.perform(post("/api/data-sources/test")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(dataSourceDTO)))
-            .andExpect(status().isInternalServerError());
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(dataSourceDTO)))
+                .andExpect(status().isInternalServerError());
 
     }
 
@@ -288,9 +289,9 @@ public class DataSourceResourceIntTest {
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restDataSourceMockMvc.perform(post("/api/data-sources")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(dataSourceDTO)))
-            .andExpect(status().isBadRequest());
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(dataSourceDTO)))
+                .andExpect(status().isBadRequest());
 
         // Validate the DataSource in the database
         List<DataSource> dataSourceList = dataSourceRepository.findAll();
@@ -308,9 +309,9 @@ public class DataSourceResourceIntTest {
         DataSourceDTO dataSourceDTO = dataSourceMapper.toDto(dataSource);
 
         restDataSourceMockMvc.perform(post("/api/data-sources")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(dataSourceDTO)))
-            .andExpect(status().isBadRequest());
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(dataSourceDTO)))
+                .andExpect(status().isBadRequest());
 
         List<DataSource> dataSourceList = dataSourceRepository.findAll();
         assertThat(dataSourceList).hasSize(databaseSizeBeforeTest);
@@ -326,21 +327,21 @@ public class DataSourceResourceIntTest {
 
         // Get all the dataSourceList
         restDataSourceMockMvc.perform(get("/api/data-sources?sort=id,desc"))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(dataSource.getId().intValue())))
-            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
-            .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION.toString())))
-            .andExpect(jsonPath("$.[*].type").value(hasItem(DEFAULT_TYPE.toString())))
-            .andExpect(jsonPath("$.[*].indexing").value(hasItem(DEFAULT_INDEXING.toString())))
-            .andExpect(jsonPath("$.[*].server").value(hasItem(DEFAULT_SERVER.toString())))
-            .andExpect(jsonPath("$.[*].port").value(hasItem(DEFAULT_PORT)))
-            .andExpect(jsonPath("$.[*].database").value(hasItem(DEFAULT_DATABASE.toString())))
-            .andExpect(jsonPath("$.[*].username").value(hasItem(DEFAULT_USERNAME.toString())))
-            .andExpect(jsonPath("$.[*].password").value(hasItem(DEFAULT_PASSWORD.toString())))
-            .andExpect(jsonPath("$.[*].remote").value(hasItem(DEFAULT_REMOTE.booleanValue())))
-            .andExpect(jsonPath("$.[*].gateway").value(hasItem(DEFAULT_GATEWAY.toString())))
-            .andExpect(jsonPath("$.[*].sshPort").value(hasItem(DEFAULT_SSH_PORT)));
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(jsonPath("$.[*].id").value(hasItem(dataSource.getId().intValue())))
+                .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
+                .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION.toString())))
+                .andExpect(jsonPath("$.[*].type").value(hasItem(DEFAULT_TYPE.toString())))
+                .andExpect(jsonPath("$.[*].indexing").value(hasItem(DEFAULT_INDEXING.toString())))
+                .andExpect(jsonPath("$.[*].server").value(hasItem(DEFAULT_SERVER.toString())))
+                .andExpect(jsonPath("$.[*].port").value(hasItem(DEFAULT_PORT)))
+                .andExpect(jsonPath("$.[*].database").value(hasItem(DEFAULT_DATABASE.toString())))
+                .andExpect(jsonPath("$.[*].username").value(hasItem(DEFAULT_USERNAME.toString())))
+                .andExpect(jsonPath("$.[*].password").value(hasItem(DEFAULT_PASSWORD.toString())))
+                .andExpect(jsonPath("$.[*].remote").value(hasItem(DEFAULT_REMOTE.booleanValue())))
+                .andExpect(jsonPath("$.[*].gateway").value(hasItem(DEFAULT_GATEWAY.toString())))
+                .andExpect(jsonPath("$.[*].sshPort").value(hasItem(DEFAULT_SSH_PORT)));
     }
 
     @Test
@@ -351,21 +352,21 @@ public class DataSourceResourceIntTest {
 
         // Get the dataSource
         restDataSourceMockMvc.perform(get("/api/data-sources/{id}", dataSource.getId()))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andExpect(jsonPath("$.id").value(dataSource.getId().intValue()))
-            .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()))
-            .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION.toString()))
-            .andExpect(jsonPath("$.type").value(DEFAULT_TYPE.toString()))
-            .andExpect(jsonPath("$.indexing").value(DEFAULT_INDEXING.toString()))
-            .andExpect(jsonPath("$.server").value(DEFAULT_SERVER.toString()))
-            .andExpect(jsonPath("$.port").value(DEFAULT_PORT))
-            .andExpect(jsonPath("$.database").value(DEFAULT_DATABASE.toString()))
-            .andExpect(jsonPath("$.username").value(DEFAULT_USERNAME.toString()))
-            .andExpect(jsonPath("$.password").value(DEFAULT_PASSWORD.toString()))
-            .andExpect(jsonPath("$.remote").value(DEFAULT_REMOTE.booleanValue()))
-            .andExpect(jsonPath("$.gateway").value(DEFAULT_GATEWAY.toString()))
-            .andExpect(jsonPath("$.sshPort").value(DEFAULT_SSH_PORT));
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(jsonPath("$.id").value(dataSource.getId().intValue()))
+                .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()))
+                .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION.toString()))
+                .andExpect(jsonPath("$.type").value(DEFAULT_TYPE.toString()))
+                .andExpect(jsonPath("$.indexing").value(DEFAULT_INDEXING.toString()))
+                .andExpect(jsonPath("$.server").value(DEFAULT_SERVER.toString()))
+                .andExpect(jsonPath("$.port").value(DEFAULT_PORT))
+                .andExpect(jsonPath("$.database").value(DEFAULT_DATABASE.toString()))
+                .andExpect(jsonPath("$.username").value(DEFAULT_USERNAME.toString()))
+                .andExpect(jsonPath("$.password").value(DEFAULT_PASSWORD.toString()))
+                .andExpect(jsonPath("$.remote").value(DEFAULT_REMOTE.booleanValue()))
+                .andExpect(jsonPath("$.gateway").value(DEFAULT_GATEWAY.toString()))
+                .andExpect(jsonPath("$.sshPort").value(DEFAULT_SSH_PORT));
     }
 
     @Test
@@ -376,26 +377,26 @@ public class DataSourceResourceIntTest {
         dataSourceRepository.saveAndFlush(dataSource);
 
         restDataSourceMockMvc.perform(get("/api/data-sources/metadata/{id}", dataSource.getId()))
-            .andDo(MockMvcResultHandlers.print());
+                .andDo(MockMvcResultHandlers.print());
 
 
         // Get the dataSource
         restDataSourceMockMvc.perform(get("/api/data-sources/metadata/{id}", dataSource.getId()))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andExpect(jsonPath("$.id").value(dataSource.getId().intValue()))
-            .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()))
-            .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION.toString()))
-            .andExpect(jsonPath("$.type").value(DEFAULT_TYPE.toString()))
-            .andExpect(jsonPath("$.indexing").value(DEFAULT_INDEXING.toString()))
-            .andExpect(jsonPath("$.server").value(DEFAULT_SERVER.toString()))
-            .andExpect(jsonPath("$.port").value(DEFAULT_PORT))
-            .andExpect(jsonPath("$.database").value(DEFAULT_DATABASE.toString()))
-            .andExpect(jsonPath("$.username").value(DEFAULT_USERNAME.toString()))
-            .andExpect(jsonPath("$.password").value(DEFAULT_PASSWORD.toString()))
-            .andExpect(jsonPath("$.remote").value(DEFAULT_REMOTE.booleanValue()))
-            .andExpect(jsonPath("$.gateway").value(DEFAULT_GATEWAY.toString()))
-            .andExpect(jsonPath("$.sshPort").value(DEFAULT_SSH_PORT));
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(jsonPath("$.id").value(dataSource.getId().intValue()))
+                .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()))
+                .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION.toString()))
+                .andExpect(jsonPath("$.type").value(DEFAULT_TYPE.toString()))
+                .andExpect(jsonPath("$.indexing").value(DEFAULT_INDEXING.toString()))
+                .andExpect(jsonPath("$.server").value(DEFAULT_SERVER.toString()))
+                .andExpect(jsonPath("$.port").value(DEFAULT_PORT))
+                .andExpect(jsonPath("$.database").value(DEFAULT_DATABASE.toString()))
+                .andExpect(jsonPath("$.username").value(DEFAULT_USERNAME.toString()))
+                .andExpect(jsonPath("$.password").value(DEFAULT_PASSWORD.toString()))
+                .andExpect(jsonPath("$.remote").value(DEFAULT_REMOTE.booleanValue()))
+                .andExpect(jsonPath("$.gateway").value(DEFAULT_GATEWAY.toString()))
+                .andExpect(jsonPath("$.sshPort").value(DEFAULT_SSH_PORT));
     }
 
     @Test
@@ -403,7 +404,7 @@ public class DataSourceResourceIntTest {
     public void getNonExistingDataSource() throws Exception {
         // Get the dataSource
         restDataSourceMockMvc.perform(get("/api/data-sources/{id}", Long.MAX_VALUE))
-            .andExpect(status().isNotFound());
+                .andExpect(status().isNotFound());
     }
 
     @Test
@@ -419,24 +420,24 @@ public class DataSourceResourceIntTest {
         // Disconnect from session so that the updates on updatedDataSource are not directly saved in db
         em.detach(updatedDataSource);
         updatedDataSource
-            .name(UPDATED_NAME)
-            .description(UPDATED_DESCRIPTION)
-            .type(UPDATED_TYPE)
-            .indexing(UPDATED_INDEXING)
-            .server(UPDATED_SERVER)
-            .port(UPDATED_PORT)
-            .database(UPDATED_DATABASE)
-            .username(UPDATED_USERNAME)
-            .password(UPDATED_PASSWORD)
-            .remote(UPDATED_REMOTE)
-            .gateway(UPDATED_GATEWAY)
-            .sshPort(UPDATED_SSH_PORT);
+                .name(UPDATED_NAME)
+                .description(UPDATED_DESCRIPTION)
+                .type(UPDATED_TYPE)
+                .indexing(UPDATED_INDEXING)
+                .server(UPDATED_SERVER)
+                .port(UPDATED_PORT)
+                .database(UPDATED_DATABASE)
+                .username(UPDATED_USERNAME)
+                .password(UPDATED_PASSWORD)
+                .remote(UPDATED_REMOTE)
+                .gateway(UPDATED_GATEWAY)
+                .sshPort(UPDATED_SSH_PORT);
         DataSourceDTO dataSourceDTO = dataSourceMapper.toDto(updatedDataSource);
 
         restDataSourceMockMvc.perform(put("/api/data-sources")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(dataSourceDTO)))
-            .andExpect(status().isOk());
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(dataSourceDTO)))
+                .andExpect(status().isOk());
 
         // Validate the DataSource in the database
         List<DataSource> dataSourceList = dataSourceRepository.findAll();
@@ -470,9 +471,9 @@ public class DataSourceResourceIntTest {
 
         // If the entity doesn't have an ID, it will be created instead of just being updated
         restDataSourceMockMvc.perform(put("/api/data-sources")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(dataSourceDTO)))
-            .andExpect(status().isCreated());
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(dataSourceDTO)))
+                .andExpect(status().isCreated());
 
         // Validate the DataSource in the database
         List<DataSource> dataSourceList = dataSourceRepository.findAll();
@@ -489,8 +490,8 @@ public class DataSourceResourceIntTest {
 
         // Get the dataSource
         restDataSourceMockMvc.perform(delete("/api/data-sources/{id}", dataSource.getId())
-            .accept(TestUtil.APPLICATION_JSON_UTF8))
-            .andExpect(status().isOk());
+                .accept(TestUtil.APPLICATION_JSON_UTF8))
+                .andExpect(status().isOk());
 
         // Validate Elasticsearch is empty
         boolean dataSourceExistsInEs = dataSourceSearchRepository.exists(dataSource.getId());
@@ -510,21 +511,21 @@ public class DataSourceResourceIntTest {
 
         // Search the dataSource
         restDataSourceMockMvc.perform(get("/api/_search/data-sources?query=id:" + dataSource.getId()))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(dataSource.getId().intValue())))
-            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
-            .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION.toString())))
-            .andExpect(jsonPath("$.[*].type").value(hasItem(DEFAULT_TYPE.toString())))
-            .andExpect(jsonPath("$.[*].indexing").value(hasItem(DEFAULT_INDEXING.toString())))
-            .andExpect(jsonPath("$.[*].server").value(hasItem(DEFAULT_SERVER.toString())))
-            .andExpect(jsonPath("$.[*].port").value(hasItem(DEFAULT_PORT)))
-            .andExpect(jsonPath("$.[*].database").value(hasItem(DEFAULT_DATABASE.toString())))
-            .andExpect(jsonPath("$.[*].username").value(hasItem(DEFAULT_USERNAME.toString())))
-            .andExpect(jsonPath("$.[*].password").value(hasItem(DEFAULT_PASSWORD.toString())))
-            .andExpect(jsonPath("$.[*].remote").value(hasItem(DEFAULT_REMOTE.booleanValue())))
-            .andExpect(jsonPath("$.[*].gateway").value(hasItem(DEFAULT_GATEWAY.toString())))
-            .andExpect(jsonPath("$.[*].sshPort").value(hasItem(DEFAULT_SSH_PORT)));
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(jsonPath("$.[*].id").value(hasItem(dataSource.getId().intValue())))
+                .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
+                .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION.toString())))
+                .andExpect(jsonPath("$.[*].type").value(hasItem(DEFAULT_TYPE.toString())))
+                .andExpect(jsonPath("$.[*].indexing").value(hasItem(DEFAULT_INDEXING.toString())))
+                .andExpect(jsonPath("$.[*].server").value(hasItem(DEFAULT_SERVER.toString())))
+                .andExpect(jsonPath("$.[*].port").value(hasItem(DEFAULT_PORT)))
+                .andExpect(jsonPath("$.[*].database").value(hasItem(DEFAULT_DATABASE.toString())))
+                .andExpect(jsonPath("$.[*].username").value(hasItem(DEFAULT_USERNAME.toString())))
+                .andExpect(jsonPath("$.[*].password").value(hasItem(DEFAULT_PASSWORD.toString())))
+                .andExpect(jsonPath("$.[*].remote").value(hasItem(DEFAULT_REMOTE.booleanValue())))
+                .andExpect(jsonPath("$.[*].gateway").value(hasItem(DEFAULT_GATEWAY.toString())))
+                .andExpect(jsonPath("$.[*].sshPort").value(hasItem(DEFAULT_SSH_PORT)));
     }
 
     @Test

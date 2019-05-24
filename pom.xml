@@ -50,10 +50,10 @@
         <validation-api.version>1.1.0.Final</validation-api.version>
         <mapstruct.version>1.2.0.Final</mapstruct.version>
 
-        <testcontainers.version>1.11.3</testcontainers.version>
+        <testcontainers.version>1.11.2</testcontainers.version>
         <jung.version>2.1.1</jung.version>
         <arcade-data.version>1.0.1</arcade-data.version>
-        <arcade-connectors.version>1.0.5</arcade-connectors.version>
+        <arcade-connectors.version>1.0.6-SNAPSHOT</arcade-connectors.version>
 
         <!-- Plugin versions -->
         <maven-clean-plugin.version>3.1.0</maven-clean-plugin.version>

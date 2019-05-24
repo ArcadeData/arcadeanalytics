@@ -1,0 +1,54 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipType": "one-to-one",
+            "relationshipName": "dataSet",
+            "otherEntityName": "dataSet",
+            "otherEntityField": "id",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "widget"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "snapshot",
+            "otherEntityName": "widgetSnapshot",
+            "otherEntityRelationshipName": "widget"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "dataSource",
+            "otherEntityName": "dataSource",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "dashboard",
+            "otherEntityName": "dashboard",
+            "otherEntityField": "id"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "name",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "type",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "hasSnapshot",
+            "fieldType": "Boolean"
+        }
+    ],
+    "changelogDate": "20180321140857",
+    "entityTableName": "widget",
+    "dto": "mapstruct",
+    "pagination": "pagination",
+    "service": "serviceClass",
+    "jpaMetamodelFiltering": false
+}

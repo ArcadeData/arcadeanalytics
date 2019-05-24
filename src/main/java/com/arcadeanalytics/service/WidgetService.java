@@ -26,10 +26,10 @@ import com.arcadeanalytics.domain.DataSource;
 import com.arcadeanalytics.domain.Widget;
 import com.arcadeanalytics.provider.CytoData;
 import com.arcadeanalytics.provider.DataSourceGraphDataProvider;
-import com.arcadeanalytics.provider.DataSourceGraphDataProviderFactory;
-import com.arcadeanalytics.provider.DataSourceGraphProviderFactory;
+import com.arcadeanalytics.provider.DataSourceGraphProvider;
 import com.arcadeanalytics.provider.DataSourceInfo;
-import com.arcadeanalytics.provider.DataSourceMetadataProviderFactory;
+import com.arcadeanalytics.provider.DataSourceMetadataProvider;
+import com.arcadeanalytics.provider.DataSourceProviderFactory;
 import com.arcadeanalytics.provider.FileSystemDataProvider;
 import com.arcadeanalytics.provider.GraphData;
 import com.arcadeanalytics.repository.ArcadeUserRepository;
@@ -105,11 +105,11 @@ public class WidgetService {
 
     private final CacheManager cacheManager;
 
-    private final DataSourceMetadataProviderFactory dataSourceMetadataProviderFactory;
+    private final DataSourceProviderFactory<DataSourceMetadataProvider> dataSourceMetadataProviderFactory;
 
-    private final DataSourceGraphDataProviderFactory dataSourceGraphDataProviderFactory;
+    private final DataSourceProviderFactory<DataSourceGraphDataProvider> dataSourceGraphDataProviderFactory;
 
-    private final DataSourceGraphProviderFactory dataSourceGraphProviderFactory;
+    private final DataSourceProviderFactory<DataSourceGraphProvider> dataSourceGraphProviderFactory;
 
     public WidgetService(WidgetRepository widgetRepository,
                          WidgetMapper widgetMapper,
@@ -119,9 +119,9 @@ public class WidgetService {
                          ArcadeUserRepository arcadeUserRepository,
                          FileSystemRepository fsRepository,
                          CacheManager cacheManager,
-                         DataSourceMetadataProviderFactory dataSourceMetadataProviderFactory,
-                         DataSourceGraphDataProviderFactory dataSourceGraphDataProviderFactory,
-                         DataSourceGraphProviderFactory dataSourceGraphProviderFactory) {
+                         DataSourceProviderFactory<DataSourceMetadataProvider> dataSourceMetadataProviderFactory,
+                         DataSourceProviderFactory<DataSourceGraphDataProvider> dataSourceGraphDataProviderFactory,
+                         DataSourceProviderFactory<DataSourceGraphProvider> dataSourceGraphProviderFactory) {
         this.widgetRepository = widgetRepository;
         this.widgetMapper = widgetMapper;
         this.widgetSearchRepository = widgetSearchRepository;

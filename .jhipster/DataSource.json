@@ -1,0 +1,82 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "dataSourceIndex",
+            "otherEntityName": "dataSourceIndex",
+            "otherEntityRelationshipName": "dataSource"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "workspace",
+            "otherEntityName": "workspace",
+            "otherEntityField": "id"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "name",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "description",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "type",
+            "fieldType": "DataSourceType",
+            "fieldValues": "ORIENTDB,GREMLIN_ORIENTDB,NEO4J, NEO4J_MEMGRAPH,JANUSGRAPH,TIGERGRAPH,NEPTUPE,COSMOSDB,RDBMS_ORACLE,RDBMS_MSQSLSERVER,RDBMS_MYSQL,RDBMS_POSTGRESQL,RDBMS_HSQL,RDF,ARANGO"
+        },
+        {
+            "fieldName": "indexing",
+            "fieldType": "IndexingStatus",
+            "fieldValues": "NOT_INDEXED,INDEXING,INDEXED"
+        },
+        {
+            "fieldName": "server",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "port",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "database",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "username",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "password",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "remote",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "gateway",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "sshPort",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "sshUser",
+            "fieldType": "String"
+        }
+    ],
+    "changelogDate": "20180321140859",
+    "dto": "mapstruct",
+    "service": "no",
+    "entityTableName": "data_source",
+    "jpaMetamodelFiltering": false,
+    "pagination": "pagination"
+}

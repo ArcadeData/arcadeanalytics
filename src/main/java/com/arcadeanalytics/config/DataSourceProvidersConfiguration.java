@@ -20,9 +20,11 @@ package com.arcadeanalytics.config;
  * #L%
  */
 
-import com.arcadeanalytics.provider.DataSourceGraphDataProviderFactory;
-import com.arcadeanalytics.provider.DataSourceGraphProviderFactory;
-import com.arcadeanalytics.provider.DataSourceMetadataProviderFactory;
+import com.arcadeanalytics.provider.DataSourceGraphDataProvider;
+import com.arcadeanalytics.provider.DataSourceGraphProvider;
+import com.arcadeanalytics.provider.DataSourceMetadataProvider;
+import com.arcadeanalytics.provider.DataSourceProviderFactory;
+import com.arcadeanalytics.provider.DataSourceTableDataProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
@@ -46,21 +48,28 @@ public class DataSourceProvidersConfiguration {
     }
 
     @Bean
-    public DataSourceGraphDataProviderFactory dataSourceGraphDataProviderFactory() {
+    public DataSourceProviderFactory<DataSourceGraphDataProvider> dataSourceGraphDataProviderFactory() {
 
-        return new DataSourceGraphDataProviderFactory(path);
+        return new DataSourceProviderFactory<DataSourceGraphDataProvider>(DataSourceGraphDataProvider.class, path);
     }
 
     @Bean
-    public DataSourceGraphProviderFactory dataSourceGraphProviderFactory() {
+    public DataSourceProviderFactory<DataSourceGraphProvider> dataSourceGraphProviderFactory() {
 
-        return new DataSourceGraphProviderFactory(path);
+        return new DataSourceProviderFactory<DataSourceGraphProvider>(DataSourceGraphProvider.class, path);
+    }
+
+
+    @Bean
+    public DataSourceProviderFactory<DataSourceMetadataProvider> dataSourceMetadataProviderFactory() {
+
+        return new DataSourceProviderFactory<DataSourceMetadataProvider>(DataSourceMetadataProvider.class, path);
     }
 
     @Bean
-    public DataSourceMetadataProviderFactory dataSourceMetadataProviderFactory() {
+    public DataSourceProviderFactory<DataSourceTableDataProvider> dataSourceTableDataProviderFactory() {
 
-        return new DataSourceMetadataProviderFactory(path);
+        return new DataSourceProviderFactory<DataSourceTableDataProvider>(DataSourceTableDataProvider.class, path);
     }
 
 }
