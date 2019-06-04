@@ -35,6 +35,7 @@ import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { DataSource } from 'app/entities/data-source';
 import { SnapshotMenuComponent } from '../..';
 import { Router } from '@angular/router';
+import { WidgetType } from 'app/entities/widget/widget.model';
 const elementResizeEvent = require('element-resize-event');
 const fileSaver = require('file-saver');
 
@@ -112,6 +113,10 @@ export abstract class AbstractPieChartWidgetComponent extends DataWidgetComponen
         The set threshold corresponds to the maximum number of slices that can be rendered in the chart.`;
     radiusTip: string = 'Pie chart radius length declared as percentage respect to the chart container. Allowed values from 10% to 100%.';
 
+    // messages
+    checkThresholdsMessage: string = `\n\nTry to check the "Min Value Occurrences" and "Most Relevant Values Occurrences" thresholds in the Settings menu.
+    Maybe the constraints are too strong to get any result.`;
+
     public outerAccordion: string = 'outer-accordion';
     public innerAccordion: string = 'inner-accordion';
 
@@ -135,7 +140,7 @@ export abstract class AbstractPieChartWidgetComponent extends DataWidgetComponen
      * Abstract methods
      */
     abstract handleSelectedPropertyModelChanging(): void;
-    abstract runSeriesComputation(): void;
+    abstract runSeriesComputation(saveAfterUpdate?: boolean): void;
 
     ngOnInit() {
 
@@ -389,7 +394,7 @@ export abstract class AbstractPieChartWidgetComponent extends DataWidgetComponen
         }
 
         // updating slider values if not in minimized view or embedded
-        if (!this.minimizedView && !this.embedded) {
+        if (!this.minimizedView && !this.embedded && this.widget.type !== WidgetType.SECONDARY_QUERY_PIE_CHART) {
             this.updateSettingsSliderUpperValue().subscribe(() => {
                 console.log('Thresholds updated.');
                 if (snapshot['minDocCount']) {
@@ -401,6 +406,14 @@ export abstract class AbstractPieChartWidgetComponent extends DataWidgetComponen
                 this.snapshotLoaded = true;
             });
         } else {
+            if (snapshot['minDocCount']) {
+                this.minDocCount = snapshot['minDocCount'];
+            } else {
+                this.minDocCount = 1;   // we take off this series filter
+            }
+            if (snapshot['maxValuesPerField']) {
+                this.maxValuesPerField = snapshot['maxValuesPerField'];
+            }
             this.snapshotLoaded = true;
         }
 
@@ -409,6 +422,10 @@ export abstract class AbstractPieChartWidgetComponent extends DataWidgetComponen
         // initializing pie chart according to just loaded data
         this.updatePieChart();
     }
+
+    /**
+     * Pie Chart Handling
+     */
 
     /**
      * Updates minDocCount and maxFieldPerValues settings, then return true if it succeeds, otherwise false.
@@ -451,10 +468,12 @@ export abstract class AbstractPieChartWidgetComponent extends DataWidgetComponen
                     this.handleError(error.error, errorTitle);
                 });
             } else {
+                this.stopSpinner();
                 this.notificationService.push('warning', errorTitle, 'Index datasource missing, thresholds cannot be computed.');
                 return Observable.of(false);
             }
         } else {
+            this.stopSpinner();
             console.log('[' + this.widget.name + '] Faceting Threshold Computing', 'Class or property are undefined, thresholds cannot be computed.');
             return Observable.of(false);
         }
@@ -486,10 +505,6 @@ export abstract class AbstractPieChartWidgetComponent extends DataWidgetComponen
         }
     }
 
-    /**
-     * Pie Chart Handling
-     */
-
      /*
      * It updates the pie chart data according to the faceting passed as param.
      * If no faceting is passed as input, then the last loaded faceting will be used.
@@ -506,14 +521,16 @@ export abstract class AbstractPieChartWidgetComponent extends DataWidgetComponen
         if (faceting && faceting[this.selectedClass]) {
             const selectedClassFaceting = faceting[this.selectedClass]['propertyValues'];
             if (!selectedClassFaceting) {
-                const message = 'No faceting is present for the current selected class.';
+                let message = 'No faceting is present for the current selected class.';
+                message += this.checkThresholdsMessage;
                 console.log(message);
                 this.notificationService.push('warning', 'Distribution computation', message);
                 return;
             }
             const selectedPropertyFaceting = selectedClassFaceting[this.selectedProperty];
             if (!selectedPropertyFaceting) {
-                const message = 'No faceting is present for the current selected property.';
+                let message = 'No faceting is present for the current selected property.';
+                message += this.checkThresholdsMessage;
                 console.log(message);
                 this.notificationService.push('warning', 'Distribution computation', message);
                 return;

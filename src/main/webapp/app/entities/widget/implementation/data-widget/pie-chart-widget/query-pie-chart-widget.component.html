@@ -1,0 +1,283 @@
+<!--Widget Header-->
+<div *ngIf="!minimizedView" class="row">
+    <div class="col-md-6" style="height: 35px;">
+        <h2 style="margin: 0px;">
+            <span>{{widget.name}}</span>
+        </h2>
+    </div>
+    <div class="col-md-6" style="height: 35px;">
+        <div class="btn-group flex-btn-group-container" style="position: relative; top: 10%;">
+            <a type="submit" [routerLink]="['/dashboard', widget['dashboardId']]" routerLinkActive="active"
+                [routerLinkActiveOptions]="{exact: true}" (click)="checkSidebarStatusOnExit()">
+                <span class="fa fa-2x fa-times"></span>
+            </a>
+        </div>
+    </div>
+</div>
+
+<hr *ngIf="!minimizedView" style="margin-top: 5px;">
+
+<div class="widget-table" [id]="'widget-container_' + widgetId">
+
+    <div style="display: table-row">
+
+        <!-- Main sidebar -->
+        <div [id]="'widget-sidebar_' + widgetId" *ngIf="!minimizedView"
+            class="sidebar sidebar-main sidebar-fixed sidebar-default widget-table-cell">
+            <div id="sidebar-dynamic" class="sidebar-content cell-content-wrapper"
+                [ngStyle]="{'max-height': maxSidebarHeight}">
+                <div class="sidebar-category sidebar-category-visible">
+                    <div class="category-content no-padding">
+
+                        <ul id="firstLevelMenu" class="navigation navigation-main navigation-accordion">
+
+                            <!-- Main -->
+                            <li id="layoutMenu">
+                                <a>
+                                    <i class="fa fa-universal-access fa-2x"></i>
+                                    <span>Layout</span>
+                                </a>
+                                <ul>
+                                    <li>
+                                        <div class="row" style="padding: 0px 1px 0px 5px;">
+                                            <div class="col-md-6">
+                                                <label>
+                                                    Show Legend:
+                                                </label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <ui-switch [(ngModel)]="showLegend" size="small"
+                                                    (ngModelChange)="pause()"></ui-switch>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="row" style="padding: 0px 1px 0px 5px;">
+                                            <div class="col-md-6">
+                                                <label>
+                                                    Show Labels:
+                                                </label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <ui-switch [(ngModel)]="showLabels" size="small"
+                                                    (ngModelChange)="updatePieChart()"></ui-switch>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="row" style="padding: 0px 1px 0px 5px;">
+                                            <div class="col-md-6">
+                                                <label>
+                                                    Labels Position:
+                                                </label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <select [(ngModel)]="labelPosition" (ngModelChange)="updatePieChart()">
+                                                    <option value="outside" selected>outside</option>
+                                                    <option value="inside">inside</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="row" style="padding: 0px 1px 0px 5px;">
+                                            <div class="col-md-3">
+                                                <label>
+                                                    Radius:
+                                                </label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <nouislider [config]="radiusSliderConfig" [(ngModel)]="radius"
+                                                    (ngModelChange)="updatePieChart()"></nouislider>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <span>{{radius}}</span>
+                                            </div>
+                                            <div class="col-md-1" style="padding-left: 2px;">
+                                                <i class="fa fa-question-circle command" aria-hidden="true"
+                                                    [popover]="radiusTip" containerClass="sidebarPopover"
+                                                    placement="right" triggers="hover" container="body"></i>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li id="snapshotMenu">
+                                <a>
+                                    <i class="fa fa-camera fa-2x"
+                                        [ngStyle]="!sidebarCollapsed && {'margin-right': '12.92px'}"></i>
+                                    <span>Snapshot</span>
+                                </a>
+                                <ul>
+                                    <snapshot-menu *ngIf="widget" #snapshotMenu [widgetId]="widget.id"
+                                        (snapshotLoaded)="updatePieChartWidgetFromSnapshot($event)"
+                                        (noSnapshotAvailable)="updateWidgetSnapshotFlag()"></snapshot-menu>
+                                </ul>
+                            </li>
+                            <li id="exportMenu">
+                                <a>
+                                    <i class="fa fa-download fa-2x"
+                                        [ngStyle]="!sidebarCollapsed && {'margin-right': '16.84px'}"></i>
+                                    <span>Export</span>
+                                </a>
+                                <ul>
+                                    <li>
+                                        <br />
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">File Name</label>
+                                            <div class="col-md-9">
+                                                <input type="text" id="fileName" class="form-control"
+                                                    [(ngModel)]="fileName" name="fileName"
+                                                    placeholder="File name without extension" required />
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <li [ngClass]="{'li-disabled': !fileName}">
+                                        <a (click)="pieChartExport(pieChart.getConnectedDataURL({type: 'png', pixelRatio: 3, backgroundColor: 'transparent'}), 'image/png')"
+                                            [ngClass]="{'link-disabled': !fileName}">
+                                            Export as PNG
+                                        </a>
+                                    </li>
+                                    <li [ngClass]="{'li-disabled': !fileName}">
+                                        <a (click)="pieChartExport(pieChart.getConnectedDataURL({type: 'jpeg', pixelRatio: 3, backgroundColor: '#fff'}), 'image/jpeg')"
+                                            [ngClass]="{'link-disabled': !fileName}">
+                                            Export as JPEG
+                                        </a>
+                                    </li>
+                                    <li [ngClass]="{'li-disabled': !fileName}">
+                                        <a (click)="pieChartExport(undefined, 'json')"
+                                            [ngClass]="{'link-disabled': !fileName}">
+                                            Export as JSON
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="menu-separator">
+                                <hr>
+                            </li>
+                            <li>
+                                <a class="sidebar-control sidebar-main-toggle hidden-xs" (click)="toggleSideBar()">
+                                    <i class="fa fa-desktop fa-2x position-left"
+                                        [ngStyle]="!sidebarCollapsed && {'margin-right': '13.14px'}"></i>
+                                    <span>Expand/Collapse</span>
+                                </a>
+                            </li>
+                            <!-- /main -->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Main viewport -->
+        <div [id]="'widget-viewport_' + widgetId" class="widget-table-cell widget-viewport">
+
+            <tabset>
+                <tab id="pieChartTab" heading="Pie Chart" [active]="pieChartTabActive"
+                    (select)="switchTab('pie-chart')">
+                    <div [id]="'viewport-container_' + widgetId" class="cell-content-wrapper panel panel-flat"
+                        [ngClass]="{'no-border': minimizedView}">
+
+                        <i *ngIf="showSpinner" class="fa fa-spinner fa-pulse fa-3x fa-fw wait-spinner"
+                            aria-hidden="true"></i>
+
+                        <!--Pie Chart Viewport-->
+                        <div [id]="'pieChart_' + widgetId" class="viewport pie-chart-viewport"
+                            [ngStyle]="{height: widgetHeight}">
+
+                            <!--'Click To Edit' message-->
+                            <div *ngIf="!pieChartData && minimizedView && !embedded" style="z-index: 100;">
+                                <a [routerLink]="['/widget', widget['id']]">
+                                    <h2 class="empty-widget-message" [ngStyle]="{top: getEmptyWidgetMessageHeight()}">
+                                        Click here to Edit the Widget</h2>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </tab>
+                <tab *ngIf="dataSource && !minimizedView" id="datasourceTab" heading="Datasource"
+                    [active]="datasourceTabActive" (select)="switchTab('datasource')">
+                    <div [id]="'viewport-container_' + widgetId" class="cell-content-wrapper panel panel-flat"
+                        style="border-top: none; border-top-left-radius: 0px; border-top-right-radius: 0px;"
+                        [ngClass]="{'no-border': minimizedView}">
+
+                        <!-- Datasource Viewport -->
+                        <data-source-info [dataSource]="dataSource" [height]="widgetHeight"
+                            (datasourceIndexingCall)="callDatasourceIndexing()"></data-source-info>
+
+                    </div>
+                </tab>
+            </tabset>
+
+            <!-- Toolbar -->
+            <div *ngIf="!minimizedView" id="upperToolBar" class="navbar navbar-default"
+                [ngStyle]="{height: toolbarHeight}" [popover]="startingPopoverMessage"
+                [isOpen]="startingPopoverMustBeOpen" placement="bottom" container="body"
+                (mouseover)="closePopover('startingPopover')" triggers="">
+
+                <!-- Left nav -->
+                <ul class="nav navbar-nav navbar-center col-md-11">
+                    <li class="col-md-5">
+                        <div *ngIf="dataSourceMetadata" class="class-form">
+                            <span>Category</span>&nbsp;
+                            <select id="categorySelection" class="form-control small-vertical-padding"
+                                [(ngModel)]="selectedProperty">
+                                <option *ngFor="let propertyName of selectedClassProperties" [ngValue]="propertyName">
+                                    {{propertyName}} </option>
+                            </select>
+                        </div>
+                    </li>
+                    <li class="col-md-4">
+                        <div *ngIf="dataSourceMetadata" class="property-form">
+                            <span>Value</span>&nbsp;
+                            <select id="valuePropertySelection" class="form-control small-vertical-padding"
+                                [(ngModel)]="valueProperty" (ngModelChange)="handleSelectedPropertyModelChanging()">
+                                <option *ngFor="let propertyName of selectedClassProperties" [ngValue]="propertyName">
+                                    {{propertyName}} </option>
+                            </select>
+                        </div>
+                    </li>
+                    <li class="col-md-3 no-padding">
+                        <div *ngIf="dataSourceMetadata && selectedClass" class="cardinality-info">
+                            <div class="col-md-2 no-padding text-center">
+                                <i *ngIf="selectedClass && selectedProperty" class="fa fa-play command"
+                                    (click)="runSeriesComputation()"></i>
+                                <i *ngIf="!selectedClass || !selectedProperty"
+                                    class="fa fa-play command link-disabled"></i>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+
+                <ul class="nav navbar-nav navbar-right col-md-1">
+                    <li>
+                        <a *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_EDITOR']" (click)="saveAll()">
+                            <i class="fa fa-save" title="Save"></i>
+                        </a>
+                        <a *jhiHasAnyAuthority="'ROLE_READER'" class="disabled">
+                            <i class="fa fa-save" title="Save"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <!--Full Text Search-->
+            <div *ngIf="renderFullTextSearchView" [id]="'fullTextSearch_' + widgetId" class='fulltext-search'
+                [ngStyle]="{'max-height': widgetHeight, padding: '0px'}">
+                <fulltext-search [datasourceId]="widget['dataSourceId']" [searchTerm]="searchTerm"
+                    [componentHeight]="widgetHeight" (queryEmitter)="loadNodesFromIds($event)"
+                    (noSuchIndexEmitter)="resetFullTextSearch(true)" (closeEmitter)="resetFullTextSearch(true)">
+                </fulltext-search>
+            </div>
+
+            <div *ngIf="minimizedView" style="opacity: 0; height: 1px; font-size: 1px;">
+                <!--Used to update the view when only width changes-->
+                {{widgetColumnWidth}}
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,84 @@
+.parameterPanelContainer {
+    padding: 10px;
+    display: inline-block;
+    vertical-align: top;
+    width: 100%;
+}
+
+.param-body-row {
+    padding: 0px;
+    margin: 10px 0px;
+}
+
+.parameterLabel {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: inline;
+    margin-left: 10px;
+}
+
+a.panel-collapser:after {
+    font-family:'FontAwesome';
+    font-size: 15px;
+    font-weight: 900;
+    content:"\f107";
+    float: right;
+    color: black;
+    transform: scale(1.3, 1.4);
+}
+
+a.collapsed:after {
+    font-family:'FontAwesome';
+    font-size: 15px;
+    font-weight: 900;
+    content:"\f106";
+    float: right;
+    color: black;
+    transform: scale(1.3, 1.4);
+}
+
+.icons-list {
+    display: inline-block;
+}
+
+.icons-list .fa {
+    font-size: 15px;
+}
+
+.icons-list li {
+    margin: 10px;
+    vertical-align: top;
+}
+
+.panel-body {
+    padding: 10px;
+}
+
+.disabled, .disabled:hover {
+    color: grey;
+    cursor: not-allowed;
+}
+
+ul {
+    list-style: none;
+    padding: 0px;
+}
+
+.header-param-form {
+    height: 20px;
+}
+
+.param-form {
+    height: 25px;
+}
+
+.query-textarea {
+    resize: none;
+    padding: 15px 30px !important
+}
+
+.domain-textarea {
+    resize: none;
+    padding: 15px 20px !important
+}

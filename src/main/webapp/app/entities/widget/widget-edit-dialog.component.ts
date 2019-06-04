@@ -66,6 +66,7 @@ export class WidgetEditDialogComponent implements OnInit {
     ) {
         this.widgetTypes2abstractTypes = {
             'graph': 'graph',
+            'query': 'query',
             'text-editor': 'text editor',
             'table': 'table',
             'independent-pie-chart': 'pie-chart',
@@ -98,7 +99,7 @@ export class WidgetEditDialogComponent implements OnInit {
             this.widgetService.getWidgetsByDashboardId(this.widget.dashboardId, request).subscribe((res: HttpResponse<Widget[]>) => {
                 this.availablePrimaryWidgets = res.body;
                 this.availablePrimaryWidgets = this.availablePrimaryWidgets.filter((widget: Widget) => {
-                    if (widget.type === WidgetType.GRAPH || widget.type === WidgetType.TABLE) {
+                    if (widget.type === WidgetType.GRAPH || widget.type === WidgetType.TABLE  || widget.type === WidgetType.QUERY) {
                         return true;
                     }
                     return false;

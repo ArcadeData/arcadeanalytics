@@ -24,9 +24,9 @@ import { NotificationService, Base64Service, WidgetEventBusService, Principal } 
 import { DataSourceService } from '../../../data-source/data-source.service';
 import { JhiEventManager } from 'ng-jhipster';
 import { BsModalService } from 'ngx-bootstrap/modal';
-import { DataSource, IndexingStatus } from '../../../data-source/data-source.model';
+import { DataSource } from '../../../data-source/data-source.model';
 import { Subject, Subscription } from 'rxjs';
-import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 
 export abstract class DataWidgetComponent extends WidgetImplementationComponent {
@@ -206,41 +206,53 @@ export abstract class DataWidgetComponent extends WidgetImplementationComponent 
         };
 
         if (elements && elements.length > 0) {
-            for (const currNodeClassName of Object.keys(dataSourceMetadata['nodesClasses'])) {
 
-                // filtering elements of the current class names and filtering out all the hidden elements
-                const currClassElements = elements.filter((currElement) => {
-                    if (currElement['classes'].indexOf(currNodeClassName) >= 0 && !currElement['data']['hidden']) {
-                        return true;
+            if (!dataSourceMetadata['nodesClasses'] && !dataSourceMetadata['edgesClasses']) {
+                console.log('WARNING: No nodesClasses or edgesClasses are present in the metadata.');
+                return cleanedDatasourceMetadata;
+            }
+
+            if (dataSourceMetadata['nodesClasses']) {
+
+                for (const currNodeClassName of Object.keys(dataSourceMetadata['nodesClasses'])) {
+
+                    // filtering elements of the current class names and filtering out all the hidden elements
+                    const currClassElements = elements.filter((currElement) => {
+                        if (currElement['classes'].indexOf(currNodeClassName) >= 0 && !currElement['data']['hidden']) {
+                            return true;
+                        }
+                        return false;
+                    });
+
+                    const currClassCardinality = currClassElements.length;
+                    if (currClassCardinality > 0) {
+                        const currNodeClassMetadata = dataSourceMetadata['nodesClasses'][currNodeClassName];
+                        const currNodeClassMetadataCopy = Object.assign({}, currNodeClassMetadata);
+                        currNodeClassMetadataCopy['cardinality'] = currClassCardinality;
+                        cleanedDatasourceMetadata['nodesClasses'][currNodeClassName] = currNodeClassMetadataCopy;
                     }
-                    return false;
-                });
-
-                const currClassCardinality = currClassElements.length;
-                if (currClassCardinality > 0) {
-                    const currNodeClassMetadata = dataSourceMetadata['nodesClasses'][currNodeClassName];
-                    const currNodeClassMetadataCopy = Object.assign({}, currNodeClassMetadata);
-                    currNodeClassMetadataCopy['cardinality'] = currClassCardinality;
-                    cleanedDatasourceMetadata['nodesClasses'][currNodeClassName] = currNodeClassMetadataCopy;
                 }
             }
 
-            for (const currEdgeClassName of Object.keys(dataSourceMetadata['edgesClasses'])) {
+            if (dataSourceMetadata['edgesClasses']) {
 
-                // filtering elements of the current class names and filtering out all the hidden elements
-                const currClassElements = elements.filter((currElement) => {
-                    if (currElement['classes'].indexOf(currEdgeClassName) >= 0 && !currElement['data']['hidden']) {
-                        return true;
+                for (const currEdgeClassName of Object.keys(dataSourceMetadata['edgesClasses'])) {
+
+                    // filtering elements of the current class names and filtering out all the hidden elements
+                    const currClassElements = elements.filter((currElement) => {
+                        if (currElement['classes'].indexOf(currEdgeClassName) >= 0 && !currElement['data']['hidden']) {
+                            return true;
+                        }
+                        return false;
+                    });
+
+                    const currClassCardinality = currClassElements.length;
+                    if (currClassCardinality > 0) {
+                        const currEdgeClassMetadata = dataSourceMetadata['edgesClasses'][currEdgeClassName];
+                        const currEdgeClassMetadataCopy = Object.assign({}, currEdgeClassMetadata);
+                        currEdgeClassMetadataCopy['cardinality'] = currClassCardinality;
+                        cleanedDatasourceMetadata['edgesClasses'][currEdgeClassName] = currEdgeClassMetadataCopy;
                     }
-                    return false;
-                });
-
-                const currClassCardinality = currClassElements.length;
-                if (currClassCardinality > 0) {
-                    const currEdgeClassMetadata = dataSourceMetadata['edgesClasses'][currEdgeClassName];
-                    const currEdgeClassMetadataCopy = Object.assign({}, currEdgeClassMetadata);
-                    currEdgeClassMetadataCopy['cardinality'] = currClassCardinality;
-                    cleanedDatasourceMetadata['edgesClasses'][currEdgeClassName] = currEdgeClassMetadataCopy;
                 }
             }
         }

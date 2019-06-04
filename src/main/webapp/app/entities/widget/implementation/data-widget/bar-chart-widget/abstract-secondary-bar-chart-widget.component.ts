@@ -18,7 +18,7 @@
  * #L%
  */
 import {
-    Component, OnDestroy, ChangeDetectorRef, NgZone
+    OnDestroy, ChangeDetectorRef, NgZone
 } from '@angular/core';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { Subscription } from 'rxjs';
@@ -29,20 +29,11 @@ import { AbstractBarChartWidgetComponent } from './abstract-bar-char-widget.comp
 import { DataSourceService } from '../../../../data-source/data-source.service';
 import { SecondaryWidget } from '../../secondary-widget';
 import { SubsetSelectionChangeMessage, SubsetSelectionChangeMessageContent,
-    DatasetPropagationRequestMessage, DatasetPropagationRequestMessageContent, MessageType } from '../../..';
+    DatasetPropagationRequestMessage, DatasetPropagationRequestMessageContent, MessageType, WidgetType } from '../../..';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 
-/**
- * This component allows a tabular analysis of data fetched from the datasource
- * through queries, full text search, class scan loading.
- */
-@Component({
-    selector: 'secondary-bar-chart-widget',
-    templateUrl: './bar-chart-widget.component.html',
-    styleUrls: ['./bar-chart-widget.component.scss']
-})
-export class SecondaryBarChartWidgetComponent extends AbstractBarChartWidgetComponent implements SecondaryWidget, OnDestroy {
+export abstract class AbstractSecondaryBarChartWidgetComponent extends AbstractBarChartWidgetComponent implements SecondaryWidget, OnDestroy {
 
     datasetUpdatedSubscription: Subscription;
 
@@ -165,22 +156,11 @@ export class SecondaryBarChartWidgetComponent extends AbstractBarChartWidgetComp
         this.unsubscribeToEventBus();
     }
 
-    handleSelectedPropertyModelChanging() {
-        this.startSpinner();
-        this.multiSeriesMode = false;
-        this.updateSettingsSliderUpperValue().subscribe((correctlyUpdated: boolean) => {
-            this.performFacetingForCurrentDataset();
-        });
-    }
-
-    runSeriesComputation(mode?: string) {
-        if (mode === 'single') {
-            this.multiSeriesMode = false;
-        } else if (mode === 'multi') {
-            this.multiSeriesMode = true;
-        }
-        this.performFacetingForCurrentDataset();
-    }
+    /**
+     * Abstract methods
+     */
+    abstract handleSelectedPropertyModelChanging(): void;
+    abstract performFacetingForCurrentDataset(saveAfterUpdate?: boolean): void;
 
     // @Override
     updateBarChartWidgetFromSnapshot(snapshot) {
@@ -202,10 +182,12 @@ export class SecondaryBarChartWidgetComponent extends AbstractBarChartWidgetComp
         this.updateWidgetDataset(data);
         this.updateSecondaryMetadataFromPrimaryMetadata(metadata);
 
-        // if the selected class was removed from the metadata we need to set the selectedClass to undefined
-        if (this.selectedClass && !metadata['nodesClasses'][this.selectedClass] && !metadata['edgesClasses'][this.selectedClass]) {
-            this.selectedClass = undefined;
-            this.selectedProperty = undefined;
+        if (this.widget.type !== WidgetType.SECONDARY_QUERY_PIE_CHART) {
+            // if the selected class was removed from the metadata we need to set the selectedClass to undefined
+            if (this.selectedClass && !metadata['nodesClasses'][this.selectedClass] && !metadata['edgesClasses'][this.selectedClass]) {
+                this.selectedClass = undefined;
+                this.selectedProperty = undefined;
+            }
         }
 
         let saved: boolean = false;
@@ -281,59 +263,6 @@ export class SecondaryBarChartWidgetComponent extends AbstractBarChartWidgetComp
     }
 
     /**
-      * Faceting
-      */
-
-    performFacetingForCurrentDataset(saveAfterUpdate?: boolean): void {
-
-        const currentDatasetIds: string[] = [];
-        this.currentDataset['elements'].forEach((element) => {
-            if (!element['data']['hidden']) {
-                currentDatasetIds.push(element['data']['id']);
-            }
-        });
-
-        const classes: string[] = [];
-        const fields: string[] = [];
-        if (!this.multiSeriesMode) {
-            classes.push(this.selectedClass);
-            fields.push(this.selectedProperty);
-        } else {
-            for (const currSeriesName of Object.keys(this.multiSeriesName2info)) {
-                const currClassMultiSeriesOption = this.multiSeriesName2info[currSeriesName];
-                const currClassName = currClassMultiSeriesOption['className'];
-                const currPropertyName = currClassMultiSeriesOption['property'];
-                if (classes.indexOf(currClassName) < 0) {
-                    classes.push(currClassName);
-                }
-                if (fields.indexOf(currPropertyName) < 0) {
-                    fields.push(currPropertyName);
-                }
-            }
-        }
-
-        if (this.dataSource && this.dataSource['indexing'] &&
-            this.dataSource['indexing'].toString() === 'INDEXED') {
-            this.widgetService.fetchFacetsForDataset(this.widget['dataSourceId'], currentDatasetIds, classes, fields, undefined, undefined,
-            this.minDocCount, this.maxValuesPerField).subscribe((res: Object) => {
-                this.currentFaceting = res;
-                if (!this.multiSeriesMode) {
-                    if (this.selectedClass && this.selectedProperty) {
-                        this.updateBarChartFromFaceting(res);
-                    }
-                } else {
-                    this.updateBarChartFromFaceting(res);
-                }
-                if (saveAfterUpdate) {
-                    this.saveAll(true);
-                }
-            }, (err: HttpErrorResponse) => {
-                this.handleError(err.error, 'Filter Menu updating');
-            });
-        }
-    }
-
-    /**
      * Auxiliary functions
      */
 
@@ -388,41 +317,47 @@ export class SecondaryBarChartWidgetComponent extends AbstractBarChartWidgetComp
         const delay: number = 10;
 
         setTimeout(() => {      // just to avoid the saving ops block the first notification message
-            const jsonForSnapshotSaving = {
-                series: this.series,
-                xAxisCategories: this.xAxisCategories,
-                barChartLegendData: this.barChartLegendData,
-                barChartLegendDataSelected: this.barChartLegendDataSelected,
-                multiSeriesName2info: this.multiSeriesName2info,
-                currentDataset: this.currentDataset,
-                dataSourceMetadata: this.dataSourceMetadata,
-                currentFaceting: this.currentFaceting,
-                selectedClass: this.selectedClass,
-                limitEnabled: this.limitEnabled,
-                limitForNodeFetching: this.limitForNodeFetching,
-                multiSeriesMode: this.multiSeriesMode,
-                selectedClassProperties: this.selectedClassProperties,
-                selectedProperty: this.selectedProperty,
-                multiSeriesLimitEnabled: this.multiSeriesLimitEnabled,
-                multiSeriesLimitForNodeFetching: this.multiSeriesLimitForNodeFetching,
-                showLegend: this.showLegend,
-                labelOptions: this.labelOptions,
-                xAxisLabelOptions: this.xAxisLabelOptions,
-                yAxisLabelOptions: this.yAxisLabelOptions,
-                minDocCount: this.minDocCount,
-                maxValuesPerField: this.maxValuesPerField,
-                minDocCountSliderUpperValue: this.minDocCountSliderUpperValue,
-                maxValuesPerFieldSliderUpperValue: this.maxValuesPerFieldSliderUpperValue
-            };
-
-            const perspective: Object = {
-                barChartTabActive: this.barChartTabActive,
-                datasourceTabActive: this.datasourceTabActive,
-            };
-            jsonForSnapshotSaving['perspective'] = perspective;
-
+            const jsonForSnapshotSaving = this.buildSnapshotObject();
             super.callSnapshotSave(jsonForSnapshotSaving, infoNotification);
         }, delay);
+    }
+
+    buildSnapshotObject(): Object {
+
+        const jsonForSnapshotSaving = {
+            series: this.series,
+            xAxisCategories: this.xAxisCategories,
+            barChartLegendData: this.barChartLegendData,
+            barChartLegendDataSelected: this.barChartLegendDataSelected,
+            multiSeriesName2info: this.multiSeriesName2info,
+            currentDataset: this.currentDataset,
+            dataSourceMetadata: this.dataSourceMetadata,
+            currentFaceting: this.currentFaceting,
+            selectedClass: this.selectedClass,
+            limitEnabled: this.limitEnabled,
+            limitForNodeFetching: this.limitForNodeFetching,
+            multiSeriesMode: this.multiSeriesMode,
+            selectedClassProperties: this.selectedClassProperties,
+            selectedProperty: this.selectedProperty,
+            multiSeriesLimitEnabled: this.multiSeriesLimitEnabled,
+            multiSeriesLimitForNodeFetching: this.multiSeriesLimitForNodeFetching,
+            showLegend: this.showLegend,
+            labelOptions: this.labelOptions,
+            xAxisLabelOptions: this.xAxisLabelOptions,
+            yAxisLabelOptions: this.yAxisLabelOptions,
+            minDocCount: this.minDocCount,
+            maxValuesPerField: this.maxValuesPerField,
+            minDocCountSliderUpperValue: this.minDocCountSliderUpperValue,
+            maxValuesPerFieldSliderUpperValue: this.maxValuesPerFieldSliderUpperValue
+        };
+
+        const perspective: Object = {
+            barChartTabActive: this.barChartTabActive,
+            datasourceTabActive: this.datasourceTabActive,
+        };
+        jsonForSnapshotSaving['perspective'] = perspective;
+
+        return jsonForSnapshotSaving;
     }
 
 }

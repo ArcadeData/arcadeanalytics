@@ -20,13 +20,20 @@
                     [oldSnapshotToLoad]="widget.hasSnapshot"
                     [embedded]="true">
         </independent-pie-chart-widget>
-        <secondary-pie-chart-widget *ngIf="widget.type == 'secondary-pie-chart'" #widgetImplementation
+        <elastic-secondary-pie-chart-widget *ngIf="widget.type == 'secondary-pie-chart'" #widgetImplementation
                     [widget]="widget" 
                     [widgetHeight]="'600px'"
                     [minimizedView]="true"
                     [oldSnapshotToLoad]="widget.hasSnapshot"
                     [embedded]="true">
-        </secondary-pie-chart-widget>
+        </elastic-secondary-pie-chart-widget>
+        <query-secondary-pie-chart-widget *ngIf="widget.type == 'secondary-query-pie-chart'" #widgetImplementation
+                    [widget]="widget" 
+                    [widgetHeight]="'600px'"
+                    [minimizedView]="true"
+                    [oldSnapshotToLoad]="widget.hasSnapshot"
+                    [embedded]="true">
+        </query-secondary-pie-chart-widget>
         <independent-bar-chart-widget *ngIf="widget.type == 'independent-bar-chart' || widget.type == 'bar chart'" #widgetImplementation
                     [widget]="widget" 
                     [widgetHeight]="'600px'"
@@ -34,13 +41,20 @@
                     [oldSnapshotToLoad]="widget.hasSnapshot"
                     [embedded]="true">
         </independent-bar-chart-widget>
-        <secondary-bar-chart-widget *ngIf="widget.type == 'secondary-bar-chart'" #widgetImplementation
+        <elastic-secondary-bar-chart-widget *ngIf="widget.type == 'secondary-bar-chart'" #widgetImplementation
                     [widget]="widget" 
                     [widgetHeight]="'600px'"
                     [minimizedView]="true"
                     [oldSnapshotToLoad]="widget.hasSnapshot"
                     [embedded]="true">
-        </secondary-bar-chart-widget>
+        </elastic-secondary-bar-chart-widget>
+        <query-secondary-bar-chart-widget *ngIf="widget.type == 'secondary-query-bar-chart'" #widgetImplementation
+                    [widget]="widget" 
+                    [widgetHeight]="'600px'"
+                    [minimizedView]="true"
+                    [oldSnapshotToLoad]="widget.hasSnapshot"
+                    [embedded]="true">
+        </query-secondary-bar-chart-widget>
         <texteditor-widget *ngIf="widget.type == 'text-editor' || widget.type == 'text editor'" #widgetImplementation
                     [widget]="widget"
                     [widgetHeight]="'600px'"

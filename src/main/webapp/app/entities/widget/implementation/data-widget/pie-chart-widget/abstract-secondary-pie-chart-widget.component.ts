@@ -18,7 +18,7 @@
  * #L%
  */
 import {
-    Component, OnDestroy, ChangeDetectorRef, NgZone
+    OnDestroy, ChangeDetectorRef, NgZone
 } from '@angular/core';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { Subscription } from 'rxjs';
@@ -30,19 +30,14 @@ import { DataSourceService } from '../../../../data-source/data-source.service';
 import { SecondaryWidget } from '../../secondary-widget';
 import { SubsetSelectionChangeMessage, SubsetSelectionChangeMessageContent,
     DatasetUpdatedMessageContent, DatasetPropagationRequestMessageContent, DatasetPropagationRequestMessage, MessageType } from '../../..';
-import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { WidgetType } from 'app/entities/widget/widget.model';
 
 /**
  * This component allows a tabular analysis of data fetched from the datasource
  * through queries, full text search, class scan loading.
  */
-@Component({
-    selector: 'secondary-pie-chart-widget',
-    templateUrl: './pie-chart-widget.component.html',
-    styleUrls: ['./pie-chart-widget.component.scss']
-})
-export class SecondaryPieChartWidgetComponent extends AbstractPieChartWidgetComponent implements SecondaryWidget, OnDestroy {
+export abstract class AbstractSecondaryPieChartWidgetComponent extends AbstractPieChartWidgetComponent implements SecondaryWidget, OnDestroy {
 
     datasetUpdatedSubscription: Subscription;
 
@@ -81,14 +76,6 @@ export class SecondaryPieChartWidgetComponent extends AbstractPieChartWidgetComp
         if (this.minimizedView) {
             this.requestDatasetPropagation();
         }
-    }
-
-    requestDatasetPropagation() {
-        const content: DatasetPropagationRequestMessageContent = {
-            primaryWidgetId: this.widget.primaryWidgetId,
-            secondaryWidgetId: this.widget.id
-        };
-        this.widgetEventBusService.publish(MessageType.DATASET_PROPAGATION_REQUEST, new DatasetPropagationRequestMessage(content));
     }
 
     attachPieChartEvents() {
@@ -135,6 +122,14 @@ export class SecondaryPieChartWidgetComponent extends AbstractPieChartWidgetComp
         });
     }
 
+    requestDatasetPropagation() {
+        const content: DatasetPropagationRequestMessageContent = {
+            primaryWidgetId: this.widget.primaryWidgetId,
+            secondaryWidgetId: this.widget.id
+        };
+        this.widgetEventBusService.publish(MessageType.DATASET_PROPAGATION_REQUEST, new DatasetPropagationRequestMessage(content));
+    }
+
     runDatasetUpdateAfterSnapshotLoading(messageContent: DatasetUpdatedMessageContent) {
         if (this.oldSnapshotToLoad) {
             // wait for snapshot is loaded
@@ -159,16 +154,11 @@ export class SecondaryPieChartWidgetComponent extends AbstractPieChartWidgetComp
         this.unsubscribeToEventBus();
     }
 
-    handleSelectedPropertyModelChanging() {
-        this.startSpinner();
-        this.updateSettingsSliderUpperValue().subscribe((correctlyUpdated: boolean) => {
-            this.performFacetingForCurrentDataset();
-        });
-    }
-
-    runSeriesComputation() {
-        this.performFacetingForCurrentDataset();
-    }
+    /**
+     * Abstract methods
+     */
+    abstract handleSelectedPropertyModelChanging(): void;
+    abstract performFacetingForCurrentDataset(saveAfterUpdate?: boolean): void;
 
     // @Override
     updatePieChartWidgetFromSnapshot(snapshot) {
@@ -190,10 +180,12 @@ export class SecondaryPieChartWidgetComponent extends AbstractPieChartWidgetComp
         this.updateWidgetDataset(data);
         this.updateSecondaryMetadataFromPrimaryMetadata(metadata);
 
-        // if the selected class was removed from the metadata we need to set the selectedClass to undefined
-        if (this.selectedClass && !metadata['nodesClasses'][this.selectedClass] && !metadata['edgesClasses'][this.selectedClass]) {
-            this.selectedClass = undefined;
-            this.selectedProperty = undefined;
+        if (this.widget.type !== WidgetType.SECONDARY_QUERY_PIE_CHART) {
+            // if the selected class was removed from the metadata we need to set the selectedClass to undefined
+            if (this.selectedClass && !metadata['nodesClasses'][this.selectedClass] && !metadata['edgesClasses'][this.selectedClass]) {
+                this.selectedClass = undefined;
+                this.selectedProperty = undefined;
+            }
         }
 
         let saved: boolean = false;
@@ -258,37 +250,6 @@ export class SecondaryPieChartWidgetComponent extends AbstractPieChartWidgetComp
     }
 
     /**
-      * Faceting
-      */
-
-    performFacetingForCurrentDataset(saveAfterUpdate?: boolean): void {
-
-        const currentDatasetIds: string[] = [];
-        this.currentDataset['elements'].forEach((element) => {
-            if (!element['data']['hidden']) {
-                currentDatasetIds.push(element['data']['id']);
-            }
-        });
-        const classes: string[] = [this.selectedClass];
-        const fields: string[]  = [this.selectedProperty];
-        if (this.dataSource && this.dataSource['indexing'] &&
-            this.dataSource['indexing'].toString() === 'INDEXED') {
-            this.widgetService.fetchFacetsForDataset(this.widget['dataSourceId'], currentDatasetIds, classes, fields, undefined, undefined,
-                this.minDocCount, this.maxValuesPerField).subscribe((res: Object) => {
-                    this.currentFaceting = res;
-                    if (this.selectedClass && this.selectedProperty) {
-                        this.updatePieChartFromFaceting(res);
-                    }
-                    if (saveAfterUpdate) {
-                        this.saveAll(true);
-                    }
-                }, (err: HttpErrorResponse) => {
-                    this.handleError(err.error, 'Filter Menu updating');
-                });
-        }
-    }
-
-    /**
      * Auxiliary functions
      */
 
@@ -343,35 +304,41 @@ export class SecondaryPieChartWidgetComponent extends AbstractPieChartWidgetComp
         const delay: number = 10;
 
         setTimeout(() => {      // just to avoid the saving ops block the first notification message
-            const jsonForSnapshotSaving = {
-                pieChartData: this.pieChartData,
-                pieChartLegendData: this.pieChartLegendData,
-                pieChartLegendDataSelected: this.pieChartLegendDataSelected,
-                currentDataset: this.currentDataset,
-                dataSourceMetadata: this.dataSourceMetadata,
-                currentFaceting: this.currentFaceting,
-                selectedClass: this.selectedClass,
-                limitEnabled: this.limitEnabled,
-                limitForNodeFetching: this.limitForNodeFetching,
-                selectedClassProperties: this.selectedClassProperties,
-                selectedProperty: this.selectedProperty,
-                showLegend: this.showLegend,
-                showLabels: this.showLabels,
-                labelPosition: this.labelPosition,
-                minDocCount: this.minDocCount,
-                maxValuesPerField: this.maxValuesPerField,
-                minDocCountSliderUpperValue: this.minDocCountSliderUpperValue,
-                maxValuesPerFieldSliderUpperValue: this.maxValuesPerFieldSliderUpperValue
-            };
-
-            const perspective: Object = {
-                pieChartTabActive: this.pieChartTabActive,
-                datasourceTabActive: this.datasourceTabActive,
-            };
-            jsonForSnapshotSaving['perspective'] = perspective;
-
+            const jsonForSnapshotSaving = this.buildSnapshotObject();
             super.callSnapshotSave(jsonForSnapshotSaving, infoNotification);
         }, delay);
+    }
+
+    buildSnapshotObject(): Object {
+
+        const jsonForSnapshotSaving = {
+            pieChartData: this.pieChartData,
+            pieChartLegendData: this.pieChartLegendData,
+            pieChartLegendDataSelected: this.pieChartLegendDataSelected,
+            currentDataset: this.currentDataset,
+            dataSourceMetadata: this.dataSourceMetadata,
+            currentFaceting: this.currentFaceting,
+            selectedClass: this.selectedClass,
+            limitEnabled: this.limitEnabled,
+            limitForNodeFetching: this.limitForNodeFetching,
+            selectedClassProperties: this.selectedClassProperties,
+            selectedProperty: this.selectedProperty,
+            showLegend: this.showLegend,
+            showLabels: this.showLabels,
+            labelPosition: this.labelPosition,
+            minDocCount: this.minDocCount,
+            maxValuesPerField: this.maxValuesPerField,
+            minDocCountSliderUpperValue: this.minDocCountSliderUpperValue,
+            maxValuesPerFieldSliderUpperValue: this.maxValuesPerFieldSliderUpperValue
+        };
+
+        const perspective: Object = {
+            pieChartTabActive: this.pieChartTabActive,
+            datasourceTabActive: this.datasourceTabActive,
+        };
+        jsonForSnapshotSaving['perspective'] = perspective;
+
+        return jsonForSnapshotSaving;
     }
 
 }

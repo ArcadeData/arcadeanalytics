@@ -49,6 +49,12 @@
     <!--Mine rendering-->
     <!--***************************************************************-->
 <div *ngIf="widgetLoaded">
+    <query-widget *ngIf="widget.type == 'query'" #widgetImplementation
+                    [widget]="widget"
+                    widgetHeight="570px"
+                    [minimizedView]="false"
+                    [oldSnapshotToLoad]="widget.hasSnapshot">
+    </query-widget>
     <graph-widget *ngIf="widget.type == 'graph'" #widgetImplementation
                    [widget]="widget"
                   widgetHeight="570px"
@@ -67,24 +73,36 @@
                     [minimizedView]="false"
                     [oldSnapshotToLoad]="widget.hasSnapshot">
     </independent-pie-chart-widget>
-    <secondary-pie-chart-widget *ngIf="widget.type == 'secondary-pie-chart'" #widgetImplementation
+    <elastic-secondary-pie-chart-widget *ngIf="widget.type == 'secondary-pie-chart'" #widgetImplementation
                     [widget]="widget" 
                     widgetHeight="570px"
                     [minimizedView]="false"
                     [oldSnapshotToLoad]="widget.hasSnapshot">
-    </secondary-pie-chart-widget>
+    </elastic-secondary-pie-chart-widget>
+    <query-secondary-pie-chart-widget *ngIf="widget.type == 'secondary-query-pie-chart'" #widgetImplementation
+                    [widget]="widget" 
+                    widgetHeight="570px"
+                    [minimizedView]="false"
+                    [oldSnapshotToLoad]="widget.hasSnapshot">
+    </query-secondary-pie-chart-widget>
     <independent-bar-chart-widget *ngIf="widget.type == 'independent-bar-chart' || widget.type == 'bar chart'" #widgetImplementation
                     [widget]="widget" 
                     widgetHeight="570px"
                     [minimizedView]="false"
                     [oldSnapshotToLoad]="widget.hasSnapshot">
     </independent-bar-chart-widget>
-    <secondary-bar-chart-widget *ngIf="widget.type == 'secondary-bar-chart'" #widgetImplementation
+    <elastic-secondary-bar-chart-widget *ngIf="widget.type == 'secondary-bar-chart'" #widgetImplementation
                     [widget]="widget" 
                     widgetHeight="570px"
                     [minimizedView]="false"
                     [oldSnapshotToLoad]="widget.hasSnapshot">
-    </secondary-bar-chart-widget>
+    </elastic-secondary-bar-chart-widget>
+    <query-secondary-bar-chart-widget *ngIf="widget.type == 'secondary-query-bar-chart'" #widgetImplementation
+                    [widget]="widget" 
+                    widgetHeight="570px"
+                    [minimizedView]="false"
+                    [oldSnapshotToLoad]="widget.hasSnapshot">
+    </query-secondary-bar-chart-widget>
     <texteditor-widget *ngIf="widget.type == 'text-editor' || widget.type == 'text editor'" #widgetImplementation
                   [widget]="widget"
                   widgetHeight="450px"

@@ -104,6 +104,12 @@ export class WidgetService {
             .map((res: HttpResponse<Object>) => res.body);
     }
 
+    loadTabledata(widgetId: number, jsonContent: string): Observable<Object> {
+        const dataResourceUrl: string = this.resourceUrl + '/table-data/' + widgetId;
+        return this.http.post(dataResourceUrl, jsonContent, { observe: 'response', headers: this.headers })
+            .map((res: HttpResponse<Object>) => res.body);
+    }
+
     /**
      * It invokes the closed service to fetch the last snapshot for ta specific widget
      * @param widgetId
@@ -120,6 +126,25 @@ export class WidgetService {
                 .append('fileName', 'last');
         }
         return this.http.get(dataResourceUrl, { observe: 'response', params: httpParams, headers: this.headers })
+            .map((res: HttpResponse<Object>) => res.body);
+    }
+
+    /**
+     * It invokes the closed service to fetch the last snapshot for ta specific widget
+     * @param widgetId
+     * @param req
+     */
+    deleteSnapshot(widgetId: number, req?: Object): Observable<Object> {
+        const dataResourceUrl: string = this.resourceUrl + '/snapshot/' + widgetId;
+        let httpParams;
+        if (req) {
+            httpParams = new HttpParams()
+                .append('fileName', req['fileName']);
+        } else {
+            httpParams = new HttpParams()
+                .append('fileName', 'last');
+        }
+        return this.http.delete(dataResourceUrl, { observe: 'response', params: httpParams, headers: this.headers })
             .map((res: HttpResponse<Object>) => res.body);
     }
 
@@ -227,7 +252,6 @@ export class WidgetService {
             .map((res: HttpResponse<Object>) => res.body);
     }
 
-    // NOT USED
     fetchAllFacetsFromDatasource(datasourceId: number): Observable<Object> {
         return this.http.get(`${this.searchUrl}/aggregate/${datasourceId}`, { observe: 'response', headers: this.headers })
             .map((res: HttpResponse<Object>) => res.body);

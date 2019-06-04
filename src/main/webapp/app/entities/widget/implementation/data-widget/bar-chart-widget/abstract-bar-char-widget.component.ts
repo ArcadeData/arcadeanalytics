@@ -35,6 +35,7 @@ import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { DataSource } from 'app/entities/data-source';
 import { SnapshotMenuComponent } from '../..';
 import { Router } from '@angular/router';
+import { WidgetType } from 'app/entities/widget/widget.model';
 
 const fileSaver = require('file-saver');
 const elementResizeEvent = require('element-resize-event');
@@ -174,6 +175,10 @@ export abstract class AbstractBarChartWidgetComponent extends DataWidgetComponen
         In the single series case the set threshold corresponds to the maximum number of bars that can be rendered in the chart.<br/>
         That is not always true for the multiseries case, as the threshold is not applied globally, but for each specific class-property pair.`;
 
+    // messages
+    checkThresholdsMessage: string = `\n\nTry to check the "Min Value Occurrences" and "Most Relevant Values Occurrences" thresholds in the Settings menu.
+    Maybe the constraints are too strong to get any result.`;
+
     public outerAccordion: string = 'outer-accordion';
     public innerAccordion: string = 'inner-accordion';
 
@@ -197,7 +202,7 @@ export abstract class AbstractBarChartWidgetComponent extends DataWidgetComponen
      * Abstract methods
      */
     abstract handleSelectedPropertyModelChanging(): void;
-    abstract runSeriesComputation(): void;
+    abstract runSeriesComputation(saveAfterUpdate?: boolean): void;
 
     ngOnInit() {
 
@@ -495,13 +500,8 @@ export abstract class AbstractBarChartWidgetComponent extends DataWidgetComponen
             }
         }
 
-        this.stopSpinner();
-
-        // initializing bar chart according to just loaded data
-        this.updateBarChart(true);
-
         // updating slider values if not in minimized view or embedded
-        if (!this.minimizedView && !this.embedded) {
+        if (!this.minimizedView && !this.embedded && this.widget.type !== WidgetType.SECONDARY_QUERY_BAR_CHART) {
             this.updateSettingsSliderUpperValue().subscribe(() => {
                 console.log('Thresholds updated.');
                 if (snapshot['minDocCount']) {
@@ -513,8 +513,21 @@ export abstract class AbstractBarChartWidgetComponent extends DataWidgetComponen
                 this.snapshotLoaded = true;
             });
         } else {
+            if (snapshot['minDocCount']) {
+                this.minDocCount = snapshot['minDocCount'];
+            } else {
+                this.minDocCount = 1;   // we take off this series filter
+            }
+            if (snapshot['maxValuesPerField']) {
+                this.maxValuesPerField = snapshot['maxValuesPerField'];
+            }
             this.snapshotLoaded = true;
         }
+
+        this.stopSpinner();
+
+        // initializing bar chart according to just loaded data
+        this.updateBarChart(true);
     }
 
     /**
@@ -710,9 +723,11 @@ export abstract class AbstractBarChartWidgetComponent extends DataWidgetComponen
                 const currSeriesNamesSplits = currSeriesName.split('_');
                 const currClassName = currSeriesNamesSplits[0];
                 const currClassFaceting = faceting[currClassName]['propertyValues'];
+
                 let addXAxisCategories = true;
                 if (!currClassFaceting) {
-                    const message = 'No faceting is present for \'' + currClassName + '\' class.';
+                    let message = 'No faceting is present for \'' + currClassName + '\' class.';
+                    message += this.checkThresholdsMessage;
                     console.log(message);
                     this.notificationService.push('warning', 'Distribution computation', message);
                     addXAxisCategories = false;
@@ -720,7 +735,8 @@ export abstract class AbstractBarChartWidgetComponent extends DataWidgetComponen
                 const currPropertyName = this.multiSeriesName2info[currSeriesName]['property'];
                 const currPropertyFaceting = currClassFaceting[currPropertyName];
                 if (!currPropertyFaceting) {
-                    const message = 'No faceting is present for \'' + currPropertyName + '\' property of the \'' + currClassName + '\' class.';
+                    let message = 'No faceting is present for \'' + currPropertyName + '\' property of the \'' + currClassName + '\' class.';
+                    message += this.checkThresholdsMessage;
                     console.log(message);
                     this.notificationService.push('warning', 'Distribution computation', message);
                     addXAxisCategories = false;
@@ -737,7 +753,7 @@ export abstract class AbstractBarChartWidgetComponent extends DataWidgetComponen
             // sorting the array
             this.xAxisCategories.sort();
 
-            for (const currSeriesName of Object.keys(this.multiSeriesName2info)) {
+            for (const currSeriesName of Object.keys(this.multiSeriesName2info)) {      // series name is built as: <className>_<property>
 
                 const currSeriesNamesSplits = currSeriesName.split('_');
                 const currClassName = currSeriesNamesSplits[0];
@@ -798,14 +814,16 @@ export abstract class AbstractBarChartWidgetComponent extends DataWidgetComponen
 
                 const selectedClassFaceting = faceting[this.selectedClass]['propertyValues'];
                 if (!selectedClassFaceting) {
-                    const message = 'No faceting is present for the current selected class.';
+                    let message = 'No faceting is present for the current selected class.';
+                    message += this.checkThresholdsMessage;
                     console.log(message);
                     this.notificationService.push('warning', 'Distribution computation', message);
                     return;
                 }
                 const selectedPropertyFaceting = selectedClassFaceting[this.selectedProperty];
                 if (!selectedPropertyFaceting) {
-                    const message = 'No faceting is present for the current selected property.';
+                    let message = 'No faceting is present for the current selected property.';
+                    message += this.checkThresholdsMessage;
                     console.log(message);
                     this.notificationService.push('warning', 'Distribution computation', message);
                     return;
@@ -990,7 +1008,7 @@ export abstract class AbstractBarChartWidgetComponent extends DataWidgetComponen
         return multiSeriesClassesNames;
     }
 
-    addNewMultiSeriesClass() {
+    addNewMultiSeries() {
         const seriesName = this.multiSeriesSelectedClass + '_' + this.multiSeriesSelectedProperty;
         this.multiSeriesName2info[seriesName] = {
             className: this.multiSeriesSelectedClass,
@@ -1004,7 +1022,7 @@ export abstract class AbstractBarChartWidgetComponent extends DataWidgetComponen
         });
     }
 
-    removeMultiSeriesClass(seriesName) {
+    removeMultiSeries(seriesName) {
         delete this.multiSeriesName2info[seriesName];
         this.multiSeriesMode = true;
         this.updateSettingsSliderUpperValue().subscribe(() => {

@@ -17,6 +17,5 @@
  * limitations under the License.
  * #L%
  */
-export * from './independent-pie-chart-widget.component';
-export * from './elastic-secondary-pie-chart-widget.component';
-export * from './query-secondary-pie-chart-widget.component';
+export * from './querywidget.component';
+export * from './query-parameter.component';

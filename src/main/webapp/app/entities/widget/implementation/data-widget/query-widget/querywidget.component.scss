@@ -1,0 +1,150 @@
+.widget-table {
+    width: 100%;
+    height : 100%;
+    display: table;
+    table-layout: fixed;
+}
+
+.widget-table-cell {
+    display: table-cell;
+    position: relative;
+}
+
+.cell-content-wrapper {
+    margin: 0px;
+}
+
+tab .cell-content-wrapper {
+    border-top: none;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+}
+
+.queryBuildingModeport {
+    width: 100%;
+}
+
+.viewport {
+    width: 100%;
+    display: block;
+    position: relative;
+    top: 0px;
+    left: 0px;
+}
+
+li a {
+    font-weight: normal;
+}
+
+.viewport-row {
+    padding: 30px 40px;
+}
+
+.queryRow {
+    padding-top: 0px;
+}
+
+.paramsTitle {
+    margin-left: 50px;
+    padding-bottom: 20px;
+}
+
+.paramsTitle > h3, .paramsTitleReadMode > h3 {
+    margin: 0px;
+}
+
+.parametersRow {
+    padding: 0px 30px;
+    overflow: scroll;
+    z-index: 1;
+}
+
+.command:hover {
+    cursor: pointer;
+}
+
+.disabled-command {
+    opacity: 0.4;
+}
+
+.disabled-command:hover {
+    cursor: not-allowed;
+}
+
+.disabled-wrapper {
+    cursor: not-allowed;
+}
+
+.query-textarea {
+    resize: none;
+    padding: 15px 30px !important
+}
+
+.empty-widget-message {
+    position: relative;
+    text-align: center;
+    margin: 0px;
+}
+
+/*
+ * Sidebar options
+ */
+
+.vertical-overflow-scroll {
+    overflow-y: auto;
+}
+
+.submenu-vertical-overflow {
+    overflow-y: auto;
+    max-height: 400px;
+}
+
+.sidebarPopover {
+    padding-left: 15px;
+}
+
+.menu-separator {
+    text-align: center;
+    color: #999;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.menu-separator hr {
+    width: 80%;
+}
+
+.sidebar-default .navigation li a {
+    color: #333;
+}
+
+.navigation>li>a {
+    min-height: 35px;
+}
+
+.navigation>li>a>i {
+    font-size: 1.8em;
+}
+
+.navigation li .inner-menu-icon {
+    margin-top: 3px;
+    cursor: pointer;
+}
+
+.navigation>li>a>span {
+    margin-left: 5px;
+    vertical-align: middle;
+}
+
+.disabled, .disabled:hover {
+    color: grey;
+    cursor: not-allowed;
+}
+
+/**
+ * Generics
+ **/
+
+.no-padding {
+    padding: 0px !important;
+}

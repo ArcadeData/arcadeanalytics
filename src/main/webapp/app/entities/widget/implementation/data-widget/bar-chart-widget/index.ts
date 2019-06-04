@@ -18,4 +18,5 @@
  * #L%
  */
 export * from './independent-bar-chart-widget.component';
-export * from './secondary-bar-chart-widget.component';
+export * from './elastic-secondary-bar-chart-widget.component';
+export * from './query-secondary-bar-chart-widget.component';

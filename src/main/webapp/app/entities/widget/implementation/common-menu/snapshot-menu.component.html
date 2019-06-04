@@ -3,6 +3,10 @@
         <tbody>
         <tr *ngFor="let snapshotName of snapshotNames">
             <td class="snapshotItem"><a (click)="loadSnapshotByName(snapshotName)">{{snapshotName}}</a></td>
+            <td class="snapshotDeleteCommand">
+                <button class="btn btn-danger btn-xs" type="button" (click)="deleteSnapshotByName(snapshotName)" title="Delete">
+                    <span class="fa fa-trash"></span>
+                </button>
         </tr>
         </tbody>
     </table>

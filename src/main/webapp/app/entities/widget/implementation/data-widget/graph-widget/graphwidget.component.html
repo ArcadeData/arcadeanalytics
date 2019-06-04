@@ -7,8 +7,8 @@
     </div>
     <div class="col-md-6" style="height: 35px;">
         <div class="btn-group flex-btn-group-container" style="position: relative; top: 10%;">
-            <a type="submit" [routerLink]="['/dashboard', widget['dashboardId']]" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
-                (click)="checkSidebarStatusOnExit()">
+            <a type="submit" [routerLink]="['/dashboard', widget['dashboardId']]" routerLinkActive="active"
+                [routerLinkActiveOptions]="{exact: true}" (click)="checkSidebarStatusOnExit()">
                 <span class="fa fa-2x fa-times"></span>
             </a>
         </div>
@@ -22,7 +22,8 @@
     <div style="display: table-row">
 
         <!-- Main sidebar -->
-        <div [id]="'widget-sidebar_' + widgetId" *ngIf="!minimizedView" class="sidebar sidebar-main sidebar-fixed sidebar-default widget-table-cell">
+        <div [id]="'widget-sidebar_' + widgetId" *ngIf="!minimizedView"
+            class="sidebar sidebar-main sidebar-fixed sidebar-default widget-table-cell">
             <div id="sidebar-dynamic" class="sidebar-content cell-content-wrapper" [ngStyle]="{height: sidebarHeight}">
                 <div class="sidebar-category sidebar-category-visible">
                     <div class="category-content no-padding">
@@ -32,7 +33,8 @@
                             <!-- Main -->
                             <li id="graphElementMenu">
                                 <a class="has-ul">
-                                    <i class="fa fa-circle-o fa-2x" [ngStyle]="!sidebarCollapsed && {'margin-right': '18.7px'}"></i>
+                                    <i class="fa fa-circle-o fa-2x"
+                                        [ngStyle]="!sidebarCollapsed && {'margin-right': '18.7px'}"></i>
                                     <span id="graph_selection">Graph Element</span>
                                 </a>
                                 <ul id="graph_menu">
@@ -40,18 +42,25 @@
                                         <a>Select a vertex or an edge in the graph</a>
                                     </li>
                                     <ng-container *ngIf="lastSelectedElement">
-                                        <vertex-menu #vertexMenuComponent *ngIf="getLastSelectedElementType() === 'v'" [element]="lastSelectedElement['data']"
-                                            [styleClass]="classStyleOfLastSelectedElement" [nodeClassProperties]="dataSourceMetadata['nodesClasses'][lastSelectedElement['data']['class']]['properties']"
-                                            (saveEmitter)="updateStyleClass()" (readyForHighlightEmitter)="highlightGraphElementMenu()"></vertex-menu>
-                                        <edge-menu #edgeMenuComponent *ngIf="getLastSelectedElementType() === 'e'" [element]="lastSelectedElement['data']"
-                                            [styleClass]="classStyleOfLastSelectedElement" [edgeClassProperties]="dataSourceMetadata['edgesClasses'][lastSelectedElement['data']['class']]['properties']"
-                                            (saveEmitter)="updateStyleClass()" (readyForHighlightEmitter)="highlightGraphElementMenu()"></edge-menu>
+                                        <vertex-menu #vertexMenuComponent *ngIf="getLastSelectedElementType() === 'v'"
+                                            [element]="lastSelectedElement['data']"
+                                            [styleClass]="classStyleOfLastSelectedElement"
+                                            [nodeClassProperties]="dataSourceMetadata['nodesClasses'][lastSelectedElement['data']['class']]['properties']"
+                                            (saveEmitter)="updateStyleClass()"
+                                            (readyForHighlightEmitter)="highlightGraphElementMenu()"></vertex-menu>
+                                        <edge-menu #edgeMenuComponent *ngIf="getLastSelectedElementType() === 'e'"
+                                            [element]="lastSelectedElement['data']"
+                                            [styleClass]="classStyleOfLastSelectedElement"
+                                            [edgeClassProperties]="dataSourceMetadata['edgesClasses'][lastSelectedElement['data']['class']]['properties']"
+                                            (saveEmitter)="updateStyleClass()"
+                                            (readyForHighlightEmitter)="highlightGraphElementMenu()"></edge-menu>
                                     </ng-container>
                                 </ul>
                             </li>
                             <li id="traverseMenu">
                                 <a class="has-ul">
-                                    <i class="fa fa-arrows-alt fa-2x" [ngStyle]="!sidebarCollapsed && {'margin-right': '18.7px'}"></i>
+                                    <i class="fa fa-arrows-alt fa-2x"
+                                        [ngStyle]="!sidebarCollapsed && {'margin-right': '18.7px'}"></i>
                                     <span>Traverse</span>
                                 </a>
                                 <ul>
@@ -59,15 +68,19 @@
                                         <a>Select at least one vertex in the graph</a>
                                     </li>
                                     <li *ngIf="selectedNodesCardinality > 0">
-                                        <traverse-menu #traverseMenu [parentComponent]="instance" (inputNodesRequestEmitter)="updateTraverseMenu()" (traverseRequestEmitter)="executeTraverseFromEvent($event)">
+                                        <traverse-menu #traverseMenu [parentComponent]="instance"
+                                            (inputNodesRequestEmitter)="updateTraverseMenu()"
+                                            (traverseRequestEmitter)="executeTraverseFromEvent($event)">
                                         </traverse-menu>
                                     </li>
                                 </ul>
                             </li>
-                            <li id="searchMenu" [popover]="startingPopoverMessage" [isOpen]="startingPopoverMustBeOpen" placement="right" container="body" (mouseover)="closePopover('startingPopover')"
+                            <li id="searchMenu" [popover]="startingPopoverMessage" [isOpen]="startingPopoverMustBeOpen"
+                                placement="right" container="body" (mouseover)="closePopover('startingPopover')"
                                 triggers="">
                                 <a>
-                                    <i class="fa fa-search fa-2x" [ngStyle]="!sidebarCollapsed && {'margin-right': '16.84px'}"></i>
+                                    <i class="fa fa-search fa-2x"
+                                        [ngStyle]="!sidebarCollapsed && {'margin-right': '16.84px'}"></i>
                                     <span>Search</span>
                                 </a>
                                 <ul>
@@ -85,31 +98,41 @@
 
                                 <ng-template #fetchNodesModal>
                                     <div class="modal-header">
-                                        <h4 class="modal-title" jhiTranslate="graphwidget.fetchNodesModal.title">Fetch Nodes</h4>
-                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" (click)="modalRef.hide()">&times;</button>
+                                        <h4 class="modal-title" jhiTranslate="graphwidget.fetchNodesModal.title">Fetch
+                                            Nodes</h4>
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                                            (click)="modalRef.hide()">&times;</button>
                                     </div>
                                     <div class="modal-body">
                                         <div class="form-group">
                                             <div class="col-lg-6">
                                                 <label for="nodeClassSelection">Node Class</label>
-                                                <select *ngIf="dataSourceMetadata" id="nodeClassSelection" class="form-control" [(ngModel)]="nodeClassForNodeFetching">
-                                                    <option *ngFor="let classesNames of (dataSourceMetadata.nodesClasses | objectKeys)" [ngValue]="classesNames"> {{classesNames}} </option>
+                                                <select *ngIf="dataSourceMetadata" id="nodeClassSelection"
+                                                    class="form-control" [(ngModel)]="nodeClassForNodeFetching">
+                                                    <option
+                                                        *ngFor="let classesNames of (dataSourceMetadata.nodesClasses | objectKeys)"
+                                                        [ngValue]="classesNames"> {{classesNames}} </option>
                                                 </select>
-                                                <select *ngIf="!dataSourceMetadata" id="nodeClassSelection" class="form-control" disabled>
+                                                <select *ngIf="!dataSourceMetadata" id="nodeClassSelection"
+                                                    class="form-control" disabled>
                                                 </select>
                                             </div>
                                             <div class="col-lg-6">
                                                 <label for="nodeClassSelection">Limit</label>
-                                                <input id="limit" class="form-control" type="number" min="1" step="1" [(ngModel)]="limitForNodeFetching">
+                                                <input id="limit" class="form-control" type="number" min="1" step="1"
+                                                    [(ngModel)]="limitForNodeFetching">
                                             </div>
                                         </div>
                                     </div>
                                     <div class="modal-footer" style="padding-top: 40px;">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="modalRef.hide()">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                                            (click)="modalRef.hide()">
                                             <span class="fa fa-ban"></span>&nbsp;
                                             <span jhiTranslate="graphwidget.fetchNodesModal.cancel">Cancel</span>
                                         </button>
-                                        <button type="button" class="btn btn-primary" (click)="loadElementsFromClasses()" [ngClass]="{'disabled': (!nodeClassForNodeFetching)}">
+                                        <button type="button" class="btn btn-primary"
+                                            (click)="loadElementsFromClasses()"
+                                            [ngClass]="{'disabled': (!nodeClassForNodeFetching)}">
                                             <span jhiTranslate="graphwidget.fetchNodesModal.submit">Submit</span>
                                             <i class="icon-arrow-right14 position-right"></i>
                                         </button>
@@ -119,21 +142,27 @@
                                 <ng-template #queryModal>
                                     <div class="modal-header">
                                         <h4 class="modal-title" jhiTranslate="graphwidget.queryModal.title">Query</h4>
-                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" (click)="modalRef.hide()">&times;</button>
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                                            (click)="modalRef.hide()">&times;</button>
                                     </div>
                                     <div class="modal-body">
                                         <div class="form-group">
                                             <label>&nbsp;Execute a query against the datasource: </label>
                                             ​
-                                            <textarea id="query" class="form-control" rows="5" cols="70" [(ngModel)]="currentQuery" placeholder="Type the query to execute..."></textarea>
+                                            <textarea id="query" class="form-control" rows="5" cols="70"
+                                                [(ngModel)]="currentQuery"
+                                                placeholder="Type the query to execute..."></textarea>
                                         </div>
                                     </div>
                                     <div class="modal-footer" style="padding-top: 40px;">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="modalRef.hide()">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                                            (click)="modalRef.hide()">
                                             <span class="fa fa-ban"></span>&nbsp;
                                             <span jhiTranslate="graphwidget.queryModal.cancel">Cancel</span>
                                         </button>
-                                        <button type="button" class="btn btn-primary" (click)="loadDataFromCurrentQuery()" [ngClass]="{'disabled': (!currentQuery || currentQuery.length === 0)}">
+                                        <button type="button" class="btn btn-primary"
+                                            (click)="loadDataFromCurrentQuery()"
+                                            [ngClass]="{'disabled': (!currentQuery || currentQuery.length === 0)}">
                                             <span jhiTranslate="graphwidget.queryModal.submit">Submit</span>
                                             <i class="icon-arrow-right14 position-right"></i>
                                         </button>
@@ -144,10 +173,13 @@
                             <li id="dynamicFilterMenu">
                                 <a>
                                     <i *ngIf="sidebarCollapsed" class="fa fa-filter fa-2x">
-                                        <span *ngIf="filters" class="badge bg-warning-400" style="font-size: 0.4em; z-index: 2; position: absolute; left: 33px;">{{filters.length}}</span>
+                                        <span *ngIf="filters" class="badge bg-warning-400"
+                                            style="font-size: 0.4em; z-index: 2; position: absolute; left: 33px;">{{filters.length}}</span>
                                     </i>
-                                    <i *ngIf="!sidebarCollapsed" class="fa fa-filter fa-2x" style="margin-right: 20.56px;">
-                                        <span *ngIf="filters" class="badge bg-warning-400" style="z-index: 2; position: absolute; left: 33px; top: 0px;">{{filters.length}}</span>
+                                    <i *ngIf="!sidebarCollapsed" class="fa fa-filter fa-2x"
+                                        style="margin-right: 20.56px;">
+                                        <span *ngIf="filters" class="badge bg-warning-400"
+                                            style="z-index: 2; position: absolute; left: 33px; top: 0px;">{{filters.length}}</span>
                                     </i>
                                     <span>Filter</span>
                                 </a>
@@ -156,44 +188,56 @@
                                         <div *ngIf="dataSource && dataSource['indexing'] === 'INDEXED'">
                                             <div class="row">
                                                 <div class="col-md-6">
-                                                    <a id="filter_reset_all" class="btn btn-primary" (click)="graphFilterResults()" style="color: rgba(255,255,255,.75);">
+                                                    <a id="filter_reset_all" class="btn btn-primary"
+                                                        (click)="graphFilterResults()"
+                                                        style="color: rgba(255,255,255,.75);">
                                                         Re-Apply Filters
                                                     </a>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <a id="filter_reset_all" class="btn btn-danger" (click)="filterResetAll()" style="color: rgba(255,255,255,.75);">
+                                                    <a id="filter_reset_all" class="btn btn-danger"
+                                                        (click)="filterResetAll()"
+                                                        style="color: rgba(255,255,255,.75);">
                                                         Reset All Filters
                                                     </a>
                                                 </div>
                                             </div>
                                             <div>
-                                                <filter-menu #filterMenuComponent [datasourceId]="widget['dataSourceId']" [startingFilters]="filters"
-                                                    (filterResultsEmitter)="graphFilterResults($event)" (facetsLoaded)="sidebarResetMenu()">
+                                                <filter-menu #filterMenuComponent
+                                                    [datasourceId]="widget['dataSourceId']" [startingFilters]="filters"
+                                                    (filterResultsEmitter)="graphFilterResults($event)"
+                                                    (facetsLoaded)="sidebarResetMenu()">
                                                 </filter-menu>
                                             </div>
                                         </div>
                                         <div *ngIf="dataSource" class="row" style="padding: 5px 1px 0px 10px;">
-                                            <div *ngIf="dataSource['indexing'] === 'NOT_INDEXED' || dataSource['indexing'] === undefined" class="col-md-12 btn-group">
+                                            <div *ngIf="dataSource['indexing'] === 'NOT_INDEXED' || dataSource['indexing'] === undefined"
+                                                class="col-md-12 btn-group">
                                                 <span>
                                                     <b>Filter menu deactivated</b>
-                                                    <br/> You need to index your source Database.</span>
-                                                <br/>
-                                                <br/>
-                                                <button type="button" class="btn btn-sm btn-primary" *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_EDITOR']" (click)="callDatasourceIndexing()">
+                                                    <br /> You need to index your source Database.</span>
+                                                <br />
+                                                <br />
+                                                <button type="button" class="btn btn-sm btn-primary"
+                                                    *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_EDITOR']"
+                                                    (click)="callDatasourceIndexing()">
                                                     <i class="fa fa-refresh" aria-hidden="true"></i>
                                                     <span>Index Datasource</span>
                                                 </button>
-                                                <button type="button" class="btn btn-sm btn-primary" *jhiHasAnyAuthority="['ROLE_READER']" disabled>
+                                                <button type="button" class="btn btn-sm btn-primary"
+                                                    *jhiHasAnyAuthority="['ROLE_READER']" disabled>
                                                     <i class="fa fa-refresh" aria-hidden="true"></i>
                                                     <span>Index Datasource</span>
                                                 </button>
                                             </div>
                                         </div>
                                         <div *ngIf="dataSource" class="row" style="padding: 5px 1px 0px 10px;">
-                                            <div *ngIf="dataSource['indexing'] === 'INDEXING'" class="col-md-12 btn-group">
+                                            <div *ngIf="dataSource['indexing'] === 'INDEXING'"
+                                                class="col-md-12 btn-group">
                                                 <span>
                                                     <b>Filter menu deactivated</b>
-                                                    <br/> Source database is being indexed, please wait till the process will
+                                                    <br /> Source database is being indexed, please wait till the
+                                                    process will
                                                     be completed.</span>
                                             </div>
                                         </div>
@@ -209,32 +253,39 @@
                                     <li>
                                         <div class="row" style="padding: 5px 1px 0px 5px;">
                                             <div class="col-md-11 btn-group">
-                                                <input id="searchInput" type="text" class="form-control" placeholder="Type the text to search..." [(ngModel)]="inputSearch"
+                                                <input id="searchInput" type="text" class="form-control"
+                                                    placeholder="Type the text to search..." [(ngModel)]="inputSearch"
                                                     (keydown)="handleSearchOnKeydown($event)">
-                                                <span id="searchClear" class="fa fa-times-circle-o" (click)="inputSearch = undefined" title="Clear"></span>
+                                                <span id="searchClear" class="fa fa-times-circle-o"
+                                                    (click)="inputSearch = undefined" title="Clear"></span>
 
                                             </div>
                                             <div class="col-md-1" style="padding-left: 2px;">
-                                                <i class="fa fa-question-circle command" aria-hidden="true" [popover]="popTemplate" containerClass="sidebarPopover" placement="right"
-                                                    triggers="hover" container="body"></i>
+                                                <i class="fa fa-question-circle command" aria-hidden="true"
+                                                    [popover]="popTemplate" containerClass="sidebarPopover"
+                                                    placement="right" triggers="hover" container="body"></i>
                                             </div>
                                             <ng-template #popTemplate>
                                                 <ul class="searchPopoverList" style="padding: 5px; margin: 0px;">
                                                     <li style="margin-bottom: 10px;">
                                                         <span>
                                                             Spaces between words work as
-                                                            <b>AND</b>: a search for nodes with a field containing all the typed
+                                                            <b>AND</b>: a search for nodes with a field containing all
+                                                            the typed
                                                             keywords will be performed.
-                                                            <br/> e.g.: "foo bar" &#8594; it looks for fields containing both
+                                                            <br /> e.g.: "foo bar" &#8594; it looks for fields
+                                                            containing both
                                                             'foo'
                                                             <b>AND</b> 'bar'
                                                         </span>
                                                     </li>
                                                     <li>
                                                         <span>
-                                                            To look for nodes with a field containing at least a keyword you can use
+                                                            To look for nodes with a field containing at least a keyword
+                                                            you can use
                                                             <b>OR</b> between the keywords (type 'OR' uppercase).
-                                                            <br/> e.g.: "foo OR bar" &#8594; it looks for fields containing 'foo'
+                                                            <br /> e.g.: "foo OR bar" &#8594; it looks for fields
+                                                            containing 'foo'
                                                             <b>OR</b> 'bar'
                                                         </span>
                                                     </li>
@@ -243,7 +294,8 @@
                                         </div>
                                         <div class="row" style="padding: 5px 1px 0px 5px;">
                                             <div class="col-md-12 btn-group">
-                                                <button type="button" class="btn btn-primary form-control" (click)="searchInCytoscape()">
+                                                <button type="button" class="btn btn-primary form-control"
+                                                    (click)="searchInCytoscape()">
                                                     <span>Search</span>
                                                     <i class="icon-arrow-right14 position-right"></i>
                                                 </button>
@@ -259,7 +311,8 @@
                                         </a>
                                     </li>
                                     <li style="padding-left: 5%;">
-                                        <a (click)="graphSelectVerticesOnly()" style="width: 50%; display: inline-block;">
+                                        <a (click)="graphSelectVerticesOnly()"
+                                            style="width: 50%; display: inline-block;">
                                             <i class="fa fa-circle-o"></i> Vertices only
                                         </a>
                                         <a (click)="graphSelectEdgesOnly()" style="width: 45%; display: inline-block;">
@@ -270,7 +323,8 @@
                                         <a (click)="graphSelectInverted()" style="width: 50%; display: inline-block;">
                                             <i class="fa fa-arrows-h"></i>Invert
                                         </a>
-                                        <a (click)="graphSelectNotConnectedVertices()" style="width: 45%; display: inline-block;">
+                                        <a (click)="graphSelectNotConnectedVertices()"
+                                            style="width: 45%; display: inline-block;">
                                             <i class="fa fa-child"></i> Orphans
                                         </a>
                                     </li>
@@ -282,31 +336,37 @@
                                                 </a>
                                             </div>
                                             <div class="col-md-1" style="padding-left: 2px;">
-                                                <i class="fa fa-question-circle command" aria-hidden="true" [popover]="outgoingDepthTip" containerClass="sidebarPopover"
+                                                <i class="fa fa-question-circle command" aria-hidden="true"
+                                                    [popover]="outgoingDepthTip" containerClass="sidebarPopover"
                                                     placement="right" triggers="hover" container="body"></i>
                                             </div>
                                         </div>
-                                        <div class="noui-slider-info has-pips slider-container" id="graph_out_neighbors">
-                                            <nouislider [config]="neighbourSliderConfig" [(ngModel)]="outNeighbourRange"></nouislider>
+                                        <div class="noui-slider-info has-pips slider-container"
+                                            id="graph_out_neighbors">
+                                            <nouislider [config]="neighbourSliderConfig"
+                                                [(ngModel)]="outNeighbourRange"></nouislider>
                                         </div>
                                         <ng-template #outgoingDepthTip>
                                             <span>
                                                 Through this command you can select all the
                                                 <b>Outgoing traversable edges and vertices
-                                                    <br/> from a specific depth till another desired depth</b> by using the slider
+                                                    <br /> from a specific depth till another desired depth</b> by using
+                                                the slider
                                                 below.
-                                                <br/>
-                                                <br/> Selecting for example outgoing vertices with
+                                                <br />
+                                                <br /> Selecting for example outgoing vertices with
                                                 <b>depth from 1 to 3</b> means selecting
-                                                <br/> all the
+                                                <br /> all the
                                                 <b>neighbours of 1st, 2nd and 3th level</b>.
-                                                <br/>
-                                                <br/> Thus this option has
-                                                <b>nothing to do with the degree</b> (number of edges) of the current selected
+                                                <br />
+                                                <br /> Thus this option has
+                                                <b>nothing to do with the degree</b> (number of edges) of the current
+                                                selected
                                                 node,
-                                                <br/> but rather it allows you to navigate all the reachable neighbours as a tree,
+                                                <br /> but rather it allows you to navigate all the reachable neighbours
+                                                as a tree,
                                                 and moreover select
-                                                <br/> just the vertices contained in a relevant depth range.
+                                                <br /> just the vertices contained in a relevant depth range.
                                             </span>
                                         </ng-template>
                                     </li>
@@ -318,31 +378,36 @@
                                                 </a>
                                             </div>
                                             <div class="col-md-1" style="padding-left: 2px;">
-                                                <i class="fa fa-question-circle command" aria-hidden="true" [popover]="ingoingDepthTip" containerClass="sidebarPopover" placement="right"
-                                                    triggers="hover" container="body"></i>
+                                                <i class="fa fa-question-circle command" aria-hidden="true"
+                                                    [popover]="ingoingDepthTip" containerClass="sidebarPopover"
+                                                    placement="right" triggers="hover" container="body"></i>
                                             </div>
                                         </div>
                                         <div class="noui-slider-info has-pips slider-container" id="graph_in_neighbors">
-                                            <nouislider [config]="neighbourSliderConfig" [(ngModel)]="inNeighbourRange"></nouislider>
+                                            <nouislider [config]="neighbourSliderConfig" [(ngModel)]="inNeighbourRange">
+                                            </nouislider>
                                         </div>
                                         <ng-template #ingoingDepthTip>
                                             <span>
                                                 Through this command you can select all the
                                                 <b>Ingoing traversable edges and vertices
-                                                    <br/> from a specific depth till another desired depth</b> by using the slider
+                                                    <br /> from a specific depth till another desired depth</b> by using
+                                                the slider
                                                 below.
-                                                <br/>
-                                                <br/> Selecting for example ingoing vertices with
+                                                <br />
+                                                <br /> Selecting for example ingoing vertices with
                                                 <b>depth from 1 to 3</b> means selecting
-                                                <br/> all the
+                                                <br /> all the
                                                 <b>neighbours of 1st, 2nd and 3th level</b>.
-                                                <br/>
-                                                <br/> Thus this option has
-                                                <b>nothing to do with the degree</b> (number of edges) of the current selected
+                                                <br />
+                                                <br /> Thus this option has
+                                                <b>nothing to do with the degree</b> (number of edges) of the current
+                                                selected
                                                 node,
-                                                <br/> but rather it allows you to navigate all the reachable neighbours as a tree,
+                                                <br /> but rather it allows you to navigate all the reachable neighbours
+                                                as a tree,
                                                 and moreover select
-                                                <br/> just the vertices contained in a relevant depth range.
+                                                <br /> just the vertices contained in a relevant depth range.
                                             </span>
                                         </ng-template>
                                     </li>
@@ -350,7 +415,8 @@
                             </li>
                             <li>
                                 <a>
-                                    <i class="fa fa-columns fa-2x" [ngStyle]="!sidebarCollapsed && {'margin-right': '16.27px'}"></i>
+                                    <i class="fa fa-columns fa-2x"
+                                        [ngStyle]="!sidebarCollapsed && {'margin-right': '16.27px'}"></i>
                                     <span>Table</span>
                                 </a>
                                 <ul>
@@ -361,11 +427,15 @@
                                         <div class="row" style="padding: 5px 1px 0px 5px;">
                                             <div class="col-md-6">
                                                 <label for="dedicatedTableTabRadioOption">Dedicated Tab</label>
-                                                <input id="dedicatedTableTabRadioOption" type="radio" [value]="true" [(ngModel)]="tableTabEnabled" (ngModelChange)="handleTablePerspectiveSwitch()">
+                                                <input id="dedicatedTableTabRadioOption" type="radio" [value]="true"
+                                                    [(ngModel)]="tableTabEnabled"
+                                                    (ngModelChange)="handleTablePerspectiveSwitch()">
                                             </div>
                                             <div class="col-md-6">
                                                 <label for="bottomTableTabRadioOption">Bottom</label>
-                                                <input id="bottomTableTabRadioOption" type="radio" [value]="false" [(ngModel)]="tableTabEnabled" (ngModelChange)="handleTablePerspectiveSwitch()">
+                                                <input id="bottomTableTabRadioOption" type="radio" [value]="false"
+                                                    [(ngModel)]="tableTabEnabled"
+                                                    (ngModelChange)="handleTablePerspectiveSwitch()">
                                             </div>
                                         </div>
                                         <div class="row" style="padding: 5px 1px 0px 5px;">
@@ -375,11 +445,13 @@
                                                 </label>
                                             </div>
                                             <div class="col-md-4">
-                                                <ui-switch [(ngModel)]="classNameColumnIncluded" size="small"></ui-switch>
+                                                <ui-switch [(ngModel)]="classNameColumnIncluded" size="small">
+                                                </ui-switch>
                                             </div>
                                             <div class="col-md-1" style="padding-left: 2px;">
-                                                <i class="fa fa-question-circle command" aria-hidden="true" [popover]="popTemplate" containerClass="sidebarPopover" placement="right"
-                                                    triggers="hover" container="body"></i>
+                                                <i class="fa fa-question-circle command" aria-hidden="true"
+                                                    [popover]="popTemplate" containerClass="sidebarPopover"
+                                                    placement="right" triggers="hover" container="body"></i>
                                             </div>
                                             <ng-template #popTemplate>
                                                 <span>
@@ -388,21 +460,29 @@
                                             </ng-template>
                                         </div>
                                         <accordion [closeOthers]="true">
-                                            <accordion-group class="classAccordion" *ngFor="let className of tableInputClassNames" [heading]="className" [panelClass]="outerAccordion"
-                                                style="border-color: white;">
+                                            <accordion-group class="classAccordion"
+                                                *ngFor="let className of tableInputClassNames" [heading]="className"
+                                                [panelClass]="outerAccordion" style="border-color: white;">
                                                 <div class="clearfix">
                                                     <div class="row" style="padding: 5px 1px 10px 5px;">
-                                                        <div class="col-lg-6" (click)="selectAllPropertiesOfClass(className)">
-                                                            <button type="button" class="btn btn-primary btn-xs">Select All</button>
+                                                        <div class="col-lg-6"
+                                                            (click)="selectAllPropertiesOfClass(className)">
+                                                            <button type="button" class="btn btn-primary btn-xs">Select
+                                                                All</button>
                                                         </div>
-                                                        <div class="col-lg-6" (click)="deselectAllPropertiesOfClass(className)">
-                                                            <button type="button" class="btn btn-primary btn-xs">Deselect All</button>
+                                                        <div class="col-lg-6"
+                                                            (click)="deselectAllPropertiesOfClass(className)">
+                                                            <button type="button"
+                                                                class="btn btn-primary btn-xs">Deselect All</button>
                                                         </div>
                                                     </div>
                                                     <ul>
                                                         <li *ngFor="let property of tableInputColumns">
-                                                            <div *ngIf="!property['name'].startsWith('@') && property['className'] === className">
-                                                                <input type="checkbox" [(ngModel)]="property['included']" (ngModelChange)="makeColumnsChangeDetected()">
+                                                            <div
+                                                                *ngIf="!property['name'].startsWith('@') && property['className'] === className">
+                                                                <input type="checkbox"
+                                                                    [(ngModel)]="property['included']"
+                                                                    (ngModelChange)="makeColumnsChangeDetected()">
                                                                 <span>{{property['name']}}</span>
                                                             </div>
                                                         </li>
@@ -428,7 +508,8 @@
                                             </div>
                                             <div class="col-md-1" style="padding-left: 2px;">
                                                 <span (click)="openShortestPathConfigModal()">
-                                                    <i class="fa fa-cog inner-menu-icon" style="float: right; margin-right: 5px;"></i>
+                                                    <i class="fa fa-cog inner-menu-icon"
+                                                        style="float: right; margin-right: 5px;"></i>
                                                 </span>
                                             </div>
                                         </div>
@@ -438,31 +519,43 @@
                                                     <div class="col-md-2">
                                                         <label for="shortestPathFrom">From</label>
                                                     </div>
-                                                    <div class="col-md-9" (focusout)="cleanShortestPathNodesSelection($event)">
-                                                        <input id="shortestPathFrom" class="form-control" style="height: 25px;" [(ngModel)]="shortestPathSourceNodeInputLabel" (mousedown)="updateShortestPathNodesSelection('from', $event)"
+                                                    <div class="col-md-9"
+                                                        (focusout)="cleanShortestPathNodesSelection($event)">
+                                                        <input id="shortestPathFrom" class="form-control"
+                                                            style="height: 25px;"
+                                                            [(ngModel)]="shortestPathSourceNodeInputLabel"
+                                                            (mousedown)="updateShortestPathNodesSelection('from', $event)"
                                                             readonly></input>
-                                                        <span id="shortestPathFromClear" class="fa fa-times-circle-o" (mousedown)="cleanShortestPathInput('from')" title="Clear"></span>
+                                                        <span id="shortestPathFromClear" class="fa fa-times-circle-o"
+                                                            (mousedown)="cleanShortestPathInput('from')"
+                                                            title="Clear"></span>
                                                     </div>
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-md-2">
                                                         <label for="shortestPathTo">To</label>
                                                     </div>
-                                                    <div class="col-md-9" (focusout)="cleanShortestPathNodesSelection($event)">
-                                                        <input id="shortestPathTo" class="form-control" style="height: 25px;" [(ngModel)]="shortestPathTargetNodeInputLabel" (mousedown)="updateShortestPathNodesSelection('to', $event)"
+                                                    <div class="col-md-9"
+                                                        (focusout)="cleanShortestPathNodesSelection($event)">
+                                                        <input id="shortestPathTo" class="form-control"
+                                                            style="height: 25px;"
+                                                            [(ngModel)]="shortestPathTargetNodeInputLabel"
+                                                            (mousedown)="updateShortestPathNodesSelection('to', $event)"
                                                             readonly></input>
-                                                        <span id="shortestPathToClear" class="fa fa-times-circle-o" (mousedown)="cleanShortestPathInput('to')" title="Clear"></span>
+                                                        <span id="shortestPathToClear" class="fa fa-times-circle-o"
+                                                            (mousedown)="cleanShortestPathInput('to')"
+                                                            title="Clear"></span>
                                                     </div>
                                                 </div>
                                             </div>
                                             <i *ngIf="(!shortestPathSourceNodeInputLabel || !shortestPathTargetNodeInputLabel) ||
                                                             (shortestPathTargetNodeInputLabel==='Select a node in the Graph' || shortestPathTargetNodeInputLabel==='Select a node in the Graph')"
-                                                class="fa fa-arrows-v disabled" aria-hidden="true" id="shortestPathSwap" title="Swap"
-                                                disabled></i>
+                                                class="fa fa-arrows-v disabled" aria-hidden="true" id="shortestPathSwap"
+                                                title="Swap" disabled></i>
                                             <i *ngIf="!((!shortestPathSourceNodeInputLabel || !shortestPathTargetNodeInputLabel) ||
                                                             (shortestPathTargetNodeInputLabel==='Select a node in the Graph' || shortestPathTargetNodeInputLabel==='Select a node in the Graph'))"
-                                                class="fa fa-arrows-v" aria-hidden="true" id="shortestPathSwap" title="Swap"
-                                                (click)="swapShortestPathInputVertices()"></i>
+                                                class="fa fa-arrows-v" aria-hidden="true" id="shortestPathSwap"
+                                                title="Swap" (click)="swapShortestPathInputVertices()"></i>
                                         </div>
                                     </li>
                                     <li style="margin-top: 3%; padding-left: 5%;">
@@ -474,7 +567,8 @@
                                             </div>
                                             <div class="col-md-1" style="padding-left: 2px;">
                                                 <span (click)="openPageRankConfigModal()">
-                                                    <i class="fa fa-cog inner-menu-icon" style="float: right; margin-right: 5px;"></i>
+                                                    <i class="fa fa-cog inner-menu-icon"
+                                                        style="float: right; margin-right: 5px;"></i>
                                                 </span>
                                             </div>
                                         </div>
@@ -488,7 +582,8 @@
                                             </div>
                                             <div class="col-md-1" style="padding-left: 2px;">
                                                 <span (click)="openCentralityConfigModal()">
-                                                    <i class="fa fa-cog inner-menu-icon" style="float: right; margin-right: 5px;"></i>
+                                                    <i class="fa fa-cog inner-menu-icon"
+                                                        style="float: right; margin-right: 5px;"></i>
                                                 </span>
                                             </div>
                                         </div>
@@ -497,7 +592,8 @@
                             </li>
                             <li id="timelineMenu">
                                 <a (click)="prepareTimelineClasses()">
-                                    <i class="fa fa-clock-o fa-2x" [ngStyle]="!sidebarCollapsed && {'margin-right': '18.72px'}"></i>
+                                    <i class="fa fa-clock-o fa-2x"
+                                        [ngStyle]="!sidebarCollapsed && {'margin-right': '18.72px'}"></i>
                                     <span>Timeline</span>
                                 </a>
                                 <ul>
@@ -507,7 +603,9 @@
                                                 <div class="row">
                                                     <div class="col-lg-5">
                                                         <label for="timelineClassType">Class Type</label>
-                                                        <select id="timelineClassType" class="form-control" [(ngModel)]="newTimelineInputClassType" (ngModelChange)="prepareTimelineClasses()">
+                                                        <select id="timelineClassType" class="form-control"
+                                                            [(ngModel)]="newTimelineInputClassType"
+                                                            (ngModelChange)="prepareTimelineClasses()">
                                                             <option value="node"> node </option>
                                                             <option value="edge"> edge </option>
                                                         </select>
@@ -516,14 +614,20 @@
                                                 <div class="row">
                                                     <div class="col-lg-5">
                                                         <label for="timelineClassSelect">Class</label>
-                                                        <select id="timelineClassSelect" class="form-control" [(ngModel)]="newTimelineInputClass" (ngModelChange)="updateTimelineClassProperties()">
-                                                            <option *ngFor="let class of timelineChoosableClassesNames" [ngValue]="class"> {{class}} </option>
+                                                        <select id="timelineClassSelect" class="form-control"
+                                                            [(ngModel)]="newTimelineInputClass"
+                                                            (ngModelChange)="updateTimelineClassProperties()">
+                                                            <option *ngFor="let class of timelineChoosableClassesNames"
+                                                                [ngValue]="class"> {{class}} </option>
                                                         </select>
                                                     </div>
                                                     <div class="col-lg-5">
                                                         <label for="timelinePropertySelect">Date Property</label>
-                                                        <select id="timelinePropertySelect" class="form-control" [(ngModel)]="newTimelineInputProperty">
-                                                            <option *ngFor="let property of (timelineClassProperties | objectKeys)" [ngValue]="timelineClassProperties[property].name"
+                                                        <select id="timelinePropertySelect" class="form-control"
+                                                            [(ngModel)]="newTimelineInputProperty">
+                                                            <option
+                                                                *ngFor="let property of (timelineClassProperties | objectKeys)"
+                                                                [ngValue]="timelineClassProperties[property].name"
                                                                 [disabled]="timelineClassProperties[property].type !== 'DATE' && timelineClassProperties[property].type !== 'DATETIME'
                                                                      && timelineClassProperties[property].type !== 'STRING'">
                                                                 {{timelineClassProperties[property].name}}
@@ -531,34 +635,45 @@
                                                         </select>
                                                     </div>
                                                     <div class="col-lg-2">
-                                                        <span *ngIf="newTimelineInputClass && newTimelineInputProperty" class="addTimelineClassDef fa fa-plus fa-2x addTimelineClassDefEnabled"
+                                                        <span *ngIf="newTimelineInputClass && newTimelineInputProperty"
+                                                            class="addTimelineClassDef fa fa-plus fa-2x addTimelineClassDefEnabled"
                                                             (click)="addNewTimelineClass()"></span>
-                                                        <span *ngIf="!newTimelineInputClass || !newTimelineInputProperty" class="addTimelineClassDef fa fa-plus fa-2x addTimelineClassDefDisabled"></span>
+                                                        <span
+                                                            *ngIf="!newTimelineInputClass || !newTimelineInputProperty"
+                                                            class="addTimelineClassDef fa fa-plus fa-2x addTimelineClassDefDisabled"></span>
                                                     </div>
                                                 </div>
-                                                <br/>
+                                                <br />
                                                 <div class="row">
                                                     <div class="table-responsive">
                                                         <table class="table timeline-table">
                                                             <thead>
                                                                 <tr>
-                                                                    <th *ngFor="let column of tableColumns" [ngStyle]="{'width': column['width']}">
+                                                                    <th *ngFor="let column of tableColumns"
+                                                                        [ngStyle]="{'width': column['width']}">
                                                                         {{column['text']}}
                                                                     </th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
-                                                                <tr *ngFor="let class of (className2timelineDateInfo | objectKeys)">
+                                                                <tr
+                                                                    *ngFor="let class of (className2timelineDateInfo | objectKeys)">
                                                                     <td *ngFor="let column of tableColumns">
-                                                                        <div *ngIf="column['text'] === 'Class'" [popover]="class" placement="top" triggers="hover" container="body">
+                                                                        <div *ngIf="column['text'] === 'Class'"
+                                                                            [popover]="class" placement="top"
+                                                                            triggers="hover" container="body">
                                                                             {{class}}
                                                                         </div>
-                                                                        <div *ngIf="column['text'] === 'Date Property'" [popover]="className2timelineDateInfo[class]['property']" placement="top" triggers="hover"
+                                                                        <div *ngIf="column['text'] === 'Date Property'"
+                                                                            [popover]="className2timelineDateInfo[class]['property']"
+                                                                            placement="top" triggers="hover"
                                                                             container="body">
                                                                             {{className2timelineDateInfo[class]['property']}}
                                                                         </div>
-                                                                        <div *ngIf="column['text'] === ''" class="td-button btn-group flex-btn-group-container">
-                                                                            <button class="btn btn-danger btn-xs" (click)="removeTimelineClass(class)">
+                                                                        <div *ngIf="column['text'] === ''"
+                                                                            class="td-button btn-group flex-btn-group-container">
+                                                                            <button class="btn btn-danger btn-xs"
+                                                                                (click)="removeTimelineClass(class)">
                                                                                 <span class="fa fa-remove"></span>
                                                                             </button>
                                                                         </div>
@@ -566,7 +681,7 @@
                                                                 </tr>
                                                             </tbody>
                                                         </table>
-                                                        <br/>
+                                                        <br />
                                                     </div>
                                                 </div>
                                                 <div class="row">
@@ -576,20 +691,25 @@
                                                         </label>
                                                     </div>
                                                     <div class="col-md-6">
-                                                        <ui-switch [(ngModel)]="activateTimeline" (ngModelChange)="handleTimelineSwitch()" size="small"></ui-switch>
+                                                        <ui-switch [(ngModel)]="activateTimeline"
+                                                            (ngModelChange)="handleTimelineSwitch()" size="small">
+                                                        </ui-switch>
                                                     </div>
                                                 </div>
                                                 <div class="row" style="margin-bottom: 7px;">
                                                     <div class="col-lg-7">
                                                         <label for="timelineClassSelect">Start Date</label>
-                                                        <input id="timelineStartDate" class="form-control ctrl-command" type="date" title="Start Date" [(ngModel)]="timelineStartDate"
-                                                            useValueAsDate style="height: 25px;">
+                                                        <input id="timelineStartDate" class="form-control ctrl-command"
+                                                            type="date" title="Start Date"
+                                                            [(ngModel)]="timelineStartDate" useValueAsDate
+                                                            style="height: 25px;">
                                                     </div>
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-lg-7">
                                                         <label for="timelinePropertySelect">End Date</label>
-                                                        <input id="timelineEndDate" class="form-control ctrl-command" type="date" title="End Date" [(ngModel)]="timelineEndDate"
+                                                        <input id="timelineEndDate" class="form-control ctrl-command"
+                                                            type="date" title="End Date" [(ngModel)]="timelineEndDate"
                                                             useValueAsDate style="height: 25px;">
                                                     </div>
                                                 </div>
@@ -608,7 +728,8 @@
                                         <div class="row" style="padding: 10px 1px 0px 5px;">
                                             <div class="col-md-10">
                                                 <!--<label class="form-control-label" for="layout">Layout</label>-->
-                                                <select class="form-control" [(ngModel)]="lastLayoutName" id="layout" (change)="applyLastLayout()">
+                                                <select class="form-control" [(ngModel)]="lastLayoutName" id="layout"
+                                                    (change)="applyLastLayout()">
                                                     <option value="force">Force</option>
                                                     <option value="breadthfirstCircle">Circle Breadthfirst</option>
                                                     <option value="breadthfirstTree">TopDown Breadthfirst</option>
@@ -624,8 +745,10 @@
                                                 </select>
                                             </div>
                                             <div class="col-md-2" style="padding: 5px;">
-                                                <i *ngIf="!currentRunningLayout" class="fa fa-2x fa-play command" (click)="applyLastLayout()"></i>
-                                                <i *ngIf="currentRunningLayout" class="fa fa-2x fa-pause command" (click)="stopRunningLayout()"></i>
+                                                <i *ngIf="!currentRunningLayout" class="fa fa-2x fa-play command"
+                                                    (click)="applyLastLayout()"></i>
+                                                <i *ngIf="currentRunningLayout" class="fa fa-2x fa-pause command"
+                                                    (click)="stopRunningLayout()"></i>
                                             </div>
                                         </div>
                                     </li>
@@ -633,8 +756,10 @@
                                     <li>
                                         <div *ngIf="lastLayoutName !== 'force'" class="row graph-layout-settings">
                                             <div class="row" style="padding-top: 0px;">
-                                                <div class="noui-slider-info has-pips slider-container" id="graph_spacing">
-                                                    <nouislider [config]="graphSpacingSliderConfig" [(ngModel)]="graphSpacing" style="padding: 10px;"></nouislider>
+                                                <div class="noui-slider-info has-pips slider-container"
+                                                    id="graph_spacing">
+                                                    <nouislider [config]="graphSpacingSliderConfig"
+                                                        [(ngModel)]="graphSpacing" style="padding: 10px;"></nouislider>
                                                     <br>
                                                 </div>
                                             </div>
@@ -643,12 +768,14 @@
                                                     <span style="padding: 10px;">Spacing factor:</span>
                                                 </div>
                                                 <div class="col-md-3">
-                                                    <input id="graphSpacingInput" class="form-control" type="number" style="width: 65px; height: 30px;" min="0.085" max="30"
+                                                    <input id="graphSpacingInput" class="form-control" type="number"
+                                                        style="width: 65px; height: 30px;" min="0.085" max="30"
                                                         step="0.1" [(ngModel)]="graphSpacing" />
                                                 </div>
                                             </div>
                                         </div>
-                                        <div *ngIf="lastLayoutName === 'force'" class="row graph-layout-settings" style="padding: 0px 1px 0px 5px;">
+                                        <div *ngIf="lastLayoutName === 'force'" class="row graph-layout-settings"
+                                            style="padding: 0px 1px 0px 5px;">
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     <label>
@@ -656,11 +783,14 @@
                                                     </label>
                                                 </div>
                                                 <div class="col-md-5">
-                                                    <input id="layoutTimeout" class="form-control layout-input-params small-vertical-padding" type="number" min="10" max="1000" step="1"
+                                                    <input id="layoutTimeout"
+                                                        class="form-control layout-input-params small-vertical-padding"
+                                                        type="number" min="10" max="1000" step="1"
                                                         [(ngModel)]="springLength" />
                                                 </div>
                                                 <div class="col-md-1" style="padding-left: 2px;">
-                                                    <i class="fa fa-question-circle command" aria-hidden="true" [popover]="springLengthPopover" containerClass="sidebarPopover"
+                                                    <i class="fa fa-question-circle command" aria-hidden="true"
+                                                        [popover]="springLengthPopover" containerClass="sidebarPopover"
                                                         placement="right" triggers="hover" container="body"></i>
                                                 </div>
                                             </div>
@@ -671,11 +801,13 @@
                                                     </label>
                                                 </div>
                                                 <div class="col-md-5">
-                                                    <input id="layoutTimeout" class="form-control layout-input-params small-vertical-padding" type="number" step="0.0001" [(ngModel)]="springCoeff"
-                                                    />
+                                                    <input id="layoutTimeout"
+                                                        class="form-control layout-input-params small-vertical-padding"
+                                                        type="number" step="0.0001" [(ngModel)]="springCoeff" />
                                                 </div>
                                                 <div class="col-md-1" style="padding-left: 2px;">
-                                                    <i class="fa fa-question-circle command" aria-hidden="true" [popover]="springCoeffPopover" containerClass="sidebarPopover"
+                                                    <i class="fa fa-question-circle command" aria-hidden="true"
+                                                        [popover]="springCoeffPopover" containerClass="sidebarPopover"
                                                         placement="right" triggers="hover" container="body"></i>
                                                 </div>
                                             </div>
@@ -686,11 +818,13 @@
                                                     </label>
                                                 </div>
                                                 <div class="col-md-5">
-                                                    <input id="layoutTimeout" class="form-control layout-input-params small-vertical-padding" type="number" step="0.01" [(ngModel)]="dragCoeff"
-                                                    />
+                                                    <input id="layoutTimeout"
+                                                        class="form-control layout-input-params small-vertical-padding"
+                                                        type="number" step="0.01" [(ngModel)]="dragCoeff" />
                                                 </div>
                                                 <div class="col-md-1" style="padding-left: 2px;">
-                                                    <i class="fa fa-question-circle command" aria-hidden="true" [popover]="dragCoeffPopover" containerClass="sidebarPopover"
+                                                    <i class="fa fa-question-circle command" aria-hidden="true"
+                                                        [popover]="dragCoeffPopover" containerClass="sidebarPopover"
                                                         placement="right" triggers="hover" container="body"></i>
                                                 </div>
                                             </div>
@@ -701,12 +835,14 @@
                                                     </label>
                                                 </div>
                                                 <div class="col-md-5">
-                                                    <input id="layoutTimeout" class="form-control layout-input-params small-vertical-padding" type="number" step="0.1" [(ngModel)]="gravity"
-                                                    />
+                                                    <input id="layoutTimeout"
+                                                        class="form-control layout-input-params small-vertical-padding"
+                                                        type="number" step="0.1" [(ngModel)]="gravity" />
                                                 </div>
                                                 <div class="col-md-1" style="padding-left: 2px;">
-                                                    <i class="fa fa-question-circle command" aria-hidden="true" [popover]="gravityPopover" containerClass="sidebarPopover" placement="right"
-                                                        triggers="hover" container="body"></i>
+                                                    <i class="fa fa-question-circle command" aria-hidden="true"
+                                                        [popover]="gravityPopover" containerClass="sidebarPopover"
+                                                        placement="right" triggers="hover" container="body"></i>
                                                 </div>
                                             </div>
                                             <div class="row">
@@ -716,17 +852,20 @@
                                                     </label>
                                                 </div>
                                                 <div class="col-md-5">
-                                                    <input id="layoutTimeout" class="form-control layout-input-params small-vertical-padding" type="number" min="1" max="20" step="1" [(ngModel)]="theta"
-                                                    />
+                                                    <input id="layoutTimeout"
+                                                        class="form-control layout-input-params small-vertical-padding"
+                                                        type="number" min="1" max="20" step="1" [(ngModel)]="theta" />
                                                 </div>
                                                 <div class="col-md-1" style="padding-left: 2px;">
-                                                    <i class="fa fa-question-circle command" aria-hidden="true" [popover]="thetaPopover" containerClass="sidebarPopover" placement="right"
-                                                        triggers="hover" container="body"></i>
+                                                    <i class="fa fa-question-circle command" aria-hidden="true"
+                                                        [popover]="thetaPopover" containerClass="sidebarPopover"
+                                                        placement="right" triggers="hover" container="body"></i>
                                                 </div>
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-7 btn-group">
-                                                    <button type="button" class="btn btn-primary btn-xs form-control" (click)="resetForceLayoutParamsToDefault()">
+                                                    <button type="button" class="btn btn-primary btn-xs form-control"
+                                                        (click)="resetForceLayoutParamsToDefault()">
                                                         <span>Reset params to default</span>
                                                         <i class="icon-arrow-right14 position-right"></i>
                                                     </button>
@@ -743,7 +882,8 @@
                                                 </label>
                                             </div>
                                             <div class="col-md-6">
-                                                <ui-switch [(ngModel)]="showLegend" size="small" (ngModelChange)="checkLegendShowing()"></ui-switch>
+                                                <ui-switch [(ngModel)]="showLegend" size="small"
+                                                    (ngModelChange)="checkLegendShowing()"></ui-switch>
                                             </div>
                                         </div>
                                         <div class="row" style="padding: 0px 1px 0px 5px;">
@@ -763,8 +903,9 @@
                                                 </label>
                                             </div>
                                             <div class="col-md-3">
-                                                <input id="layoutTimeout" class="form-control small-vertical-padding" type="number" style="width: 45px;height: 20px;" min="1" max="60" step="1"
-                                                    [(ngModel)]="runningLayoutTimeThreshold" />
+                                                <input id="layoutTimeout" class="form-control small-vertical-padding"
+                                                    type="number" style="width: 45px;height: 20px;" min="1" max="60"
+                                                    step="1" [(ngModel)]="runningLayoutTimeThreshold" />
                                             </div>
                                             <div class="col-md-3" style="padding-left: 0px;">
                                                 <span>secs</span>
@@ -777,7 +918,8 @@
                                                 </label>
                                                 <br>
                                                 <div class="col-md-2">
-                                                    <ui-switch [(ngModel)]="showNodeLabels" size="small" (change)="updateLabelVisibility('node')"></ui-switch>
+                                                    <ui-switch [(ngModel)]="showNodeLabels" size="small"
+                                                        (change)="updateLabelVisibility('node')"></ui-switch>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
@@ -786,7 +928,8 @@
                                                 </label>
                                                 <br>
                                                 <div class="col-md-2">
-                                                    <ui-switch [(ngModel)]="showEdgeLabels" size="small" (change)="updateLabelVisibility('edge')"></ui-switch>
+                                                    <ui-switch [(ngModel)]="showEdgeLabels" size="small"
+                                                        (change)="updateLabelVisibility('edge')"></ui-switch>
                                                 </div>
                                             </div>
                                         </div>
@@ -797,7 +940,9 @@
                                                 </label>
                                             </div>
                                             <div class="col-md-6">
-                                                <ui-switch [(ngModel)]="nodesDegreeCanvasEnabled" (ngModelChange)="updateNodesDegreeCanvasAccordingFlag()" size="small"></ui-switch>
+                                                <ui-switch [(ngModel)]="nodesDegreeCanvasEnabled"
+                                                    (ngModelChange)="updateNodesDegreeCanvasAccordingFlag()"
+                                                    size="small"></ui-switch>
                                             </div>
                                         </div>
                                     </li>
@@ -805,26 +950,31 @@
                             </li>
                             <li id="snapshotMenu">
                                 <a>
-                                    <i class="fa fa-camera fa-2x" [ngStyle]="!sidebarCollapsed && {'margin-right': '12.92px'}"></i>
+                                    <i class="fa fa-camera fa-2x"
+                                        [ngStyle]="!sidebarCollapsed && {'margin-right': '12.92px'}"></i>
                                     <span>Snapshot</span>
                                 </a>
                                 <ul>
-                                    <snapshot-menu *ngIf="widget" #snapshotMenu [widgetId]="widget.id" (snapshotLoaded)="updateCytoscapeFromSnapshot($event)"></snapshot-menu>
+                                    <snapshot-menu *ngIf="widget" #snapshotMenu [widgetId]="widget.id"
+                                        (snapshotLoaded)="updateCytoscapeFromSnapshot($event)"
+                                        (noSnapshotAvailable)="updateWidgetSnapshotFlag()"></snapshot-menu>
                                 </ul>
-                            </li>    
+                            </li>
                             <li id="exportMenu">
                                 <a>
-                                    <i class="fa fa-download fa-2x" [ngStyle]="!sidebarCollapsed && {'margin-right': '16.84px'}"></i>
+                                    <i class="fa fa-download fa-2x"
+                                        [ngStyle]="!sidebarCollapsed && {'margin-right': '16.84px'}"></i>
                                     <span>Export</span>
                                 </a>
                                 <ul>
                                     <li>
-                                        <br/>
+                                        <br />
                                         <div class="form-group">
                                             <label class="col-md-3 control-label">File Name</label>
                                             <div class="col-md-9">
-                                                <input type="text" id="fileName" class="form-control" [(ngModel)]="fileName" name="fileName" placeholder="File name without extension"
-                                                    required/>
+                                                <input type="text" id="fileName" class="form-control"
+                                                    [(ngModel)]="fileName" name="fileName"
+                                                    placeholder="File name without extension" required />
                                             </div>
                                         </div>
                                     </li>
@@ -832,7 +982,8 @@
                                     <br>
                                     <br>
                                     <li [ngClass]="{'li-disabled': !fileName}">
-                                        <a *ngIf="cy" (click)="graphExport(cy.png(), 'image/png')" [ngClass]="{'link-disabled': !fileName}">
+                                        <a *ngIf="cy" (click)="graphExport(cy.png(), 'image/png')"
+                                            [ngClass]="{'link-disabled': !fileName}">
                                             Export as PNG
                                         </a>
                                         <a *ngIf="!cy" class="link-disabled">
@@ -840,7 +991,8 @@
                                         </a>
                                     </li>
                                     <li [ngClass]="{'li-disabled': !fileName}">
-                                        <a *ngIf="cy" (click)="graphExport(cy.jpg(), 'image/jpeg')" [ngClass]="{'link-disabled': !fileName}">
+                                        <a *ngIf="cy" (click)="graphExport(cy.jpg(), 'image/jpeg')"
+                                            [ngClass]="{'link-disabled': !fileName}">
                                             Export as JPEG
                                         </a>
                                         <a *ngIf="!cy" class="link-disabled">
@@ -848,7 +1000,8 @@
                                         </a>
                                     </li>
                                     <li [ngClass]="{'li-disabled': !fileName}">
-                                        <a *ngIf="cy" (click)="graphExport(cy.json(), 'json')" [ngClass]="{'link-disabled': !fileName}">
+                                        <a *ngIf="cy" (click)="graphExport(cy.json(), 'json')"
+                                            [ngClass]="{'link-disabled': !fileName}">
                                             Export as JSON
                                         </a>
                                         <a *ngIf="!cy" class="link-disabled">
@@ -862,7 +1015,8 @@
                             </li>
                             <li>
                                 <a class="sidebar-control sidebar-main-toggle hidden-xs" (click)="toggleSideBar()">
-                                    <i class="fa fa-desktop fa-2x position-left" [ngStyle]="!sidebarCollapsed && {'margin-right': '13.14px'}"></i>
+                                    <i class="fa fa-desktop fa-2x position-left"
+                                        [ngStyle]="!sidebarCollapsed && {'margin-right': '13.14px'}"></i>
                                     <span>Expand/Collapse</span>
                                 </a>
                             </li>
@@ -878,19 +1032,22 @@
         <div [id]="'widget-viewport_' + widgetId" class="widget-table-cell widget-viewport">
             <tabset>
                 <tab id="graphTab" heading="Graph" [active]="graphTabActive" (select)="switchTab('graph')">
-                    <div [id]="'graph_viewport-container_' + widgetId" class="cell-content-wrapper panel panel-flat" style="border-top: none; border-top-left-radius: 0px; border-top-right-radius: 0px;"
+                    <div [id]="'graph_viewport-container_' + widgetId" class="cell-content-wrapper panel panel-flat"
+                        style="border-top: none; border-top-left-radius: 0px; border-top-right-radius: 0px;"
                         [ngClass]="{'no-border': minimizedView}">
                         <div class="position-relative" [id]="widgetId+'_config'"></div>
                         <div class="position-relative" [id]="widgetId"></div>
 
                         <!--Cytoscape Viewport-->
                         <div [id]="'cy_' + widgetId" class="viewport" [ngStyle]="{height: widgetHeight, width: '100%'}">
-                            <i *ngIf="showSpinner" class="fa fa-spinner fa-pulse fa-3x fa-fw wait-spinner" aria-hidden="true"></i>
+                            <i *ngIf="showSpinner" class="fa fa-spinner fa-pulse fa-3x fa-fw wait-spinner"
+                                aria-hidden="true"></i>
 
                             <!--'Click To Edit' message-->
                             <div *ngIf="!snapshotLoaded && minimizedView && !embedded">
                                 <a [routerLink]="['/widget', widget['id']]">
-                                    <h2 class="empty-widget-message" [ngStyle]="{top: getEmptyWidgetMessageHeight()}">Click here to Edit the Widget</h2>
+                                    <h2 class="empty-widget-message" [ngStyle]="{top: getEmptyWidgetMessageHeight()}">
+                                        Click here to Edit the Widget</h2>
                                 </a>
                             </div>
                         </div>
@@ -898,14 +1055,15 @@
                         <!-- Legend -->
                         <div *ngIf="!minimizedView && dataSourceMetadata && showLegend" class='graph-legend movable'>
                             <div>
-                                <span class='legend-title'>VERTICES</span> [ {{totalLoadedVertices}}/{{totalVertices}} ] &nbsp;&nbsp;
+                                <span class='legend-title'>VERTICES</span> [ {{totalLoadedVertices}}/{{totalVertices}} ]
+                                &nbsp;&nbsp;
                                 <div *ngIf="!graphLegendCollapsedVertices" style="display: inline-block">
-                                    <a *ngIf='graphLegendVerticesOrderedByCount' (click)='switchLegendVerticesOrder()' popover="Sort vertex classes by name"
-                                        container="body" triggers="hover">
+                                    <a *ngIf='graphLegendVerticesOrderedByCount' (click)='switchLegendVerticesOrder()'
+                                        popover="Sort vertex classes by name" container="body" triggers="hover">
                                         <i class='fa fa-arrows-v'></i>
                                     </a>
-                                    <a *ngIf='!graphLegendVerticesOrderedByCount' (click)='switchLegendVerticesOrder()' popover="Sort vertex classes by count"
-                                        container="body" triggers="hover">
+                                    <a *ngIf='!graphLegendVerticesOrderedByCount' (click)='switchLegendVerticesOrder()'
+                                        popover="Sort vertex classes by count" container="body" triggers="hover">
                                         <i class='fa fa-arrows-v'></i>
                                     </a>
                                 </div>
@@ -920,8 +1078,11 @@
                                 <div class='legend-scale' *ngIf='!graphLegendCollapsedVertices'>
                                     <ul class='legend-labels'>
                                         <ng-container *ngIf="!graphLegendVerticesOrderedByCount">
-                                            <li *ngFor="let className of (dataSourceMetadata.nodesClasses | objectKeysByName)">
-                                                <div [id]='"graph_vertexSelect_" + className' class="graph_vertexSelect legend-label" [ngStyle]="{'background': nodeClassesStyles.get(className).color}"
+                                            <li
+                                                *ngFor="let className of (dataSourceMetadata.nodesClasses | objectKeysByName)">
+                                                <div [id]='"graph_vertexSelect_" + className'
+                                                    class="graph_vertexSelect legend-label"
+                                                    [ngStyle]="{'background': nodeClassesStyles.get(className).color}"
                                                     (click)='graphSelectElementsOfClass("node", className, "graph_vertexSelect_" + escapeSelector(className))'>
                                                     <div class="col-lg-7 legend-label-class-name" style="padding: 0px;">
                                                         <span class="mightOverflow">{{className}}</span>
@@ -937,8 +1098,11 @@
                                             </li>
                                         </ng-container>
                                         <ng-container *ngIf="graphLegendVerticesOrderedByCount">
-                                            <li *ngFor="let className of (dataSourceMetadata.nodesClasses | objectKeysByCount: nodeClassesStyles)">
-                                                <div [id]='"graph_vertexSelect_" + className' class="graph_vertexSelect legend-label" [ngStyle]="{'background': nodeClassesStyles.get(className).color}"
+                                            <li
+                                                *ngFor="let className of (dataSourceMetadata.nodesClasses | objectKeysByCount: nodeClassesStyles)">
+                                                <div [id]='"graph_vertexSelect_" + className'
+                                                    class="graph_vertexSelect legend-label"
+                                                    [ngStyle]="{'background': nodeClassesStyles.get(className).color}"
                                                     (click)='graphSelectElementsOfClass("node", className, "graph_vertexSelect_" + escapeSelector(className))'>
                                                     <div class="col-lg-7 legend-label-class-name" style="padding: 0px;">
                                                         <span class="mightOverflow">{{className}}</span>
@@ -960,14 +1124,15 @@
                             <br>
 
                             <div>
-                                <span class='legend-title'>EDGES</span> [ {{totalLoadedEdges}}/{{totalEdges}} ] &nbsp;&nbsp;
+                                <span class='legend-title'>EDGES</span> [ {{totalLoadedEdges}}/{{totalEdges}} ]
+                                &nbsp;&nbsp;
                                 <div *ngIf="!graphLegendCollapsedEdges" style="display: inline-block">
-                                    <a *ngIf='graphLegendEdgesOrderedByCount' (click)='switchLegendEdgesOrder()' popover="Sort edge classes by name" container="body"
-                                        triggers="hover">
+                                    <a *ngIf='graphLegendEdgesOrderedByCount' (click)='switchLegendEdgesOrder()'
+                                        popover="Sort edge classes by name" container="body" triggers="hover">
                                         <i class='fa fa-arrows-v'></i>
                                     </a>
-                                    <a *ngIf='!graphLegendEdgesOrderedByCount' (click)='switchLegendEdgesOrder()' popover="Sort edge classes by count" container="body"
-                                        triggers="hover">
+                                    <a *ngIf='!graphLegendEdgesOrderedByCount' (click)='switchLegendEdgesOrder()'
+                                        popover="Sort edge classes by count" container="body" triggers="hover">
                                         <i class='fa fa-arrows-v'></i>
                                     </a>
                                 </div>
@@ -982,8 +1147,11 @@
                                 <div class='legend-scale' *ngIf='!graphLegendCollapsedEdges'>
                                     <ul class='legend-labels'>
                                         <ng-container *ngIf="!graphLegendEdgesOrderedByCount">
-                                            <li *ngFor="let edgeClassName of (dataSourceMetadata.edgesClasses | objectKeysByName)">
-                                                <div [id]='"graph_edgeSelect_" + edgeClassName' class="graph_edgeSelect legend-label" [ngStyle]="{'background': edgeClassesStyles.get(edgeClassName).color}"
+                                            <li
+                                                *ngFor="let edgeClassName of (dataSourceMetadata.edgesClasses | objectKeysByName)">
+                                                <div [id]='"graph_edgeSelect_" + edgeClassName'
+                                                    class="graph_edgeSelect legend-label"
+                                                    [ngStyle]="{'background': edgeClassesStyles.get(edgeClassName).color}"
                                                     (click)='graphSelectElementsOfClass("edge", edgeClassName, "graph_edgeSelect_" + escapeSelector(edgeClassName))'>
                                                     <div class="col-lg-7 legend-label-class-name" style="padding: 0px;">
                                                         <span class="mightOverflow">{{edgeClassName}}</span>
@@ -996,12 +1164,15 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <br/>
+                                                <br />
                                             </li>
                                         </ng-container>
                                         <ng-container *ngIf="graphLegendEdgesOrderedByCount">
-                                            <li *ngFor="let edgeClassName of (dataSourceMetadata.edgesClasses | objectKeysByCount: edgeClassesStyles)">
-                                                <div [id]='"graph_edgeSelect_" + edgeClassName' class="graph_edgeSelect legend-label" [ngStyle]="{'background': edgeClassesStyles.get(edgeClassName).color}"
+                                            <li
+                                                *ngFor="let edgeClassName of (dataSourceMetadata.edgesClasses | objectKeysByCount: edgeClassesStyles)">
+                                                <div [id]='"graph_edgeSelect_" + edgeClassName'
+                                                    class="graph_edgeSelect legend-label"
+                                                    [ngStyle]="{'background': edgeClassesStyles.get(edgeClassName).color}"
                                                     (click)='graphSelectElementsOfClass("edge", edgeClassName, "graph_edgeSelect_" + escapeSelector(edgeClassName))'>
                                                     <div class="col-lg-7 legend-label-class-name" style="padding: 0px;">
                                                         <span class="mightOverflow">{{edgeClassName}}</span>
@@ -1014,7 +1185,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <br/>
+                                                <br />
                                             </li>
                                         </ng-container>
                                     </ul>
@@ -1023,18 +1194,20 @@
                         </div>
                     </div>
                 </tab>
-                <tab *ngIf="!minimizedView && tableTabEnabled" id="tableTab" heading="Table" [active]="tableTabActive" (select)="switchTab('table')">
-                    <div *ngIf="tableTabActive" [id]="'table_viewport-container_' + widgetId" class="cell-content-wrapper panel panel-flat" [ngClass]="{'no-border': minimizedView}">
+                <tab *ngIf="!minimizedView && tableTabEnabled" id="tableTab" heading="Table" [active]="tableTabActive"
+                    (select)="switchTab('table')">
+                    <div *ngIf="tableTabActive" [id]="'table_viewport-container_' + widgetId"
+                        class="cell-content-wrapper panel panel-flat" [ngClass]="{'no-border': minimizedView}">
 
                         <!-- Table Viewport -->
                         <div [id]="'table_' + widgetId" class="viewport" [ngStyle]="{height: widgetHeight}">
-                            <i *ngIf="showSpinner" class="fa fa-spinner fa-pulse fa-3x fa-fw wait-spinner" aria-hidden="true"></i>
+                            <i *ngIf="showSpinner" class="fa fa-spinner fa-pulse fa-3x fa-fw wait-spinner"
+                                aria-hidden="true"></i>
 
-                            <table-data #tabTable *ngIf="tableInputElementsCardinality > 0 && (tableInputColumns && tableInputColumns.length > 0)" 
-                                [tableContainerHeight]="widgetHeight" 
-                                [inputColumns]="tableInputColumns"
-                                [deletionEnabled]="true"
-                                [selectionEnabled]="true"
+                            <table-data #tabTable
+                                *ngIf="tableInputElementsCardinality > 0 && (tableInputColumns && tableInputColumns.length > 0)"
+                                [tableContainerHeight]="widgetHeight" [inputColumns]="tableInputColumns"
+                                [deletionEnabled]="true" [selectionEnabled]="true"
                                 [classNameColumnIncluded]="classNameColumnIncluded"
                                 [itemsPerPage]="activateTimeline ? 10 : 15"
                                 (elementSelection)="selectElementOnTableAction($event)"
@@ -1045,31 +1218,38 @@
                         </div>
                     </div>
                 </tab>
-                <tab *ngIf="dataSource && !minimizedView" id="datasourceTab" heading="Datasource" [active]="datasourceTabActive" (select)="switchTab('datasource')">
-                    <div *ngIf="datasourceTabActive" [id]="'datasource_viewport-container_' + widgetId" class="cell-content-wrapper panel panel-flat" style="border-top: none; border-top-left-radius: 0px; border-top-right-radius: 0px;"
+                <tab *ngIf="dataSource && !minimizedView" id="datasourceTab" heading="Datasource"
+                    [active]="datasourceTabActive" (select)="switchTab('datasource')">
+                    <div *ngIf="datasourceTabActive" [id]="'datasource_viewport-container_' + widgetId"
+                        class="cell-content-wrapper panel panel-flat"
+                        style="border-top: none; border-top-left-radius: 0px; border-top-right-radius: 0px;"
                         [ngClass]="{'no-border': minimizedView}">
-                
+
                         <!-- Datasource Viewport -->
-                        <data-source-info [dataSource]="dataSource" [height]="startingWidgetHeight" (datasourceIndexingCall)="callDatasourceIndexing()"></data-source-info>
+                        <data-source-info [dataSource]="dataSource" [height]="startingWidgetHeight"
+                            (datasourceIndexingCall)="callDatasourceIndexing()"></data-source-info>
 
                     </div>
                 </tab>
             </tabset>
 
             <!-- Toolbar -->
-            <div *ngIf="!minimizedView" id="upperToolBar" class="navbar navbar-default" [ngStyle]="{height: toolbarHeight}">
-            
+            <div *ngIf="!minimizedView" id="upperToolBar" class="navbar navbar-default"
+                [ngStyle]="{height: toolbarHeight}">
+
                 <!-- Navbar header -->
                 <div class="navbar-header">
                     <div class="row" style="padding: 5px 1px 0px 5px;">
                         <div class="col-md-12 btn-group">
-                            <input id="fullTextSearchInput" type="search" class="form-control" (keyup)="searchTerm.next($event.target.value)" placeholder="Type the text to search..."
+                            <input id="fullTextSearchInput" type="search" class="form-control"
+                                (keyup)="searchTerm.next($event.target.value)" placeholder="Type the text to search..."
                                 (focus)="renderFullTextSearch()" (blur)="updateFullTextSearchRendering()">
-                            <span id="fullTextSearchClear" class="fa fa-times-circle-o" (click)="resetFullTextSearch()" title="Clear"></span>
+                            <span id="fullTextSearchClear" class="fa fa-times-circle-o" (click)="resetFullTextSearch()"
+                                title="Clear"></span>
                         </div>
                     </div>
                 </div>
-            
+
                 <!-- Left nav -->
                 <ul class="nav navbar-nav">
                     <li>
@@ -1103,7 +1283,7 @@
                         </a>
                     </li>
                 </ul>
-            
+
                 <!-- Right nav -->
                 <ul class="nav navbar-nav navbar-right">
                     <li *ngIf="!activateTimeline">
@@ -1138,9 +1318,12 @@
             </div>
 
             <!--Full Text Search-->
-            <div *ngIf="renderFullTextSearchView" [id]="'fullTextSearch_' + widgetId" class='fulltext-search' [ngStyle]="{'max-height': widgetHeight, padding: '0px'}">
-                <fulltext-search [datasourceId]="widget['dataSourceId']" [searchTerm]="searchTerm" [componentHeight]="widgetHeight" (queryEmitter)="loadNodesFromIds($event)"
-                    (noSuchIndexEmitter)="resetFullTextSearch(true)" (closeEmitter)="resetFullTextSearch(true)"></fulltext-search>
+            <div *ngIf="renderFullTextSearchView" [id]="'fullTextSearch_' + widgetId" class='fulltext-search'
+                [ngStyle]="{'max-height': widgetHeight, padding: '0px'}">
+                <fulltext-search [datasourceId]="widget['dataSourceId']" [searchTerm]="searchTerm"
+                    [componentHeight]="widgetHeight" (queryEmitter)="loadNodesFromIds($event)"
+                    (noSuchIndexEmitter)="resetFullTextSearch(true)" (closeEmitter)="resetFullTextSearch(true)">
+                </fulltext-search>
             </div>
 
             <div *ngIf="minimizedView" style="opacity: 0; height: 1px; font-size: 1px;">
@@ -1149,36 +1332,43 @@
             </div>
 
             <!--Context Menu: Traverse SubMenu-->
-            <div *ngIf="traverseSubmenuActivated" id="traverse-submenu" class="cy-context-menus-cxt-menu traverse-submenu" [ngStyle]="{display: 'block', 'border-style': 'none', 'border-color': 'lightgrey', left: traverseSubmenuLeft, top: traverseSubmenuTop}">
-                <traverse-menu [nodes]="traverseSubmenuInputNodes" (traverseRequestEmitter)="executeTraverseFromEvent($event)">
+            <div *ngIf="traverseSubmenuActivated" id="traverse-submenu"
+                class="cy-context-menus-cxt-menu traverse-submenu"
+                [ngStyle]="{display: 'block', 'border-style': 'none', 'border-color': 'lightgrey', left: traverseSubmenuLeft, top: traverseSubmenuTop}">
+                <traverse-menu [nodes]="traverseSubmenuInputNodes"
+                    (traverseRequestEmitter)="executeTraverseFromEvent($event)">
                 </traverse-menu>
             </div>
 
             <!-- Timeline -->
-            <div *ngIf="!minimizedView && activateTimeline && !datasourceTabActive" id="timeline-container" class="cell-content-wrapper">
-                <timeline #timelineComponent [inputTimelineItems]="timelineInputItems" [lowerBoundDate]="timelineStartDate" [upperBoundDate]="timelineEndDate"
-                    [filteringWindowActive]="timelineFilteringWindowActive" [firstBarTime]="timelineFilteringWindowStart" [secondBarTime]="timelineFilteringWindowEnd"
-                    (filterEmitter)="filterElementsAccordingToTimeline($event)" (disableTimeFilterEmitter)="resetTimelineFiltering()"
-                    (closeTimelineEmitter)="closeTimeline(100)" (wrongClassConfigEmitter)="handleWrongClassTimelineConfig($event)" 
+            <div *ngIf="!minimizedView && activateTimeline && !datasourceTabActive" id="timeline-container"
+                class="cell-content-wrapper">
+                <timeline #timelineComponent [inputTimelineItems]="timelineInputItems"
+                    [lowerBoundDate]="timelineStartDate" [upperBoundDate]="timelineEndDate"
+                    [filteringWindowActive]="timelineFilteringWindowActive"
+                    [firstBarTime]="timelineFilteringWindowStart" [secondBarTime]="timelineFilteringWindowEnd"
+                    (filterEmitter)="filterElementsAccordingToTimeline($event)"
+                    (disableTimeFilterEmitter)="resetTimelineFiltering()" (closeTimelineEmitter)="closeTimeline(100)"
+                    (wrongClassConfigEmitter)="handleWrongClassTimelineConfig($event)"
                     (filteringWindowStateChanged)="updateTimelineFilteringWindowState($event)"></timeline>
             </div>
 
-            <!-- Table -->            
-            <div *ngIf="!minimizedView && !tableTabEnabled && !datasourceTabActive" id="bottom-table-container" class="cell-content-wrapper">
-                <div [id]="'bottom_table_' + widgetId" class="bottom_table_viewport" [ngStyle]="{height: '245px', width: '100%'}">
-                    <table-data #bottomTable *ngIf="tableInputElementsCardinality > 0 && (tableInputColumns && tableInputColumns.length > 0)" 
-                        [inputColumns]="tableInputColumns"
-                        [deletionEnabled]="true"
-                        [selectionEnabled]="true"
-                        [classNameColumnIncluded]="classNameColumnIncluded"
-                        [itemsPerPage]="5"
+            <!-- Table -->
+            <div *ngIf="!minimizedView && !tableTabEnabled && !datasourceTabActive" id="bottom-table-container"
+                class="cell-content-wrapper">
+                <div [id]="'bottom_table_' + widgetId" class="bottom_table_viewport"
+                    [ngStyle]="{height: '245px', width: '100%'}">
+                    <table-data #bottomTable
+                        *ngIf="tableInputElementsCardinality > 0 && (tableInputColumns && tableInputColumns.length > 0)"
+                        [inputColumns]="tableInputColumns" [deletionEnabled]="true" [selectionEnabled]="true"
+                        [classNameColumnIncluded]="classNameColumnIncluded" [itemsPerPage]="5"
                         (elementSelection)="selectElementOnTableAction($event)"
                         (elementUnselection)="unselectElementOnTableAction($event)"
                         (elementDeletion)="deleteElementOnTableAction($event)"
                         (inputDataChange)="callTableSelectionSort()">
                     </table-data>
                 </div>
-            </div> 
+            </div>
         </div>
 
     </div>

@@ -18,16 +18,15 @@
  * #L%
  */
 import {
-    Component, ChangeDetectorRef, NgZone
+    Component, OnDestroy, ChangeDetectorRef, NgZone
 } from '@angular/core';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { WidgetService } from '../../../widget.service';
 import { NotificationService, Base64Service, Principal, WidgetEventBusService } from '../../../../../shared';
 import { JhiEventManager } from 'ng-jhipster';
-import { AbstractPieChartWidgetComponent } from './abstract-pie-chart-widget.component';
+import { AbstractSecondaryPieChartWidgetComponent } from './abstract-secondary-pie-chart-widget.component';
 import { DataSourceService } from '../../../../data-source/data-source.service';
-import { IndependentWidget } from '../../independent-widget';
-import { HttpErrorResponse } from '@angular/common/http';
+import { SecondaryWidget } from '../../secondary-widget';
 import { Router } from '@angular/router';
 
 /**
@@ -35,11 +34,13 @@ import { Router } from '@angular/router';
  * through queries, full text search, class scan loading.
  */
 @Component({
-    selector: 'independent-pie-chart-widget',
-    templateUrl: './elastic-pie-chart-widget.component.html',
-    styleUrls: ['./elastic-pie-chart-widget.component.scss']
+    selector: 'query-secondary-pie-chart-widget',
+    templateUrl: './query-pie-chart-widget.component.html',
+    styleUrls: ['./query-pie-chart-widget.component.scss']
 })
-export class IndependentPieChartWidgetComponent extends AbstractPieChartWidgetComponent implements IndependentWidget {
+export class QuerySecondaryPieChartWidgetComponent extends AbstractSecondaryPieChartWidgetComponent implements SecondaryWidget, OnDestroy {
+
+    valueProperty: string;
 
     constructor(
         protected ngZone: NgZone,
@@ -55,6 +56,7 @@ export class IndependentPieChartWidgetComponent extends AbstractPieChartWidgetCo
         protected router: Router) {
 
         super(ngZone, principal, widgetService, notificationService, dataSourceService, eventManager, cdr, modalService, base64Service, widgetEventBusService, router);
+        this.selectedClass = 'Table';
     }
 
     ngAfterViewInit() {
@@ -66,44 +68,78 @@ export class IndependentPieChartWidgetComponent extends AbstractPieChartWidgetCo
         } else {
             this.adjustWidgetHeightToEmbeddingIframeHeight();
         }
+
+        if (this.minimizedView) {
+            this.requestDatasetPropagation();
+        }
+    }
+
+    ngOnDestroy() {
+        this.eventManager.destroy(this.dashboardPanelResizedSubscriber);
+        this.unsubscribeToEventBus();
+    }
+
+    pause() {
+        console.log('pause');
     }
 
     handleSelectedPropertyModelChanging() {
         this.startSpinner();
-        this.updateSettingsSliderUpperValue().subscribe((correctlyUpdated: boolean) => {
-                this.performFacetingForWholeDatasource();
-        });
+        this.performFacetingForCurrentDataset();
     }
 
     runSeriesComputation() {
-        this.performFacetingForWholeDatasource();
+        this.performFacetingForCurrentDataset();
+    }
+
+    // @Override
+    updatePieChartWidgetFromSnapshot(snapshot) {
+
+        super.updatePieChartWidgetFromSnapshot(snapshot);
+
+        if (snapshot['valueProperty']) {
+            this.valueProperty = snapshot['valueProperty'];
+        }
     }
 
     /**
       * Faceting
       */
 
-    performFacetingForWholeDatasource() {
+    /**
+     * It performs the facetig for current dataset by querying elastic search
+     * @param saveAfterUpdate
+     */
+    performFacetingForCurrentDataset(saveAfterUpdate?: boolean): void {
 
-        const classes: string[] = [this.selectedClass];
-        const fields: string[]  = [this.selectedProperty];
-        this.startSpinner();
-        if (this.dataSource && this.dataSource['indexing'] &&
-            this.dataSource['indexing'].toString() === 'INDEXED') {
-            this.widgetService.fetchWholeFacetingForDatasource(this.widget['dataSourceId'], classes, fields, this.minDocCount, this.maxValuesPerField).subscribe((res: Object) => {
-                this.currentFaceting = res;
-                this.stopSpinner();
-                if (this.selectedClass && this.selectedProperty) {
-                    this.updatePieChartFromFaceting(res);
-                }
-            }, (err: HttpErrorResponse) => {
-                this.handleError(err.error, 'Distribution computation');
-            });
-        } else {
-            this.stopSpinner();
-            const message: string = 'No index is defined over the datasource the widget is connected with. Series cannot be computed.';
-            this.notificationService.push('warning', 'Series loading', message);
+        const propertyValues = {};
+        const distribution = {};
+
+        for (const elem of this.currentDataset['elements']) {
+            const record = elem['data']['record'];
+            distribution[record[this.selectedProperty]] = record[this.valueProperty];
+        }
+        propertyValues[this.selectedProperty] = distribution;
+
+        const faceting = {
+            Table: {
+                doc_count: undefined,
+                propertyValues: propertyValues
+            }
+        };
+
+        this.updatePieChartFromFaceting(faceting);
+        if (saveAfterUpdate) {
+            this.saveAll(true);
         }
     }
 
+    // Override
+    buildSnapshotObject(): Object {
+
+        const jsonForSnapshotSaving = super.buildSnapshotObject();
+        jsonForSnapshotSaving['valueProperty'] = this.valueProperty;
+
+        return jsonForSnapshotSaving;
+    }
 }

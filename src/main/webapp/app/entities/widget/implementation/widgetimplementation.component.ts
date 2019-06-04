@@ -118,4 +118,9 @@ export abstract class WidgetImplementationComponent {
             }
         }
     }
+
+    updateWidgetSnapshotFlag() {
+        this.widget.hasSnapshot = false;
+        // this.saveAll();
+    }
 }

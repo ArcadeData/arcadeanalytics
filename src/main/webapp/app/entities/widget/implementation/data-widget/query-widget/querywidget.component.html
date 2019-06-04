@@ -1,0 +1,319 @@
+<!--Widget Header-->
+<div *ngIf="!minimizedView" class="row">
+    <div class="col-md-6" style="height: 35px;">
+        <h2 style="margin: 0px;">
+            <span>{{widget.name}}</span>
+        </h2>
+    </div>
+    <div class="col-md-6" style="height: 35px;">
+        <div class="btn-group flex-btn-group-container" style="position: relative; top: 10%;">
+            <a type="submit" [routerLink]="['/dashboard', widget['dashboardId']]" routerLinkActive="active"
+                [routerLinkActiveOptions]="{exact: true}" (click)="checkSidebarStatusOnExit()">
+                <span class="fa fa-2x fa-times"></span>
+            </a>
+        </div>
+    </div>
+</div>
+
+<hr *ngIf="!minimizedView" style="margin-top: 5px;">
+
+<div class="widget-table" [id]="'widget-container_' + widgetId">
+
+    <div style="display: table-row">
+
+        <!-- Main sidebar -->
+        <div [id]="'widget-sidebar_' + widgetId" *ngIf="!minimizedView"
+            class="sidebar sidebar-main sidebar-fixed sidebar-default widget-table-cell">
+            <div id="sidebar-dynamic" class="sidebar-content cell-content-wrapper"
+                [ngStyle]="{'max-height': maxSidebarHeight}">
+                <div class="sidebar-category sidebar-category-visible">
+                    <div class="category-content no-padding">
+
+                        <ul id="firstLevelMenu" class="navigation navigation-main navigation-accordion">
+
+                            <!-- Main -->
+                            <li id="searchMenu">
+                                <a>
+                                    <i class="fa fa-search fa-2x"
+                                        [ngStyle]="!sidebarCollapsed && {'margin-right': '16.84px'}"></i>
+                                    <span>Query options</span>
+                                </a>
+                                <ul>
+                                    <li>
+                                        <div class="row" style="padding: 5px 1px 0px 5px;">
+                                            <div class="col-md-6">
+                                                <label>
+                                                    Append last result:
+                                                </label>
+                                            </div>
+                                            <div class="col-md-5">
+                                                <ui-switch [(ngModel)]="appendLastResult" size="small"
+                                                    (ngModelChange)="handleAppendLastResultChange()">
+                                                </ui-switch>
+                                            </div>
+                                            <div class="col-md-1" style="padding-left: 2px;">
+                                                <i class="fa fa-question-circle command" aria-hidden="true"
+                                                    [popover]="popTemplate" containerClass="sidebarPopover"
+                                                    placement="right" triggers="hover" container="body"></i>
+                                            </div>
+                                            <ng-template #popTemplate>
+                                                <ul class="searchPopoverList" style="padding: 5px; margin: 0px;">
+                                                    Use this flag to fetch data following an increental way or showing
+                                                    just the last result:
+                                                    <br>
+                                                    <li style="margin-bottom: 10px;">
+                                                        <span>
+                                                            true: new loaded data will be appended to the just retrieved
+                                                            data.
+                                                        </span>
+                                                    </li>
+                                                    <li>
+                                                        <span>
+                                                            false (default): just tha last retrieved data is shown.
+                                                        </span>
+                                                    </li>
+                                                </ul>
+                                                Append-last-result and auto-update flags cannot be both enabled.
+                                            </ng-template>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="row" style="padding: 0px 1px 0px 5px;">
+                                            <div class="col-md-6">
+                                                <label>
+                                                    Auto-update:
+                                                </label>
+                                            </div>
+                                            <div class="col-md-5">
+                                                <ui-switch [(ngModel)]="autoUpdate" size="small"
+                                                    (ngModelChange)="handleAutoUpdateFlagChange()"></ui-switch>
+                                            </div>
+                                            <div class="col-md-1" style="padding-left: 2px;">
+                                                <i class="fa fa-question-circle command" aria-hidden="true"
+                                                    [popover]="autoUpdatePopoverTemplate"
+                                                    containerClass="sidebarPopover" placement="right" triggers="hover"
+                                                    container="body"></i>
+                                            </div>
+                                            <ng-template #autoUpdatePopoverTemplate>
+                                                <div [innerHtml]="autoUpdatePopover">
+                                                </div>
+                                            </ng-template>
+                                        </div>
+                                        <div class="row" style="padding: 0px 1px 0px 5px;">
+                                            <div class="col-md-6">
+                                                <label>
+                                                    Update every
+                                                </label>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <input id="autoUpdateIntervalWindow" class="form-control" type="number"
+                                                    style="width: 65px;height: 20px;" [min]="minimumTimeoutWindow"
+                                                    step="1" [(ngModel)]="autoUpdateIntervalWindow"
+                                                    (ngModelChange)="handleAutoUpdateIntervalChange()" />
+                                            </div>
+                                            <div class="col-md-2" style="padding-left: 0px;">
+                                                <span>secs</span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="row" style="padding: 0px 1px 0px 5px;">
+                                            <div class="col-md-6">
+                                                <label>
+                                                    Auto-switch to table after query:
+                                                </label>
+                                            </div>
+                                            <div class="col-md-5">
+                                                <ui-switch [(ngModel)]="autoSwitchTabAfterQuery" size="small">
+                                                </ui-switch>
+                                            </div>
+                                            <div class="col-md-1" style="padding-left: 2px;">
+                                                <i class="fa fa-question-circle command" aria-hidden="true"
+                                                    [popover]="autoSwitchTabPopoverTemplate"
+                                                    containerClass="sidebarPopover" placement="right" triggers="hover"
+                                                    container="body"></i>
+                                            </div>
+                                            <ng-template #autoSwitchTabPopoverTemplate>
+                                                <div [innerHtml]="autoSwitchTabPopover">
+                                                </div>
+                                            </ng-template>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li id="snapshotMenu">
+                                <a>
+                                    <i class="fa fa-camera fa-2x"
+                                        [ngStyle]="!sidebarCollapsed && {'margin-right': '12.92px'}"></i>
+                                    <span>Snapshot</span>
+                                </a>
+                                <ul>
+                                    <snapshot-menu *ngIf="widget" #snapshotMenu [widgetId]="widget.id"
+                                        (snapshotLoaded)="updateQueryWidgetFromSnapshot($event)"
+                                        (noSnapshotAvailable)="updateWidgetSnapshotFlag()"></snapshot-menu>
+                                </ul>
+                            </li>
+                            <li class="menu-separator">
+                                <hr>
+                            </li>
+                            <li>
+                                <a class="sidebar-control sidebar-main-toggle hidden-xs" (click)="toggleSideBar()">
+                                    <i class="fa fa-desktop fa-2x position-left"
+                                        [ngStyle]="!sidebarCollapsed && {'margin-right': '13.14px'}"></i>
+                                    <span>Expand/Collapse</span>
+                                </a>
+                            </li>
+                            <!-- /main -->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Main viewport -->
+        <div [id]="'widget-viewport_' + widgetId" class="widget-table-cell widget-viewport">
+
+            <tabset>
+                <tab id="queryTab" heading="Query" [active]="queryTabActive" (select)="switchTab('query')">
+                    <div [id]="'viewport-container_' + widgetId" class="cell-content-wrapper panel panel-flat"
+                        [ngClass]="{'no-border': minimizedView}">
+
+                        <!--Query Viewport-->
+                        <div [id]="'query_' + widgetId" class="viewport" [ngStyle]="{height: widgetHeight}">
+                            <i *ngIf="showSpinner" class="fa fa-spinner fa-pulse fa-3x fa-fw wait-spinner"
+                                aria-hidden="true"></i>
+
+                            <div *ngIf="!minimizedView" id="queryLanguageRow" class="row viewport-row queryLanguageRow" [ngStyle]="{height: queryLanguageRowHeight}">
+                                <div class="col-md-12">
+                                    <div class="col-md-1">
+                                        <label>Query Language</label>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <select id="queryLanguageSelection" class="form-control"
+                                            [(ngModel)]="queryLanguageSelection">
+                                            <option *ngFor="let queryLanguage of supportedQueryLanguages"
+                                                [ngValue]="queryLanguage">
+                                                {{queryLanguage}} </option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-1" style="padding: 5px; padding-left: 15px;">
+                                        <i *ngIf="currentQuery && currentQuery.length > 0"
+                                            class="fa fa-2x fa-play command"
+                                            (click)="loadDataFromCurrentQuery(true)"></i>
+                                        <i *ngIf="!(currentQuery && currentQuery.length > 0)"
+                                            class="fa fa-2x fa-play disabled-command"></i>
+                                    </div>
+                                    <div class="col-md-8 flex-btn-group-container">
+                                        <button class="btn btn-danger" (click)="clearQuery()"
+                                            style="margin-right: 10px;">
+                                            <i class="fa fa-trash" title="Clear Query"></i>
+                                        </button>
+                                        <button *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_EDITOR']"
+                                            class="btn btn-primary" (click)="saveAll()">
+                                            <i class="fa fa-save" title="Save All"></i>
+                                        </button>
+                                        <button *jhiHasAnyAuthority="'ROLE_READER'" class="btn btn-primary disabled">
+                                            <i class="fa fa-save" title="Save All"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div *ngIf="!minimizedView" id="queryRow" class="row viewport-row queryRow" [ngStyle]="{height: queryRowHeight}">
+                                <div class="col-md-12">
+                                    <div class="col-md-1">
+                                        <label>Query</label>
+                                    </div>
+                                    <div class="col-md-10">
+                                        <textarea class=" form-control query-textarea" [(ngModel)]="currentQuery"
+                                            (ngModelChange)="handleQueryChange(event)" rows="4"
+                                            placeholder="Type here your query..." style="width: 100%;"></textarea>
+                                    </div>
+                                </div>
+                                <div *ngIf="minimizedView" class="col-md-12">
+                                    <div class="col-md-10 col-md-offset-1">
+                                        <textarea class="form-control query-textarea" [(ngModel)]="currentQuery"
+                                            rows="4" readonly placeholder="Type here your query..."
+                                            style="width: 100%;"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div *ngIf="!minimizedView && (parametersName2Info | objectKeys).length > 0" class="paramsTitle" [ngStyle]="{height: paramsTitleHeight}">
+                                <h3>Parameters</h3>
+                            </div>
+
+                            <div *ngIf="(parametersName2Info | objectKeys).length > 0" id="parametersRow"
+                                class="row viewport-row parametersRow" [ngStyle]="{height: parametersRowHeight}">
+                                <div class="col-md-12">
+                                    <div *ngFor="let parameterName of (parametersName2Info | objectKeys)"
+                                        [ngClass]="{'col-md-6': !minimizedView, 'col-md-3': minimizedView, 'no-padding': minimizedView}">
+                                        <query-parameter [queryWidgetId]="widget['id']" [dataSource]="dataSource"
+                                            [dataSourceMetadata]="dataSourceMetadata" [name]="parameterName"
+                                            [parameterDef]="parametersName2Info[parameterName]"
+                                            [readMode]="minimizedView"
+                                            (parameterCompliantChange)="handleParamterComplianceChange()">
+                                        </query-parameter>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--'Click To Edit' message-->
+                        <div *ngIf="false">
+                            <a [routerLink]="['/widget', widget['id']]">
+                                <h2 class="empty-widget-message" [ngStyle]="{top: getEmptyWidgetMessageHeight()}">Click
+                                    here to Edit the
+                                    Widget</h2>
+                            </a>
+                        </div>
+
+                    </div>
+                </tab>
+                <tab id="tableTab" heading="Table" [active]="tableTabActive" (select)="switchTab('table')">
+                    <div [id]="'viewport-container_' + widgetId" class="cell-content-wrapper panel panel-flat"
+                        [ngClass]="{'no-border': minimizedView}">
+
+                        <!--Table Viewport-->
+                        <div [id]="'table_' + widgetId" class="viewport" [ngStyle]="{height: widgetHeight}">
+                            <i *ngIf="showSpinner" class="fa fa-spinner fa-pulse fa-3x fa-fw wait-spinner"
+                                aria-hidden="true"></i>
+
+                            <table-data #tableComponent [tableContainerTotalHeight]="widgetHeight"
+                                [inputElements]="lastLoadedData['elements']" [inputColumns]="lastLoadedColumns"
+                                [deletionEnabled]="deletionEnabled" [selectionEnabled]="selectionEnabled"
+                                [classNameColumnIncluded]="classNameColumnIncluded">
+                            </table-data>
+
+                            <!--'Click To Edit' message-->
+                            <div *ngIf="lastLoadedData['elements'].length === 0 && minimizedView && !embedded">
+                                <a [routerLink]="['/widget', widget['id']]">
+                                    <h2 class="empty-widget-message" [ngStyle]="{top: getEmptyWidgetMessageHeight()}">
+                                        Click here to Edit the Widget</h2>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </tab>
+                <tab *ngIf="dataSource && !minimizedView" id="datasourceTab" heading="Datasource"
+                    [active]="datasourceTabActive" (select)="switchTab('datasource')">
+                    <div [id]="'viewport-container_' + widgetId" class="cell-content-wrapper panel panel-flat"
+                        style="border-top: none; border-top-left-radius: 0px; border-top-right-radius: 0px;"
+                        [ngClass]="{'no-border': minimizedView}">
+
+                        <!-- Datasource Viewport -->
+                        <data-source-info [dataSource]="dataSource" [height]="widgetHeight"
+                            (datasourceIndexingCall)="callDatasourceIndexing()"></data-source-info>
+
+                    </div>
+                </tab>
+            </tabset>
+
+            <div *ngIf="minimizedView" style="opacity: 0; height: 1px; font-size: 1px;">
+                <!--Used to update the view when only width changes-->
+                {{widgetColumnWidth}}
+            </div>
+        </div>
+    </div>
+</div>

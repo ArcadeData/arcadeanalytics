@@ -18,15 +18,16 @@
  * #L%
  */
 import {
-    Component, ChangeDetectorRef, NgZone
+    Component, OnDestroy, ChangeDetectorRef, NgZone
 } from '@angular/core';
 import { BsModalService } from 'ngx-bootstrap/modal';
+import { Observable } from 'rxjs';
 import { WidgetService } from '../../../widget.service';
 import { NotificationService, Base64Service, Principal, WidgetEventBusService } from '../../../../../shared';
 import { JhiEventManager } from 'ng-jhipster';
-import { AbstractPieChartWidgetComponent } from './abstract-pie-chart-widget.component';
+import { AbstractSecondaryPieChartWidgetComponent } from './abstract-secondary-pie-chart-widget.component';
 import { DataSourceService } from '../../../../data-source/data-source.service';
-import { IndependentWidget } from '../../independent-widget';
+import { SecondaryWidget } from '../../secondary-widget';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 
@@ -35,11 +36,11 @@ import { Router } from '@angular/router';
  * through queries, full text search, class scan loading.
  */
 @Component({
-    selector: 'independent-pie-chart-widget',
+    selector: 'elastic-secondary-pie-chart-widget',
     templateUrl: './elastic-pie-chart-widget.component.html',
     styleUrls: ['./elastic-pie-chart-widget.component.scss']
 })
-export class IndependentPieChartWidgetComponent extends AbstractPieChartWidgetComponent implements IndependentWidget {
+export class ElasticSecondaryPieChartWidgetComponent extends AbstractSecondaryPieChartWidgetComponent implements SecondaryWidget, OnDestroy {
 
     constructor(
         protected ngZone: NgZone,
@@ -66,44 +67,70 @@ export class IndependentPieChartWidgetComponent extends AbstractPieChartWidgetCo
         } else {
             this.adjustWidgetHeightToEmbeddingIframeHeight();
         }
+
+        if (this.minimizedView) {
+            this.requestDatasetPropagation();
+        }
+    }
+
+    ngOnDestroy() {
+        this.eventManager.destroy(this.dashboardPanelResizedSubscriber);
+        this.unsubscribeToEventBus();
     }
 
     handleSelectedPropertyModelChanging() {
         this.startSpinner();
         this.updateSettingsSliderUpperValue().subscribe((correctlyUpdated: boolean) => {
-                this.performFacetingForWholeDatasource();
+            this.performFacetingForCurrentDataset();
         });
     }
 
-    runSeriesComputation() {
-        this.performFacetingForWholeDatasource();
+    runSeriesComputation(saveAfterUpdate?: boolean) {
+        this.performFacetingForCurrentDataset(saveAfterUpdate);
+    }
+
+    // @Override
+    updatePieChartWidgetFromSnapshot(snapshot) {
+
+        super.updatePieChartWidgetFromSnapshot(snapshot);
+
+        if (snapshot['currentDataset']) {
+            this.currentDataset = snapshot['currentDataset'];
+        }
     }
 
     /**
       * Faceting
       */
 
-    performFacetingForWholeDatasource() {
+    /**
+     * It performs the facetig for current dataset by querying elastic search
+     * @param saveAfterUpdate
+     */
+    performFacetingForCurrentDataset(saveAfterUpdate?: boolean): void {
 
+        const currentDatasetIds: string[] = [];
+        this.currentDataset['elements'].forEach((element) => {
+            if (!element['data']['hidden']) {
+                currentDatasetIds.push(element['data']['id']);
+            }
+        });
         const classes: string[] = [this.selectedClass];
         const fields: string[]  = [this.selectedProperty];
-        this.startSpinner();
         if (this.dataSource && this.dataSource['indexing'] &&
             this.dataSource['indexing'].toString() === 'INDEXED') {
-            this.widgetService.fetchWholeFacetingForDatasource(this.widget['dataSourceId'], classes, fields, this.minDocCount, this.maxValuesPerField).subscribe((res: Object) => {
-                this.currentFaceting = res;
-                this.stopSpinner();
-                if (this.selectedClass && this.selectedProperty) {
-                    this.updatePieChartFromFaceting(res);
-                }
-            }, (err: HttpErrorResponse) => {
-                this.handleError(err.error, 'Distribution computation');
-            });
-        } else {
-            this.stopSpinner();
-            const message: string = 'No index is defined over the datasource the widget is connected with. Series cannot be computed.';
-            this.notificationService.push('warning', 'Series loading', message);
+            this.widgetService.fetchFacetsForDataset(this.widget['dataSourceId'], currentDatasetIds, classes, fields, undefined, undefined,
+                this.minDocCount, this.maxValuesPerField).subscribe((res: Object) => {
+                    this.currentFaceting = res;
+                    if (this.selectedClass && this.selectedProperty) {
+                        this.updatePieChartFromFaceting(res);
+                    }
+                    if (saveAfterUpdate) {
+                        this.saveAll(true);
+                    }
+                }, (err: HttpErrorResponse) => {
+                    this.handleError(err.error, 'Filter Menu updating');
+                });
         }
     }
-
 }

@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-import { Component, OnInit, OnDestroy, AfterViewInit, AfterViewChecked, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewInit, AfterViewChecked, Input, ViewChildren, QueryList } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription, Observable } from 'rxjs/Rx';
 import { JhiEventManager } from 'ng-jhipster';
@@ -32,9 +32,10 @@ import { DragulaService } from 'ng2-dragula';
 import * as $ from 'jquery';
 import { NotificationService } from '../../shared/services/notification.service';
 import { Principal } from '../../shared/auth/principal.service';
-import { Widget, MessageType, EmbedResourceModalComponent, ShareableResourceType } from '../widget';
+import { Widget, MessageType, EmbedResourceModalComponent, ShareableResourceType, WidgetType, QueryWidgetComponent } from '../widget';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
+import { forwardRef } from '@angular/core';
 
 declare var CKEDITOR: any;
 
@@ -69,6 +70,12 @@ export class DashboardDetailComponent implements OnInit, AfterViewInit, AfterVie
     widgetsLayoutsLoaded: boolean = false;
 
     alreadySavingDashboardMessage: boolean = false;
+
+    // query widgets options
+    queryWidgetId2executionOptions: Object;
+    @ViewChildren(forwardRef(() => QueryWidgetComponent))
+    queryWidgets: QueryList<QueryWidgetComponent>;
+    minimumTimeoutWindow: number;
 
     // styles and widgets sizing
     panelHeadingHeight: string = '40px';
@@ -132,6 +139,8 @@ export class DashboardDetailComponent implements OnInit, AfterViewInit, AfterVie
             },
             direction: 'vertical'
         });
+
+        this.minimumTimeoutWindow = this.principal['userIdentity']['contract']['pollingInterval'];
 
         this.dragendSubscription = this.dragulaService.dragend('bag-items').subscribe((element) => {
             this.saveDashboardWithCurrentLayout();
@@ -237,10 +246,19 @@ export class DashboardDetailComponent implements OnInit, AfterViewInit, AfterVie
             this.gridStepValue = Math.round((1 / 12) * this.widgetsContainerWidth);
 
             this.gridStep2size = {
+                '1': (this.gridStepValue) - this.doublePadding,
                 '2': (2 * this.gridStepValue) - this.doublePadding,
                 '3': (3 * this.gridStepValue) - this.doublePadding,
                 '4': (4 * this.gridStepValue) - this.doublePadding,
-                '5': (5 * this.gridStepValue) - this.doublePadding
+                '5': (5 * this.gridStepValue) - this.doublePadding,
+                '6': (6 * this.gridStepValue) - this.doublePadding,
+                '7': (7 * this.gridStepValue) - this.doublePadding,
+                '8': (8 * this.gridStepValue) - this.doublePadding,
+                '9': (9 * this.gridStepValue) - this.doublePadding,
+                '10': (10 * this.gridStepValue) - this.doublePadding,
+                '11': (11 * this.gridStepValue) - this.doublePadding,
+                '12': (12 * this.gridStepValue) - this.doublePadding
+
             };
             this.heightsForCloseness = [];
             for (const key of Object.keys(this.gridStep2size)) {
@@ -261,7 +279,7 @@ export class DashboardDetailComponent implements OnInit, AfterViewInit, AfterVie
     enableResizingForAllWidgets() {
         for (const widget of this.dashboard['widgets']) {
             const currentLayoutWidgetInfo = this.dashboard['layout']['widgetsLayoutInfo'].get(widget['id']);
-            this.widgetActivateResizing(currentLayoutWidgetInfo['widgetId'], currentLayoutWidgetInfo['width']);
+            this.widgetActivateResizing(currentLayoutWidgetInfo['widgetId'], (<Widget>widget).type, currentLayoutWidgetInfo['width']);
         }
     }
 
@@ -359,6 +377,11 @@ export class DashboardDetailComponent implements OnInit, AfterViewInit, AfterVie
                 // through the dashboard select in the top navbar
                 this.initWidgetsWithDeafultLayout();
             }
+            if (this.widgetsLayoutsLoaded) {
+                // case: we init the default layouts for all the widgets in a dashboard loaded
+                // through the dashboard select in the top navbar
+                this.initWidgetsWithDeafultLayout();
+            }
         } else {
             // adding widgets following the layout order
             this.dashboard['layout']['widgetsLayoutInfo'].forEach((value, widgetInfoKey) => {
@@ -381,6 +404,9 @@ export class DashboardDetailComponent implements OnInit, AfterViewInit, AfterVie
         for (const widget of this.dashboard['widgets']) {
             const height: string = this.defaultWidgetHeight + 'px';
             const layout = this.buildDeaultLayoutInfo(widget.id, height);
+            if (widget['type'] === WidgetType.QUERY) {
+                layout['width'] = 12;
+            }
             this.dashboard.addWidgetLayoutInfo(layout);
         }
         this.widgetsLayoutsLoaded = true;
@@ -405,16 +431,27 @@ export class DashboardDetailComponent implements OnInit, AfterViewInit, AfterVie
 
             if (response.eventOccurred === 'new-widget') {
                 const height: string = this.defaultWidgetHeight + 'px';
-                const defaultLayoutOptions = this.buildDeaultLayoutInfo(response.content.id, height);
                 const widget = response.content;
+                const defaultLayoutOptions = this.buildDeaultLayoutInfo(response.content.id, height);
+                if (widget['type'] === WidgetType.QUERY) {
+                    defaultLayoutOptions['width'] = 12;
+                }
                 this.dashboard.addWidget(widget);
                 if (!this.dashboard['layout']['widgetsLayoutInfo']) {
                     this.dashboard['layout']['widgetsLayoutInfo'] = new Map();
                 }
                 this.dashboard['layout']['widgetsLayoutInfo'].set(defaultLayoutOptions['widgetId'], defaultLayoutOptions);
                 setTimeout(() => {     // waiting for the panel is rendered
-                    this.widgetActivateResizing(defaultLayoutOptions['widgetId'], defaultLayoutOptions['width']);
+                    this.widgetActivateResizing(defaultLayoutOptions['widgetId'], widget.type, defaultLayoutOptions['width']);
                 }, 50);
+
+                // if the new widget is a query-widget we have to update the handle the external options (auto-update flag and auto-update interval)
+                if (widget.type === WidgetType.QUERY) {
+                    this.queryWidgetId2executionOptions[widget['id']] = {
+                        autoUpdate: false,
+                        autoUpdateIntervalWindow: this.principal['userIdentity']['contract']['pollingInterval']
+                    };
+                }
 
                 // if the dashboard is shared, the new widget will be shared too
                 if (this.dashboard['shared']) {
@@ -431,7 +468,7 @@ export class DashboardDetailComponent implements OnInit, AfterViewInit, AfterVie
                 this.dashboard.updateWidget(editedWidget);
                 setTimeout(() => {     // waiting for the panel is rendered
                     const widgetLayout = this.dashboard['layout']['widgetsLayoutInfo'].get(editedWidgetId);
-                    this.widgetActivateResizing(editedWidgetId, widgetLayout['width']);
+                    this.widgetActivateResizing(editedWidgetId, editedWidget.type, widgetLayout['width']);
                 }, 50);
             } else if (response.eventOccurred === 'widget-removed') {
                 const currentRemovingWidgetId: number = response.content;
@@ -523,7 +560,6 @@ export class DashboardDetailComponent implements OnInit, AfterViewInit, AfterVie
 
             if (saveAllowed) {
 
-                const infoNotification = this.notificationService.push('info', 'Save', 'Saving the Dashboard layout...', 3000, 'fa fa-spinner fa-spin');
                 const delay: number = 10;
 
                 setTimeout(() => {
@@ -545,11 +581,12 @@ export class DashboardDetailComponent implements OnInit, AfterViewInit, AfterVie
                     delete dashboardCopy['widgets'];
 
                     this.dashboardService.update(dashboardCopy).subscribe((res) => {
-                        const message: string = 'Dashboard correctly saved.';
-                        this.notificationService.updateNotification(infoNotification, 'success', 'Save', message, undefined, true);
+                        console.log('Dashboard correctly saved.');
                         this.alreadySavingDashboardMessage = false;
                     }, (err: HttpErrorResponse) => {
-                        this.notificationService.updateNotification(infoNotification, 'error', 'Save', 'Saving attempt failed.', undefined, true);
+                        const message = `Implicit dashboard saving failed. Current dashboard status will not be available at the next application loading.\n
+                        Try to check the server connection.`;
+                        this.notificationService.push('error', 'Dashboard Save', message, undefined, true);
                         console.log(err.message);
                         this.alreadySavingDashboardMessage = false;
                     });
@@ -585,15 +622,52 @@ export class DashboardDetailComponent implements OnInit, AfterViewInit, AfterVie
         });
     }
 
-    widgetActivateResizing(widgetId, originalColumnWidth) {
+    updateQueryWidget(queryWidgetId: number) {
+        (<QueryWidgetComponent>this.getQueryWidgetById(queryWidgetId)).performLastDataFetching();
+    }
+
+    updateQueryWidgetAutoUpdateFlag(queryWidgetId: number) {
+        const queryWidget = (<QueryWidgetComponent>this.getQueryWidgetById(queryWidgetId));
+        queryWidget.handleAutoUpdateFlagChange();
+        queryWidget.saveAll(true);
+    }
+
+    updateQueryWidgetAutoUpdateInterval(queryWidgetId: number, autoUpdateInterval: number) {
+        const queryWidget = (<QueryWidgetComponent>this.getQueryWidgetById(queryWidgetId));
+        queryWidget.handleAutoUpdateIntervalChange();
+        queryWidget.saveAll(true);
+    }
+
+    getQueryWidgetById(queryWidgetId: number) {
+        return this.queryWidgets.find((queryWidget) => queryWidget['widget']['id'] === queryWidgetId);
+    }
+
+    /**
+     * Activates the resizable function on all the widgets' panels.
+     * @param widgetId
+     * @param originalColumnWidth number of bootstrap columns, e.g. 1,2,3...6
+     */
+    widgetActivateResizing(widgetId: number, widgetType: WidgetType,originalColumnWidth: number) {
 
         const originalPxWidth = (<any>$('#panel_' + widgetId)).width();
 
+        let minimumWidth;
+        let minimumHeight;
+        if (widgetType === WidgetType.QUERY) {
+            // overriding minimum width grid step to 12 and minimun height to 1 for Query Widgets
+            minimumWidth = this.gridStep2size['12'] - 10;   // 10 is just a little threshold, as the minimum width is not included in the available range
+            minimumHeight = this.gridStep2size['1'];
+        } else {
+            minimumWidth = this.minimumWidth;
+            minimumHeight = this.minimumHeight;
+        }
+
         (<any>$('#panel_' + widgetId)).resizable({
+
             grid: this.gridStepValue,
-            minWidth: this.minimumWidth,
+            minWidth: minimumWidth,
             maxWidth: this.maximumWidth,
-            minHeight: this.minimumHeight,       // minimum height chosen according to the minimum width
+            minHeight: minimumHeight,
             maxHeight: this.maximumHeight,
             handleSelector: '.panel',
             resizeWidth: true,
@@ -611,6 +685,7 @@ export class DashboardDetailComponent implements OnInit, AfterViewInit, AfterVie
                 const newPxWidth = newUiWidth;
                 let newColumnWidth = (newPxWidth * originalColumnWidth) / originalPxWidth;  // originalPxWidth/originalColumnWidth = newPxWidth/newColumnWidth
                 newColumnWidth = Math.round(newColumnWidth);
+
                 this.dashboard['layout']['widgetsLayoutInfo'].get(widgetId)['width'] = newColumnWidth;
 
                 // height resizing

@@ -1,0 +1,254 @@
+<div class="parameterPanelContainer">
+    <div *ngIf="!readMode">
+        <div class="panel panel-default" [id]="'panel_' + name" style="margin-bottom: 0px;">
+            <div class="panel-heading" [ngStyle]="{height: panelHeadingHeight, padding: '5px'}">
+                <div class="ellipsis" [ngClass]="{'col-md-6': !readMode,'col-md-12': readMode}" [tooltip]="parameterDef['label']" container="body">
+                    <i *ngIf="!readMode" class="fa fa-pencil"
+                        (click)="labelEditingPopIsOpen = !labelEditingPopIsOpen"></i>
+                    <h5 class="panel-title parameterLabel" [popover]="labelEditingPopTemplate" container="body"
+                        triggers="" [isOpen]="labelEditingPopIsOpen" #pop="bs-popover">
+                        {{parameterDef['label']}}
+                    </h5>
+                    <ng-template #labelEditingPopTemplate>
+                        <div class="col-md-12 no-padding" style="margin-bottom: 10px;">
+                            <label>New Parameter Label</label><br />
+                            <input type="text" class="form-control" [(ngModel)]="tmpLabel"
+                                style="width: 145px; height: 30px; margin-bottom: 15px;" />
+                            <button *ngIf="tmpLabel.length > 0" type="button" class="btn btn-primary btn-xs"
+                                (click)="updateParamLabel()">
+                                <span>Update</span>
+                            </button>
+                            <button *ngIf="tmpLabel.length === 0" type="button" class="btn btn-primary btn-xs" disabled>
+                                <span>Update</span>
+                            </button>&nbsp;&nbsp;
+                            <button type="button" class="btn btn-default" (click)="labelEditingPopIsOpen = false">
+                                <span>Close</span>
+                            </button>
+                        </div>
+                    </ng-template>
+                </div>
+                <div *ngIf="!readMode" class="col-md-6" style="padding: 5px 0px 0px 0px;">
+                    <div class="col-md-3">
+                        <label>
+                            Type
+                        </label>
+                    </div>
+                    <div class="col-md-9">
+                        <select class="form-control header-param-form" id="parameterType" name="parameterType"
+                            [(ngModel)]="parameterDef['type']" (ngModelChange)="onParamTypeupdate()">
+                            <option value="free-text">Free Text</option>
+                            <option value="single">Single Value</option>
+                            <option value="multi">Multiple Values</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div [id]="'collapsable_' + name" class="panel-collapse collapse"
+                [ngClass]="{'show in': !parameterPanelCollapsed, 'out': parameterPanelCollapsed}">
+                <div class="panel-body">
+
+                    <!-- Fixed Parameter Body -->
+                    <div *ngIf="parameterDef['type'] === 'free-text'">
+                        <div class="value-row">
+                            <div class="col-md-12 param-body-row">
+                                <div class="col-md-2">
+                                    <span *ngIf="!readMode">Default value</span>
+                                    <span *ngIf="readMode">Value</span>
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" id="fixedTextValue" name="fixedTextValue"
+                                        placeholder="Type here the desired value" [(ngModel)]="parameterDef['value']"
+                                        maxlength=20 />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Single and Multi Parameter Body -->
+                    <div *ngIf="parameterDef['type'] === 'single' || parameterDef['type'] === 'multi'">
+                        <div *ngIf="!readMode" class="domain-row">
+                            <div class="col-md-12 param-body-row">
+                                <div class="col-md-4">
+                                    <span>Domain definition</span>
+                                </div>
+                                <div class="col-md-4">
+                                    <select class="form-control param-form" id="domainDefTypeSelection"
+                                        name="domainDefTypeSelection"
+                                        [(ngModel)]="parameterDef['domain']['definitionType']"
+                                        (ngModelChange)="clearDomainAndValues()">
+                                        <option value="static">Static</option>
+                                        <option value="dynamic-faceting">Dynamic (faceting)</option>
+                                        <option value="dynamic-query">Dynamic (query)</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div *ngIf="parameterDef['domain']['definitionType'] === 'static'"
+                                class="col-md-12 param-body-row">
+                                <div class="col-md-4">
+                                    <span>Static Set</span>
+                                </div>
+                                <div class="col-md-8">
+                                    <textarea class="form-control domain-textarea" id="domain" name="domain"
+                                        [(ngModel)]="staticDomainDefinition" (ngModelChange)="updateParamDomain()"
+                                        rows="2" maxlength=500 placeholder="Type here the desired domain"
+                                        style="width: 100%;"></textarea>
+                                </div>
+                            </div>
+                            <div *ngIf="parameterDef['domain']['definitionType'] === 'dynamic-faceting'"
+                                class="col-md-12 param-body-row">
+                                <div class="col-md-5">
+                                    <div class="col-md-3 no-padding">
+                                        <span>Class</span>
+                                    </div>
+                                    <div *ngIf="dataSourceMetadata" class="col-md-9 no-padding">
+                                        <select class="form-control param-form" id="facetingClassSelection"
+                                            name="facetingClassSelection" [(ngModel)]="parameterDef['domain']['class']"
+                                            (ngModelChange)="updateSelectedClassProperties()">
+                                            <option
+                                                *ngFor="let className of (dataSourceMetadata['nodesClasses'] | objectKeys)"
+                                                [ngValue]="className"> {{className}} </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-7">
+                                    <div class="col-md-3 no-padding">
+                                        <span>Property</span>
+                                    </div>
+                                    <div class="col-md-9 no-padding">
+                                        <select class="form-control param-form" id="facetingPropertySelection"
+                                            name="facetingPropertySelection"
+                                            [(ngModel)]="parameterDef['domain']['property']"
+                                            (ngModelChange)="updateParamDomain()">
+                                            <option *ngFor="let propertyName of selectedClassProperties"
+                                                [ngValue]="propertyName">
+                                                {{propertyName}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div *ngIf="parameterDef['domain']['definitionType'] === 'dynamic-query'"
+                                class="col-md-12 param-body-row">
+                                <div class="col-md-2">
+                                    <span>Query</span><br />
+                                    <button type="button" class="btn btn-primary btn-xs" (click)="updateParamDomain()"
+                                        style="margin-top: 15px;">Run</button>
+                                </div>
+                                <div class="col-md-10">
+                                    <textarea class="form-control query-textarea" id="queryValue" name="queryValue"
+                                        [(ngModel)]="parameterDef['domain']['query']" rows="2" maxlength=500
+                                        placeholder="Type here the desired query" style="width: 100%;"></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="value-row">
+
+                            <div *ngIf="parameterDef['domain']['set'].length > 0 && parameterDef['type'] === 'single'"
+                                class="col-md-12 param-body-row">
+                                <div class="col-md-2">
+                                    <span *ngIf="!readMode">Default value</span>
+                                    <span *ngIf="readMode">Value</span>
+                                </div>
+                                <div class="col-md-10">
+                                    <ng-select *ngIf="parameterDef['domain']['set']" class="param-form"
+                                        [id]="'selected_values_' + name" class="valuesSelect" [multiple]="false"
+                                        [items]="parameterDef['domain']['set']" [active]="activeValues"
+                                        (selected)="updateParameterMultipleValue()"
+                                        (removed)="updateParameterMultipleValue()" placeholder="No values selected">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <div *ngIf="parameterDef['domain']['set'].length > 0 && parameterDef['type'] === 'multi'"
+                                class="col-md-12 param-body-row">
+                                <div class="col-md-2">
+                                    <span *ngIf="!readMode">Default value</span>
+                                    <span *ngIf="readMode">Value</span>
+                                </div>
+                                <div class="col-md-10">
+                                    <ng-select *ngIf="parameterDef['domain']['set']" class="param-form"
+                                        [id]="'selected_values_' + name" class="valuesSelect" [multiple]="true"
+                                        [items]="parameterDef['domain']['set']" [active]="activeValues"
+                                        (selected)="updateParameterMultipleValue()"
+                                        (removed)="updateParameterMultipleValue()" placeholder="No values selected">
+                                    </ng-select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div *ngIf="!parameterDef['type']" class="col-md-12">
+                        Choose a type for the parameter.
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="readMode">
+
+            <div class="panel panel-default" [id]="'panel_' + name">
+                <div class="panel-body">
+                    <!-- Fixed Parameter Body -->
+                    <div *ngIf="parameterDef['type'] === 'free-text'">
+                        <div class="value-row">
+                            <div class="col-md-12 param-body-row">
+                                <div class="col-md-3 ellipsis no-padding text-center" [tooltip]="parameterDef['label']" container="body">
+                                    <span>{{parameterDef['label']}}</span>
+                                </div>
+                                <div class="col-md-9">
+                                    <input type="text" class="form-control" id="fixedTextValue" name="fixedTextValue"
+                                        placeholder="Type here the desired value" [(ngModel)]="parameterDef['value']" maxlength=20 />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            
+                    <!-- Single and Multi Parameter Body -->
+                    <div *ngIf="parameterDef['type'] === 'single' || parameterDef['type'] === 'multi'">
+            
+                        <div class="value-row">
+            
+                            <div *ngIf="parameterDef['domain']['set'].length > 0 && parameterDef['type'] === 'single'"
+                                class="col-md-12 param-body-row">
+                                <div class="col-md-3 ellipsis no-padding text-center" [tooltip]="parameterDef['label']" container="body">
+                                    <span>{{parameterDef['label']}}</span>
+                                </div>
+                                <div class="col-md-9">
+                                    <ng-select *ngIf="parameterDef['domain']['set']" class="param-form"
+                                        [id]="'selected_values_' + name" class="valuesSelect" [multiple]="false"
+                                        [items]="parameterDef['domain']['set']" [active]="activeValues"
+                                        (selected)="updateParameterMultipleValue()" (removed)="updateParameterMultipleValue()"
+                                        placeholder="No values selected">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <div *ngIf="parameterDef['domain']['set'].length > 0 && parameterDef['type'] === 'multi'"
+                                class="col-md-12 param-body-row">
+                                <div class="col-md-3 ellipsis no-padding text-center" [tooltip]="parameterDef['label']" container="body">
+                                    <span>{{parameterDef['label']}}</span>
+                                </div>
+                                <div class="col-md-9">
+                                    <ng-select *ngIf="parameterDef['domain']['set']" class="param-form"
+                                        [id]="'selected_values_' + name" class="valuesSelect" [multiple]="true"
+                                        [items]="parameterDef['domain']['set']" [active]="activeValues"
+                                        (selected)="updateParameterMultipleValue()" (removed)="updateParameterMultipleValue()"
+                                        placeholder="No values selected">
+                                    </ng-select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            
+                    <div *ngIf="!parameterDef['type']" class="col-md-12">
+                        Choose a type for the parameter.
+                    </div>
+                </div>
+                <div class="clearfix">
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

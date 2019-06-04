@@ -41,7 +41,7 @@ export class WidgetEmbedComponent implements OnInit, OnDestroy {
     modalRef: BsModalRef;
 
     constructor(private router: Router,
-        private route: ActivatedRoute) {}
+        private route: ActivatedRoute) { }
 
     ngOnInit() {
         // get the widgetId from the route
@@ -60,26 +60,35 @@ export class WidgetEmbedComponent implements OnInit, OnDestroy {
         let widgetType;
         switch (type) {
             case 'graph':
-            widgetType = WidgetType.GRAPH;
-            break;
+                widgetType = WidgetType.GRAPH;
+                break;
+            case 'query':
+                widgetType = WidgetType.QUERY;
+                break;
             case 'text-editor':
-            widgetType = WidgetType.TEXTEDITOR;
-            break;
+                widgetType = WidgetType.TEXTEDITOR;
+                break;
             case 'table':
-            widgetType = WidgetType.TABLE;
-            break;
+                widgetType = WidgetType.TABLE;
+                break;
             case 'independent-pie-chart':
-            widgetType = WidgetType.INDEPENDENT_PIE_CHART;
-            break;
+                widgetType = WidgetType.INDEPENDENT_PIE_CHART;
+                break;
             case 'independent-bar-chart':
-            widgetType = WidgetType.INDEPENDENT_BAR_CHART;
-            break;
+                widgetType = WidgetType.INDEPENDENT_BAR_CHART;
+                break;
             case 'secondary-pie-chart':
-            widgetType = WidgetType.SECONDARY_PIE_CHART;
-            break;
+                widgetType = WidgetType.SECONDARY_PIE_CHART;
+                break;
             case 'secondary-bar-chart':
-            widgetType = WidgetType.SECONDARY_BAR_CHART;
-            break;
+                widgetType = WidgetType.SECONDARY_BAR_CHART;
+                break;
+            case 'secondary-query-pie-chart':
+                widgetType = WidgetType.SECONDARY_QUERY_PIE_CHART;
+                break;
+            case 'secondary--query-bar-chart':
+                widgetType = WidgetType.SECONDARY_QUERY_BAR_CHART;
+                break;
         }
         this.widget['type'] = widgetType;
         this.widget['hasSnapshot'] = true;

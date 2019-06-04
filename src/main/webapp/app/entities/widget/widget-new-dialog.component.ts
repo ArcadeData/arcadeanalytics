@@ -30,8 +30,8 @@ import { WidgetService } from './widget.service';
 import { DataSet } from '../data-set';
 import { Dashboard, DashboardService } from '../dashboard';
 import { DataSource, DataSourceService } from '../data-source';
-import { ResponseWrapper, WidgetEventBusService } from '../../shared';
-import {NotificationService} from '../../shared/services/notification.service';
+import { WidgetEventBusService, Principal } from '../../shared';
+import { NotificationService } from '../../shared/services/notification.service';
 import { NewWidgetConnectionMessage, NewWidgetConnectionMessageContent, MessageType } from '.';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 
@@ -60,9 +60,9 @@ export class WidgetNewDialogComponent implements OnInit {
     sourceType: SourceType = SourceType.DATASOURCE;
     widgetTypeUserChoices: string[];
     userChosenWidgetType: string = 'graph';
-    widgetTypes: Object[];
 
     constructor(
+        private principal: Principal,
         public bsModalRef: BsModalRef,
         private widgetService: WidgetService,
         private notificationService: NotificationService,
@@ -70,24 +70,7 @@ export class WidgetNewDialogComponent implements OnInit {
         private dashboardService: DashboardService,
         private eventManager: JhiEventManager,
         protected widgetEventBusService: WidgetEventBusService
-    ) {
-        this.widgetTypeUserChoices = [
-            'graph',
-            'text editor',
-            'table',
-            'pie chart',
-            'bar chart'
-        ];
-        this.widgetTypes = [
-            WidgetType.GRAPH,
-            WidgetType.TEXTEDITOR,
-            WidgetType.TABLE,
-            WidgetType.INDEPENDENT_PIE_CHART,
-            WidgetType.SECONDARY_PIE_CHART,
-            WidgetType.INDEPENDENT_BAR_CHART,
-            WidgetType.SECONDARY_BAR_CHART
-        ];
-    }
+    ) {}
 
     ngOnInit() {
         this.isSaving = false;
@@ -100,6 +83,18 @@ export class WidgetNewDialogComponent implements OnInit {
             .subscribe((res: HttpResponse<Dashboard[]>) => { this.dashboards = res.body; }, (res: HttpErrorResponse) => this.onError(res.error));
 
         this.initAvailablePrimaryWidgets();
+        this.initChoosableWidgetAccordingToUserIdentities();
+    }
+
+    initChoosableWidgetAccordingToUserIdentities() {
+        this.widgetTypeUserChoices = [
+            'graph',
+            'query',
+            'text editor',
+            'table',
+            'pie chart',
+            'bar chart'
+        ];
     }
 
     initAvailablePrimaryWidgets() {
@@ -112,7 +107,7 @@ export class WidgetNewDialogComponent implements OnInit {
             this.widgetService.getWidgetsByDashboardId(this.currentDashboardId, request).subscribe((res: HttpResponse<Widget[]>) => {
                 this.availablePrimaryWidgets = res.body;
                 this.availablePrimaryWidgets = this.availablePrimaryWidgets.filter((widget: Widget) => {
-                    if (widget.type === WidgetType.GRAPH || widget.type === WidgetType.TABLE) {
+                    if (widget.type === WidgetType.GRAPH || widget.type === WidgetType.TABLE  || widget.type === WidgetType.QUERY) {
                         return true;
                     }
                     return false;
@@ -167,6 +162,9 @@ export class WidgetNewDialogComponent implements OnInit {
             case 'graph':
                 this.widget.type = WidgetType.GRAPH;
                 break;
+            case 'query':
+                this.widget.type = WidgetType.QUERY;
+                break;
             case 'text editor':
                 this.widget.type = WidgetType.TEXTEDITOR;
                 break;
@@ -177,7 +175,11 @@ export class WidgetNewDialogComponent implements OnInit {
                 if (this.sourceType === SourceType.DATASOURCE) {
                     this.widget.type = WidgetType.INDEPENDENT_PIE_CHART;
                 } else {
-                    this.widget.type = WidgetType.SECONDARY_PIE_CHART;
+                    if (this.chosenPrimaryWidget.type === WidgetType.QUERY) {
+                        this.widget.type = WidgetType.SECONDARY_QUERY_PIE_CHART;
+                    } else {
+                        this.widget.type = WidgetType.SECONDARY_PIE_CHART;
+                    }
                     this.widget.primaryWidgetId = this.chosenPrimaryWidget.id;
                     this.widget.dataSourceId = this.chosenPrimaryWidget.dataSourceId;
                 }
@@ -186,7 +188,11 @@ export class WidgetNewDialogComponent implements OnInit {
                 if (this.sourceType === SourceType.DATASOURCE) {
                     this.widget.type = WidgetType.INDEPENDENT_BAR_CHART;
                 } else {
-                    this.widget.type = WidgetType.SECONDARY_BAR_CHART;
+                    if (this.chosenPrimaryWidget.type === WidgetType.QUERY) {
+                        this.widget.type = WidgetType.SECONDARY_QUERY_BAR_CHART;
+                    } else {
+                        this.widget.type = WidgetType.SECONDARY_BAR_CHART;
+                    }
                     this.widget.primaryWidgetId = this.chosenPrimaryWidget.id;
                     this.widget.dataSourceId = this.chosenPrimaryWidget.dataSourceId;
                 }

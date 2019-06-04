@@ -18,15 +18,15 @@
  * #L%
  */
 import {
-    Component, ChangeDetectorRef, NgZone
+    Component, OnDestroy, ChangeDetectorRef, NgZone
 } from '@angular/core';
-import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import { BsModalService } from 'ngx-bootstrap/modal';
 import { WidgetService } from '../../../widget.service';
 import { NotificationService, Base64Service, Principal, WidgetEventBusService } from '../../../../../shared';
 import { JhiEventManager } from 'ng-jhipster';
-import { AbstractBarChartWidgetComponent } from './abstract-bar-char-widget.component';
+import { AbstractSecondaryBarChartWidgetComponent } from './abstract-secondary-bar-chart-widget.component';
 import { DataSourceService } from '../../../../data-source/data-source.service';
-import { IndependentWidget } from '../../independent-widget';
+import { SecondaryWidget } from '../../secondary-widget';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 
@@ -35,11 +35,11 @@ import { Router } from '@angular/router';
  * through queries, full text search, class scan loading.
  */
 @Component({
-    selector: 'independent-bar-chart-widget',
+    selector: 'elastic-secondary-bar-chart-widget',
     templateUrl: './elastic-bar-chart-widget.component.html',
     styleUrls: ['./elastic-bar-chart-widget.component.scss']
 })
-export class IndependentBarChartWidgetComponent extends AbstractBarChartWidgetComponent implements IndependentWidget {
+export class ElasticSecondaryBarChartWidgetComponent extends AbstractSecondaryBarChartWidgetComponent implements SecondaryWidget, OnDestroy {
 
     constructor(
         protected ngZone: NgZone,
@@ -66,33 +66,41 @@ export class IndependentBarChartWidgetComponent extends AbstractBarChartWidgetCo
         } else {
             this.adjustWidgetHeightToEmbeddingIframeHeight();
         }
+
+        if (this.minimizedView) {
+            this.requestDatasetPropagation();
+        }
+    }
+
+    ngOnDestroy() {
+        this.eventManager.destroy(this.dashboardPanelResizedSubscriber);
+        this.unsubscribeToEventBus();
     }
 
     handleSelectedPropertyModelChanging() {
         this.startSpinner();
         this.multiSeriesMode = false;
         this.updateSettingsSliderUpperValue().subscribe((correctlyUpdated: boolean) => {
-            this.performFacetingForWholeDatasource('single');
+            this.performFacetingForCurrentDataset();
         });
     }
 
     runSeriesComputation(saveAfterUpdate?: boolean, mode?: string) {
+        if (mode === 'single') {
+            this.multiSeriesMode = false;
+        } else if (mode === 'multi') {
+            this.multiSeriesMode = true;
+        }
+        this.performFacetingForCurrentDataset(saveAfterUpdate);
+    }
 
-        if (mode) {
-            if (mode === 'single') {
-                this.multiSeriesMode = false;
-            } else if (mode === 'multi') {
-                this.multiSeriesMode = true;
-            }
-            // executing computation according to the requested mode
-            this.performFacetingForWholeDatasource(mode);
-        } else {
-            // updating according to the last used mode
-            if (this.multiSeriesMode) {
-                this.performFacetingForWholeDatasource('multi');
-            } else {
-                this.performFacetingForWholeDatasource('single');
-            }
+    // @Override
+    updateBarChartWidgetFromSnapshot(snapshot) {
+
+        super.updateBarChartWidgetFromSnapshot(snapshot);
+
+        if (snapshot['currentDataset']) {
+            this.currentDataset = snapshot['currentDataset'];
         }
     }
 
@@ -100,14 +108,21 @@ export class IndependentBarChartWidgetComponent extends AbstractBarChartWidgetCo
       * Faceting
       */
 
-    performFacetingForWholeDatasource(mode: string) {
+    performFacetingForCurrentDataset(saveAfterUpdate?: boolean): void {
+
+        const currentDatasetIds: string[] = [];
+        this.currentDataset['elements'].forEach((element) => {
+            if (!element['data']['hidden']) {
+                currentDatasetIds.push(element['data']['id']);
+            }
+        });
 
         const classes: string[] = [];
         const fields: string[] = [];
-        if (mode === 'single') {
+        if (!this.multiSeriesMode) {
             classes.push(this.selectedClass);
             fields.push(this.selectedProperty);
-        } else if (mode === 'multi') {
+        } else {
             for (const currSeriesName of Object.keys(this.multiSeriesName2info)) {
                 const currClassMultiSeriesOption = this.multiSeriesName2info[currSeriesName];
                 const currClassName = currClassMultiSeriesOption['className'];
@@ -121,12 +136,11 @@ export class IndependentBarChartWidgetComponent extends AbstractBarChartWidgetCo
             }
         }
 
-        this.startSpinner();
         if (this.dataSource && this.dataSource['indexing'] &&
             this.dataSource['indexing'].toString() === 'INDEXED') {
-            this.widgetService.fetchWholeFacetingForDatasource(this.widget['dataSourceId'], classes, fields, this.minDocCount, this.maxValuesPerField).subscribe((res: Object) => {
+            this.widgetService.fetchFacetsForDataset(this.widget['dataSourceId'], currentDatasetIds, classes, fields, undefined, undefined,
+            this.minDocCount, this.maxValuesPerField).subscribe((res: Object) => {
                 this.currentFaceting = res;
-                this.stopSpinner();
                 if (!this.multiSeriesMode) {
                     if (this.selectedClass && this.selectedProperty) {
                         this.updateBarChartFromFaceting(res);
@@ -134,14 +148,12 @@ export class IndependentBarChartWidgetComponent extends AbstractBarChartWidgetCo
                 } else {
                     this.updateBarChartFromFaceting(res);
                 }
+                if (saveAfterUpdate) {
+                    this.saveAll(true);
+                }
             }, (err: HttpErrorResponse) => {
-                this.handleError(err.error, 'Distribution computation');
+                this.handleError(err.error, 'Filter Menu updating');
             });
-        } else {
-            this.stopSpinner();
-            const message: string = 'No index is defined over the datasource the widget is connected with. Series cannot be computed.';
-            this.notificationService.push('warning', 'Series loading', message);
         }
     }
-
 }

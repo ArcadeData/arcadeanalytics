@@ -21,12 +21,15 @@ import { BaseEntity } from './../../shared';
 
 export const enum WidgetType {
     GRAPH = 'graph',
+    QUERY = 'query',
     TEXTEDITOR = 'text-editor',
     TABLE = 'table',
     INDEPENDENT_PIE_CHART = 'independent-pie-chart',
     INDEPENDENT_BAR_CHART = 'independent-bar-chart',
     SECONDARY_PIE_CHART = 'secondary-pie-chart',
-    SECONDARY_BAR_CHART = 'secondary-bar-chart'
+    SECONDARY_BAR_CHART = 'secondary-bar-chart',
+    SECONDARY_QUERY_PIE_CHART = 'secondary-query-pie-chart',
+    SECONDARY_QUERY_BAR_CHART = 'secondary-query-bar-chart'
 }
 
 export class Widget implements BaseEntity {

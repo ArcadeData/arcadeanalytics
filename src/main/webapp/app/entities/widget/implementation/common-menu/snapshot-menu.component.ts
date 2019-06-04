@@ -30,6 +30,7 @@ export class SnapshotMenuComponent implements OnInit, OnDestroy, OnChanges, Afte
 
     @Input() widgetId: number;
     @Output() snapshotLoaded: EventEmitter<Object> = new EventEmitter();
+    @Output() noSnapshotAvailable: EventEmitter<Object> = new EventEmitter();
     snapshotNames: string[];
     loadedSnapshot: Object;
 
@@ -38,11 +39,11 @@ export class SnapshotMenuComponent implements OnInit, OnDestroy, OnChanges, Afte
         this.snapshotNames = [];
     }
 
-    ngOnInit() {}
+    ngOnInit() { }
 
-    ngOnDestroy() {}
+    ngOnDestroy() { }
 
-    ngAfterViewInit() {}
+    ngAfterViewInit() { }
 
     ngOnChanges(changes: SimpleChanges): void {
         if (changes.widgetId) {
@@ -53,18 +54,35 @@ export class SnapshotMenuComponent implements OnInit, OnDestroy, OnChanges, Afte
     loadSnapshotsNames() {
         this.widgetService.loadSnapshotsNames(this.widgetId).subscribe((res: string[]) => {
             this.snapshotNames = res;
+            if (this.snapshotNames.length === 0) {
+                this.noSnapshotAvailable.emit();
+            }
         });
     }
 
-    loadSnapshotByName(snaphotName: string) {
+    loadSnapshotByName(snapshotName: string) {
         const request = {
-            fileName: snaphotName
+            fileName: snapshotName
         };
         this.widgetService.loadSnapshot(this.widgetId, request).subscribe((snapshot: Object) => {
             this.loadedSnapshot = snapshot;
             this.snapshotLoaded.emit(this.loadedSnapshot);
-        this.loadedSnapshot = undefined;
+            this.loadedSnapshot = undefined;
         });
+    }
+
+    deleteSnapshotByName(snapshotName: string) {
+        const request = {
+            fileName: snapshotName
+        };
+        this.widgetService.deleteSnapshot(this.widgetId, request).subscribe((snapshotCorrectlyDeleted: boolean) => {
+            if (snapshotCorrectlyDeleted) {
+                this.notificationService.push('success', 'Snapshot delete', 'Snapshot correctly deleted.');
+            }
+        });
+
+        // reload menu items
+        this.loadSnapshotsNames();
     }
 
 }

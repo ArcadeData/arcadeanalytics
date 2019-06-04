@@ -17,6 +17,7 @@
  * limitations under the License.
  * #L%
  */
+export * from './query-widget/';
 export * from './graph-widget/';
 export * from './table-widget/';
 export * from './bar-chart-widget/';
