@@ -154,8 +154,8 @@
                                     <ng-select *ngIf="parameterDef['domain']['set']" class="param-form"
                                         [id]="'selected_values_' + name" class="valuesSelect" [multiple]="false"
                                         [items]="parameterDef['domain']['set']" [active]="activeValues"
-                                        (selected)="updateParameterMultipleValue()"
-                                        (removed)="updateParameterMultipleValue()" placeholder="No values selected">
+                                        (selected)="updateSelectParamValue()"
+                                        (removed)="updateSelectParamValue()" placeholder="No values selected">
                                     </ng-select>
                                 </div>
                             </div>
@@ -169,8 +169,8 @@
                                     <ng-select *ngIf="parameterDef['domain']['set']" class="param-form"
                                         [id]="'selected_values_' + name" class="valuesSelect" [multiple]="true"
                                         [items]="parameterDef['domain']['set']" [active]="activeValues"
-                                        (selected)="updateParameterMultipleValue()"
-                                        (removed)="updateParameterMultipleValue()" placeholder="No values selected">
+                                        (selected)="updateSelectParamValue()"
+                                        (removed)="updateSelectParamValue()" placeholder="No values selected">
                                     </ng-select>
                                 </div>
                             </div>
@@ -199,7 +199,7 @@
                                 </div>
                                 <div class="col-md-9">
                                     <input type="text" class="form-control" id="fixedTextValue" name="fixedTextValue"
-                                        placeholder="Type here the desired value" [(ngModel)]="parameterDef['value']" maxlength=20 />
+                                        placeholder="Type here the desired value" [(ngModel)]="parameterDef['value']" (ngModelChange)="handleFixedParamValueChanging()" maxlength=20 />
                                 </div>
                             </div>
                         </div>
@@ -219,7 +219,7 @@
                                     <ng-select *ngIf="parameterDef['domain']['set']" class="param-form"
                                         [id]="'selected_values_' + name" class="valuesSelect" [multiple]="false"
                                         [items]="parameterDef['domain']['set']" [active]="activeValues"
-                                        (selected)="updateParameterMultipleValue()" (removed)="updateParameterMultipleValue()"
+                                        (selected)="updateSelectParamValue()" (removed)="updateSelectParamValue()"
                                         placeholder="No values selected">
                                     </ng-select>
                                 </div>
@@ -233,7 +233,7 @@
                                     <ng-select *ngIf="parameterDef['domain']['set']" class="param-form"
                                         [id]="'selected_values_' + name" class="valuesSelect" [multiple]="true"
                                         [items]="parameterDef['domain']['set']" [active]="activeValues"
-                                        (selected)="updateParameterMultipleValue()" (removed)="updateParameterMultipleValue()"
+                                        (selected)="updateSelectParamValue()" (removed)="updateSelectParamValue()"
                                         placeholder="No values selected">
                                     </ng-select>
                                 </div>

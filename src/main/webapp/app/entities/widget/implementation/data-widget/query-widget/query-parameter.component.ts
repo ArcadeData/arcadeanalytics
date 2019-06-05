@@ -377,11 +377,21 @@ export class QueryParameterComponent implements OnInit, OnDestroy, AfterViewInit
         return classProperties;
     }
 
-    updateParameterMultipleValue() {
+    updateSelectParamValue() {
         const currSelectedValues = this.valueSelectComponent.active.map((selectItem) => {
             return selectItem['text'];
         });
         this.parameterDef['value'] = JSON.stringify(currSelectedValues);
+
+        if (this.readMode) {
+            this.parameterCompliantChange.emit();
+        }
+    }
+
+    handleFixedParamValueChanging() {
+        if (this.readMode) {
+            this.parameterCompliantChange.emit();
+        }
     }
 
     /**

@@ -311,6 +311,15 @@ export class QueryWidgetComponent extends DataWidgetComponent implements Primary
     }
 
     /**
+     * It catches changings of the contained parameters and saves the current widget status if in minimized view.
+     */
+    handleParameterCompliantChange() {
+        if (this.minimizedView) {
+            this.saveAll(true);
+        }
+    }
+
+    /**
      * Perspective
      */
 
@@ -524,6 +533,12 @@ export class QueryWidgetComponent extends DataWidgetComponent implements Primary
             // propagating the new current dataset if requested
             if (propagateNewDataset && this.minimizedView) {
                 this.propagateDatasetMulticastChange();
+            }
+
+            // saving the widget if in minimized view in order to keep the last retrieved dataset
+            // propagated to the potential secondary widgets and avoid inconsistency
+            if (this.minimizedView) {
+                this.saveAll(true);
             }
 
         }, (error: HttpErrorResponse) => {
