@@ -72,7 +72,6 @@ export class DashboardDetailComponent implements OnInit, AfterViewInit, AfterVie
     alreadySavingDashboardMessage: boolean = false;
 
     // query widgets options
-    queryWidgetId2executionOptions: Object;
     @ViewChildren(forwardRef(() => QueryWidgetComponent))
     queryWidgets: QueryList<QueryWidgetComponent>;
     minimumTimeoutWindow: number;
@@ -444,14 +443,6 @@ export class DashboardDetailComponent implements OnInit, AfterViewInit, AfterVie
                 setTimeout(() => {     // waiting for the panel is rendered
                     this.widgetActivateResizing(defaultLayoutOptions['widgetId'], widget.type, defaultLayoutOptions['width']);
                 }, 50);
-
-                // if the new widget is a query-widget we have to update the handle the external options (auto-update flag and auto-update interval)
-                if (widget.type === WidgetType.QUERY) {
-                    this.queryWidgetId2executionOptions[widget['id']] = {
-                        autoUpdate: false,
-                        autoUpdateIntervalWindow: this.principal['userIdentity']['contract']['pollingInterval']
-                    };
-                }
 
                 // if the dashboard is shared, the new widget will be shared too
                 if (this.dashboard['shared']) {
