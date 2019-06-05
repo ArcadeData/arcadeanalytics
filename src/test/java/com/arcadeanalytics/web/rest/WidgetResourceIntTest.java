@@ -488,7 +488,8 @@ public class WidgetResourceIntTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(content().string("true"));
-        ;
+
+        assertThat(widgetRepository.findOne(widget.getId()).isHasSnapshot()).isFalse();
 
 
     }

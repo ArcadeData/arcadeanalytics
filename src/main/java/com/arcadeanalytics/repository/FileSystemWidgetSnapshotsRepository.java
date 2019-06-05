@@ -71,6 +71,22 @@ public class FileSystemWidgetSnapshotsRepository {
 
     }
 
+    public boolean hasSnapshot(Widget widget) {
+
+        final Long id = widget.getId();
+
+        try {
+            final long snapshots = Files.find(widgets.resolve(id.toString()), 1, (path, attrs) -> attrs.isRegularFile())
+                    .count();
+            return snapshots > 0;
+        } catch (IOException e) {
+            log.error("unable to get snapshot for widget {} due to {} ", widget.getId(), e.getMessage());
+            return false;
+        }
+
+    }
+
+
     public Optional<String> loadLatestSnapshot(Widget widget) {
 
         final Long id = widget.getId();

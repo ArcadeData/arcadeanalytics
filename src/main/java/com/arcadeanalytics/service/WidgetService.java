@@ -409,8 +409,14 @@ public class WidgetService {
     public boolean deleteSnapshot(Long id, String fileName) {
 
         return getWidgetIfAllowed(id)
-                .map(widget -> widgetSnapshotsRepository
-                        .deleteSnapshot(widget, SNAPSHOT_PREFIX + fileName))
+                .map(widget -> {
+                    final boolean deleted = widgetSnapshotsRepository
+                            .deleteSnapshot(widget, SNAPSHOT_PREFIX + fileName);
+
+                    final boolean hasSnapshot = widgetSnapshotsRepository.hasSnapshot(widget);
+                    widgetRepository.save(widget.hasSnapshot(hasSnapshot));
+                    return deleted;
+                })
                 .orElse(false);
     }
 
