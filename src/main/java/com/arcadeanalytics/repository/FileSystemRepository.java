@@ -37,8 +37,6 @@ public class FileSystemRepository {
     private final Path rootPath;
 
     public FileSystemRepository(@Value("${application.storage.path:target/storage}") String path) {
-
-
         rootPath = Paths.get(path).toAbsolutePath().normalize();
         log.info("File system repository storage path:: {} ", rootPath.toAbsolutePath());
     }

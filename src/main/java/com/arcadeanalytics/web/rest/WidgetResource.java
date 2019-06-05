@@ -205,6 +205,16 @@ public class WidgetResource {
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(data));
     }
 
+    @PostMapping("/widgets/table-data/{id}")
+    @Timed
+    public ResponseEntity<GraphData> getWidgetTableData(@PathVariable Long id, @RequestBody QueryDTO query) {
+        log.debug("REST request to get Widget data : {} :: {}", id, query.getQuery());
+        GraphData data = widgetService.getTableData(id, query);
+
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(data));
+    }
+
+
     @PostMapping("/widgets/traverse/{id}")
     @Timed
     public ResponseEntity<GraphData> traverse(@PathVariable Long id, @RequestBody TraverseDTO traverse) {

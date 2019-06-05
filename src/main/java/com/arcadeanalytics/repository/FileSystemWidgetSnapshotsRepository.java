@@ -1,4 +1,4 @@
-package com.arcadeanalytics.provider;
+package com.arcadeanalytics.repository;
 
 /*-
  * #%L
@@ -21,14 +21,16 @@ package com.arcadeanalytics.provider;
  */
 
 import com.arcadeanalytics.domain.Widget;
-import com.arcadeanalytics.repository.FileSystemRepository;
 import com.google.common.base.Charsets;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -37,21 +39,39 @@ import java.util.stream.Collectors;
 
 import static java.util.Collections.reverse;
 
-public class FileSystemDataProvider {
+/**
+ * File system based repository for snapshot of {@link Widget}s
+ */
+@Component
+public class FileSystemWidgetSnapshotsRepository {
 
-    private final Logger log = LoggerFactory.getLogger(FileSystemDataProvider.class);
+    public static final String SNAPSHOT_PREFIX = "data-snapshot-";
+
+    private final Logger log = LoggerFactory.getLogger(FileSystemWidgetSnapshotsRepository.class);
 
     private final FileSystemRepository fsRepo;
     private final Path widgets;
 
-    public FileSystemDataProvider(FileSystemRepository fsRepo) {
+    public FileSystemWidgetSnapshotsRepository(FileSystemRepository fsRepo) {
 
         this.fsRepo = fsRepo;
         widgets = fsRepo.getRootPath().resolve("widgets");
     }
 
 
-    public Optional<String> fetchData(Widget widget) {
+    public boolean storeSnapshot(Widget widget, String data) {
+
+        final String file = "widgets/"
+                + widget.getId().toString()
+                + "/"
+                + SNAPSHOT_PREFIX
+                + DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(LocalDateTime.now());
+
+        return fsRepo.store(file, data.getBytes());
+
+    }
+
+    public Optional<String> loadLatestSnapshot(Widget widget) {
 
         final Long id = widget.getId();
 
@@ -75,7 +95,7 @@ public class FileSystemDataProvider {
 
     }
 
-    public Optional<String> fetchData(Widget widget, String filename) {
+    public Optional<String> loadSnapshot(Widget widget, String filename) {
         final Long id = widget.getId();
 
         final Path file = widgets.resolve(id.toString()).resolve(filename);
@@ -138,7 +158,7 @@ public class FileSystemDataProvider {
             reverse(snapshots);
             return snapshots;
         } catch (IOException e) {
-            log.error("unable delete snapshots for widget {} due to {} ", id, e.getMessage());
+            log.error("unable to get snapshots for widget {} due to {} ", id, e.getMessage());
 
         }
 

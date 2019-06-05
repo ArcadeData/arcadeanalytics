@@ -28,7 +28,7 @@ import com.arcadeanalytics.domain.User;
 import com.arcadeanalytics.domain.Widget;
 import com.arcadeanalytics.domain.Workspace;
 import com.arcadeanalytics.domain.enumeration.ContractType;
-import com.arcadeanalytics.provider.FileSystemDataProvider;
+import com.arcadeanalytics.repository.FileSystemWidgetSnapshotsRepository;
 import com.arcadeanalytics.repository.ArcadeUserRepository;
 import com.arcadeanalytics.repository.CompanyRepository;
 import com.arcadeanalytics.repository.DashboardRepository;
@@ -80,7 +80,7 @@ public class EnvironmentService {
 
     private final ElasticGraphIndexerService elasticGraphIndexerService;
 
-    private final FileSystemDataProvider fileSystemDataProvider;
+    private final FileSystemWidgetSnapshotsRepository fileSystemWidgetSnapshotsRepository;
 
     private final String templateUserName;
 
@@ -106,7 +106,7 @@ public class EnvironmentService {
         this.companyRepository = companyRepository;
         this.dataSourceIndexRepository = dataSourceIndexRepository;
         this.elasticGraphIndexerService = elasticGraphIndexerService;
-        this.fileSystemDataProvider = new FileSystemDataProvider(fileSystemRepository);
+        this.fileSystemWidgetSnapshotsRepository = new FileSystemWidgetSnapshotsRepository(fileSystemRepository);
 
         templateUserName = env.getProperty("application.templateUser", TEMPLATE_USER_NAME);
 
@@ -252,7 +252,7 @@ public class EnvironmentService {
         widgets.forEach(widget -> {
             Optional.ofNullable(widget.getDataSet())
                     .ifPresent(dataSetRepository::delete);
-            fileSystemDataProvider.deleteAllSnapshots(widget);
+            fileSystemWidgetSnapshotsRepository.deleteAllSnapshots(widget);
             widgetRepository.delete(widget);
             widgetSearchRepository.delete(widget.getId());
         });

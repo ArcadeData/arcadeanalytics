@@ -17,10 +17,11 @@
  * limitations under the License.
  * #L%
  */
-package com.arcadeanalytics.util
+package com.arcadeanalytics.config
 
 import com.arcadeanalytics.repository.FileSystemRepository
 import com.arcadeanalytics.service.MediaService
+import com.arcadeanalytics.util.MediaLoader
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.core.env.Environment

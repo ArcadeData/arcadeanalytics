@@ -29,12 +29,16 @@ public class SearchQueryDTO {
     private String[] ids;
 
     private boolean useEdges;
+
     private int datasetCardinality;
+
+    private int numOfDocuments;
 
     public SearchQueryDTO() {
         query = "*:*";
         ids = new String[]{};
         useEdges = false;
+        numOfDocuments = 10;
     }
 
     public boolean isUseEdges() {
@@ -76,5 +80,13 @@ public class SearchQueryDTO {
                 ", ids=" + Arrays.toString(ids) +
                 ", useEdges=" + useEdges +
                 '}';
+    }
+
+    public int getNumOfDocuments() {
+        return numOfDocuments;
+    }
+
+    public void setNumOfDocuments(int numOfDocuments) {
+        this.numOfDocuments = numOfDocuments;
     }
 }

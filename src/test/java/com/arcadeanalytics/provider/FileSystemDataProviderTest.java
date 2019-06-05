@@ -22,6 +22,7 @@ package com.arcadeanalytics.provider;
 
 import com.arcadeanalytics.domain.Widget;
 import com.arcadeanalytics.repository.FileSystemRepository;
+import com.arcadeanalytics.repository.FileSystemWidgetSnapshotsRepository;
 import com.google.common.io.Files;
 import org.assertj.core.api.Assertions;
 import org.junit.Before;
@@ -41,7 +42,7 @@ public class FileSystemDataProviderTest {
 
     @Rule
     public TemporaryFolder folder = new TemporaryFolder();
-    private FileSystemDataProvider provider;
+    private FileSystemWidgetSnapshotsRepository provider;
 
 
     @Before
@@ -51,7 +52,7 @@ public class FileSystemDataProviderTest {
 
         FileSystemRepository fsRepo = new FileSystemRepository(folder.getRoot().getAbsolutePath());
 
-        provider = new FileSystemDataProvider(fsRepo);
+        provider = new FileSystemWidgetSnapshotsRepository(fsRepo);
 
 
     }
@@ -86,7 +87,7 @@ public class FileSystemDataProviderTest {
 
         final Widget widget = createSnapshotsForWidget();
 
-        final Optional<String> fetched = provider.fetchData(widget);
+        final Optional<String> fetched = provider.loadLatestSnapshot(widget);
 
         Assertions.assertThat(fetched).isPresent();
 
@@ -101,7 +102,7 @@ public class FileSystemDataProviderTest {
 
         final Widget widget = createSnapshotsForWidget();
 
-        final Optional<String> fetched = provider.fetchData(widget, "file-5");
+        final Optional<String> fetched = provider.loadSnapshot(widget, "file-5");
 
         Assertions.assertThat(fetched).isPresent();
 
@@ -116,7 +117,7 @@ public class FileSystemDataProviderTest {
 
         Widget widget = new Widget();
         widget.setId(10l);
-        final Optional<String> fetched = provider.fetchData(widget);
+        final Optional<String> fetched = provider.loadLatestSnapshot(widget);
 
         Assertions.assertThat(fetched).isNotPresent();
 
@@ -131,14 +132,14 @@ public class FileSystemDataProviderTest {
 
         //verify that snapshots are present
 
-        Assertions.assertThat(provider.fetchData(widget)).isPresent();
+        Assertions.assertThat(provider.loadLatestSnapshot(widget)).isPresent();
 
         //delete all
         provider.deleteAllSnapshots(widget);
 
         //verify that no more snapshots are there
 
-        Assertions.assertThat(provider.fetchData(widget)).isNotPresent();
+        Assertions.assertThat(provider.loadLatestSnapshot(widget)).isNotPresent();
 
     }
 

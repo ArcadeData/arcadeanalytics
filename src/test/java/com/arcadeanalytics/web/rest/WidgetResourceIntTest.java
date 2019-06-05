@@ -32,7 +32,7 @@ import com.arcadeanalytics.domain.Workspace;
 import com.arcadeanalytics.domain.enumeration.ContractType;
 import com.arcadeanalytics.domain.enumeration.DataSourceType;
 import com.arcadeanalytics.domain.enumeration.IndexingStatus;
-import com.arcadeanalytics.provider.FileSystemDataProvider;
+import com.arcadeanalytics.repository.FileSystemWidgetSnapshotsRepository;
 import com.arcadeanalytics.repository.ArcadeUserRepository;
 import com.arcadeanalytics.repository.DataSetRepository;
 import com.arcadeanalytics.repository.DataSourceRepository;
@@ -430,9 +430,9 @@ public class WidgetResourceIntTest {
                 .andExpect(status().isNoContent());
 
 
-        final FileSystemDataProvider provider = new FileSystemDataProvider(fsRepo);
+        final FileSystemWidgetSnapshotsRepository provider = new FileSystemWidgetSnapshotsRepository(fsRepo);
 
-        final Optional<String> s = provider.fetchData(widget);
+        final Optional<String> s = provider.loadLatestSnapshot(widget);
         Assertions.assertThat(s)
                 .isPresent()
                 .contains(json);

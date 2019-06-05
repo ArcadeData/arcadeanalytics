@@ -9,9 +9,9 @@ package com.arcadeanalytics.web.rest;
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,6 +21,7 @@ package com.arcadeanalytics.web.rest;
  */
 
 import com.arcadeanalytics.domain.DataSource;
+import com.arcadeanalytics.domain.enumeration.IndexingStatus;
 import com.arcadeanalytics.repository.DataSourceRepository;
 import com.arcadeanalytics.security.AuthoritiesConstants;
 import com.arcadeanalytics.security.SecurityUtils;
@@ -80,7 +81,15 @@ public class DataSourceSearchResource {
     @Secured({AuthoritiesConstants.ADMIN, AuthoritiesConstants.USER})
     public ResponseEntity<Void> indexDatasource(@PathVariable Long id, @RequestParam(required = false) String... query) {
         DataSource dataSource = dataSourceRepository.findOne(id);
-        log.info("REST request to reindex {} by user : {}", dataSource.getName(), SecurityUtils.getCurrentUserLogin());
+
+        if (dataSource.getIndexing() == IndexingStatus.INDEXING) {
+            log.warn("REST request to reindex {} by user {} refused -> reindex still in progress", dataSource.getId(), SecurityUtils.getCurrentUserLogin());
+            return ResponseEntity.unprocessableEntity()
+                    .headers(HeaderUtil.createAlert("elasticsearch.reindex.refused", null))
+                    .build();
+
+        }
+        log.info("REST request to reindex {} by user {} accepted", dataSource.getId(), SecurityUtils.getCurrentUserLogin());
 
         if (Objects.isNull(query))
             elasticGraphIndexerService.index(dataSource);
@@ -103,7 +112,7 @@ public class DataSourceSearchResource {
     @Secured({AuthoritiesConstants.ADMIN, AuthoritiesConstants.USER})
     public ResponseEntity<Void> deleteIndex(@PathVariable Long id) {
         DataSource dataSource = dataSourceRepository.findOne(id);
-        log.info("REST request to reindex {} by user : {}", dataSource.getName(), SecurityUtils.getCurrentUserLogin());
+        log.info("REST request to delete index {} by user {}", dataSource.getId(), SecurityUtils.getCurrentUserLogin());
 
         elasticGraphIndexerService.deleteIndex(dataSource);
 
@@ -133,7 +142,7 @@ public class DataSourceSearchResource {
                                                          @RequestParam(required = false, defaultValue = "1") long minDocCount,
                                                          @RequestParam(required = false, defaultValue = "1000") int maxValuesPerField) throws IOException {
         DataSource dataSource = dataSourceRepository.findOne(id);
-        log.info("REST request to aggregate {} by user : {}", dataSource.getName(), SecurityUtils.getCurrentUserLogin());
+        log.info("REST request to aggregate {} by user {}", dataSource.getId(), SecurityUtils.getCurrentUserLogin());
 
         Map<String, Object> results = elasticGraphIndexerService.aggregate(dataSource, classes, fields, minDocCount, maxValuesPerField);
 
@@ -161,7 +170,7 @@ public class DataSourceSearchResource {
                                                          @RequestParam(required = false, defaultValue = "1") long minDocCount,
                                                          @RequestParam(required = false, defaultValue = "15") int maxValuesPerField) throws IOException {
         DataSource dataSource = dataSourceRepository.findOne(id);
-        log.info("REST request to aggregate {} by user : {}", dataSource.getName(), SecurityUtils.getCurrentUserLogin());
+        log.info("REST request to aggregate {} by user {}", dataSource.getId(), SecurityUtils.getCurrentUserLogin());
 
         Map<String, Object> results = elasticGraphIndexerService.aggregate(dataSource, query, classes, fields, minDocCount, maxValuesPerField);
 
@@ -182,7 +191,7 @@ public class DataSourceSearchResource {
 
         DataSource dataSource = dataSourceRepository.findOne(id);
 
-        log.info("REST request to query {} by user : {} ", dataSource.getId(), SecurityUtils.getCurrentUserLogin());
+        log.info("REST request to query {} by user {} ", dataSource.getId(), SecurityUtils.getCurrentUserLogin());
 
         List<Map<String, Object>> results = elasticGraphIndexerService.search(dataSource, query)
                 .stream()

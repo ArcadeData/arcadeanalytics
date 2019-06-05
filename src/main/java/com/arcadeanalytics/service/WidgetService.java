@@ -30,12 +30,12 @@ import com.arcadeanalytics.provider.DataSourceGraphProvider;
 import com.arcadeanalytics.provider.DataSourceInfo;
 import com.arcadeanalytics.provider.DataSourceMetadataProvider;
 import com.arcadeanalytics.provider.DataSourceProviderFactory;
-import com.arcadeanalytics.provider.FileSystemDataProvider;
+import com.arcadeanalytics.provider.DataSourceTableDataProvider;
 import com.arcadeanalytics.provider.GraphData;
 import com.arcadeanalytics.repository.ArcadeUserRepository;
 import com.arcadeanalytics.repository.DataSetRepository;
 import com.arcadeanalytics.repository.DataSourceRepository;
-import com.arcadeanalytics.repository.FileSystemRepository;
+import com.arcadeanalytics.repository.FileSystemWidgetSnapshotsRepository;
 import com.arcadeanalytics.repository.WidgetRepository;
 import com.arcadeanalytics.repository.search.WidgetSearchRepository;
 import com.arcadeanalytics.security.AuthoritiesConstants;
@@ -63,9 +63,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -76,6 +73,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import static com.arcadeanalytics.service.util.DataSourceUtil.toDataSourceInfo;
+import static java.util.Collections.emptyList;
 import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 
 /**
@@ -101,8 +99,6 @@ public class WidgetService {
 
     private final ArcadeUserRepository arcadeUserRepository;
 
-    private final FileSystemRepository fsRepository;
-
     private final CacheManager cacheManager;
 
     private final DataSourceProviderFactory<DataSourceMetadataProvider> dataSourceMetadataProviderFactory;
@@ -111,16 +107,21 @@ public class WidgetService {
 
     private final DataSourceProviderFactory<DataSourceGraphProvider> dataSourceGraphProviderFactory;
 
+    private final FileSystemWidgetSnapshotsRepository widgetSnapshotsRepository;
+
+    private final DataSourceProviderFactory<DataSourceTableDataProvider> dataSourceTableDataProviderFactory;
+
     public WidgetService(WidgetRepository widgetRepository,
                          WidgetMapper widgetMapper,
                          WidgetSearchRepository widgetSearchRepository,
                          DataSetRepository dataSetRepository,
                          DataSourceRepository dataSourceRepository,
                          ArcadeUserRepository arcadeUserRepository,
-                         FileSystemRepository fsRepository,
+                         FileSystemWidgetSnapshotsRepository widgetSnapshotsRepository,
                          CacheManager cacheManager,
                          DataSourceProviderFactory<DataSourceMetadataProvider> dataSourceMetadataProviderFactory,
                          DataSourceProviderFactory<DataSourceGraphDataProvider> dataSourceGraphDataProviderFactory,
+                         DataSourceProviderFactory<DataSourceTableDataProvider> dataSourceTableDataProviderFactory,
                          DataSourceProviderFactory<DataSourceGraphProvider> dataSourceGraphProviderFactory) {
         this.widgetRepository = widgetRepository;
         this.widgetMapper = widgetMapper;
@@ -128,12 +129,14 @@ public class WidgetService {
         this.dataSetRepository = dataSetRepository;
         this.dataSourceRepository = dataSourceRepository;
         this.arcadeUserRepository = arcadeUserRepository;
-        this.fsRepository = fsRepository;
+        this.widgetSnapshotsRepository = widgetSnapshotsRepository;
         this.cacheManager = cacheManager;
 
         this.dataSourceMetadataProviderFactory = dataSourceMetadataProviderFactory;
         this.dataSourceGraphDataProviderFactory = dataSourceGraphDataProviderFactory;
+        this.dataSourceTableDataProviderFactory = dataSourceTableDataProviderFactory;
         this.dataSourceGraphProviderFactory = dataSourceGraphProviderFactory;
+
     }
 
 
@@ -275,7 +278,7 @@ public class WidgetService {
     }
 
     @Transactional(readOnly = true)
-    public GraphData getData(Long id, QueryDTO query) {
+    public GraphData getTableData(Long id, QueryDTO query) {
         return getWidgetIfAllowed(id)
                 .map(widget -> {
 
@@ -283,6 +286,31 @@ public class WidgetService {
 
                             if (query.getDatasetCardinality() > contract.getMaxElements()) return GraphData.getEMPTY();
 
+                            final DataSourceInfo ds = toDataSourceInfo(widget.getDataSource());
+
+                            final int limit = contract.getMaxElements() - query.getDatasetCardinality();
+
+                            final GraphData graphData = dataSourceTableDataProviderFactory.create(ds)
+                                    .fetchData(ds, query.getQuery(), query.getParams(), limit);
+                            return graphData;
+
+                        }
+
+                )
+                .orElse(GraphData.getEMPTY());
+
+
+    }
+
+
+    @Transactional(readOnly = true)
+    public GraphData getData(Long id, QueryDTO query) {
+        return getWidgetIfAllowed(id)
+                .map(widget -> {
+
+                            final Contract contract = contract();
+
+                            if (query.getDatasetCardinality() > contract.getMaxElements()) return GraphData.getEMPTY();
 
                             final DataSourceInfo ds = toDataSourceInfo(widget.getDataSource());
 
@@ -309,8 +337,8 @@ public class WidgetService {
     public Optional<String> getSnapshot(Long id) {
 
         return getWidgetIfAllowed(id)
-                .map(widget -> new FileSystemDataProvider(fsRepository)
-                        .fetchData(widget)
+                .map(widget -> widgetSnapshotsRepository
+                        .loadLatestSnapshot(widget)
                         .map(name -> name.replace(SNAPSHOT_PREFIX, "")))
                 .orElse(Optional.empty());
     }
@@ -325,8 +353,8 @@ public class WidgetService {
 
         return widgetRepository.findOneByUuid(uuid)
                 .filter(widget -> widget.isShared())
-                .map(widget -> new FileSystemDataProvider(fsRepository)
-                        .fetchData(widget)
+                .map(widget -> widgetSnapshotsRepository
+                        .loadLatestSnapshot(widget)
                         .map(name -> name.replace(SNAPSHOT_PREFIX, "")))
                 .orElse(Optional.empty());
     }
@@ -344,8 +372,8 @@ public class WidgetService {
         if (fileName.equalsIgnoreCase("last")) return getSnapshot(id);
 
         return getWidgetIfAllowed(id)
-                .map(widget -> new FileSystemDataProvider(fsRepository)
-                        .fetchData(widget, SNAPSHOT_PREFIX + fileName)
+                .map(widget -> widgetSnapshotsRepository
+                        .loadSnapshot(widget, SNAPSHOT_PREFIX + fileName)
                         .map(name -> name.replace(SNAPSHOT_PREFIX, "")))
                 .orElse(Optional.empty());
     }
@@ -353,12 +381,12 @@ public class WidgetService {
 
     public List<String> getSnapshots(Long id) {
         return getWidgetIfAllowed(id)
-                .map(widget -> new FileSystemDataProvider(fsRepository)
+                .map(widget -> widgetSnapshotsRepository
                         .getAllSnapshots(widget).stream()
                         .map(name -> name.replace(SNAPSHOT_PREFIX, ""))
                         .collect(Collectors.toList()))
 
-                .orElse(Collections.emptyList());
+                .orElse(emptyList());
 
     }
 
@@ -368,13 +396,8 @@ public class WidgetService {
 
         return getWidgetIfAllowed(id)
                 .map(widget -> {
-                    final String file = "widgets/"
-                            + widget.getId().toString()
-                            + "/"
-                            + SNAPSHOT_PREFIX
-                            + DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(LocalDateTime.now());
 
-                    final boolean stored = fsRepository.store(file, snapshotData.getBytes());
+                    final boolean stored = widgetSnapshotsRepository.storeSnapshot(widget, snapshotData);
 
                     widgetRepository.save(widget.hasSnapshot(stored));
                     return stored;
@@ -386,7 +409,7 @@ public class WidgetService {
     public boolean deleteSnapshot(Long id, String fileName) {
 
         return getWidgetIfAllowed(id)
-                .map(widget -> new FileSystemDataProvider(fsRepository)
+                .map(widget -> widgetSnapshotsRepository
                         .deleteSnapshot(widget, SNAPSHOT_PREFIX + fileName))
                 .orElse(false);
     }

@@ -9,9 +9,9 @@ package com.arcadeanalytics.service;
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -53,9 +53,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class ElasticGraphIndexerServiceIntTest {
 
     @ClassRule
-    public static GenericContainer container = new GenericContainer("arcadeanalytics/orientdb:2.2.36")
-        .withExposedPorts(2424)
-        .waitingFor(Wait.forListeningPort());
+    public static GenericContainer container = new GenericContainer("arcadeanalytics/orientdb:3.0.19-tp3")
+            .withExposedPorts(2424)
+            .waitingFor(Wait.forListeningPort());
 
     private static String dbUrl;
 
@@ -77,24 +77,25 @@ public class ElasticGraphIndexerServiceIntTest {
     public void setUp() throws Exception {
         //given
         dataSource = new DataSource()
-            .name("demodb")
-            .description("desc")
-            .remote(false)
-            .type(DataSourceType.ORIENTDB)
-            .server(container.getContainerIpAddress())
-            .port(container.getFirstMappedPort())
-            .database("demodb")
-            .username("admin")
-            .password("admin");
+                .name("demodb")
+                .description("desc")
+                .remote(false)
+                .type(DataSourceType.ORIENTDB3)
+                .server(container.getContainerIpAddress())
+                .port(container.getFirstMappedPort())
+                .database("demodb")
+                .username("admin")
+                .password("admin");
 
         dataSourceRepository.save(dataSource);
 
-        //when --> ASYNC!!!!!
-        final DataSourceIndex index = service.index(dataSource).get();
+        if (!service.hasIndex(dataSource)) {
+            //when --> ASYNC!!!!!
+            final DataSourceIndex index = service.index(dataSource).get();
 
-        assertThat(index.getDocuments()).isEqualTo(22147);
-        assertThat(index.getReport()).isEqualTo("Indexing completed");
-
+            assertThat(index.getDocuments()).isEqualTo(23147);
+            assertThat(index.getReport()).isEqualTo("Indexing completed");
+        }
 
     }
 
@@ -122,9 +123,9 @@ public class ElasticGraphIndexerServiceIntTest {
         assertThat(docs).hasSize(10);
 
         String[] ids = docs.stream()
-            .map(s -> s.valueOf(ARCADE_ID))
-            .collect(Collectors.toList())
-            .toArray(new String[]{});
+                .map(s -> s.valueOf(ARCADE_ID))
+                .collect(Collectors.toList())
+                .toArray(new String[]{});
 
         queryDTO = new SearchQueryDTO();
         queryDTO.setQuery("*:*");
@@ -139,23 +140,28 @@ public class ElasticGraphIndexerServiceIntTest {
     public void shouldProvideFacetingOverNodesPropertyValues() throws IOException {
         //search for all
         SearchQueryDTO queryDTO = new SearchQueryDTO();
-        queryDTO.setQuery("*:*");
+        queryDTO.setQuery("@class:Countries");
+        queryDTO.setNumOfDocuments(50);
+        queryDTO.setUseEdges(false);
+
         List<Sprite> docs = service.search(dataSource, queryDTO);
 
         //search limited to 10
-        assertThat(docs).hasSize(10);
+        assertThat(docs).hasSize(50);
 
         String[] ids = docs.stream()
-            .map(s -> s.valueOf(ARCADE_ID))
-            .collect(Collectors.toList())
-            .toArray(new String[]{});
+                .map(s -> s.valueOf(ARCADE_ID))
+                .collect(Collectors.toList())
+                .toArray(new String[]{});
 
         queryDTO = new SearchQueryDTO();
-        queryDTO.setUseEdges(true);
+        queryDTO.setUseEdges(false);
         queryDTO.setIds(ids);
+        queryDTO.setNumOfDocuments(50);
 
         final Map<String, Object> aggregate = service.aggregate(dataSource, queryDTO, emptySet(), emptySet(), 1, 20);
 
+        System.out.println("aggregate = " + aggregate);
         assertThat(aggregate).containsKeys("Countries");
 
         final Map<String, Object> person = (Map<String, Object>) aggregate.get("Countries");
@@ -169,7 +175,7 @@ public class ElasticGraphIndexerServiceIntTest {
 
         final Map<String, Object> names = (Map<String, Object>) propertyValues.get("Code");
 
-        assertThat(names).containsKeys("SK", "ZW", "SB");
+        assertThat(names).containsKeys("AF", "AI", "AW");
 
 
     }
@@ -185,9 +191,9 @@ public class ElasticGraphIndexerServiceIntTest {
         assertThat(docs).hasSize(10);
 
         String[] ids = docs.stream()
-            .map(s -> s.valueOf(ARCADE_ID))
-            .collect(Collectors.toList())
-            .toArray(new String[]{});
+                .map(s -> s.valueOf(ARCADE_ID))
+                .collect(Collectors.toList())
+                .toArray(new String[]{});
 
         queryDTO = new SearchQueryDTO();
         queryDTO.setUseEdges(true);

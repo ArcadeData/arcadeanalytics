@@ -20,11 +20,22 @@ package com.arcadeanalytics.service.dto;
  * #L%
  */
 
+import com.arcadeanalytics.provider.QueryParam;
+
+import java.util.Collections;
+import java.util.List;
+
 public class QueryDTO {
 
     private String query;
 
+    private List<QueryParam> params;
+
     private int datasetCardinality;
+
+    public QueryDTO() {
+        params = Collections.emptyList();
+    }
 
     public int getDatasetCardinality() {
         return datasetCardinality;
@@ -42,12 +53,22 @@ public class QueryDTO {
         this.query = query;
     }
 
+    public List<QueryParam> getParams() {
+        return params;
+    }
+
+    public void setParams(List<QueryParam> params) {
+        this.params = params;
+    }
+
 
     @Override
     public String toString() {
         return "QueryDTO{" +
-                "query='" + query + '\'' +
-                ", datasetCardinality=" + datasetCardinality +
-                '}';
+            "query='" + query + '\'' +
+            ", params=" + params +
+            ", datasetCardinality=" + datasetCardinality +
+            '}';
     }
+
 }
