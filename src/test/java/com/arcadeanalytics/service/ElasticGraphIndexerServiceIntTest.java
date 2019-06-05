@@ -175,7 +175,7 @@ public class ElasticGraphIndexerServiceIntTest {
 
         final Map<String, Object> names = (Map<String, Object>) propertyValues.get("Code");
 
-        assertThat(names).containsKeys("AF", "AI", "AW");
+        assertThat(names).containsKeys("AF", "AQ", "BD");
 
 
     }
@@ -214,7 +214,7 @@ public class ElasticGraphIndexerServiceIntTest {
 
         final Map<String, Object> names = (Map<String, Object>) propertyValues.get("Code");
 
-        assertThat(names).containsKeys("SK", "ZW", "SB");
+        assertThat(names).containsKeys("BM", "CH", "DE");
 
 
     }
