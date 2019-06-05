@@ -228,7 +228,7 @@ public class DataSourceResource {
 
         DataSourceMetadataProvider provider = dataSourceMetadataProviderFactory.create(dsInfo);
         final DataSourceMetadata metadata = provider.fetchMetadata(dsInfo);
-        log.info("metadata for DataSource : {} - {}", id, metadata);
+        log.debug("metadata for DataSource : {} - {}", id, metadata);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(metadata));
     }
 

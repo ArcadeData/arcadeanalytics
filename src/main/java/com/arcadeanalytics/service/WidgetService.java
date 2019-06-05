@@ -588,24 +588,13 @@ public class WidgetService {
 
     }
 
-
-    private Contract contractOld(Widget widget) {
-
-        final Contract contract = widget.getDashboard().getWorkspace().getUser().getCompany().getContract();
-
-        log.info("contrat:: {}  ", contract);
-        return contract;
-
-
-    }
-
     private Contract contract() {
 
         final Contract contract = SecurityUtils.getCurrentUserLogin()
                 .flatMap(user -> arcadeUserRepository.findByUserLogin(user))
                 .map(arcadeUser -> arcadeUser.getCompany().getContract()).get();
 
-        log.info("contrat:: {}  ", contract);
+        log.debug("contract:: {}  ", contract);
         return contract;
 
 

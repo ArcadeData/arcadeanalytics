@@ -121,7 +121,7 @@ public class ElasticGraphIndexerService {
     @Timed
     public Future<DataSourceIndex> index(DataSource datasource, String... queries) {
 
-        log.info("start indexing of datasource {} with queries {}  ", datasource, queries);
+        log.info("start indexing of datasource {} with queries {}  ", datasource.getId(), queries);
 
         datasource.indexing(IndexingStatus.INDEXING);
 
@@ -143,35 +143,45 @@ public class ElasticGraphIndexerService {
                     .endedAt(LocalDate.now())
                     .dataSource(datasource);
 
-            dataSourceIndexRepository.save(index);
-
             datasource.indexing(IndexingStatus.INDEXED);
 
-            dataSourceRepository.save(datasource);
-
-            log.info("end of indexing datasource {} ", datasource);
+            log.info("end of indexing datasource {} ", datasource.getId());
 
             return new AsyncResult<>(index);
         } catch (Exception e) {
-            log.error("error while indexing datasource " + datasource, e);
+            log.error("error while indexing datasource " + datasource.getId(), e);
 
             index.documents(0L)
                     .report("Error while indexing: " + e.getMessage())
                     .endedAt(LocalDate.now())
                     .dataSource(datasource);
 
-            dataSourceIndexRepository.save(index);
-
             datasource.indexing(IndexingStatus.NOT_INDEXED);
 
-            dataSourceRepository.save(datasource);
             throw e;
+        } finally {
+            dataSourceIndexRepository.save(index);
+            dataSourceRepository.save(datasource);
+
         }
     }
 
 
+    public boolean hasIndex(DataSource dataSource) {
+        log.info("check index for data-source {} ", dataSource.getId());
+
+        final Client client = searchTemplate.getClient();
+        IndicesAdminClient indices = client.admin().indices();
+
+        String indexName = dataSource.getId().toString();
+        IndicesExistsResponse existsResponse = indices
+                .exists(Requests.indicesExistsRequest(indexName)).actionGet();
+
+        return existsResponse.isExists();
+    }
+
     public boolean deleteIndex(DataSource dataSource) {
-        log.info("delete index for data-source {} ", dataSource);
+        log.info("delete index for data-source {} ", dataSource.getId());
 
         final Client client = searchTemplate.getClient();
         IndicesAdminClient indices = client.admin().indices();
@@ -209,15 +219,21 @@ public class ElasticGraphIndexerService {
         final String indexName = dataSource.getId().toString();
 
         SearchRequestBuilder searchRequestBuilder = client.prepareSearch(indexName)
-                .setSearchType(SearchType.DFS_QUERY_THEN_FETCH)
+//                .setSearchType(SearchType.DFS_QUERY_THEN_FETCH)
                 .setQuery(QueryBuilders.queryStringQuery(query.getQuery())
                         .defaultOperator(AND))
                 .setHighlighterForceSource(true)
-                .setSize(10);
+                .setHighlighterEncoder("default")
+                .setHighlighterPreTags("<em>")
+                .setHighlighterPostTags("</em>")
+                .setSize(query.getNumOfDocuments());
 
         indexFields(indexName, client, query.isUseEdges())
                 .stream()
-                .forEach(f -> searchRequestBuilder.addHighlightedField(f));
+                .forEach(field -> {
+                    searchRequestBuilder.addHighlightedField(field,-1,-1);
+                    searchRequestBuilder.addHighlightedField(field + ".raw",-1,-1);
+                });
 
         if (query.getIds().length > 0) {
             searchRequestBuilder.setPostFilter(QueryBuilders.termsQuery(ARCADE_ID, query.getIds()));
@@ -228,12 +244,17 @@ public class ElasticGraphIndexerService {
                 .execute()
                 .actionGet();
 
+        log.debug("response:: {} ", searchResponse.toString());
+
         SearchHit[] hits = searchResponse.getHits().getHits();
 
         log.info("found {} documents", hits.length);
 
         return Stream.of(hits)
+//                .peek(h -> log.info("h:: " + h.toString()))
+//                .peek(h -> log.info("hf:: " + h.getHighlightFields().size()))
                 .map(h -> h.getSource())
+//                .peek(s -> log.info("s:: " + s))
                 .map(s -> new Sprite().load(s))
                 .collect(Collectors.toList());
 
@@ -250,7 +271,7 @@ public class ElasticGraphIndexerService {
         final String indexName = dataSource.getId().toString();
 
         log.info("start aggregation on data-source {} with minDocCount {}, maxValuesPerField {}, classes {} , fields {}",
-                dataSource.getName(),
+                dataSource.getId(),
                 minDocCount,
                 maxValuesPerField,
                 classes,
@@ -264,7 +285,7 @@ public class ElasticGraphIndexerService {
 
         Map<String, Object> facetsTree = searchResponseToMap(fields, searchResponse);
 
-        log.info("done aggregation on data-source {}", dataSource.getName(), minDocCount, maxValuesPerField);
+        log.info("done aggregation on data-source {}", dataSource.getId(), minDocCount, maxValuesPerField);
 
         return facetsTree;
 
@@ -279,7 +300,7 @@ public class ElasticGraphIndexerService {
 
         final String indexName = dataSource.getId().toString();
 
-        log.info("start aggregation on data-source {} on classes {} and fields {}  with minDocCount {}, maxValuesPerField {}", dataSource.getName(), classes, fields, minDocCount, maxValuesPerField);
+        log.info("start aggregation on data-source {} on classes {} and fields {}  with minDocCount {}, maxValuesPerField {}", dataSource.getId(), classes, fields, minDocCount, maxValuesPerField);
 
         Client client = searchTemplate.getClient();
 
