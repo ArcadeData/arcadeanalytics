@@ -22,6 +22,12 @@ a:hover {
     font-weight: bold;
 }
 
+.ellipsis {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+
 /* ==========================================================================
 Browser Upgrade Prompt
 ========================================================================== */
