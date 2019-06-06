@@ -2,6 +2,67 @@
 
 Changelog of Git Changelog Maven plugin.
 
+## v1.0.1
+### GitHub [#103](https://github.com/ArcadeAnalytics/arcadeanalytics/issues/103) Changing contract type on managed user has no effetc
+
+**#103 fixing contract management, WIP**
+
+
+[e4f3b079b806978](https://github.com/ArcadeAnalytics/arcadeanalytics/commit/e4f3b079b806978) robfrank *2019-05-24 14:50:11*
+
+
+### GitHub [#106](https://github.com/ArcadeAnalytics/arcadeanalytics/issues/106) Indexing infrastructure review
+
+**#106**
+
+ * adds support for highlighting, not yet forwarded to FR
+
+[fb97644d0c42122](https://github.com/ArcadeAnalytics/arcadeanalytics/commit/fb97644d0c42122) robfrank *2019-06-06 13:34:49*
+
+**#106**
+
+ * adds hasIndex method
+ * adds watchdog on multiple indexing requests
+ * reviews logs
+
+[723146cb0d91d88](https://github.com/ArcadeAnalytics/arcadeanalytics/commit/723146cb0d91d88) robfrank *2019-06-05 09:35:44*
+
+
+### GitHub [#107](https://github.com/ArcadeAnalytics/arcadeanalytics/issues/107) Align EE frontend base code with OS: new query templating feature
+
+**#107: second merge.**
+
+
+[679fa160fb509cf](https://github.com/ArcadeAnalytics/arcadeanalytics/commit/679fa160fb509cf) G4br13l3 *2019-06-05 10:01:46*
+
+**#107**
+
+ * adds supoort for plain queries
+
+[50a87ac646e4e8f](https://github.com/ArcadeAnalytics/arcadeanalytics/commit/50a87ac646e4e8f) robfrank *2019-06-05 08:22:54*
+
+**#107 first merge commit.**
+
+
+[90652371de72e3c](https://github.com/ArcadeAnalytics/arcadeanalytics/commit/90652371de72e3c) G4br13l3 *2019-06-04 13:34:35*
+
+
+### GitHub [#62](https://github.com/ArcadeAnalytics/arcadeanalytics/issues/62) Default widgets for newly created user are blank
+
+**#62: stronger fix.**
+
+
+[cdedac60fc688a0](https://github.com/ArcadeAnalytics/arcadeanalytics/commit/cdedac60fc688a0) G4br13l3 *2019-04-29 15:46:31*
+
+
+### GitHub [#82](https://github.com/ArcadeAnalytics/arcadeanalytics/issues/82) graph widget: feature to delete a snapshot
+
+**#82 adds rest endpoint and services methods to handle deletion of a snapshot**
+
+
+[73dffdee950ee5a](https://github.com/ArcadeAnalytics/arcadeanalytics/commit/73dffdee950ee5a) robfrank *2019-05-02 15:32:42*
+
+
 ## v1.0.0-RC1
 ### GitHub [#16](https://github.com/ArcadeAnalytics/arcadeanalytics/issues/16) Force layout config coefficients are unreadable 
 
