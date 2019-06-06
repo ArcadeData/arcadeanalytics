@@ -46,6 +46,7 @@ import org.elasticsearch.client.Requests;
 import org.elasticsearch.cluster.ClusterState;
 import org.elasticsearch.cluster.metadata.IndexMetaData;
 import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.index.query.QueryStringQueryBuilder;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
@@ -219,25 +220,27 @@ public class ElasticGraphIndexerService {
         final String indexName = dataSource.getId().toString();
 
         SearchRequestBuilder searchRequestBuilder = client.prepareSearch(indexName)
-//                .setSearchType(SearchType.DFS_QUERY_THEN_FETCH)
-                .setQuery(QueryBuilders.queryStringQuery(query.getQuery())
-                        .defaultOperator(AND))
                 .setHighlighterForceSource(true)
                 .setHighlighterEncoder("default")
                 .setHighlighterPreTags("<em>")
                 .setHighlighterPostTags("</em>")
                 .setSize(query.getNumOfDocuments());
 
+        final QueryStringQueryBuilder queryBuilder = QueryBuilders.queryStringQuery(query.getQuery()).defaultOperator(AND);
+
         indexFields(indexName, client, query.isUseEdges())
                 .stream()
                 .forEach(field -> {
-                    searchRequestBuilder.addHighlightedField(field,-1,-1);
-                    searchRequestBuilder.addHighlightedField(field + ".raw",-1,-1);
+                    searchRequestBuilder.addHighlightedField(field);
+                    queryBuilder.field(field);
+//                    searchRequestBuilder.addHighlightedField(field + ".raw");
                 });
 
         if (query.getIds().length > 0) {
             searchRequestBuilder.setPostFilter(QueryBuilders.termsQuery(ARCADE_ID, query.getIds()));
         }
+
+        searchRequestBuilder.setQuery(queryBuilder);
 
         log.debug("query:: {}", searchRequestBuilder.toString());
         SearchResponse searchResponse = searchRequestBuilder
@@ -253,9 +256,14 @@ public class ElasticGraphIndexerService {
         return Stream.of(hits)
 //                .peek(h -> log.info("h:: " + h.toString()))
 //                .peek(h -> log.info("hf:: " + h.getHighlightFields().size()))
-                .map(h -> h.getSource())
+//                .map(h -> h.getSource())
 //                .peek(s -> log.info("s:: " + s))
-                .map(s -> new Sprite().load(s))
+                .map(hit -> {
+
+                    Sprite sprite = new Sprite().load(hit.getSource());
+//                    hit.getHighlightFields().f
+                    return sprite;
+                })
                 .collect(Collectors.toList());
 
     }
@@ -282,6 +290,9 @@ public class ElasticGraphIndexerService {
         if (fields.isEmpty()) fields = indexFields(indexName, client, query.isUseEdges());
 
         final SearchResponse searchResponse = termAggregations(client, indexName, classes, fields, query, minDocCount, maxValuesPerField);
+
+
+        log.debug("tree: {}", searchResponse.toString());
 
         Map<String, Object> facetsTree = searchResponseToMap(fields, searchResponse);
 
@@ -310,7 +321,7 @@ public class ElasticGraphIndexerService {
 
         Map<String, Object> facetsTree = searchResponseToMap(fields, searchResponse);
 
-        log.info("done aggregation on data-source {}", dataSource.getName(), minDocCount, maxValuesPerField);
+        log.info("done aggregation on data-source {}", dataSource.getId(), minDocCount, maxValuesPerField);
 
         return facetsTree;
 
@@ -389,7 +400,7 @@ public class ElasticGraphIndexerService {
 
 
         if (query.getIds().length > 0) {
-            log.info("aggregate only on :: {}", truncate(join(",", query.getIds()), 100));
+            log.debug("aggregate only on :: {}", truncate(join(",", query.getIds()), 100));
             searchRequestBuilder.setQuery(QueryBuilders.boolQuery()
                     .filter(QueryBuilders.termsQuery(ARCADE_ID, query.getIds())));
         }

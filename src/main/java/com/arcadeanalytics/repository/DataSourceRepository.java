@@ -28,6 +28,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 
 /**
@@ -36,6 +37,8 @@ import java.util.List;
 @SuppressWarnings("unused")
 @Repository
 public interface DataSourceRepository extends JpaRepository<DataSource, Long> {
+
+    Optional<DataSource> findByName(String name);
 
     Page<DataSource> findByWorkspaceUserUserLogin(String currentUserLogin, Pageable pageable);
 

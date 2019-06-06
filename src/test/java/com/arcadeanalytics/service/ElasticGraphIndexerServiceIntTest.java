@@ -27,7 +27,6 @@ import com.arcadeanalytics.domain.DataSourceIndex;
 import com.arcadeanalytics.domain.enumeration.DataSourceType;
 import com.arcadeanalytics.repository.DataSourceRepository;
 import com.arcadeanalytics.service.dto.SearchQueryDTO;
-import com.google.common.collect.Sets;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.ClassRule;
@@ -45,6 +44,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import static com.arcadeanalytics.index.IndexConstants.ARCADE_ID;
+import static com.google.common.collect.Sets.newHashSet;
 import static java.util.Collections.emptySet;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -76,18 +76,19 @@ public class ElasticGraphIndexerServiceIntTest {
     @Before
     public void setUp() throws Exception {
         //given
-        dataSource = new DataSource()
-                .name("demodb")
-                .description("desc")
-                .remote(false)
-                .type(DataSourceType.ORIENTDB3)
-                .server(container.getContainerIpAddress())
-                .port(container.getFirstMappedPort())
-                .database("demodb")
-                .username("admin")
-                .password("admin");
 
-        dataSourceRepository.save(dataSource);
+        dataSource = dataSourceRepository.findByName("demodb").orElseGet(() ->
+                dataSourceRepository.save(new DataSource()
+                        .name("demodb")
+                        .description("desc")
+                        .remote(false)
+                        .type(DataSourceType.ORIENTDB3)
+                        .server(container.getContainerIpAddress())
+                        .port(container.getFirstMappedPort())
+                        .database("demodb")
+                        .username("admin")
+                        .password("admin"))
+        );
 
         if (!service.hasIndex(dataSource)) {
             //when --> ASYNC!!!!!
@@ -102,6 +103,8 @@ public class ElasticGraphIndexerServiceIntTest {
     @Test(expected = RuntimeException.class)
     public void shouldDeleteIndex() throws IOException {
 
+        assertThat(service.hasIndex(dataSource)).isTrue();
+
         final boolean deleted = service.deleteIndex(dataSource);
 
         assertThat(deleted).isTrue();
@@ -110,6 +113,7 @@ public class ElasticGraphIndexerServiceIntTest {
         SearchQueryDTO queryDTO = new SearchQueryDTO();
         service.search(dataSource, queryDTO);
 
+        assertThat(service.hasIndex(dataSource)).isFalse();
 
     }
 
@@ -118,9 +122,11 @@ public class ElasticGraphIndexerServiceIntTest {
         //then simple search for frank and rob
         SearchQueryDTO queryDTO = new SearchQueryDTO();
         //explicit OR 'cause default search are in AND
-        queryDTO.setQuery("roma OR frank");
+        queryDTO.setQuery("Name:roma OR Name:frank");
         List<Sprite> docs = service.search(dataSource, queryDTO);
-        assertThat(docs).hasSize(10);
+        assertThat(docs).hasSize(9);
+
+//        docs.forEach(sprite -> assertThat(sprite.valueOf("Name")).contains("frank", "roma", "Frank", "Roma"));
 
         String[] ids = docs.stream()
                 .map(s -> s.valueOf(ARCADE_ID))
@@ -132,7 +138,9 @@ public class ElasticGraphIndexerServiceIntTest {
         queryDTO.setIds(ids);
         //now search for all documents and filter by previous ids
         docs = service.search(dataSource, queryDTO);
-        assertThat(docs).hasSize(10);
+        assertThat(docs).hasSize(9);
+
+//        docs.forEach(sprite -> assertThat(sprite.valueOf("Name")).contains("frank", "roma", "Frank", "Roma"));
 
     }
 
@@ -146,9 +154,10 @@ public class ElasticGraphIndexerServiceIntTest {
 
         List<Sprite> docs = service.search(dataSource, queryDTO);
 
-        //search limited to 10
+        //search limited to 50
         assertThat(docs).hasSize(50);
 
+        //maps the ids of retrieved documents
         String[] ids = docs.stream()
                 .map(s -> s.valueOf(ARCADE_ID))
                 .collect(Collectors.toList())
@@ -161,7 +170,6 @@ public class ElasticGraphIndexerServiceIntTest {
 
         final Map<String, Object> aggregate = service.aggregate(dataSource, queryDTO, emptySet(), emptySet(), 1, 20);
 
-        System.out.println("aggregate = " + aggregate);
         assertThat(aggregate).containsKeys("Countries");
 
         final Map<String, Object> person = (Map<String, Object>) aggregate.get("Countries");
@@ -199,7 +207,7 @@ public class ElasticGraphIndexerServiceIntTest {
         queryDTO.setUseEdges(true);
         queryDTO.setIds(ids);
 
-        final Map<String, Object> aggregate = service.aggregate(dataSource, queryDTO, Sets.newHashSet("Countries"), Sets.newHashSet("Code"), 1, 20);
+        final Map<String, Object> aggregate = service.aggregate(dataSource, queryDTO, newHashSet("Countries"), newHashSet("Code"), 1, 20);
 
         assertThat(aggregate).containsKeys("Countries");
 
