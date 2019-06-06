@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.arcadeanalytics</groupId>
     <artifactId>arcadeanalytics</artifactId>
     <version>1.0.2-SNAPSHOT</version>
     <packaging>war</packaging>
-    <name>Arcadeanalytics</name>
+    <name>Arcade Analytics</name>
+
+    <url>https://arcadeanalytics.com/</url>
+    <description>Arcade Analytics: Graph Visualization and Analytics Tool</description>
 
     <properties>
         <kotlin.compiler.jvmTarget>1.8</kotlin.compiler.jvmTarget>
@@ -29,8 +33,8 @@
         <m2e.apt.activation>jdt_apt</m2e.apt.activation>
         <run.addResources>false</run.addResources>
         <!-- These remain empty unless the corresponding profile is active -->
-        <profile.no-liquibase />
-        <profile.swagger />
+        <profile.no-liquibase/>
+        <profile.swagger/>
 
         <!-- Dependency versions -->
         <jhipster-dependencies.version>0.1.14</jhipster-dependencies.version>
@@ -72,6 +76,7 @@
         <scala-maven-plugin.version>3.2.2</scala-maven-plugin.version>
         <sonar-maven-plugin.version>3.6.0.1398</sonar-maven-plugin.version>
         <swagger-codegen-maven-plugin.version>2.2.3</swagger-codegen-maven-plugin.version>
+        <nexus-staging-maven-plugin.version>1.6.8</nexus-staging-maven-plugin.version>
 
 
         <!-- Sonar properties -->
@@ -868,9 +873,9 @@
                     </diffChangeLogFile>
                     <driver>org.h2.Driver</driver>
                     <url>jdbc:h2:file:./target/h2db/db/arcadeanalytics</url>
-                    <defaultSchemaName />
+                    <defaultSchemaName/>
                     <username>arcadeanalytics</username>
-                    <password />
+                    <password/>
                     <referenceUrl>hibernate:spring:com.arcadeanalytics.domain?dialect=org.hibernate.dialect.H2Dialect&amp;hibernate.physical_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy&amp;hibernate.implicit_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy</referenceUrl>
                     <verbose>true</verbose>
                     <logging>debug</logging>
@@ -973,6 +978,17 @@
                     </includes>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
+                <version>${nexus-staging-maven-plugin.version}</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <serverId>ossrh</serverId>
+                    <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                </configuration>
+            </plugin>
 
             <!-- jhipster-needle-maven-add-plugin -->
         </plugins>
@@ -1004,7 +1020,7 @@
                                         </goals>
                                     </pluginExecutionFilter>
                                     <action>
-                                        <ignore />
+                                        <ignore/>
                                     </action>
                                 </pluginExecution>
                                 <pluginExecution>
@@ -1018,7 +1034,7 @@
                                         </goals>
                                     </pluginExecutionFilter>
                                     <action>
-                                        <ignore />
+                                        <ignore/>
                                     </action>
                                 </pluginExecution>
                             </pluginExecutions>
