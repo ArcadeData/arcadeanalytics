@@ -1,7 +1,7 @@
 version: '2'
 services:
   arcadeanalytics-app:
-    image: arcadeanalytics/arcadeanalytics:1.0.0
+    image: arcadeanalytics/arcadeanalytics:1.0.1
     environment:
       - SPRING_PROFILES_ACTIVE=prod,swagger
       - SPRING_DATASOURCE_URL=jdbc:postgresql://arcadeanalytics-postgresql:5432/arcadeanalytics
@@ -43,6 +43,10 @@ services:
       file: orientdb2.yml
       service: arcadeanalytics-orientdb
 # uncomment to startup demo database
+#  arcadeanalytics-orientdb-tp3:
+#    extends:
+#      file: orientdb-tp3.yml
+#      service: arcadeanalytics-orientdb-tp3
 #  arcadeanalytics-postgresql-dvd-rental:
 #    extends:
 #      file: postgresql-dvd-rental.yml

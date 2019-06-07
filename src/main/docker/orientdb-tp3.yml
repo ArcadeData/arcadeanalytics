@@ -1,0 +1,10 @@
+version: '2'
+services:
+  arcadeanalytics-orientdb-tp3:
+    image: arcadeanalytics/orientdb:3.0.19-tp3
+    environment:
+      ORIENTDB_ROOT_PASSWORD: arcade
+    ports:
+      - 2480:2480
+      - 2424:2424
+      - 8182:8182

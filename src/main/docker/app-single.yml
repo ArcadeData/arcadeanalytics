@@ -1,7 +1,7 @@
 version: '2'
 services:
   arcadeanalytics-single:
-    image: arcadeanalytics/arcadeanalytics:latest
+    image: arcadeanalytics/arcadeanalytics:1.0.1
     user: ${CURRENT_UID}
     environment:
       - SPRING_PROFILES_ACTIVE=prod-single
@@ -25,6 +25,10 @@ services:
 #    extends:
 #      file: orientdb2.yml
 #      service: arcadeanalytics-orientdb
+#  arcadeanalytics-orientdb-tp3:
+#    extends:
+#      file: orientdb-tp3.yml
+#      service: arcadeanalytics-orientdb-tp3
 #  arcadeanalytics-postgresql-dvd-rental:
 #    extends:
 #      file: postgresql-dvd-rental.yml
