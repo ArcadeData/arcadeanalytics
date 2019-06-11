@@ -78,6 +78,7 @@
     "prettier": "^1.15.2",
     "prismjs": "^1.8.4",
     "qtip2": "^3.0.3",
+    "querystringify": "^2.0.0",
     "randomcolor": "^0.5.3",
     "reflect-metadata": "0.1.12",
     "rxjs": "6.3.3",
