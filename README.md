@@ -23,10 +23,10 @@ To be able to create new users, fill the properties inside the compose:
           - SPRING_EMAIL_PORT=587
           - SPRING_EMAIL_USERNAME=
           - SPRING_EMAIL_PASSWORD=
-          - JHNIPSTER_MAIL_FROM=
-          - JHNIPSTER_MAIL_BASE-URL=
+          - JHIPSTER_MAIL_FROM=
+          - JHIPSTER_MAIL_BASE-URL=
 
-Then restart the container and login with admin/admin credentials.
+Then restart the container and login with _admin/admin_ credentials.
 
 The Docker compose starts ArcadeAnalytics, a PostgreSQL database, an Elastic instance and an OrientDB with its _demodb_ preloaded.
 
@@ -38,21 +38,7 @@ Arcade is provided as a all-embedded image, where hsql and embedded Elasicsearch
 
     docker-compose -f src/main/docker/app-single.yml up
 
-This compose does not start containers with test databases
-
-## Run support containers with test databases
-
-Compose configurations with preconfigured databases are provided in the src/main/docker directory:
-* OrientDB with preconfigured demodb
-* Postgres with dvd rental demo database
-* Mysql with sakila (dvd rental) demo database
-
-To run a db container use the provided compose:
-
-    docker-compose -f src/main/docker/postgresql-dvd-rental.yml up
-
-    docker-compose -f src/main/docker/orientdb2.yml up
-
+This compose does not start containers with test databases.
 
 ## Configure SSH 
 
@@ -69,6 +55,11 @@ The directory /arcade inside the container is mounted as volume:
 
 Create a directory in *~/.arcade/* named *.ssh* and put the private and public keys inside.
 The public key should be copied on the server used as ssh gateway too.
+
+
+## Run support containers with test databases
+
+Check the [dedicated repository](https://github.com/ArcadeAnalytics/arcadeanalytics-recipes)
 
 ## Connect to Amazon AWS
 
