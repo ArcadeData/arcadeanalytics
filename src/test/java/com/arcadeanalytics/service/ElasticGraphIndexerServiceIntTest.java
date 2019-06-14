@@ -53,7 +53,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class ElasticGraphIndexerServiceIntTest {
 
     @ClassRule
-    public static GenericContainer container = new GenericContainer("arcadeanalytics/orientdb:3.0.19-tp3")
+    public static GenericContainer container = new GenericContainer("arcadeanalytics/orientdb3")
             .withExposedPorts(2424)
             .waitingFor(Wait.forListeningPort());
 
@@ -123,7 +123,7 @@ public class ElasticGraphIndexerServiceIntTest {
         SearchQueryDTO queryDTO = new SearchQueryDTO();
         //explicit OR 'cause default search are in AND
         queryDTO.setQuery("Name:roma OR Name:frank");
-        List<Sprite> docs = service.search(dataSource, queryDTO);
+        List<Sprite> docs = service.searchAndMap(dataSource, queryDTO);
         assertThat(docs).hasSize(9);
 
 //        docs.forEach(sprite -> assertThat(sprite.valueOf("Name")).contains("frank", "roma", "Frank", "Roma"));
@@ -137,7 +137,7 @@ public class ElasticGraphIndexerServiceIntTest {
         queryDTO.setQuery("*:*");
         queryDTO.setIds(ids);
         //now search for all documents and filter by previous ids
-        docs = service.search(dataSource, queryDTO);
+        docs = service.searchAndMap(dataSource, queryDTO);
         assertThat(docs).hasSize(9);
 
 //        docs.forEach(sprite -> assertThat(sprite.valueOf("Name")).contains("frank", "roma", "Frank", "Roma"));
@@ -152,7 +152,7 @@ public class ElasticGraphIndexerServiceIntTest {
         queryDTO.setNumOfDocuments(50);
         queryDTO.setUseEdges(false);
 
-        List<Sprite> docs = service.search(dataSource, queryDTO);
+        List<Sprite> docs = service.searchAndMap(dataSource, queryDTO);
 
         //search limited to 50
         assertThat(docs).hasSize(50);
@@ -168,7 +168,7 @@ public class ElasticGraphIndexerServiceIntTest {
         queryDTO.setIds(ids);
         queryDTO.setNumOfDocuments(50);
 
-        final Map<String, Object> aggregate = service.aggregate(dataSource, queryDTO, emptySet(), emptySet(), 1, 20);
+        final Map<String, Object> aggregate = service.aggregateAndMap(dataSource, queryDTO, emptySet(), emptySet(), 1, 20);
 
         assertThat(aggregate).containsKeys("Countries");
 
@@ -178,6 +178,7 @@ public class ElasticGraphIndexerServiceIntTest {
 
         final Map<String, Object> propertyValues = (Map<String, Object>) person.get("propertyValues");
 
+        System.out.println("propertyValues = " + propertyValues);
         assertThat(propertyValues).containsKeys("Code");
         assertThat(propertyValues).containsKeys("Name");
 
@@ -193,7 +194,7 @@ public class ElasticGraphIndexerServiceIntTest {
         //search for all
         SearchQueryDTO queryDTO = new SearchQueryDTO();
         queryDTO.setQuery("@class:Countries");
-        List<Sprite> docs = service.search(dataSource, queryDTO);
+        List<Sprite> docs = service.searchAndMap(dataSource, queryDTO);
 
         //search limited to 10
         assertThat(docs).hasSize(10);
@@ -207,7 +208,7 @@ public class ElasticGraphIndexerServiceIntTest {
         queryDTO.setUseEdges(true);
         queryDTO.setIds(ids);
 
-        final Map<String, Object> aggregate = service.aggregate(dataSource, queryDTO, newHashSet("Countries"), newHashSet("Code"), 1, 20);
+        final Map<String, Object> aggregate = service.aggregateAndMap(dataSource, queryDTO, newHashSet("Countries"), newHashSet("Code"), 1, 20);
 
         assertThat(aggregate).containsKeys("Countries");
 

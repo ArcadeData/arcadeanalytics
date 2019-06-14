@@ -212,7 +212,32 @@ public class ElasticGraphIndexerService {
      * @throws IOException if somethig goes wrong
      */
     @Timed
-    public List<Sprite> search(DataSource dataSource, SearchQueryDTO query) throws IOException {
+    public String search(DataSource dataSource, SearchQueryDTO query) throws IOException {
+        SearchResponse searchResponse = getSearchResponse(dataSource, query);
+
+        return searchResponse.toString();
+//        SearchHit[] hits = searchResponse.getHits().getHits();
+//
+//
+//        log.info("found {} documents", hits.length);
+//
+//        return Stream.of(hits)
+////                .peek(h -> log.info("h:: " + h.toString()))
+////                .peek(h -> log.info("hf:: " + h.getHighlightFields().size()))
+////                .map(h -> h.getSource())
+////                .peek(s -> log.info("s:: " + s))
+//                .map(hit -> {
+//
+//                    Sprite sprite = new Sprite().load(hit.getSource());
+////                    hit.getHighlightFields().f
+//                    return sprite;
+//                })
+//                .collect(Collectors.toList());
+
+    }
+
+    @NotNull
+    private SearchResponse getSearchResponse(DataSource dataSource, SearchQueryDTO query) throws IOException {
         log.info("search on data-source {}  with query:: {} - filters:: {} ", dataSource.getId(), query, query.getIds());
 
         Client client = searchTemplate.getClient();
@@ -248,8 +273,13 @@ public class ElasticGraphIndexerService {
                 .actionGet();
 
         log.debug("response:: {} ", searchResponse.toString());
+        return searchResponse;
+    }
 
-        SearchHit[] hits = searchResponse.getHits().getHits();
+
+    public List<Sprite> searchAndMap(DataSource dataSource, SearchQueryDTO query) throws IOException {
+
+        SearchHit[] hits = getSearchResponse(dataSource, query).getHits().getHits();
 
         log.info("found {} documents", hits.length);
 
@@ -268,14 +298,14 @@ public class ElasticGraphIndexerService {
 
     }
 
-
     @Timed
-    public Map<String, Object> aggregate(DataSource dataSource,
-                                         SearchQueryDTO query,
-                                         Set<String> classes,
-                                         Set<String> fields,
-                                         long minDocCount,
-                                         int maxValuesPerField) throws IOException {
+    public String aggregate(DataSource dataSource,
+                            SearchQueryDTO query,
+                            Set<String> classes,
+                            Set<String> fields,
+                            long minDocCount,
+                            int maxValuesPerField) throws IOException {
+
         final String indexName = dataSource.getId().toString();
 
         log.info("start aggregation on data-source {} with minDocCount {}, maxValuesPerField {}, classes {} , fields {}",
@@ -291,7 +321,31 @@ public class ElasticGraphIndexerService {
 
         final SearchResponse searchResponse = termAggregations(client, indexName, classes, fields, query, minDocCount, maxValuesPerField);
 
+        return searchResponse.toString();
+    }
 
+    @Timed
+    public Map<String, Object> aggregateAndMap(DataSource dataSource,
+                                               SearchQueryDTO query,
+                                               Set<String> classes,
+                                               Set<String> fields,
+                                               long minDocCount,
+                                               int maxValuesPerField) throws IOException {
+
+        final String indexName = dataSource.getId().toString();
+
+        log.info("start aggregation on data-source {} with minDocCount {}, maxValuesPerField {}, classes {} , fields {}",
+                dataSource.getId(),
+                minDocCount,
+                maxValuesPerField,
+                classes,
+                fields);
+
+        Client client = searchTemplate.getClient();
+
+        if (fields.isEmpty()) fields = indexFields(indexName, client, query.isUseEdges());
+
+        final SearchResponse searchResponse = termAggregations(client, indexName, classes, fields, query, minDocCount, maxValuesPerField);
         log.debug("tree: {}", searchResponse.toString());
 
         Map<String, Object> facetsTree = searchResponseToMap(fields, searchResponse);
@@ -303,11 +357,31 @@ public class ElasticGraphIndexerService {
     }
 
     @Timed
-    public Map<String, Object> aggregate(DataSource dataSource,
-                                         Set<String> classes,
-                                         Set<String> fields,
-                                         long minDocCount,
-                                         int maxValuesPerField) throws IOException {
+    public String aggregate(DataSource dataSource,
+                            Set<String> classes,
+                            Set<String> fields,
+                            long minDocCount,
+                            int maxValuesPerField) throws IOException {
+
+        final String indexName = dataSource.getId().toString();
+
+        log.info("start aggregation on data-source {} on classes {} and fields {}  with minDocCount {}, maxValuesPerField {}", dataSource.getId(), classes, fields, minDocCount, maxValuesPerField);
+
+        Client client = searchTemplate.getClient();
+
+        if (fields.isEmpty()) fields = indexFields(indexName, client, true);
+
+        final SearchResponse searchResponse = termAggregations(client, indexName, classes, fields, new SearchQueryDTO(), minDocCount, maxValuesPerField);
+
+        return searchResponse.toString();
+    }
+
+    @Timed
+    public Map<String, Object> aggregateAndMap(DataSource dataSource,
+                                               Set<String> classes,
+                                               Set<String> fields,
+                                               long minDocCount,
+                                               int maxValuesPerField) throws IOException {
 
         final String indexName = dataSource.getId().toString();
 

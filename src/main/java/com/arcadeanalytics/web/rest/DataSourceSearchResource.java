@@ -32,6 +32,7 @@ import com.codahale.metrics.annotation.Timed;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -44,11 +45,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * REST controller for managing Elasticsearch process.
@@ -134,17 +132,17 @@ public class DataSourceSearchResource {
      * @return the facet tree
      * @throws IOException if something goes wrong while aggregating
      */
-    @GetMapping("/_search/data-sources/aggregate/{id}")
+    @GetMapping(value = "/_search/data-sources/aggregate/{id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @Timed
-    public ResponseEntity<Map<String, Object>> aggregate(@PathVariable Long id,
-                                                         @RequestParam(required = false, defaultValue = "") Set<String> classes,
-                                                         @RequestParam(required = false, defaultValue = "") Set<String> fields,
-                                                         @RequestParam(required = false, defaultValue = "1") long minDocCount,
-                                                         @RequestParam(required = false, defaultValue = "1000") int maxValuesPerField) throws IOException {
+    public ResponseEntity<String> aggregate(@PathVariable Long id,
+                                            @RequestParam(required = false, defaultValue = "") Set<String> classes,
+                                            @RequestParam(required = false, defaultValue = "") Set<String> fields,
+                                            @RequestParam(required = false, defaultValue = "1") long minDocCount,
+                                            @RequestParam(required = false, defaultValue = "1000") int maxValuesPerField) throws IOException {
         DataSource dataSource = dataSourceRepository.findOne(id);
         log.info("REST request to aggregate {} by user {}", dataSource.getId(), SecurityUtils.getCurrentUserLogin());
 
-        Map<String, Object> results = elasticGraphIndexerService.aggregate(dataSource, classes, fields, minDocCount, maxValuesPerField);
+        String results = elasticGraphIndexerService.aggregate(dataSource, classes, fields, minDocCount, maxValuesPerField);
 
         return new ResponseEntity<>(results, HttpStatus.OK);
     }
@@ -161,18 +159,18 @@ public class DataSourceSearchResource {
      * @return the facet tree
      * @throws IOException if something goes wrong while aggregating
      */
-    @PostMapping("/_search/data-sources/aggregate/{id}")
+    @PostMapping(value = "/_search/data-sources/aggregate/{id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @Timed
-    public ResponseEntity<Map<String, Object>> aggregate(@PathVariable Long id,
-                                                         @RequestBody SearchQueryDTO query,
-                                                         @RequestParam(required = false, defaultValue = "") Set<String> classes,
-                                                         @RequestParam(required = false, defaultValue = "") Set<String> fields,
-                                                         @RequestParam(required = false, defaultValue = "1") long minDocCount,
-                                                         @RequestParam(required = false, defaultValue = "15") int maxValuesPerField) throws IOException {
+    public ResponseEntity<String> aggregate(@PathVariable Long id,
+                                            @RequestBody SearchQueryDTO query,
+                                            @RequestParam(required = false, defaultValue = "") Set<String> classes,
+                                            @RequestParam(required = false, defaultValue = "") Set<String> fields,
+                                            @RequestParam(required = false, defaultValue = "1") long minDocCount,
+                                            @RequestParam(required = false, defaultValue = "15") int maxValuesPerField) throws IOException {
         DataSource dataSource = dataSourceRepository.findOne(id);
         log.info("REST request to aggregate {} by user {}", dataSource.getId(), SecurityUtils.getCurrentUserLogin());
 
-        Map<String, Object> results = elasticGraphIndexerService.aggregate(dataSource, query, classes, fields, minDocCount, maxValuesPerField);
+        String results = elasticGraphIndexerService.aggregate(dataSource, query, classes, fields, minDocCount, maxValuesPerField);
 
         return new ResponseEntity<>(results, HttpStatus.OK);
     }
@@ -185,18 +183,16 @@ public class DataSourceSearchResource {
      * @return the documents
      * @throws IOException is something goes wrong
      */
-    @PostMapping("/_search/data-sources/{id}")
+    @PostMapping(value = "/_search/data-sources/{id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @Timed
-    public ResponseEntity<List<Map<String, Object>>> searchDataSource(@PathVariable Long id, @RequestBody SearchQueryDTO query) throws IOException {
+    public ResponseEntity<String> searchDataSource(@PathVariable Long id, @RequestBody SearchQueryDTO query) throws IOException {
 
         DataSource dataSource = dataSourceRepository.findOne(id);
 
         log.info("REST request to query {} by user {} ", dataSource.getId(), SecurityUtils.getCurrentUserLogin());
 
-        List<Map<String, Object>> results = elasticGraphIndexerService.search(dataSource, query)
-                .stream()
-                .map(s -> s.asMap())
-                .collect(Collectors.toList());
+        String results = elasticGraphIndexerService.search(dataSource, query);
+
         return new ResponseEntity<>(results, HttpStatus.OK);
     }
 
