@@ -30,9 +30,9 @@
     cursor: pointer;
 }
 
-#fullTextSearch ul li a:hover {
-    font-weight: normal;
-}
+// #fullTextSearch ul li a:hover {
+//     font-weight: normal;
+// }
 
 .itemSelected {
     background-color: #f2f2f2;
@@ -43,11 +43,11 @@
 }
 
 .resultNodeInfo {
-    display: block;
-    color: lightgrey;
+    color: grey;
 }
 
 .resultSnippet {
+    display: block;
     color: black;
     font-size: x-small;
     font-weight: normal;
