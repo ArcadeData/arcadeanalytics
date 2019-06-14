@@ -36,7 +36,7 @@ export class FulltextSearchComponent implements OnInit, OnChanges, OnDestroy {
     @Output() noSuchIndexEmitter: EventEmitter<Object> = new EventEmitter();
     @Output() closeEmitter: EventEmitter<Object> = new EventEmitter();
 
-    results: Object[];
+    results: Object[] = [];
     selectedResultsId: Map<string, Object> = new Map();
 
     public resultContainerHeight: string;
@@ -60,7 +60,14 @@ export class FulltextSearchComponent implements OnInit, OnChanges, OnDestroy {
     performFullTextSearch() {
         this.widgetService.fulltextSearch(this.searchTerm, this.datasourceId)
             .subscribe((results: HttpResponse<Object[]>) => {
-                this.results = results.body;
+                const hits: Object[] = results.body['hits']['hits'];
+                hits.forEach((hit) => {
+                    const highlightProperty = Object.keys(hit['highlight'])[0]; // getting always the first property for the snippet
+                    this.results.push({
+                        source: hit['_source'],
+                        snippet: hit['highlight'][highlightProperty]
+                    });
+                });
             }, (error: HttpErrorResponse) => {
                 let message: string;
                 let title: string;

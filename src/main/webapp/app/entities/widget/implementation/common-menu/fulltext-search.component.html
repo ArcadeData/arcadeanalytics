@@ -15,11 +15,14 @@
                 <li *ngFor="let result of results" (click)="switchItemSelection(result)"
                     [ngClass]="{'itemSelected': result['_a_selected'] && result['_a_selected'] === true}">
                     <a >
-                    <span *ngIf="result['name']" class="resultName">
-                        {{result['name']}}&nbsp;&nbsp;
+                    <span *ngIf="result['source']['name']" class="resultName">
+                        {{result['source']['name']}}&nbsp;&nbsp;
                     </span>
                         <span class="resultNodeInfo">
-                        {{result['_a_id']}} - {{result['@class']}}
+                        {{result['source']['_a_id']}} - {{result['source']['@class']}}
+                    </span>
+                    </span>
+                        <span class="resultSnippet" [innerHtml]="result['snippet']">
                     </span>
                     </a>
                 </li>

@@ -43,10 +43,17 @@
 }
 
 .resultNodeInfo {
+    display: block;
     color: lightgrey;
 }
 
-.resultDetail {
+.resultSnippet {
     color: black;
     font-size: x-small;
+    font-weight: normal;
+}
+
+.resultSnippet  > em {
+    font-style: normal !important;
+    font-weight: bold !important;
 }
