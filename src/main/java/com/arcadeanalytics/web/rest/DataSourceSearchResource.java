@@ -45,6 +45,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
@@ -132,17 +133,17 @@ public class DataSourceSearchResource {
      * @return the facet tree
      * @throws IOException if something goes wrong while aggregating
      */
-    @GetMapping(value = "/_search/data-sources/aggregate/{id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping(value = "/_search/data-sources/aggregate/{id}")
     @Timed
-    public ResponseEntity<String> aggregate(@PathVariable Long id,
-                                            @RequestParam(required = false, defaultValue = "") Set<String> classes,
-                                            @RequestParam(required = false, defaultValue = "") Set<String> fields,
-                                            @RequestParam(required = false, defaultValue = "1") long minDocCount,
-                                            @RequestParam(required = false, defaultValue = "1000") int maxValuesPerField) throws IOException {
+    public ResponseEntity<Map<String, Object>> aggregate(@PathVariable Long id,
+                                                         @RequestParam(required = false, defaultValue = "") Set<String> classes,
+                                                         @RequestParam(required = false, defaultValue = "") Set<String> fields,
+                                                         @RequestParam(required = false, defaultValue = "1") long minDocCount,
+                                                         @RequestParam(required = false, defaultValue = "1000") int maxValuesPerField) throws IOException {
         DataSource dataSource = dataSourceRepository.findOne(id);
         log.info("REST request to aggregate {} by user {}", dataSource.getId(), SecurityUtils.getCurrentUserLogin());
 
-        String results = elasticGraphIndexerService.aggregate(dataSource, classes, fields, minDocCount, maxValuesPerField);
+        Map<String, Object> results = elasticGraphIndexerService.aggregateAndMap(dataSource, classes, fields, minDocCount, maxValuesPerField);
 
         return new ResponseEntity<>(results, HttpStatus.OK);
     }
@@ -159,18 +160,18 @@ public class DataSourceSearchResource {
      * @return the facet tree
      * @throws IOException if something goes wrong while aggregating
      */
-    @PostMapping(value = "/_search/data-sources/aggregate/{id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PostMapping(value = "/_search/data-sources/aggregate/{id}")
     @Timed
-    public ResponseEntity<String> aggregate(@PathVariable Long id,
-                                            @RequestBody SearchQueryDTO query,
-                                            @RequestParam(required = false, defaultValue = "") Set<String> classes,
-                                            @RequestParam(required = false, defaultValue = "") Set<String> fields,
-                                            @RequestParam(required = false, defaultValue = "1") long minDocCount,
-                                            @RequestParam(required = false, defaultValue = "15") int maxValuesPerField) throws IOException {
+    public ResponseEntity<Map<String, Object>> aggregate(@PathVariable Long id,
+                                                         @RequestBody SearchQueryDTO query,
+                                                         @RequestParam(required = false, defaultValue = "") Set<String> classes,
+                                                         @RequestParam(required = false, defaultValue = "") Set<String> fields,
+                                                         @RequestParam(required = false, defaultValue = "1") long minDocCount,
+                                                         @RequestParam(required = false, defaultValue = "15") int maxValuesPerField) throws IOException {
         DataSource dataSource = dataSourceRepository.findOne(id);
         log.info("REST request to aggregate {} by user {}", dataSource.getId(), SecurityUtils.getCurrentUserLogin());
 
-        String results = elasticGraphIndexerService.aggregate(dataSource, query, classes, fields, minDocCount, maxValuesPerField);
+        Map<String, Object> results = elasticGraphIndexerService.aggregateAndMap(dataSource, query, classes, fields, minDocCount, maxValuesPerField);
 
         return new ResponseEntity<>(results, HttpStatus.OK);
     }
