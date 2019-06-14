@@ -247,8 +247,8 @@ public class ElasticGraphIndexerService {
         SearchRequestBuilder searchRequestBuilder = client.prepareSearch(indexName)
                 .setHighlighterForceSource(true)
                 .setHighlighterEncoder("default")
-                .setHighlighterPreTags("<em>")
-                .setHighlighterPostTags("</em>")
+                .setHighlighterPreTags("<strong>")
+                .setHighlighterPostTags("</strong>")
                 .setSize(query.getNumOfDocuments());
 
         final QueryStringQueryBuilder queryBuilder = QueryBuilders.queryStringQuery(query.getQuery()).defaultOperator(AND);
