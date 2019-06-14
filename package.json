@@ -39,6 +39,7 @@
     "cytoscape-panzoom": "^2.5.2",
     "cytoscape-qtip": "^2.7.1",
     "datauri": "^1.0.5",
+    "diff": "^3.5.0",
     "echarts": "^4.2.0-rc.2",
     "element-resize-event": "^3.0.3",
     "file-saver": "^2.0.0",
