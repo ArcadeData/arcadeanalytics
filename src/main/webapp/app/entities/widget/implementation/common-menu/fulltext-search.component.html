@@ -13,7 +13,7 @@
         <div id="resultsContainer" class="col-lg-12" [ngStyle]="{'max-height': resultContainerHeight}">
             <ul *ngIf="results && results['length'] > 0">
                 <li *ngFor="let result of results" (click)="switchItemSelection(result)"
-                    [ngClass]="{'itemSelected': result['_a_selected'] && result['_a_selected'] === true}">
+                    [ngClass]="{'itemSelected': result['source']['_a_selected'] && result['source']['_a_selected'] === true}">
                     <a >
                     <span *ngIf="result['source']['name']" class="resultName">
                         {{result['source']['name']}}&nbsp;&nbsp;

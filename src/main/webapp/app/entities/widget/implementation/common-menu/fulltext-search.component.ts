@@ -86,26 +86,26 @@ export class FulltextSearchComponent implements OnInit, OnChanges, OnDestroy {
     ngOnDestroy() { }
 
     switchItemSelection(resultItem) {
-        if (resultItem['_a_selected'] !== undefined) {
-            if (resultItem['_a_selected'] === true) {
-                resultItem['_a_selected'] = false;
+        if (resultItem['source']['_a_selected'] !== undefined) {
+            if (resultItem['source']['_a_selected'] === true) {
+                resultItem['source']['_a_selected'] = false;
                 this.removeSelected(resultItem);
             } else {
-                resultItem['_a_selected'] = true;
+                resultItem['source']['_a_selected'] = true;
                 this.addSelected(resultItem);
             }
         } else {
-            resultItem['_a_selected'] = true;
+            resultItem['source']['_a_selected'] = true;
             this.addSelected(resultItem);
         }
     }
 
     removeSelected(result) {
-        this.selectedResultsId.delete(result['_a_id']);
+        this.selectedResultsId.delete(result['source']['_a_id']);
     }
 
     addSelected(result: Object) {
-        this.selectedResultsId.set(result['_a_id'], result);
+        this.selectedResultsId.set(result['source']['_a_id'], result);
     }
 
     loadSelected() {
