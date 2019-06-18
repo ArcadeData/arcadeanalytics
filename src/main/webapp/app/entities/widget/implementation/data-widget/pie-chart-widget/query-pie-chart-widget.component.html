@@ -225,7 +225,7 @@
                         <div *ngIf="dataSourceMetadata" class="class-form">
                             <span>Category</span>&nbsp;
                             <select id="categorySelection" class="form-control small-vertical-padding"
-                                [(ngModel)]="selectedProperty">
+                                [(ngModel)]="categoryProperty">
                                 <option *ngFor="let propertyName of selectedClassProperties" [ngValue]="propertyName">
                                     {{propertyName}} </option>
                             </select>
@@ -244,9 +244,9 @@
                     <li class="col-md-3 no-padding">
                         <div *ngIf="dataSourceMetadata && selectedClass" class="cardinality-info">
                             <div class="col-md-2 no-padding text-center">
-                                <i *ngIf="selectedClass && selectedProperty" class="fa fa-play command"
+                                <i *ngIf="categoryProperty && valueProperty" class="fa fa-play command"
                                     (click)="runSeriesComputation()"></i>
-                                <i *ngIf="!selectedClass || !selectedProperty"
+                                <i *ngIf="!categoryProperty || !valueProperty"
                                     class="fa fa-play command link-disabled"></i>
                             </div>
                         </div>

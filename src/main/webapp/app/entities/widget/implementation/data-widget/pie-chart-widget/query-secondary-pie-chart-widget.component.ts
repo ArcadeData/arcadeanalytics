@@ -40,6 +40,7 @@ import { Router } from '@angular/router';
 })
 export class QuerySecondaryPieChartWidgetComponent extends AbstractSecondaryPieChartWidgetComponent implements SecondaryWidget, OnDestroy {
 
+    categoryProperty: string;
     valueProperty: string;
 
     constructor(
@@ -97,6 +98,10 @@ export class QuerySecondaryPieChartWidgetComponent extends AbstractSecondaryPieC
 
         super.updatePieChartWidgetFromSnapshot(snapshot);
 
+        if (snapshot['categoryProperty']) {
+            this.categoryProperty = snapshot['categoryProperty'];
+        }
+
         if (snapshot['valueProperty']) {
             this.valueProperty = snapshot['valueProperty'];
         }
@@ -112,33 +117,102 @@ export class QuerySecondaryPieChartWidgetComponent extends AbstractSecondaryPieC
      */
     performFacetingForCurrentDataset(saveAfterUpdate?: boolean): void {
 
-        const propertyValues = {};
-        const distribution = {};
+        this.pieChartData = [];
+        this.pieChartLegendData = [];
+        this.pieChartLegendDataSelected = {};
 
-        for (const elem of this.currentDataset['elements']) {
-            const record = elem['data']['record'];
-            distribution[record[this.selectedProperty]] = record[this.valueProperty];
+        // just a series: categoryProperty_valueProperty
+        const distribution = this.buildDistribution();
+        const seriesName = this.buildSingleSeriesName();
+
+        const seriesDistribution = distribution[seriesName];
+        if (!seriesDistribution) {
+            let message = 'No distribution is present for the \'' + seriesName + '\' series.';
+            message += this.checkThresholdsMessage;
+            console.log(message);
+            this.notificationService.push('warning', 'Distribution computation', message);
+            return;
         }
-        propertyValues[this.selectedProperty] = distribution;
 
-        const faceting = {
-            Table: {
-                doc_count: undefined,
-                propertyValues: propertyValues
-            }
-        };
+        for (const currValue of Object.keys(seriesDistribution)) {
+            const currPieChartItem = {
+                name: currValue,
+                value: seriesDistribution[currValue]
+            };
+            this.pieChartData.push(currPieChartItem);
 
-        this.updatePieChartFromFaceting(faceting);
+            // legend data updating
+            this.pieChartLegendData.push(currValue);
+            this.pieChartLegendDataSelected[currValue] = true;
+        }
+
+        this.stopSpinner();
+
+        this.updatePieChart();
+
+        // updating to-save flag
+        this.toSave = true;
+
         if (saveAfterUpdate) {
             this.saveAll(true);
         }
     }
 
+    buildDistribution(): Object {
+
+        const globalDistribution = {};
+        const seriesName = this.buildSingleSeriesName();
+        const currSeriesDistribution = {};
+        for (const elem of this.currentDataset['elements']) {
+            const record = elem['data']['record'];
+            currSeriesDistribution[record[this.categoryProperty]] = record[this.valueProperty];
+        }
+        globalDistribution[seriesName] = currSeriesDistribution;
+        return globalDistribution;
+    }
+
+    /**
+     * Builds the name for a single series according to a specific logic:
+     * seriesName = <categoryProperty>_<valueProperty>
+     */
+    buildSingleSeriesName(): string {
+        return this.categoryProperty + '_' + this.valueProperty;
+    }
+
+    /**
+     * Saving
+     */
+
     // Override
     buildSnapshotObject(): Object {
 
-        const jsonForSnapshotSaving = super.buildSnapshotObject();
-        jsonForSnapshotSaving['valueProperty'] = this.valueProperty;
+        const jsonForSnapshotSaving = {
+            pieChartData: this.pieChartData,
+            pieChartLegendData: this.pieChartLegendData,
+            pieChartLegendDataSelected: this.pieChartLegendDataSelected,
+            currentDataset: this.currentDataset,
+            dataSourceMetadata: this.dataSourceMetadata,
+            currentFaceting: this.currentFaceting,
+            selectedClass: this.selectedClass,
+            limitEnabled: this.limitEnabled,
+            limitForNodeFetching: this.limitForNodeFetching,
+            selectedClassProperties: this.selectedClassProperties,
+            categoryProperty: this.categoryProperty,
+            valueProperty: this.valueProperty,
+            showLegend: this.showLegend,
+            showLabels: this.showLabels,
+            labelPosition: this.labelPosition,
+            minDocCount: this.minDocCount,
+            maxValuesPerField: this.maxValuesPerField,
+            minDocCountSliderUpperValue: this.minDocCountSliderUpperValue,
+            maxValuesPerFieldSliderUpperValue: this.maxValuesPerFieldSliderUpperValue
+        };
+
+        const perspective: Object = {
+            pieChartTabActive: this.pieChartTabActive,
+            datasourceTabActive: this.datasourceTabActive,
+        };
+        jsonForSnapshotSaving['perspective'] = perspective;
 
         return jsonForSnapshotSaving;
     }
