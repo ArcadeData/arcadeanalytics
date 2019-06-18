@@ -40,6 +40,7 @@ import { Router } from '@angular/router';
 })
 export class QuerySecondaryBarChartWidgetComponent extends AbstractSecondaryBarChartWidgetComponent implements SecondaryWidget, OnDestroy {
 
+    categoryProperty: string;
     valueProperty: string;
 
     // multi series nodes fetching
@@ -181,110 +182,27 @@ export class QuerySecondaryBarChartWidgetComponent extends AbstractSecondaryBarC
   */
     performFacetingForCurrentDataset(saveAfterUpdate?: boolean): void {
 
-        const propertyValues = {};
-        const distribution = {};
-
-        if (!this.multiSeriesMode) {
-            for (const elem of this.currentDataset['elements']) {
-                const record = elem['data']['record'];
-                distribution[record[this.selectedProperty]] = record[this.valueProperty];
-            }
-            propertyValues[this.selectedProperty] = distribution;
-        } else {
-
-            for (const seriesName of Object.keys(this.multiSeriesName2info)) {
-                const currSeries = this.multiSeriesName2info[seriesName];
-                const currCategoryProperty = currSeries['categoryProperty'];
-                const currValueyProperty = currSeries['valueProperty'];
-                for (const elem of this.currentDataset['elements']) {
-                    const record = elem['data']['record'];
-                    distribution[record[currCategoryProperty]] = record[currValueyProperty];
-                }
-                propertyValues[currCategoryProperty] = distribution;
-            }
-        }
-
-        const faceting = {
-            Table: {
-                doc_count: undefined,
-                propertyValues: propertyValues
-            }
-        };
-
-        this.updateBarChartFromFaceting(faceting);
-        if (saveAfterUpdate) {
-            this.saveAll(true);
-        }
-    }
-
-    /* Override
-     *
-     * It updates the bar chart data according to the faceting passed as param.
-     * If no faceting is passed as input, then the last loaded faceting will be used.
-     */
-    updateBarChartFromFaceting(faceting?: any) {
-
-        this.stopSpinner();
-
-        if (!faceting) {
-            faceting = this.currentFaceting;
-        }
-
-        // updating bar chart data
+        this.series = [];
+        this.xAxisCategories = [];
+        this.barChartLegendData = [];
+        this.barChartLegendDataSelected = {};
 
         if (this.multiSeriesMode) {
-            // multi series case: multiple classes and properties
+            const distribution = this.buildDistribution();
 
-            // single series settings reset
-            this.resetSingleSeriesSettings();
-
-            this.series = [];
-            this.xAxisCategories = [];
-            this.barChartLegendData = [];
-            this.barChartLegendDataSelected = {};
-
-            // updating xAxisCategories, used to order the counts
             for (const currSeriesName of Object.keys(this.multiSeriesName2info)) {
-
-                const currClassFaceting = faceting['Table']['propertyValues'];
-
-                let addXAxisCategories = true;
-                if (!currClassFaceting) {
-                    const message = 'No faceting is present for query resulset.';
-                    console.log(message);
-                    this.notificationService.push('warning', 'Distribution computation', message);
-                    addXAxisCategories = false;
-                }
-                const currPropertyName = this.multiSeriesName2info[currSeriesName]['categoryProperty'];
-                const currPropertyFaceting = currClassFaceting[currPropertyName];
-                if (!currPropertyFaceting) {
-                    const message = 'No faceting is present for \'' + currPropertyName + '\' property of the query resulset.';
-                    console.log(message);
-                    this.notificationService.push('warning', 'Distribution computation', message);
-                    addXAxisCategories = false;
-                }
-
-                if (addXAxisCategories) {
-                    for (const currPropertyValue of Object.keys(currPropertyFaceting)) {
-                        if (this.xAxisCategories.indexOf(currPropertyValue) < 0) {
-                            this.xAxisCategories.push(currPropertyValue);
-                        }
-                    }
-                }
-            }
-            // sorting the array
-            this.xAxisCategories.sort();
-
-            for (const currSeriesName of Object.keys(this.multiSeriesName2info)) {      // series name is built as: <tableProperty1>_<tableProperty2>
-
-                const currClassFaceting = faceting['Table']['propertyValues'];
-                const currPropertyName = this.multiSeriesName2info[currSeriesName]['categoryProperty'];
-                const currPropertyFaceting = currClassFaceting[currPropertyName];
+                const currSeriesBarChartData = [];
 
                 // legend data updating
-                if (this.barChartLegendData.indexOf(currSeriesName) < 0) {
-                    this.barChartLegendData.push(currSeriesName);
-                    this.barChartLegendDataSelected[currSeriesName] = true;
+                this.barChartLegendData.push(currSeriesName);
+                this.barChartLegendDataSelected[currSeriesName] = true;
+                const seriesDistribution = distribution[currSeriesName];
+                if (!seriesDistribution) {
+                    let message = 'No distribution is present for the \'' + currSeriesName + '\' series.';
+                    message += this.checkThresholdsMessage;
+                    console.log(message);
+                    this.notificationService.push('warning', 'Distribution computation', message);
+                    return;
                 }
 
                 const currSeries: Object = {
@@ -294,74 +212,11 @@ export class QuerySecondaryBarChartWidgetComponent extends AbstractSecondaryBarC
                     emphasis: this.emphasisOptions
                 };
 
-                const currSeriesBarChartData = [];
-                if (currPropertyFaceting) {
-                    for (const currValueProperty of this.xAxisCategories) {
-                        if (currPropertyFaceting[currValueProperty]) {
-                            const currBarChartItem = currPropertyFaceting[currValueProperty];
-                            currSeriesBarChartData.push(currBarChartItem);
-                        } else {
-                            // the current property faceting of the current series has not the property value, then we have to add 0 as default value
-                            currSeriesBarChartData.push(0);
-                        }
-                    }
-                } else {
-                    // faceting is not present because of an error or because it was filtered out, then let's jump it
-                    for (const currValueProperty of this.xAxisCategories) {
-                        const currBarChartItem = 0;
-                        currSeriesBarChartData.push(currBarChartItem);
-                    }
-                }
-
-                // injecting data into the current series
-                currSeries['data'] = currSeriesBarChartData;
-                // adding the single series
-                this.series.push(currSeries);
-            }
-
-            // TODO
-        } else {
-
-            this.series = [];
-
-            // single series case: single class and single property
-            if (faceting && faceting[this.selectedClass]) {
-
-                const currSeriesBarChartData = [];
-                this.xAxisCategories = [];
-                this.barChartLegendData = [];
-                this.barChartLegendDataSelected = {};
-
-                const selectedClassFaceting = faceting[this.selectedClass]['propertyValues'];
-                if (!selectedClassFaceting) {
-                    const message = 'No faceting is present for the current selected class.';
-                    console.log(message);
-                    this.notificationService.push('warning', 'Distribution computation', message);
-                    return;
-                }
-                const selectedPropertyFaceting = selectedClassFaceting[this.selectedProperty];
-                if (!selectedPropertyFaceting) {
-                    const message = 'No faceting is present for the current selected property.';
-                    console.log(message);
-                    this.notificationService.push('warning', 'Distribution computation', message);
-                    return;
-                }
-
-                // legend data updating
-                this.barChartLegendData.push(this.selectedClass);
-                this.barChartLegendDataSelected[this.selectedClass] = true;
-
-                const currSeries: Object = {
-                    name: this.selectedClass,
-                    type: 'bar',
-                    label: this.labelOptions,
-                    emphasis: this.emphasisOptions
-                };
-                for (const currValueProperty of Object.keys(selectedPropertyFaceting)) {
-                    const currBarChartItem = selectedPropertyFaceting[currValueProperty];
+                for (const currValue of Object.keys(seriesDistribution)) {
+                    const currBarChartItem = seriesDistribution[currValue];
                     currSeriesBarChartData.push(currBarChartItem);
-                    if (this.xAxisCategories.indexOf(currValueProperty) < 0) {
-                        this.xAxisCategories.push(currValueProperty);
+                    if (this.xAxisCategories.indexOf(currValue) < 0) {
+                        this.xAxisCategories.push(currValue);
                     }
                 }
 
@@ -369,26 +224,104 @@ export class QuerySecondaryBarChartWidgetComponent extends AbstractSecondaryBarC
                 currSeries['data'] = currSeriesBarChartData;
                 // adding the single series
                 this.series.push(currSeries);
-
-            } else {
-                const message: string = 'Faceting data not correcly retrieved for the ' + this.selectedClass + ' class.';
-                this.notificationService.push('warning', 'Bar Chart Update', message);
             }
+
+        } else {
+            // just a series: categoryProperty_valueProperty
+            const distribution = this.buildDistribution();
+            const seriesBarChartData = [];
+
+            const seriesName = this.buildSingleSeriesName();
+
+            // legend data updating
+            this.barChartLegendData.push(seriesName);
+            this.barChartLegendDataSelected[seriesName] = true;
+            const seriesDistribution = distribution[seriesName];
+            if (!seriesDistribution) {
+                let message = 'No distribution is present for the \'' + seriesName + '\' series.';
+                message += this.checkThresholdsMessage;
+                console.log(message);
+                this.notificationService.push('warning', 'Distribution computation', message);
+                return;
+            }
+
+            const currSeries: Object = {
+                name: seriesName,
+                type: 'bar',
+                label: this.labelOptions,
+                emphasis: this.emphasisOptions
+            };
+
+            for (const currValue of Object.keys(seriesDistribution)) {
+                const currBarChartItem = seriesDistribution[currValue];
+                seriesBarChartData.push(currBarChartItem);
+                if (this.xAxisCategories.indexOf(currValue) < 0) {
+                    this.xAxisCategories.push(currValue);
+                }
+            }
+
+            // injecting data into the current series
+            currSeries['data'] = seriesBarChartData;
+            // adding the single series
+            this.series.push(currSeries);
+
         }
+
+        this.stopSpinner();
 
         this.updateBarChart(true);
 
         // updating to-save flag
         this.toSave = true;
+
+        if (saveAfterUpdate) {
+            this.saveAll(true);
+        }
+    }
+
+    buildDistribution(): Object {
+
+        const globalDistribution = {};
+
+        if (this.multiSeriesMode) {
+            for (const seriesName of Object.keys(this.multiSeriesName2info)) {
+                const currSeriesInfo = this.multiSeriesName2info[seriesName];
+                const currCategoryProperty = currSeriesInfo['categoryProperty'];
+                const currValueyProperty = currSeriesInfo['valueProperty'];
+                const currSeriesDistribution = {};
+                for (const elem of this.currentDataset['elements']) {
+                    const record = elem['data']['record'];
+                    currSeriesDistribution[record[currCategoryProperty]] = record[currValueyProperty];
+                }
+                globalDistribution[seriesName] = currSeriesDistribution;
+            }
+        } else {
+            const seriesName = this.buildSingleSeriesName();
+            const currSeriesDistribution = {};
+            for (const elem of this.currentDataset['elements']) {
+                const record = elem['data']['record'];
+                currSeriesDistribution[record[this.categoryProperty]] = record[this.valueProperty];
+            }
+            globalDistribution[seriesName] = currSeriesDistribution;
+        }
+        return globalDistribution;
+    }
+
+    /**
+     * Builds the name for a single series according to a specific logic:
+     * seriesName = <categoryProperty>_<valueProperty>
+     */
+    buildSingleSeriesName(): string {
+        return this.categoryProperty + '_' + this.valueProperty;
     }
 
     /**
      * Modals handling
      */
 
-     // Override
+    // Override
     resetSingleSeriesSettings() {
-        this.selectedProperty = undefined;
+        this.categoryProperty = undefined;
         this.valueProperty = undefined;
     }
 
@@ -413,7 +346,7 @@ export class QuerySecondaryBarChartWidgetComponent extends AbstractSecondaryBarC
             limitForNodeFetching: this.limitForNodeFetching,
             multiSeriesMode: this.multiSeriesMode,
             selectedClassProperties: this.selectedClassProperties,
-            selectedProperty: this.selectedProperty,
+            categoryProperty: this.categoryProperty,
             valueProperty: this.valueProperty,
             multiSeriesLimitEnabled: this.multiSeriesLimitEnabled,
             multiSeriesLimitForNodeFetching: this.multiSeriesLimitForNodeFetching,
