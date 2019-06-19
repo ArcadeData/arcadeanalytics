@@ -188,6 +188,10 @@ export class QuerySecondaryBarChartWidgetComponent extends AbstractSecondaryBarC
         this.barChartLegendDataSelected = {};
 
         if (this.multiSeriesMode) {
+
+            // single series settings reset
+            this.resetSingleSeriesSettings();
+
             const distribution = this.buildDistribution();
 
             for (const currSeriesName of Object.keys(this.multiSeriesName2info)) {
