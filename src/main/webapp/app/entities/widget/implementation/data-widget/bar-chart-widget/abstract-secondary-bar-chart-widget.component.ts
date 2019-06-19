@@ -342,6 +342,7 @@ export abstract class AbstractSecondaryBarChartWidgetComponent extends AbstractB
             multiSeriesLimitEnabled: this.multiSeriesLimitEnabled,
             multiSeriesLimitForNodeFetching: this.multiSeriesLimitForNodeFetching,
             showLegend: this.showLegend,
+            yAxisType: this.yAxisType,
             labelOptions: this.labelOptions,
             xAxisLabelOptions: this.xAxisLabelOptions,
             yAxisLabelOptions: this.yAxisLabelOptions,

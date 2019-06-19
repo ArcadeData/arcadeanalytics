@@ -211,6 +211,27 @@
                                         <div class="row" style="padding: 0px 1px 0px 5px;">
                                             <div class="col-md-5">
                                                 <label>
+                                                    Scale:
+                                                </label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <select [(ngModel)]="yAxisType"
+                                                    (ngModelChange)="updateBarChart()">
+                                                    <option value="value" selected>linear</option>
+                                                    <option value="log">logarithmic</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-1" style="padding-left: 2px;">
+                                                <i class="fa fa-question-circle command" aria-hidden="true"
+                                                    [popover]="scaleTip" containerClass="sidebarPopover"
+                                                    placement="right" triggers="hover" container="body"></i>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="row" style="padding: 0px 1px 0px 5px;">
+                                            <div class="col-md-5">
+                                                <label>
                                                     Align:
                                                 </label>
                                             </div>
@@ -585,7 +606,7 @@
                             </select>
                         </div>
                     </li>
-                    <li class="col-md-4">
+                    <li class="col-md-5">
                         <div *ngIf="dataSourceMetadata" class="property-form">
                             <span>Value</span>&nbsp;
                             <select id="valuePropertySelection" class="form-control small-vertical-padding"
@@ -595,7 +616,7 @@
                             </select>
                         </div>
                     </li>
-                    <li class="col-md-3 no-padding">
+                    <li class="col-md-2 no-padding">
                         <div *ngIf="dataSourceMetadata && selectedClass" class="cardinality-info">
                             <div class="col-md-2 no-padding text-center">
                                 <i *ngIf="categoryProperty && valueProperty" class="fa fa-play command"

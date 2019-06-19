@@ -135,6 +135,7 @@ export abstract class AbstractBarChartWidgetComponent extends DataWidgetComponen
     };
 
     // bar chart layout option adopted for each series
+    yAxisType: string = 'value';
     labelOptions: Object;
     xAxisLabelOptions: Object;
     yAxisLabelOptions: Object;
@@ -159,6 +160,7 @@ export abstract class AbstractBarChartWidgetComponent extends DataWidgetComponen
     maxValuesPerFieldSliderUpperValue: number = this.MAX_VALUES_PER_FIELD_SLIDER_UPPER_VALUE;
 
     // popovers
+    scaleTip: string = 'Choose \'linear\' to adopt a linear scale for the y axis or \'logarithmic\' to adopt a logarithmic scale.';
     positionTip: string = 'Label position relating to the bar.';
     rotateTip: string = 'Rotate label, from -90 degree to 90, positive value represents rotate anti-clockwise.';
     alignTip: string = 'Horizontal alignment of text.';
@@ -493,6 +495,11 @@ export abstract class AbstractBarChartWidgetComponent extends DataWidgetComponen
         this.labelOptions = snapshot['labelOptions'];
         // setting label formatter function
         this.labelOptions['formatter'] = this.labelFormatterFunction;
+
+        if (snapshot['yAxisType']) {
+            this.yAxisType = snapshot['yAxisType'];
+        }
+
         // setting label options for each series
         if (this.series) {
             for (const currSeries of this.series) {
@@ -873,7 +880,7 @@ export abstract class AbstractBarChartWidgetComponent extends DataWidgetComponen
                 axisLabel: this.xAxisLabelOptions
             },
             yAxis: {
-                type: 'value',
+                type: this.yAxisType,
                 axisLabel: this.yAxisLabelOptions
             },
             tooltip: {
@@ -1235,6 +1242,7 @@ export abstract class AbstractBarChartWidgetComponent extends DataWidgetComponen
                 multiSeriesLimitEnabled: this.multiSeriesLimitEnabled,
                 multiSeriesLimitForNodeFetching: this.multiSeriesLimitForNodeFetching,
                 showLegend: this.showLegend,
+                yAxisType: this.yAxisType,
                 labelOptions: this.labelOptions,
                 xAxisLabelOptions: this.xAxisLabelOptions,
                 yAxisLabelOptions: this.yAxisLabelOptions,
