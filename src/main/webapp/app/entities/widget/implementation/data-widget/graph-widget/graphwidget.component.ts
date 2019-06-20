@@ -572,11 +572,9 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
                 containment: '.viewport'
             });
         } else {
-            this.ngZone.runOutsideAngular(() => {
-                setTimeout(() => {
-                    this.initLegendDraggable();
-                }, 100);
-            });
+            setTimeout(() => {
+                this.initLegendDraggable();
+            }, 100);
         }
     }
 
@@ -594,11 +592,9 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
 
     checkLegendShowing() {
         if (this.showLegend) {
-            this.ngZone.runOutsideAngular(() => {
-                setTimeout(() => {
-                    this.tooltipOnOverflow();
-                }, 100);
-            });
+            setTimeout(() => {
+                this.tooltipOnOverflow();
+            }, 100);
         }
     }
 
@@ -659,11 +655,9 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
             this.fitAndCenterViewport();
         } else {
             // wait a while and try again
-            this.ngZone.runOutsideAngular(() => {
-                setTimeout(() => {
-                    this.resizeGraphTabWhenActive();
-                }, waitDelay);
-            });
+            setTimeout(() => {
+                this.resizeGraphTabWhenActive();
+            }, waitDelay);
         }
     }
 
@@ -688,15 +682,13 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
                 return Observable.of(true);
             } else {
                 // waiting for filter menu initialisation
-                this.ngZone.runOutsideAngular(() => {
-                    setTimeout(() => {
-                        return this.updateFilteringMenu().subscribe(() => {
-                            // DO NOTHING
-                        }, (error) => {
-                            console.log('Filter menu not initialised yet.');
-                        });
-                    }, 500);
-                });
+                setTimeout(() => {
+                    return this.updateFilteringMenu().subscribe(() => {
+                        // DO NOTHING
+                    }, (error) => {
+                        console.log('Filter menu not initialised yet.');
+                    });
+                }, 500);
             }
         } else {
             this.notificationService.push('warning', 'Filter menu', 'Cannot update the filter menu as no index is defined over the data source.');
@@ -731,98 +723,96 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
 
         let nodes;
 
-        this.ngZone.runOutsideAngular(() => {
-            setTimeout(() => {
+        setTimeout(() => {
 
-                if (this.cy) {
+            if (this.cy) {
 
-                    // input search string normalization
-                    let search: string = this.inputSearch.trim();
-                    search = search.toLowerCase();
-                    if (search.indexOf(' or ') >= 0) {
-                        search = search.replace(/ or /g, ' OR ');
-                    } else {
-                        search = search.replace(/ /g, ' AND ');
-                    }
+                // input search string normalization
+                let search: string = this.inputSearch.trim();
+                search = search.toLowerCase();
+                if (search.indexOf(' or ') >= 0) {
+                    search = search.replace(/ or /g, ' OR ');
+                } else {
+                    search = search.replace(/ /g, ' AND ');
+                }
 
-                    nodes = this.cy.nodes().filter((node) => {
+                nodes = this.cy.nodes().filter((node) => {
 
-                        let filterIn: boolean = false;
-                        const record = node.data().record;
+                    let filterIn: boolean = false;
+                    const record = node.data().record;
 
-                        // adding the node id in the record
-                        record['id'] = node.id();
+                    // adding the node id in the record
+                    record['id'] = node.id();
 
-                        if (search.indexOf(' OR ') > 0) {
-                            // OR operator applied on all the keywords
-                            for (const currentProperty of Object.keys(record)) {
-                                const propValue = record[currentProperty];
-                                let value: string;
+                    if (search.indexOf(' OR ') > 0) {
+                        // OR operator applied on all the keywords
+                        for (const currentProperty of Object.keys(record)) {
+                            const propValue = record[currentProperty];
+                            let value: string;
 
-                                // converting propValue in string if needed
-                                if (typeof propValue !== 'string') {
-                                    value = propValue + '';
-                                } else {
-                                    value = propValue.slice(0);    // copying the value
-                                }
-
-                                // normalizing the propValue and the search input
-                                value = value.toLowerCase();
-
-                                if (this.recursiveOrQueryOnField(search, value)) {
-                                    filterIn = true;
-                                    break;
-                                }
+                            // converting propValue in string if needed
+                            if (typeof propValue !== 'string') {
+                                value = propValue + '';
+                            } else {
+                                value = propValue.slice(0);    // copying the value
                             }
-                        } else {
-                            // AND operator applied on all the keywords
-                            for (const currentProperty of Object.keys(record)) {
-                                const propValue = record[currentProperty];
-                                let value: string;
 
-                                // converting propValue in string if needed
-                                if (typeof propValue !== 'string') {
-                                    value = propValue + '';
-                                } else {
-                                    value = propValue.slice(0);    // copying the value
-                                }
+                            // normalizing the propValue and the search input
+                            value = value.toLowerCase();
 
-                                // normalizing the propValue and the search input
-                                value = value.toLowerCase();
-
-                                if (this.recursiveAndQueryOnField(search, value)) {
-                                    filterIn = true;
-                                    break;
-                                }
+                            if (this.recursiveOrQueryOnField(search, value)) {
+                                filterIn = true;
+                                break;
                             }
                         }
-
-                        return filterIn;
-                    });
-
-                    const numberOfNodes = nodes.length;
-                    this.cy.elements().unselect();
-
-                    // selecting nodes if any
-                    if (numberOfNodes > 0) {
-                        nodes.select();
-                    }
-                    this.stopSpinner();
-
-                    let message: string;
-                    if (numberOfNodes === 1) {
-                        message = '1 node found.';
                     } else {
-                        message = numberOfNodes + ' nodes found.';
+                        // AND operator applied on all the keywords
+                        for (const currentProperty of Object.keys(record)) {
+                            const propValue = record[currentProperty];
+                            let value: string;
+
+                            // converting propValue in string if needed
+                            if (typeof propValue !== 'string') {
+                                value = propValue + '';
+                            } else {
+                                value = propValue.slice(0);    // copying the value
+                            }
+
+                            // normalizing the propValue and the search input
+                            value = value.toLowerCase();
+
+                            if (this.recursiveAndQueryOnField(search, value)) {
+                                filterIn = true;
+                                break;
+                            }
+                        }
                     }
-                    this.notificationService.push('success', 'Search', message);
-                } else {
-                    this.stopSpinner();
-                    const message: string = 'There are non nodes in the viewport. Search cannot be performed.';
-                    this.notificationService.push('warning', 'Search', message);
+
+                    return filterIn;
+                });
+
+                const numberOfNodes = nodes.length;
+                this.cy.elements().unselect();
+
+                // selecting nodes if any
+                if (numberOfNodes > 0) {
+                    nodes.select();
                 }
-            }, 10);
-        });
+                this.stopSpinner();
+
+                let message: string;
+                if (numberOfNodes === 1) {
+                    message = '1 node found.';
+                } else {
+                    message = numberOfNodes + ' nodes found.';
+                }
+                this.notificationService.push('success', 'Search', message);
+            } else {
+                this.stopSpinner();
+                const message: string = 'There are non nodes in the viewport. Search cannot be performed.';
+                this.notificationService.push('warning', 'Search', message);
+            }
+        }, 10);
     }
 
     /*
@@ -996,11 +986,9 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
         if (!this.minimizedView) {
             if (!this.newTimelineInputClass) {
                 this.newTimelineInputClass = this.nodeClassesNames[0];
-                this.ngZone.runOutsideAngular(() => {
-                    setTimeout(() => {
-                        this.updateTimelineClassProperties();
-                    }, 1000);
-                });
+                setTimeout(() => {
+                    this.updateTimelineClassProperties();
+                }, 1000);
             }
         }
 
@@ -1578,12 +1566,10 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
 
         if (this.cy) {
             if (delay) {
-                this.ngZone.runOutsideAngular(() => {
-                    setTimeout(() => {
-                        this.cy.fit();
-                        this.cy.centre();
-                    }, delay);
-                });
+                setTimeout(() => {
+                    this.cy.fit();
+                    this.cy.centre();
+                }, delay);
             } else {
                 this.cy.fit();
                 this.cy.centre();
@@ -2008,15 +1994,13 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
             const tableInputElements: Object[] = this.cy.elements().jsons();
 
             clearTimeout(addTimeout);
-            this.ngZone.runOutsideAngular(() => {
-                addTimeout = setTimeout(() => {
-                    this.updateTableInputColumns();
-                    this.updateTableInputElements(tableInputElements);
+            addTimeout = setTimeout(() => {
+                this.updateTableInputColumns();
+                this.updateTableInputElements(tableInputElements);
 
-                    // traverse menu updating
-                    this.updateTraverseMenu();
-                }, 200);
-            });
+                // traverse menu updating
+                this.updateTraverseMenu();
+            }, 200);
         });
 
         this.cy.on('remove', 'node,edge', (evt) => {
@@ -2031,15 +2015,13 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
             const tableInputElements: Object[] = this.cy.elements().jsons();
 
             clearTimeout(removeTimeout);
-            this.ngZone.runOutsideAngular(() => {
-                removeTimeout = setTimeout(() => {
-                    this.updateTableInputColumns();
-                    this.updateTableInputElements(tableInputElements);
+            removeTimeout = setTimeout(() => {
+                this.updateTableInputColumns();
+                this.updateTableInputElements(tableInputElements);
 
-                    // traverse menu updating
-                    this.updateTraverseMenu();
-                }, 200);
-            });
+                // traverse menu updating
+                this.updateTraverseMenu();
+            }, 200);
         });
 
         this.cy.on('select', 'node,edge', (evt) => {
@@ -2052,27 +2034,25 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
             }
 
             clearTimeout(selectionTimeout);
-            this.ngZone.runOutsideAngular(() => {
-                selectionTimeout = setTimeout(() => {
-                    const element = evt.target;
-                    this.updateCurrentSelectionStatus([element]);
+            selectionTimeout = setTimeout(() => {
+                const element = evt.target;
+                this.updateCurrentSelectionStatus([element]);
 
-                    // if the selecting element is a node we have to check if the shortest path
-                    if (element.isNode()) {
-                        if (this.shortestPathSelectingNode) {
-                            const selectedNode = evt.target;
-                            const selectedNodeClass = selectedNode.json()['data']['class'];
-                            if (this.shortestPathSelectingNode === 'from') {
-                                this.shortestPathSourceNode = selectedNode;
-                                this.shortestPathSourceNodeInputLabel = this.getShortestPathNodeLabelFromNode(selectedNode, selectedNodeClass);
-                            } else if (this.shortestPathSelectingNode === 'to') {
-                                this.shortestPathTargetNode = selectedNode;
-                                this.shortestPathTargetNodeInputLabel = this.getShortestPathNodeLabelFromNode(selectedNode, selectedNodeClass);
-                            }
+                // if the selecting element is a node we have to check if the shortest path
+                if (element.isNode()) {
+                    if (this.shortestPathSelectingNode) {
+                        const selectedNode = evt.target;
+                        const selectedNodeClass = selectedNode.json()['data']['class'];
+                        if (this.shortestPathSelectingNode === 'from') {
+                            this.shortestPathSourceNode = selectedNode;
+                            this.shortestPathSourceNodeInputLabel = this.getShortestPathNodeLabelFromNode(selectedNode, selectedNodeClass);
+                        } else if (this.shortestPathSelectingNode === 'to') {
+                            this.shortestPathTargetNode = selectedNode;
+                            this.shortestPathTargetNodeInputLabel = this.getShortestPathNodeLabelFromNode(selectedNode, selectedNodeClass);
                         }
                     }
-                }, 200);
-            });
+                }
+            }, 200);
         });
 
         // draw nodes' degree
@@ -2101,13 +2081,11 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
             }
 
             clearTimeout(unselectionTimeout);
-            this.ngZone.runOutsideAngular(() => {
-                unselectionTimeout = setTimeout(() => {
-                    const node = evt.target;
-                    console.log('Unselected ' + this.widgetId + '-' + 'vertex' + '-' + node.id());
-                    this.updateCurrentSelectionStatus([]);
-                }, 200);
-            });
+            unselectionTimeout = setTimeout(() => {
+                const node = evt.target;
+                console.log('Unselected ' + this.widgetId + '-' + 'vertex' + '-' + node.id());
+                this.updateCurrentSelectionStatus([]);
+            }, 200);
         });
 
         // used to select the node at the right click, when the context menu is opened
@@ -2119,17 +2097,15 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
             }
 
             clearTimeout(selectionTimeout);
-            this.ngZone.runOutsideAngular(() => {
-                selectionTimeout = setTimeout(() => {
-                    const element = evt.target;
-                    if (this.contextMenuInstance) {
-                        this.addDynamicMenuItemToContextMenu(element.json());
-                    }
-                    console.log('Selected ' + this.widgetId + '-' + 'vertex' + '-' + element.id());
-                    this.updateCurrentSelectionStatus([element]);
-                    element.select();
-                }, 50);
-            });
+            selectionTimeout = setTimeout(() => {
+                const element = evt.target;
+                if (this.contextMenuInstance) {
+                    this.addDynamicMenuItemToContextMenu(element.json());
+                }
+                console.log('Selected ' + this.widgetId + '-' + 'vertex' + '-' + element.id());
+                this.updateCurrentSelectionStatus([element]);
+                element.select();
+            }, 50);
         });
 
         this.cy.on('style', 'node,edge', (evt) => {
@@ -2506,11 +2482,9 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
         if (!this.minimizedView) {
             if (!this.newTimelineInputClass) {
                 this.newTimelineInputClass = this.nodeClassesNames[0];
-                this.ngZone.runOutsideAngular(() => {
-                    setTimeout(() => {
-                        this.updateTimelineClassProperties();
-                    }, 1000);
-                });
+                setTimeout(() => {
+                    this.updateTimelineClassProperties();
+                }, 1000);
             }
         }
 
@@ -3307,11 +3281,9 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
         if (table) {
             table.setData(tableInputElements);
         } else {
-            this.ngZone.runOutsideAngular(() => {
-                setTimeout(() => {
-                    this.updateTableDataWhenTableReady(tableName, tableInputElements);
-                }, 100);
-            });
+            setTimeout(() => {
+                this.updateTableDataWhenTableReady(tableName, tableInputElements);
+            }, 100);
         }
     }
 
@@ -3322,30 +3294,26 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
             if (this.tabTable) {
                 this.tabTable.sortInputElementsBySelectionColumn('asc');
             } else {
-                this.ngZone.runOutsideAngular(() => {
-                    setTimeout(() => {
-                        if (this.tabTable) {
-                            this.tabTable.sortInputElementsBySelectionColumn('asc');
-                        } else {
-                            this.callTableSelectionSort();
-                        }
-                    }, 50);
-                });
+                setTimeout(() => {
+                    if (this.tabTable) {
+                        this.tabTable.sortInputElementsBySelectionColumn('asc');
+                    } else {
+                        this.callTableSelectionSort();
+                    }
+                }, 50);
             }
         } else {
             // we have to sort the bottomTable (we will wait if not present yet)
             if (this.bottomTable) {
                 this.bottomTable.sortInputElementsBySelectionColumn('asc');
             } else {
-                this.ngZone.runOutsideAngular(() => {
-                    setTimeout(() => {
-                        if (this.bottomTable) {
-                            this.bottomTable.sortInputElementsBySelectionColumn('asc');
-                        } else {
-                            this.callTableSelectionSort();
-                        }
-                    }, 50);
-                });
+                setTimeout(() => {
+                    if (this.bottomTable) {
+                        this.bottomTable.sortInputElementsBySelectionColumn('asc');
+                    } else {
+                        this.callTableSelectionSort();
+                    }
+                }, 50);
             }
         }
     }
@@ -3615,23 +3583,21 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
      * @param groupSelector
      */
     updateLabelVisibility(groupSelector) {
-        this.ngZone.runOutsideAngular(() => {
-            setTimeout(() => {        // wait till the switchery has actually changed the variable value
-                if (groupSelector === 'node') {
-                    if (this.showNodeLabels) {
-                        this.showLabels(groupSelector);
-                    } else {
-                        this.hideLabels(groupSelector);
-                    }
-                } else if (groupSelector === 'edge') {
-                    if (this.showEdgeLabels) {
-                        this.showLabels(groupSelector);
-                    } else {
-                        this.hideLabels(groupSelector);
-                    }
+        setTimeout(() => {        // wait till the switchery has actually changed the variable value
+            if (groupSelector === 'node') {
+                if (this.showNodeLabels) {
+                    this.showLabels(groupSelector);
+                } else {
+                    this.hideLabels(groupSelector);
                 }
-            }, 100);
-        });
+            } else if (groupSelector === 'edge') {
+                if (this.showEdgeLabels) {
+                    this.showLabels(groupSelector);
+                } else {
+                    this.hideLabels(groupSelector);
+                }
+            }
+        }, 100);
     }
 
     /**
@@ -4232,11 +4198,9 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
             // the input properties to the menu will be coherent with the current nodes' content status
             const tmp = this.lastSelectedElement;
             this.lastSelectedElement = undefined;
-            this.ngZone.runOutsideAngular(() => {
-                setTimeout(() => {  // waiting for graph element menu destroy, then select the last selected elemen again in order to see the last content
-                    this.lastSelectedElement = tmp;
-                }, 50);
-            });
+            setTimeout(() => {  // waiting for graph element menu destroy, then select the last selected elemen again in order to see the last content
+                this.lastSelectedElement = tmp;
+            }, 50);
 
             // updating metadata for all the classes
             this.updateDatasourceMetadataWithAlgorithmProperty(newPropertyName);
@@ -4372,11 +4336,9 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
             // the input properties to the menu will be coherent with the current nodes' content status
             const tmp = this.lastSelectedElement;
             this.lastSelectedElement = undefined;
-            this.ngZone.runOutsideAngular(() => {
-                setTimeout(() => {  // waiting for graph element menu destroy, then select the last selected elemen again in order to see the last content
-                    this.lastSelectedElement = tmp;
-                }, 50);
-            });
+            setTimeout(() => {  // waiting for graph element menu destroy, then select the last selected elemen again in order to see the last content
+                this.lastSelectedElement = tmp;
+            }, 50);
         }
     }
 
@@ -4610,12 +4572,10 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
 
     closeTimeline(delay?: number) {
         if (delay) {
-            this.ngZone.runOutsideAngular(() => {
-                setTimeout(() => {
-                    this.activateTimeline = false;
-                    this.handleTimelineSwitch();
-                }, delay);
-            });
+            setTimeout(() => {
+                this.activateTimeline = false;
+                this.handleTimelineSwitch();
+            }, delay);
         } else {
             this.activateTimeline = false;
             this.handleTimelineSwitch();
@@ -4629,11 +4589,9 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
     }
 
     handleWrongClassTimelineConfig(event) {
-        this.ngZone.runOutsideAngular(() => {
-            setTimeout(() => {
-                this.removeTimelineClass(event['className']);
-            }, 100);
-        });
+        setTimeout(() => {
+            this.removeTimelineClass(event['className']);
+        }, 100);
     }
 
     /**
@@ -4685,11 +4643,9 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
                     .get(1); // getting the second tab, that is the datasourceTab
                 (<any>$('.widget-viewport > .tab-container > .nav-tabs')).append(datasourceTab);
             } else {
-                this.ngZone.runOutsideAngular(() => {
-                    setTimeout(() => {
-                        this.orderTabs();
-                    }, 100);
-                });
+                setTimeout(() => {
+                    this.orderTabs();
+                }, 100);
             }
         }
     }
@@ -5063,20 +5019,16 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
             clearTimeout(this.runningLayoutTimeout);
         });
 
-        this.ngZone.runOutsideAngular(() => {
-            setTimeout(() => {
-                layout.run();
-            }, 100);
-        });
+        setTimeout(() => {
+            layout.run();
+        }, 100);
 
-        this.runningLayoutTimeout = this.ngZone.runOutsideAngular(() => {
-            setTimeout(() => {
-                if (this.currentRunningLayout) {
-                    this.stopRunningLayout();
-                    console.log('Layout was stopped during its execution to observe the input timeout threshold.');
-                }
-            }, this.runningLayoutTimeThreshold * 1000);
-        });
+        this.runningLayoutTimeout = setTimeout(() => {
+            if (this.currentRunningLayout) {
+                this.stopRunningLayout();
+                console.log('Layout was stopped during its execution to observe the input timeout threshold.');
+            }
+        }, this.runningLayoutTimeThreshold * 1000);
 
     }
 
@@ -5216,13 +5168,11 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
         renderer.run();
 
         // force layout stop in not completed yet before the tme threshold
-        this.runningVivagraphLayoutTimeout = this.ngZone.runOutsideAngular(() => {
-            setTimeout(() => {
-                const event = new CustomEvent('layout-stop');
-                this.runningVivagraphLayoutTimeout = undefined;
-                container.dispatchEvent(event);
-            }, 1000 * this.runningLayoutTimeThreshold);
-        });
+        this.runningVivagraphLayoutTimeout = setTimeout(() => {
+            const event = new CustomEvent('layout-stop');
+            this.runningVivagraphLayoutTimeout = undefined;
+            container.dispatchEvent(event);
+        }, 1000 * this.runningLayoutTimeThreshold);
 
         const onLayoutStop = (event) => {
 
@@ -5244,11 +5194,9 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
                 });
             });
 
-            this.ngZone.runOutsideAngular(() => {
-                setTimeout(() => {
-                    this.fitAndCenterViewport();
-                }, 100);
-            });
+            setTimeout(() => {
+                this.fitAndCenterViewport();
+            }, 100);
 
             console.log('Stopping VivaGraphJS rendering...');
             renderer.dispose();
@@ -6063,20 +6011,18 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
     }
 
     performSnapshotLoading(snapshot) {
-        this.ngZone.runOutsideAngular(() => {
-            setTimeout(() => {
+        setTimeout(() => {
 
-                // small timeout just to allow spinner to start, otherwise cy loading interferes with angular variable
-                // update process and the spinner does not start
-                this.updateCytoscapeFromSnapshot(snapshot);
-                if (!this.minimizedView) {
-                    this.updateFilteringMenu().subscribe(() => {
-                        console.log('Filtering menu updated according to the last snapshot dataset.');
-                    });
-                }
-                this.snapshotLoaded = true;
-            }, 10);
-        });
+            // small timeout just to allow spinner to start, otherwise cy loading interferes with angular variable
+            // update process and the spinner does not start
+            this.updateCytoscapeFromSnapshot(snapshot);
+            if (!this.minimizedView) {
+                this.updateFilteringMenu().subscribe(() => {
+                    console.log('Filtering menu updated according to the last snapshot dataset.');
+                });
+            }
+            this.snapshotLoaded = true;
+        }, 10);
     }
 
     /*
@@ -6099,122 +6045,120 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
         }
         const delay: number = 10;
 
-        this.ngZone.runOutsideAngular(() => {
-            setTimeout(() => {      // just to avoid the saving ops block the first notification message
-                if (this.cy) {
-                    const json = this.cy.json();
-                    // json['style'] = this.getCytoscapeStyleClasses();  // overriding style field, in this way escape selector will be applied
-                    json['nodeClasses'] = JSON.stringify(Array.from(this.nodeClassesStyles.entries()));
-                    json['edgeClasses'] = JSON.stringify(Array.from(this.edgeClassesStyles.entries()));
-                    json['lastLayoutName'] = this.lastLayoutName;
-                    json['autoLayout'] = this.autoLayout;
-                    json['spacingFactor'] = this.getGraphSpacing();
-                    json['showLegend'] = this.showLegend;
-                    json['timelineOptions'] = {
-                        timelineInput: this.className2timelineDateInfo,
-                        timelineStartDate: this.timelineStartDate.toISOString().slice(0, 10),
-                        timelineEndDate: this.timelineEndDate.toISOString().slice(0, 10),
-                        timelineFilteringWindowStart: this.timelineFilteringWindowStart,
-                        timelineFilteringWindowEnd: this.timelineFilteringWindowEnd,
-                        timelineFilteringWindowActive: this.timelineFilteringWindowActive
-                    };
-                    json['algorithmsConfigs'] = {
-                        shortestPath: this.shortestPathConfig,
-                        pageRank: this.pageRankConfig,
-                        centrality: this.centralityConfig
-                    };
-                    json['forceLayoutParams'] = {
-                        springCoeff: this.springCoeff,
-                        springLength: this.springLength,
-                        dragCoeff: this.dragCoeff,
-                        gravity: this.gravity,
-                        theta: this.theta
-                    };
-                    json['runningLayoutTimeThreshold'] = this.runningLayoutTimeThreshold;
-                    json['showNodeLabels'] = this.showNodeLabels;
-                    json['showEdgeLabels'] = this.showEdgeLabels;
-                    json['nodesDegreeCanvasEnabled'] = this.nodesDegreeCanvasEnabled;
-                    json['dataSourceMetadata'] = this.dataSourceMetadata;
-                    json['filters'] = this.filters;
-                    json['tableInputElementsCardinality'] = this.tableInputElementsCardinality;
-                    json['tableInputClassNames'] = this.tableInputClassNames;
-                    json['tableInputColumns'] = this.tableInputColumns;
-                    json['classNameColumnIncluded'] = this.classNameColumnIncluded;
+        setTimeout(() => {      // just to avoid the saving ops block the first notification message
+            if (this.cy) {
+                const json = this.cy.json();
+                // json['style'] = this.getCytoscapeStyleClasses();  // overriding style field, in this way escape selector will be applied
+                json['nodeClasses'] = JSON.stringify(Array.from(this.nodeClassesStyles.entries()));
+                json['edgeClasses'] = JSON.stringify(Array.from(this.edgeClassesStyles.entries()));
+                json['lastLayoutName'] = this.lastLayoutName;
+                json['autoLayout'] = this.autoLayout;
+                json['spacingFactor'] = this.getGraphSpacing();
+                json['showLegend'] = this.showLegend;
+                json['timelineOptions'] = {
+                    timelineInput: this.className2timelineDateInfo,
+                    timelineStartDate: this.timelineStartDate.toISOString().slice(0, 10),
+                    timelineEndDate: this.timelineEndDate.toISOString().slice(0, 10),
+                    timelineFilteringWindowStart: this.timelineFilteringWindowStart,
+                    timelineFilteringWindowEnd: this.timelineFilteringWindowEnd,
+                    timelineFilteringWindowActive: this.timelineFilteringWindowActive
+                };
+                json['algorithmsConfigs'] = {
+                    shortestPath: this.shortestPathConfig,
+                    pageRank: this.pageRankConfig,
+                    centrality: this.centralityConfig
+                };
+                json['forceLayoutParams'] = {
+                    springCoeff: this.springCoeff,
+                    springLength: this.springLength,
+                    dragCoeff: this.dragCoeff,
+                    gravity: this.gravity,
+                    theta: this.theta
+                };
+                json['runningLayoutTimeThreshold'] = this.runningLayoutTimeThreshold;
+                json['showNodeLabels'] = this.showNodeLabels;
+                json['showEdgeLabels'] = this.showEdgeLabels;
+                json['nodesDegreeCanvasEnabled'] = this.nodesDegreeCanvasEnabled;
+                json['dataSourceMetadata'] = this.dataSourceMetadata;
+                json['filters'] = this.filters;
+                json['tableInputElementsCardinality'] = this.tableInputElementsCardinality;
+                json['tableInputClassNames'] = this.tableInputClassNames;
+                json['tableInputColumns'] = this.tableInputColumns;
+                json['classNameColumnIncluded'] = this.classNameColumnIncluded;
 
-                    if (this.shortestPathSourceNode) {
-                        json['shortestPathSourceNodeId'] = this.shortestPathSourceNode.id();
-                    }
-                    if (this.shortestPathTargetNode) {
-                        json['shortestPathTargetNodeId'] = this.shortestPathTargetNode.id();
-                    }
-                    if (this.shortestPathSourceNodeInputLabel) {
-                        json['shortestPathSourceNodeInputLabel'] = this.shortestPathSourceNodeInputLabel;
-                    }
-                    if (this.shortestPathTargetNodeInputLabel) {
-                        json['shortestPathTargetNodeInputLabel'] = this.shortestPathTargetNodeInputLabel;
-                    }
+                if (this.shortestPathSourceNode) {
+                    json['shortestPathSourceNodeId'] = this.shortestPathSourceNode.id();
+                }
+                if (this.shortestPathTargetNode) {
+                    json['shortestPathTargetNodeId'] = this.shortestPathTargetNode.id();
+                }
+                if (this.shortestPathSourceNodeInputLabel) {
+                    json['shortestPathSourceNodeInputLabel'] = this.shortestPathSourceNodeInputLabel;
+                }
+                if (this.shortestPathTargetNodeInputLabel) {
+                    json['shortestPathTargetNodeInputLabel'] = this.shortestPathTargetNodeInputLabel;
+                }
 
-                    if (this.outputShortestPath) {
-                        json['outputShortestPathIds'] = this.getElementsIds(this.outputShortestPath);
-                    }
+                if (this.outputShortestPath) {
+                    json['outputShortestPathIds'] = this.getElementsIds(this.outputShortestPath);
+                }
 
-                    json['totalVertices'] = this.totalVertices;
-                    json['totalEdges'] = this.totalEdges;
+                json['totalVertices'] = this.totalVertices;
+                json['totalEdges'] = this.totalEdges;
 
-                    const perspective: Object = {
-                        activateTimeline: this.activateTimeline,
-                        tableTabActive: this.tableTabActive,
-                        graphTabActive: this.graphTabActive,
-                        datasourceTabActive: this.datasourceTabActive,
-                        tableTabEnabled: this.tableTabEnabled
-                    };
-                    json['perspective'] = perspective;
-                    json['newDatasetToPropagate'] = this.newDatasetToPropagate;
-                    const jsonContent = JSON.stringify(json);
+                const perspective: Object = {
+                    activateTimeline: this.activateTimeline,
+                    tableTabActive: this.tableTabActive,
+                    graphTabActive: this.graphTabActive,
+                    datasourceTabActive: this.datasourceTabActive,
+                    tableTabEnabled: this.tableTabEnabled
+                };
+                json['perspective'] = perspective;
+                json['newDatasetToPropagate'] = this.newDatasetToPropagate;
+                const jsonContent = JSON.stringify(json);
 
-                    // update lastPosition according to this save in order to make the preset layout coherent
-                    if (json.elements.nodes) {
-                        for (const node of json.elements.nodes) {
-                            this.loadingNodesPositions[node.data.id] = {
-                                x: node.position.x,
-                                y: node.position.y
-                            };
-                        }
-                    }
-
-                    this.widgetService.updateWidget(this.widgetId, jsonContent).subscribe((res: HttpResponse<any>) => {
-                        if (res.status === 200 || res.status === 204) {
-                            const message: string = 'Data correctly saved.';
-                            if (infoNotification) {
-                                this.notificationService.updateNotification(infoNotification, 'success', 'Save', message, undefined, true);
-                            }
-
-                            // updating to-save flag
-                            this.toSave = false;
-
-                            // updating snapshot-menu
-                            if (this.snapshotMenu) {
-                                this.snapshotMenu.loadSnapshotsNames();
-                            }
-                        } else {
-                            const message = 'Saving attempt failed.\n' + 'Response status: ' + res.status;
-                            if (infoNotification) {
-                                this.notificationService.updateNotification(infoNotification, 'error', 'Save', message, undefined, true);
-                            }
-                        }
-                    }, (error: HttpErrorResponse) => {
-                        if (infoNotification) {
-                            this.notificationService.updateNotification(infoNotification, 'error', 'Save', 'Saving attempt failed.', undefined, true);
-                        }
-                        console.log(error.message);
-                    });
-                } else {
-                    if (infoNotification) {
-                        this.notificationService.updateNotification(infoNotification, 'warning', 'Save', 'Nothing to save.', undefined, true);
+                // update lastPosition according to this save in order to make the preset layout coherent
+                if (json.elements.nodes) {
+                    for (const node of json.elements.nodes) {
+                        this.loadingNodesPositions[node.data.id] = {
+                            x: node.position.x,
+                            y: node.position.y
+                        };
                     }
                 }
-            }, delay);
-        });
+
+                this.widgetService.updateWidget(this.widgetId, jsonContent).subscribe((res: HttpResponse<any>) => {
+                    if (res.status === 200 || res.status === 204) {
+                        const message: string = 'Data correctly saved.';
+                        if (infoNotification) {
+                            this.notificationService.updateNotification(infoNotification, 'success', 'Save', message, undefined, true);
+                        }
+
+                        // updating to-save flag
+                        this.toSave = false;
+
+                        // updating snapshot-menu
+                        if (this.snapshotMenu) {
+                            this.snapshotMenu.loadSnapshotsNames();
+                        }
+                    } else {
+                        const message = 'Saving attempt failed.\n' + 'Response status: ' + res.status;
+                        if (infoNotification) {
+                            this.notificationService.updateNotification(infoNotification, 'error', 'Save', message, undefined, true);
+                        }
+                    }
+                }, (error: HttpErrorResponse) => {
+                    if (infoNotification) {
+                        this.notificationService.updateNotification(infoNotification, 'error', 'Save', 'Saving attempt failed.', undefined, true);
+                    }
+                    console.log(error.message);
+                });
+            } else {
+                if (infoNotification) {
+                    this.notificationService.updateNotification(infoNotification, 'warning', 'Save', 'Nothing to save.', undefined, true);
+                }
+            }
+        }, delay);
     }
 
     getElementsIds(elements): string[] {
@@ -6529,11 +6473,9 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
                 this.manuallyHideAndCleanContextMenu();
                 this.openAlgorithmsMenu();
                 $('#shortestPathFrom').focus();
-                this.ngZone.runOutsideAngular(() => {
-                    setTimeout(() => {
-                        $('#shortestPathFrom').blur();
-                    }, 1000);
-                });
+                setTimeout(() => {
+                    $('#shortestPathFrom').blur();
+                }, 1000);
             },
             hasTrailingDivider: false
         };
@@ -6554,11 +6496,9 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
                 this.manuallyHideAndCleanContextMenu();
                 this.openAlgorithmsMenu();
                 $('#shortestPathTo').focus();
-                this.ngZone.runOutsideAngular(() => {
-                    setTimeout(() => {
-                        $('#shortestPathTo').blur();
-                    }, 1000);
-                });
+                setTimeout(() => {
+                    $('#shortestPathTo').blur();
+                }, 1000);
             },
             hasTrailingDivider: false
         };
@@ -6683,22 +6623,18 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
     switchCollapseVertices() {
         this.graphLegendCollapsedVertices = !this.graphLegendCollapsedVertices;
         if (!this.graphLegendCollapsedVertices) {
-            this.ngZone.runOutsideAngular(() => {
-                setTimeout(() => {
-                    this.tooltipOnOverflow();
-                }, 10);
-            });
+            setTimeout(() => {
+                this.tooltipOnOverflow();
+            }, 10);
         }
     }
 
     switchCollapseEdges() {
         this.graphLegendCollapsedEdges = !this.graphLegendCollapsedEdges;
         if (!this.graphLegendCollapsedEdges) {
-            this.ngZone.runOutsideAngular(() => {
-                setTimeout(() => {
-                    this.tooltipOnOverflow();
-                }, 10);
-            });
+            setTimeout(() => {
+                this.tooltipOnOverflow();
+            }, 10);
         }
     }
 
