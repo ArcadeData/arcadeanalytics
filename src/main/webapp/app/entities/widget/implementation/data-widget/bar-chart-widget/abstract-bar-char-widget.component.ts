@@ -966,11 +966,11 @@ export abstract class AbstractBarChartWidgetComponent extends DataWidgetComponen
         this.selectedClassProperties = [];
         if (this.selectedClass) {
             this.selectedClassProperties = this.getClassProperties(this.selectedClass);
+            if (this.selectedClassProperties.length === 0) {
+                this.notificationService.push('warning', 'No Property found', 'No property found for the selected class.');
+            }
         } else {
             console.log('Cannot update properties as the selected class seems to be udefined.');
-        }
-        if (this.selectedClassProperties.length === 0) {
-            this.notificationService.push('warning', 'No Property found', 'No property found for the selected class.');
         }
     }
 
@@ -979,11 +979,11 @@ export abstract class AbstractBarChartWidgetComponent extends DataWidgetComponen
         this.multiSeriesSelectedClassProperties = [];
         if (this.multiSeriesSelectedClass) {
             this.multiSeriesSelectedClassProperties = this.getClassProperties(this.multiSeriesSelectedClass);
+            if (this.multiSeriesSelectedClassProperties.length === 0) {
+                this.notificationService.push('warning', 'No Property found', 'No property found for the selected class.');
+            }
         } else {
             console.log('Cannot update properties as the selected class seems to be udefined.');
-        }
-        if (this.multiSeriesSelectedClassProperties.length === 0) {
-            this.notificationService.push('warning', 'No Property found', 'No property found for the selected class.');
         }
     }
 
