@@ -81,7 +81,7 @@ export class ElasticSecondaryBarChartWidgetComponent extends AbstractSecondaryBa
         this.startSpinner();
         this.multiSeriesMode = false;
         this.updateSettingsSliderUpperValue().subscribe((correctlyUpdated: boolean) => {
-            this.performFacetingForCurrentDataset();
+            this.performSeriesComputationForCurrentDataset();
         });
     }
 
@@ -91,7 +91,7 @@ export class ElasticSecondaryBarChartWidgetComponent extends AbstractSecondaryBa
         } else if (mode === 'multi') {
             this.multiSeriesMode = true;
         }
-        this.performFacetingForCurrentDataset(saveAfterUpdate);
+        this.performSeriesComputationForCurrentDataset(saveAfterUpdate);
     }
 
     // @Override
@@ -105,10 +105,10 @@ export class ElasticSecondaryBarChartWidgetComponent extends AbstractSecondaryBa
     }
 
     /**
-      * Faceting
-      */
-
-    performFacetingForCurrentDataset(saveAfterUpdate?: boolean): void {
+     * It performs the series computation by using the faceting retrieved by querying elastic search
+     * @param saveAfterUpdate
+     */
+    performSeriesComputationForCurrentDataset(saveAfterUpdate?: boolean): void {
 
         const currentDatasetIds: string[] = [];
         this.currentDataset['elements'].forEach((element) => {

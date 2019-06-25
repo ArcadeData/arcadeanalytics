@@ -86,17 +86,15 @@ export class QuerySecondaryPieChartWidgetComponent extends AbstractSecondaryPieC
 
     handleSelectedPropertyModelChanging() {
         this.startSpinner();
-        this.performFacetingForCurrentDataset();
+        this.performSeriesComputationForCurrentDataset();
     }
 
     runSeriesComputation() {
-        this.performFacetingForCurrentDataset();
+        this.performSeriesComputationForCurrentDataset();
     }
 
     // @Override
     updatePieChartWidgetFromSnapshot(snapshot) {
-
-        super.updatePieChartWidgetFromSnapshot(snapshot);
 
         if (snapshot['categoryProperty']) {
             this.categoryProperty = snapshot['categoryProperty'];
@@ -105,17 +103,47 @@ export class QuerySecondaryPieChartWidgetComponent extends AbstractSecondaryPieC
         if (snapshot['valueProperty']) {
             this.valueProperty = snapshot['valueProperty'];
         }
+
+        super.updatePieChartWidgetFromSnapshot(snapshot);
+
+    }
+
+    // Override
+    onDatasetUpdate(data: Object, metadata: Object) {
+
+        this.stopSpinner();
+
+        this.updateWidgetDataset(data);
+        this.updateSecondaryMetadataFromPrimaryMetadata(metadata);
+
+        // updating the class properties, as after metadata update could be some properties not present before
+        super.updateSelectedClassProperties();
+
+        let saved: boolean = false;
+        if (this.currentDataset['elements'].length > 0) {
+            if (this.categoryProperty && this.valueProperty) {
+                this.performSeriesComputationForCurrentDataset(true);
+                saved = true;
+            } else {
+                console.log('[PieChartWidget-id: ' + this.widget.id + ']: cannot perform series computation because Category and/or Value are not defined.');
+            }
+        } else {
+            // clean the pie chart
+            this.pieChartData = [];
+            this.updatePieChart();
+        }
+
+        if (!saved && this.principal.hasAnyAuthorityDirect(['ROLE_ADMIN', 'ROLE_EDITOR'])) {
+            // even though we did not save the widget as we did not perform the series computation, we have to save the new current dataset and metadata
+            this.saveAll(true);
+        }
     }
 
     /**
-      * Faceting
-      */
-
-    /**
-     * It performs the facetig for current dataset by querying elastic search
+     * It performs the facetig for the current dataset
      * @param saveAfterUpdate
      */
-    performFacetingForCurrentDataset(saveAfterUpdate?: boolean): void {
+    performSeriesComputationForCurrentDataset(saveAfterUpdate?: boolean): void {
 
         this.pieChartData = [];
         this.pieChartLegendData = [];

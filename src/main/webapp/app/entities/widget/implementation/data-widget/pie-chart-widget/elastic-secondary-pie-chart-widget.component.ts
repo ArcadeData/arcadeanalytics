@@ -81,12 +81,12 @@ export class ElasticSecondaryPieChartWidgetComponent extends AbstractSecondaryPi
     handleSelectedPropertyModelChanging() {
         this.startSpinner();
         this.updateSettingsSliderUpperValue().subscribe((correctlyUpdated: boolean) => {
-            this.performFacetingForCurrentDataset();
+            this.performSeriesComputationForCurrentDataset();
         });
     }
 
     runSeriesComputation(saveAfterUpdate?: boolean) {
-        this.performFacetingForCurrentDataset(saveAfterUpdate);
+        this.performSeriesComputationForCurrentDataset(saveAfterUpdate);
     }
 
     // @Override
@@ -100,14 +100,10 @@ export class ElasticSecondaryPieChartWidgetComponent extends AbstractSecondaryPi
     }
 
     /**
-      * Faceting
-      */
-
-    /**
-     * It performs the facetig for current dataset by querying elastic search
+     * It performs the series computation by using the faceting retrieved by querying elastic search
      * @param saveAfterUpdate
      */
-    performFacetingForCurrentDataset(saveAfterUpdate?: boolean): void {
+    performSeriesComputationForCurrentDataset(saveAfterUpdate?: boolean): void {
 
         const currentDatasetIds: string[] = [];
         this.currentDataset['elements'].forEach((element) => {

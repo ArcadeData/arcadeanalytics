@@ -41,6 +41,6 @@ export interface SecondaryWidget {
     onDatasetUpdate(data: Object, metadata: Object): void;
     updateWidgetDataset(data): void;
     updateSecondaryMetadataFromPrimaryMetadata(metadata: Object): void;
-    performFacetingForCurrentDataset(saveAfterUpdate?: boolean): void;
+    performSeriesComputationForCurrentDataset(saveAfterUpdate?: boolean): void;
 
 }

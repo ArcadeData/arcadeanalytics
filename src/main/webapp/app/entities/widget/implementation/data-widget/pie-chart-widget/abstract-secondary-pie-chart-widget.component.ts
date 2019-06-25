@@ -158,7 +158,7 @@ export abstract class AbstractSecondaryPieChartWidgetComponent extends AbstractP
      * Abstract methods
      */
     abstract handleSelectedPropertyModelChanging(): void;
-    abstract performFacetingForCurrentDataset(saveAfterUpdate?: boolean): void;
+    abstract performSeriesComputationForCurrentDataset(saveAfterUpdate?: boolean): void;
 
     // @Override
     updatePieChartWidgetFromSnapshot(snapshot) {
@@ -180,6 +180,9 @@ export abstract class AbstractSecondaryPieChartWidgetComponent extends AbstractP
         this.updateWidgetDataset(data);
         this.updateSecondaryMetadataFromPrimaryMetadata(metadata);
 
+        // updating the class properties, as after metadata update could be some properties not present before
+        super.updateSelectedClassProperties();
+
         if (this.widget.type !== WidgetType.SECONDARY_QUERY_PIE_CHART) {
             // if the selected class was removed from the metadata we need to set the selectedClass to undefined
             if (this.selectedClass && !metadata['nodesClasses'][this.selectedClass] && !metadata['edgesClasses'][this.selectedClass]) {
@@ -192,11 +195,8 @@ export abstract class AbstractSecondaryPieChartWidgetComponent extends AbstractP
         if (this.currentDataset['elements'].length > 0) {
             if (this.selectedClass) {
 
-                // updating the class properties, as after metadata update could be some properties not present before
-                this.selectedClassProperties = this.getClassProperties(this.selectedClass);
-
                 if (this.selectedProperty) {
-                    this.performFacetingForCurrentDataset(true);
+                    this.performSeriesComputationForCurrentDataset(true);
                     saved = true;
                 } else {
                     console.log('[PieChartWidget-id: ' + this.widget.id + ']: cannot perform series computation as no properties are selcted.');

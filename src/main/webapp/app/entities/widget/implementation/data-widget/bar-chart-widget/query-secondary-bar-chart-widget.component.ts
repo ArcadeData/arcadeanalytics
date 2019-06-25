@@ -113,7 +113,7 @@ export class QuerySecondaryBarChartWidgetComponent extends AbstractSecondaryBarC
     handleSelectedPropertyModelChanging() {
         this.startSpinner();
         this.multiSeriesMode = false;
-        this.performFacetingForCurrentDataset();
+        this.performSeriesComputationForCurrentDataset();
     }
 
     runSeriesComputation(saveAfterUpdate?: boolean, mode?: string) {
@@ -122,17 +122,21 @@ export class QuerySecondaryBarChartWidgetComponent extends AbstractSecondaryBarC
         } else if (mode === 'multi') {
             this.multiSeriesMode = true;
         }
-        this.performFacetingForCurrentDataset();
+        this.performSeriesComputationForCurrentDataset();
     }
 
     // Override
     updateBarChartWidgetFromSnapshot(snapshot) {
 
-        super.updateBarChartWidgetFromSnapshot(snapshot);
+        if (snapshot['categoryProperty']) {
+            this.categoryProperty = snapshot['categoryProperty'];
+        }
 
         if (snapshot['valueProperty']) {
             this.valueProperty = snapshot['valueProperty'];
         }
+
+        super.updateBarChartWidgetFromSnapshot(snapshot);
 
         this.updateMultiSeriesSelectedClassProperties();
     }
@@ -168,19 +172,54 @@ export class QuerySecondaryBarChartWidgetComponent extends AbstractSecondaryBarC
     // Override
     onDatasetUpdate(data: Object, metadata: Object) {
 
-        super.onDatasetUpdate(data, metadata);
+        this.stopSpinner();
+
+        this.updateWidgetDataset(data);
+        this.updateSecondaryMetadataFromPrimaryMetadata(metadata);
+
+        // updating the class properties, as after metadata update could be some properties not present before
+        super.updateSelectedClassProperties();
+
+        let saved: boolean = false;
+        if (this.currentDataset['elements'].length > 0) {
+
+            if (!this.multiSeriesMode) {
+                // trying to perform single series computation
+                if (this.categoryProperty && this.valueProperty) {
+                    this.performSeriesComputationForCurrentDataset(true);
+                    saved = true;
+                } else {
+                    console.log('[BarChartWidget-id: ' + this.widget.id + ']: cannot perform single series computation because Category and/or Value are not defined.');
+                }
+            } else {
+                // trying to perform multi series computation
+                if (Object.keys(this.multiSeriesName2info).length > 0) {
+                    this.performSeriesComputationForCurrentDataset(true);
+                    saved = true;
+                } else {
+                    console.log('[BarChartWidget-id: ' + this.widget.id + ']: cannot perform multi series computation because no category-value rules are defined.');
+                }
+            }
+        } else {
+            // clean the pie chart
+            this.series = [];
+            this.xAxisCategories = [];
+            this.updateBarChart(true);
+        }
+
+        if (!saved && this.principal.hasAnyAuthorityDirect(['ROLE_ADMIN', 'ROLE_EDITOR'])) {
+            // even though we did not save the widget as we did not perform the series computation, we have to save the new current dataset and metadata
+            this.saveAll(true);
+        }
+
         this.updateMultiSeriesSelectedClassProperties();
     }
 
     /**
-      * Faceting
-      */
-
-    /**
-  * It performs the facetig for current dataset by querying elastic search
-  * @param saveAfterUpdate
-  */
-    performFacetingForCurrentDataset(saveAfterUpdate?: boolean): void {
+    * It performs the facetig for the current dataset
+    * @param saveAfterUpdate
+    */
+    performSeriesComputationForCurrentDataset(saveAfterUpdate?: boolean): void {
 
         this.series = [];
         this.xAxisCategories = [];

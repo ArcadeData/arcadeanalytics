@@ -160,7 +160,7 @@ export abstract class AbstractSecondaryBarChartWidgetComponent extends AbstractB
      * Abstract methods
      */
     abstract handleSelectedPropertyModelChanging(): void;
-    abstract performFacetingForCurrentDataset(saveAfterUpdate?: boolean): void;
+    abstract performSeriesComputationForCurrentDataset(saveAfterUpdate?: boolean): void;
 
     // @Override
     updateBarChartWidgetFromSnapshot(snapshot) {
@@ -182,6 +182,9 @@ export abstract class AbstractSecondaryBarChartWidgetComponent extends AbstractB
         this.updateWidgetDataset(data);
         this.updateSecondaryMetadataFromPrimaryMetadata(metadata);
 
+        // updating the class properties, as after metadata update could be some properties not present before
+        super.updateSelectedClassProperties();
+
         if (this.widget.type !== WidgetType.SECONDARY_QUERY_PIE_CHART) {
             // if the selected class was removed from the metadata we need to set the selectedClass to undefined
             if (this.selectedClass && !metadata['nodesClasses'][this.selectedClass] && !metadata['edgesClasses'][this.selectedClass]) {
@@ -193,16 +196,10 @@ export abstract class AbstractSecondaryBarChartWidgetComponent extends AbstractB
         let saved: boolean = false;
         if (this.currentDataset['elements'].length > 0) {
 
-            if (this.selectedClass) {
-
-                // updating the class properties, as after metadata update could be some properties not present before
-                this.selectedClassProperties = this.getClassProperties(this.selectedClass);
-            }
-
             if (!this.multiSeriesMode) {
                 // trying to perform single series computation
                 if (this.selectedClass && this.selectedProperty) {
-                    this.performFacetingForCurrentDataset(true);
+                    this.performSeriesComputationForCurrentDataset(true);
                     saved = true;
                 } else {
                     console.log('[BarChartWidget-id: ' + this.widget.id + ']: cannot perform single series computation as no class or properties are selcted.');
@@ -210,7 +207,7 @@ export abstract class AbstractSecondaryBarChartWidgetComponent extends AbstractB
             } else {
                 // trying to perform multi series computation
                 if (Object.keys(this.multiSeriesName2info).length > 0) {
-                    this.performFacetingForCurrentDataset(true);
+                    this.performSeriesComputationForCurrentDataset(true);
                     saved = true;
                 } else {
                     console.log('[BarChartWidget-id: ' + this.widget.id + ']: cannot perform multi series computation as no class-property rules are defined.');
