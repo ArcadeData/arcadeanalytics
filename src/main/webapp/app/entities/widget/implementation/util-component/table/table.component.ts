@@ -138,7 +138,7 @@ export class TableComponent implements OnInit, OnDestroy, AfterViewInit, AfterVi
         this.columnName2sortingStatus = {};
         for (const inputColumn of this.inputColumns) {
             const columnName = inputColumn['name'];
-            if (!columnName.startsWith('@') && inputColumn['included']) {
+            if (!columnName.startsWith('@')) {
                 if (this.columnsNames.indexOf(columnName) < 0) {
                     this.columnsNames.push(columnName);
                     this.columnName2sortingStatus[columnName] = SortingStatus.NOT_SORTED;
@@ -314,7 +314,7 @@ export class TableComponent implements OnInit, OnDestroy, AfterViewInit, AfterVi
             headerLine = '"Class Name",';
         }
         for (const property of this.inputColumns) {
-            if (!property['name'].startsWith('@') && property['included']) {
+            if (!property['name'].startsWith('@')) {
                 headerLine += '"' + property['name'] + '",';
             }
         }
@@ -328,7 +328,7 @@ export class TableComponent implements OnInit, OnDestroy, AfterViewInit, AfterVi
                 currLine = '"' + currElement['data']['class'] + '",';
             }
             for (const currProperty of this.inputColumns) {
-                if (!currProperty['name'].startsWith('@') && currProperty['included']) {
+                if (!currProperty['name'].startsWith('@')) {
                     let value = '"' + currElement['data']['record'][currProperty['name']];
                     if (!value) {
                         value = '';

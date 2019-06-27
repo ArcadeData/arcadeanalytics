@@ -184,6 +184,9 @@ export class TableWidgetComponent extends DataWidgetComponent implements Primary
             if (!this.minimizedView) {
                 this.dataSourceService.loadMetadata(datasourceId).subscribe((dataSourceMetadata: Object) => {
                     this.dataSourceMetadata = dataSourceMetadata;
+
+                    this.setAllPropertyTableInclusionFlag(true);
+
                     this.updateClassesNamesAccordingMetadata();
                 }, (error: HttpErrorResponse) => {
                     this.handleError(error.error, 'Metadata loading');
@@ -207,6 +210,25 @@ export class TableWidgetComponent extends DataWidgetComponent implements Primary
         if (!this.embedded) {
             this.minimumTimeoutWindow = this.principal['userIdentity']['contract']['pollingInterval'];
             this.autoUpdateIntervalWindow = this.minimumTimeoutWindow;
+        }
+    }
+
+    /**
+     * It sets for all the properties contained in the metadata with the value passed as paramter.
+     * Tis flag is used to know if a property is enabled as column table.
+     * @param value
+     */
+    setAllPropertyTableInclusionFlag(value: boolean) {
+        // setting 'included' flag (default true) to all the properties in the metadata
+        for (const currClassName of Object.keys(this.dataSourceMetadata['nodesClasses'])) {
+            for (const currPropName of Object.keys(this.dataSourceMetadata['nodesClasses'][currClassName]['properties'])) {
+                this.dataSourceMetadata['nodesClasses'][currClassName]['properties'][currPropName]['included'] = value;
+            }
+        }
+        for (const currClassName of Object.keys(this.dataSourceMetadata['edgesClasses'])) {
+            for (const currPropName of Object.keys(this.dataSourceMetadata['edgesClasses'][currClassName]['properties'])) {
+                this.dataSourceMetadata['edgesClasses'][currClassName]['properties'][currPropName]['included'] = value;
+            }
         }
     }
 
@@ -778,102 +800,53 @@ export class TableWidgetComponent extends DataWidgetComponent implements Primary
         // updating node class properties with the new entering nodes just loaded
         for (const nodeClassName of Object.keys(data['nodesClasses'])) {
             const currNodeClassMetadata = data['nodesClasses'][nodeClassName];
-            this.dataSourceMetadata['nodesClasses'][nodeClassName]['properties'] = {};  // clearing the last prop info
-            for (const currProperty of Object.keys(currNodeClassMetadata)) {
-                const newEnteringPropertyMetadata = {
-                    name: currProperty,
-                    type: currNodeClassMetadata[currProperty]
-                };
-                this.dataSourceMetadata['nodesClasses'][nodeClassName]['properties'][currProperty] = newEnteringPropertyMetadata;
+
+            // adding just new entering properties with included flag set to true
+            for (const currPropertycurrPropertyName of Object.keys(currNodeClassMetadata)) {
+                if (!this.dataSourceMetadata['nodesClasses'][nodeClassName]['properties'][currPropertycurrPropertyName]) {
+                    const newEnteringPropertyMetadata = {
+                        name: currPropertycurrPropertyName,
+                        type: currNodeClassMetadata[currPropertycurrPropertyName],
+                        included: true
+                    };
+                    this.dataSourceMetadata['nodesClasses'][nodeClassName]['properties'][currPropertycurrPropertyName] = newEnteringPropertyMetadata;
+                }
+            }
+
+            // removing the properties no more contained in the new metadata version
+            for (const currPropertycurrPropertyName of Object.keys(this.dataSourceMetadata['nodesClasses'][nodeClassName]['properties'])) {
+                if (!data['nodesClasses'][nodeClassName][currPropertycurrPropertyName]) {
+                    delete this.dataSourceMetadata['nodesClasses'][nodeClassName]['properties'][currPropertycurrPropertyName];
+                }
             }
         }
 
         // updating edge class properties with the new entering edges just loaded
         for (const edgeClassName of Object.keys(data['edgesClasses'])) {
             const currEdgeClassMetadata = data['edgesClasses'][edgeClassName];
-            this.dataSourceMetadata['edgesClasses'][edgeClassName]['properties'] = {};  // clearing the last prop info
-            for (const currProperty of Object.keys(currEdgeClassMetadata)) {
-                const newEnteringPropertyMetadata = {
-                    name: currProperty,
-                    type: currEdgeClassMetadata[currProperty]
-                };
-                this.dataSourceMetadata['edgesClasses'][edgeClassName]['properties'][currProperty] = newEnteringPropertyMetadata;
-            }
-        }
 
-        // last classes and columns updating
-        if (!this.appendLastResult) {
-            this.lastLoadedClasses = [];
-            this.lastLoadedColumns = [];
-        }
-        if (data['nodesClasses'] && Object.keys(data['nodesClasses']).length > 0) {
-            const newTableColumns: Object[] = [];
-            for (const className of Object.keys(data['nodesClasses'])) {
-                if (this.lastLoadedClasses.indexOf(className) < 0) {
-                    this.lastLoadedClasses.push(className);
-                }
-                const properties = Object.keys(data['nodesClasses'][className]);
-                for (const propertyName of properties) {
-                    const currProperty = data['nodesClasses'][className][propertyName];
-                    const currPropertyInfo = {
-                        className: className,
-                        name: propertyName,
-                        type: currProperty['type'],
-                        included: true,
-                        sortingStatus: SortingStatus.NOT_SORTED
-                    };
-                    newTableColumns.push(currPropertyInfo);
-                }
-            }
-            const finalColumns = new Set(this.lastLoadedColumns.concat(newTableColumns));
-            this.lastLoadedColumns = Array.from(finalColumns);
-        }
-
-        if (data['edgesClasses'] && Object.keys(data['edgesClasses']).length > 0) {
-            const newTableColumns: Object[] = [];
-            for (const className of Object.keys(data['edgesClasses'])) {
-                if (this.lastLoadedClasses.indexOf(className) < 0) {
-                    this.lastLoadedClasses.push(className);
-                }
-                const properties = Object.keys(data['edgesClasses'][className]);
-                for (const propertyName of properties) {
-                    const currProperty = data['edgesClasses'][className][propertyName];
-                    const currPropertyInfo = {
-                        className: className,
-                        name: propertyName,
-                        type: currProperty['type'],
+            // adding just new entering properties with included flag set to true
+            for (const currPropertyName of Object.keys(currEdgeClassMetadata)) {
+                if (!this.dataSourceMetadata['edgesClasses'][edgeClassName]['properties'][currPropertyName]) {
+                    const newEnteringPropertyMetadata = {
+                        name: currPropertyName,
+                        type: currEdgeClassMetadata[currPropertyName],
                         included: true
                     };
-                    newTableColumns.push(currPropertyInfo);
+                    this.dataSourceMetadata['edgesClasses'][edgeClassName]['properties'][currPropertyName] = newEnteringPropertyMetadata;
                 }
-
-                // adding fixed columns for edges: id, source and target
-                newTableColumns.push({
-                    className: className,
-                    name: 'edgeId',
-                    type: 'string',
-                    included: true
-                });
-                newTableColumns.push({
-                    className: className,
-                    name: 'source',
-                    type: 'string',
-                    included: true
-                });
-                newTableColumns.push({
-                    className: className,
-                    name: 'target',
-                    type: 'string',
-                    included: true
-                });
             }
-            const finalColumns = new Set(this.lastLoadedColumns.concat(newTableColumns));
-            this.lastLoadedColumns = Array.from(finalColumns);
-        }
-    }
 
-    makeColumnsChangeDetected() {
-        this.lastLoadedColumns = [...this.lastLoadedColumns];
+            // removing the properties no more contained in the new metadata version
+            for (const currPropertycurrPropertyName of Object.keys(this.dataSourceMetadata['edgesClasses'][edgeClassName]['properties'])) {
+                if (!data['edgesClasses'][edgeClassName][currPropertycurrPropertyName]) {
+                    delete this.dataSourceMetadata['edgesClasses'][edgeClassName]['properties'][currPropertycurrPropertyName];
+                }
+            }
+        }
+
+        // last loaded columns updating
+        this.updateLoadedColumns();
     }
 
     closePopover() {
@@ -1107,19 +1080,34 @@ export class TableWidgetComponent extends DataWidgetComponent implements Primary
      * Selection/unselction
      */
 
-    selectAllPropertiesOfClass(className: string) {
-        for (const property of this.lastLoadedColumns) {
-            if (property['className'] === className && !property['included']) {
-                property['included'] = true;
-            }
+    selectAllPropertiesOfClass(className: string, classType: string) {
+        if (classType === 'node') {
+            this.updateSelectionFlagForPropertiesOfNodeClass(className, true);
+        } else if (classType === 'edge') {
+            this.updateSelectionFlagForPropertiesOfEdgeClass(className, true);
+        }
+        this.updateLoadedColumns();
+    }
+
+    unselectAllPropertiesOfClass(className: string, classType: string) {
+        if (classType === 'node') {
+            this.updateSelectionFlagForPropertiesOfNodeClass(className, false);
+        } else if (classType === 'edge') {
+            this.updateSelectionFlagForPropertiesOfEdgeClass(className, false);
+            this.updateLoadedColumns();
+        }
+        this.updateLoadedColumns();
+    }
+
+    updateSelectionFlagForPropertiesOfNodeClass(className, value) {
+        for (const propertyName of Object.keys(this.dataSourceMetadata['nodesClasses'][className]['properties'])) {
+            this.dataSourceMetadata['nodesClasses'][className]['properties'][propertyName]['included'] = value;
         }
     }
 
-    unselectAllPropertiesOfClass(className: string) {
-        for (const property of this.lastLoadedColumns) {
-            if (property['className'] === className && property['included']) {
-                property['included'] = false;
-            }
+    updateSelectionFlagForPropertiesOfEdgeClass(className, value) {
+        for (const propertyName of Object.keys(this.dataSourceMetadata['edgesClasses'][className]['properties'])) {
+            this.dataSourceMetadata['edgesClasses'][className]['properties'][propertyName]['included'] = value;
         }
     }
 
@@ -1286,6 +1274,7 @@ export class TableWidgetComponent extends DataWidgetComponent implements Primary
      * - elements showing/hiding
      * - elements adding in the current dataset
      * - elements removing from the current dataset
+     *
      * All the elements will be included, then the set is ordere according to selection order.
      */
     updateLoadedElements() {
@@ -1296,29 +1285,55 @@ export class TableWidgetComponent extends DataWidgetComponent implements Primary
      * It's called to update the input columns for the table component when occurs:
      * - elements adding in the current dataset
      * - elements removing from the current dataset
-     * Will be included all the columns for each class having at least an element in the current dataset.
+     * - column 'included' flag changing
+     *
+     * Will be included all the columns for each class having at least an element in the current dataset
+     * and 'included' flag set to true.
      */
     updateLoadedColumns() {
 
         this.lastLoadedColumns = [];
         this.lastLoadedClasses = this.getAllClassNamesWithElementsInCurrentDataset();
+        let edgeClassesPresent: boolean = false;
         for (const className of this.lastLoadedClasses) {
             let properties;
             if (this.dataSourceMetadata['nodesClasses'][className]) {
                 properties = this.dataSourceMetadata['nodesClasses'][className]['properties'];
             } else if (this.dataSourceMetadata['edgesClasses'][className]) {
                 properties = this.dataSourceMetadata['edgesClasses'][className]['properties'];
+                edgeClassesPresent = true;
             }
             for (const propertyName of Object.keys(properties)) {
-                const currProperty = properties[propertyName];
-                const currPropertyInfo = {
-                    className: className,
-                    name: propertyName,
-                    type: currProperty['type'],
-                    included: true
-                };
-                this.lastLoadedColumns.push(currPropertyInfo);
+                if (properties[propertyName]['included']) {
+                    const currProperty = properties[propertyName];
+                    const currPropertyInfo = {
+                        name: propertyName,
+                        type: currProperty['type'],
+                        sortingStatus: SortingStatus.NOT_SORTED
+                    };
+                    this.lastLoadedColumns.push(currPropertyInfo);
+                }
             }
+
+        }
+
+        if (edgeClassesPresent) {
+            // adding fixed columns for edges: id, source and target
+            this.lastLoadedColumns.push({
+                name: 'edgeId',
+                type: 'string',
+                sortingStatus: SortingStatus.NOT_SORTED
+            });
+            this.lastLoadedColumns.push({
+                name: 'source',
+                type: 'string',
+                sortingStatus: SortingStatus.NOT_SORTED
+            });
+            this.lastLoadedColumns.push({
+                name: 'target',
+                type: 'string',
+                sortingStatus: SortingStatus.NOT_SORTED
+            });
         }
     }
 

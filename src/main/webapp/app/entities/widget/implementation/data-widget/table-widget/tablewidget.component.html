@@ -83,13 +83,15 @@
                                                 <div class="row">
                                                     <div class="col-lg-7">
                                                         <label for="classSelection">Class</label>
-                                                        <select *ngIf="!dataSource['type'].startsWith('RDBMS_')"
+                                                        <select
+                                                            *ngIf="dataSource && !dataSource['type'].startsWith('RDBMS_')"
                                                             id="classSelection" class="form-control"
                                                             [(ngModel)]="classForDataFetching">
                                                             <option *ngFor="let className of allClassesNames"
                                                                 [ngValue]="className"> {{className}} </option>
                                                         </select>
-                                                        <select *ngIf="dataSource['type'].startsWith('RDBMS_')"
+                                                        <select
+                                                            *ngIf="dataSource && dataSource['type'].startsWith('RDBMS_')"
                                                             id="classSelection" class="form-control"
                                                             [(ngModel)]="classForDataFetching">
                                                             <option *ngFor="let className of nodesClassesNames"
@@ -289,7 +291,7 @@
                                     <span>Columns</span>
                                 </a>
                                 <ul>
-                                    <li *ngIf="lastLoadedData.elements.length === 0">
+                                    <li *ngIf="lastLoadedData.elements.length === 0" class="text-center">
                                         <span>No data loaded yet.</span>
                                     </li>
                                     <li *ngIf="lastLoadedData.elements.length > 0">
@@ -319,29 +321,64 @@
                                                 *ngFor="let className of lastLoadedClasses" [heading]="className"
                                                 [panelClass]="outerAccordion" style="border-color: white;">
                                                 <div class="clearfix">
-                                                    <div class="row" style="padding: 5px 1px 10px 5px;">
-                                                        <div class="col-lg-6"
-                                                            (click)="selectAllPropertiesOfClass(className)">
-                                                            <button type="button" class="btn btn-primary btn-xs">Select
-                                                                All</button>
-                                                        </div>
-                                                        <div class="col-lg-6"
-                                                            (click)="unselectAllPropertiesOfClass(className)">
-                                                            <button type="button"
-                                                                class="btn btn-primary btn-xs">Unselect All</button>
-                                                        </div>
-                                                    </div>
-                                                    <ul>
-                                                        <li *ngFor="let property of lastLoadedColumns">
-                                                            <div
-                                                                *ngIf="!property['name'].startsWith('@') && property['className'] === className">
-                                                                <input type="checkbox"
-                                                                    [(ngModel)]="property['included']"
-                                                                    (ngModelChange)="makeColumnsChangeDetected()">
-                                                                <span>{{property['name']}}</span>
+                                                    <ng-container *ngIf="dataSourceMetadata['nodesClasses'][className]">
+                                                        <div class="row" *ngIf="(dataSourceMetadata['nodesClasses'][className]['properties'] | objectKeys).length > 0"
+                                                            style="padding: 5px 1px 10px 5px;">
+                                                            <div class="col-lg-6" (click)="selectAllPropertiesOfClass(className, 'node')">
+                                                                <button type="button" class="btn btn-primary btn-xs">Select
+                                                                    All</button>
                                                             </div>
-                                                        </li>
-                                                    </ul>
+                                                            <div class="col-lg-6" (click)="unselectAllPropertiesOfClass(className, 'node')">
+                                                                <button type="button" class="btn btn-primary btn-xs">Unselect All</button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="clearfix"
+                                                            *ngIf="(dataSourceMetadata['nodesClasses'][className]['properties'] | objectKeys).length === 0">
+                                                            <div class="text-center">
+                                                                <span>No properties are defined in the class.</span>
+                                                            </div>
+                                                        </div>
+                                                        <ul>
+                                                            <li *ngFor="let propertyName of (dataSourceMetadata['nodesClasses'][className]['properties'] | objectKeys)">
+                                                                <div
+                                                                    *ngIf="dataSourceMetadata['nodesClasses'][className]['properties'][propertyName]['name'].indexOf('@') !== 0">
+                                                                    <input type="checkbox"
+                                                                        [(ngModel)]="dataSourceMetadata['nodesClasses'][className]['properties'][propertyName]['included']"
+                                                                        (ngModelChange)="updateLoadedColumns()">
+                                                                    <span>{{dataSourceMetadata['nodesClasses'][className]['properties'][propertyName]['name']}}</span>
+                                                                </div>
+                                                            </li>
+                                                        </ul>
+                                                    </ng-container>
+                                                    <ng-container *ngIf="dataSourceMetadata['edgesClasses'][className]">
+                                                        <div class="row" *ngIf="(dataSourceMetadata['edgesClasses'][className]['properties'] | objectKeys).length > 0"
+                                                            style="padding: 5px 1px 10px 5px;">
+                                                            <div class="col-lg-6" (click)="selectAllPropertiesOfClass(className, 'edge')">
+                                                                <button type="button" class="btn btn-primary btn-xs">Select
+                                                                    All</button>
+                                                            </div>
+                                                            <div class="col-lg-6" (click)="unselectAllPropertiesOfClass(className, 'edge')">
+                                                                <button type="button" class="btn btn-primary btn-xs">Unselect All</button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="clearfix"
+                                                            *ngIf="(dataSourceMetadata['edgesClasses'][className]['properties'] | objectKeys).length === 0">
+                                                            <div class="text-center">
+                                                                <span>No properties are defined in the class.</span>
+                                                            </div>
+                                                        </div>
+                                                        <ul>
+                                                            <li *ngFor="let propertyName of (dataSourceMetadata['edgesClasses'][className]['properties'] | objectKeys)">
+                                                                <div
+                                                                    *ngIf="dataSourceMetadata['edgesClasses'][className]['properties'][propertyName]['name'].indexOf('@') !== 0">
+                                                                    <input type="checkbox"
+                                                                        [(ngModel)]="dataSourceMetadata['edgesClasses'][className]['properties'][propertyName]['included']"
+                                                                        (ngModelChange)="updateLoadedColumns()">
+                                                                    <span>{{dataSourceMetadata['edgesClasses'][className]['properties'][propertyName]['name']}}</span>
+                                                                </div>
+                                                            </li>
+                                                        </ul>
+                                                    </ng-container>
                                                 </div>
                                             </accordion-group>
                                         </accordion>
