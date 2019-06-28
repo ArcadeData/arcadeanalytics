@@ -214,12 +214,11 @@ export class TableWidgetComponent extends DataWidgetComponent implements Primary
     }
 
     /**
-     * It sets for all the properties contained in the metadata with the value passed as paramter.
-     * Tis flag is used to know if a property is enabled as column table.
+     * It sets the 'included' flag for all the properties contained in the metadata with the value passed as paramter.
+     * This flag is used to know if a property is enabled as column table.
      * @param value
      */
     setAllPropertyTableInclusionFlag(value: boolean) {
-        // setting 'included' flag (default true) to all the properties in the metadata
         for (const currClassName of Object.keys(this.dataSourceMetadata['nodesClasses'])) {
             for (const currPropName of Object.keys(this.dataSourceMetadata['nodesClasses'][currClassName]['properties'])) {
                 this.dataSourceMetadata['nodesClasses'][currClassName]['properties'][currPropName]['included'] = value;
@@ -801,22 +800,37 @@ export class TableWidgetComponent extends DataWidgetComponent implements Primary
         for (const nodeClassName of Object.keys(data['nodesClasses'])) {
             const currNodeClassMetadata = data['nodesClasses'][nodeClassName];
 
-            // adding just new entering properties with included flag set to true
-            for (const currPropertycurrPropertyName of Object.keys(currNodeClassMetadata)) {
-                if (!this.dataSourceMetadata['nodesClasses'][nodeClassName]['properties'][currPropertycurrPropertyName]) {
-                    const newEnteringPropertyMetadata = {
-                        name: currPropertycurrPropertyName,
-                        type: currNodeClassMetadata[currPropertycurrPropertyName],
-                        included: true
-                    };
-                    this.dataSourceMetadata['nodesClasses'][nodeClassName]['properties'][currPropertycurrPropertyName] = newEnteringPropertyMetadata;
-                }
-            }
+            if (!this.dataSourceMetadata['nodesClasses'][nodeClassName]) {
+                // add the new entering node class
 
-            // removing the properties no more contained in the new metadata version
-            for (const currPropertycurrPropertyName of Object.keys(this.dataSourceMetadata['nodesClasses'][nodeClassName]['properties'])) {
-                if (!data['nodesClasses'][nodeClassName][currPropertycurrPropertyName]) {
-                    delete this.dataSourceMetadata['nodesClasses'][nodeClassName]['properties'][currPropertycurrPropertyName];
+                if (!currNodeClassMetadata['name']) {
+                    currNodeClassMetadata['name'] = nodeClassName;
+                }
+                if (!currNodeClassMetadata['cardinality']) {
+                    currNodeClassMetadata['cardinality'] = 0;
+                }
+                if (!currNodeClassMetadata['properties']) {
+                    currNodeClassMetadata['properties'] = {};
+                }
+                this.addNodeClassMetadata(nodeClassName, currNodeClassMetadata);
+            } else {
+                // adding just new entering properties with included flag set to true
+                for (const currPropertyName of Object.keys(currNodeClassMetadata)) {
+                    if (!this.dataSourceMetadata['nodesClasses'][nodeClassName]['properties'][currPropertyName]) {
+                        const newEnteringPropertyMetadata = {
+                            name: currPropertyName,
+                            type: currNodeClassMetadata[currPropertyName],
+                            included: true
+                        };
+                        this.dataSourceMetadata['nodesClasses'][nodeClassName]['properties'][currPropertyName] = newEnteringPropertyMetadata;
+                    }
+                }
+
+                // removing the properties no more contained in the new metadata version
+                for (const currPropertyName of Object.keys(this.dataSourceMetadata['nodesClasses'][nodeClassName]['properties'])) {
+                    if (!data['nodesClasses'][nodeClassName][currPropertyName]) {
+                        delete this.dataSourceMetadata['nodesClasses'][nodeClassName]['properties'][currPropertyName];
+                    }
                 }
             }
         }
@@ -825,28 +839,52 @@ export class TableWidgetComponent extends DataWidgetComponent implements Primary
         for (const edgeClassName of Object.keys(data['edgesClasses'])) {
             const currEdgeClassMetadata = data['edgesClasses'][edgeClassName];
 
-            // adding just new entering properties with included flag set to true
-            for (const currPropertyName of Object.keys(currEdgeClassMetadata)) {
-                if (!this.dataSourceMetadata['edgesClasses'][edgeClassName]['properties'][currPropertyName]) {
-                    const newEnteringPropertyMetadata = {
-                        name: currPropertyName,
-                        type: currEdgeClassMetadata[currPropertyName],
-                        included: true
-                    };
-                    this.dataSourceMetadata['edgesClasses'][edgeClassName]['properties'][currPropertyName] = newEnteringPropertyMetadata;
-                }
-            }
+            if (!this.dataSourceMetadata['edgesClasses'][edgeClassName]) {
+                // add the new entering edge class
 
-            // removing the properties no more contained in the new metadata version
-            for (const currPropertycurrPropertyName of Object.keys(this.dataSourceMetadata['edgesClasses'][edgeClassName]['properties'])) {
-                if (!data['edgesClasses'][edgeClassName][currPropertycurrPropertyName]) {
-                    delete this.dataSourceMetadata['edgesClasses'][edgeClassName]['properties'][currPropertycurrPropertyName];
+                if (!currEdgeClassMetadata['name']) {
+                    currEdgeClassMetadata['name'] = edgeClassName;
+                }
+                if (!currEdgeClassMetadata['cardinality']) {
+                    currEdgeClassMetadata['cardinality'] = 0;
+                }
+                if (!currEdgeClassMetadata['properties']) {
+                    currEdgeClassMetadata['properties'] = {};
+                }
+                this.addEdgeClassMetadata(edgeClassName, currEdgeClassMetadata);
+            } else {
+
+                // adding just new entering properties with included flag set to true
+                for (const currPropertyName of Object.keys(currEdgeClassMetadata)) {
+                    if (!this.dataSourceMetadata['edgesClasses'][edgeClassName]['properties'][currPropertyName]) {
+                        const newEnteringPropertyMetadata = {
+                            name: currPropertyName,
+                            type: currEdgeClassMetadata[currPropertyName],
+                            included: true
+                        };
+                        this.dataSourceMetadata['edgesClasses'][edgeClassName]['properties'][currPropertyName] = newEnteringPropertyMetadata;
+                    }
+                }
+
+                // removing the properties no more contained in the new metadata version
+                for (const currPropertyName of Object.keys(this.dataSourceMetadata['edgesClasses'][edgeClassName]['properties'])) {
+                    if (!data['edgesClasses'][edgeClassName][currPropertyName]) {
+                        delete this.dataSourceMetadata['edgesClasses'][edgeClassName]['properties'][currPropertyName];
+                    }
                 }
             }
         }
 
         // last loaded columns updating
         this.updateLoadedColumns();
+    }
+
+    addNodeClassMetadata(nodeClassName: string, metadata: Object) {
+        this.dataSourceMetadata['nodesClasses'][nodeClassName] = metadata;
+    }
+
+    addEdgeClassMetadata(edgeClassName: string, metadata: Object) {
+        this.dataSourceMetadata['edgesClasses'][edgeClassName] = metadata;
     }
 
     closePopover() {
@@ -1077,7 +1115,7 @@ export class TableWidgetComponent extends DataWidgetComponent implements Primary
     }
 
     /**
-     * Selection/unselction
+     * Table Columns selection/unselction
      */
 
     selectAllPropertiesOfClass(className: string, classType: string) {
@@ -1094,7 +1132,6 @@ export class TableWidgetComponent extends DataWidgetComponent implements Primary
             this.updateSelectionFlagForPropertiesOfNodeClass(className, false);
         } else if (classType === 'edge') {
             this.updateSelectionFlagForPropertiesOfEdgeClass(className, false);
-            this.updateLoadedColumns();
         }
         this.updateLoadedColumns();
     }
@@ -1303,18 +1340,19 @@ export class TableWidgetComponent extends DataWidgetComponent implements Primary
                 properties = this.dataSourceMetadata['edgesClasses'][className]['properties'];
                 edgeClassesPresent = true;
             }
-            for (const propertyName of Object.keys(properties)) {
-                if (properties[propertyName]['included']) {
-                    const currProperty = properties[propertyName];
-                    const currPropertyInfo = {
-                        name: propertyName,
-                        type: currProperty['type'],
-                        sortingStatus: SortingStatus.NOT_SORTED
-                    };
-                    this.lastLoadedColumns.push(currPropertyInfo);
+            if (properties !== undefined) {
+                for (const propertyName of Object.keys(properties)) {
+                    if (properties[propertyName]['included']) {
+                        const currProperty = properties[propertyName];
+                        const currPropertyInfo = {
+                            name: propertyName,
+                            type: currProperty['type'],
+                            sortingStatus: SortingStatus.NOT_SORTED
+                        };
+                        this.lastLoadedColumns.push(currPropertyInfo);
+                    }
                 }
             }
-
         }
 
         if (edgeClassesPresent) {

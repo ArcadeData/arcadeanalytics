@@ -45,7 +45,7 @@ import { DataSourceService } from '../../../../data-source/data-source.service';
 
 import { EdgeMenuComponent } from './menu/element-menu/edgemenu.component';
 import { VertexMenuComponent } from './menu/element-menu/vertexmenu.component';
-import { TableComponent } from '../../util-component/table/table.component';
+import { TableComponent, SortingStatus } from '../../util-component/table/table.component';
 
 const fileSaver = require('file-saver');
 const randomColor = require('randomcolor');
@@ -446,6 +446,8 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
                 this.dataSourceService.loadMetadata(datasourceId).subscribe((dataSourceMetadata: Object) => {
                     this.dataSourceMetadata = dataSourceMetadata;
 
+                    this.setAllPropertyTableInclusionFlag(true);
+
                     // intit nodes and edges classes styles
                     this.udateCyMetadataFromCurrDatasourceMetadata();
                 }, (error: HttpErrorResponse) => {
@@ -466,6 +468,24 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
         if (!this.embedded) {
             // authorities and depending params init
             this.initParamsDependingOnUserIdentities();
+        }
+    }
+
+    /**
+     * It sets the 'included' flag for all the properties contained in the metadata with the value passed as paramter.
+     * This flag is used to know if a property is enabled as column table.
+     * @param value
+     */
+    setAllPropertyTableInclusionFlag(value: boolean) {
+        for (const currClassName of Object.keys(this.dataSourceMetadata['nodesClasses'])) {
+            for (const currPropName of Object.keys(this.dataSourceMetadata['nodesClasses'][currClassName]['properties'])) {
+                this.dataSourceMetadata['nodesClasses'][currClassName]['properties'][currPropName]['included'] = value;
+            }
+        }
+        for (const currClassName of Object.keys(this.dataSourceMetadata['edgesClasses'])) {
+            for (const currPropName of Object.keys(this.dataSourceMetadata['edgesClasses'][currClassName]['properties'])) {
+                this.dataSourceMetadata['edgesClasses'][currClassName]['properties'][currPropName]['included'] = value;
+            }
         }
     }
 
@@ -1301,17 +1321,6 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
         this.cy.ready(() => {
             this.stopSpinner();
         });
-
-        // old metadata were already loaded, but we perform another call in order to
-        // get updated with potential datasource schema changes, iff the widget is not embedded
-        if (!this.embedded) {
-            this.dataSourceService.loadMetadata(this.widget['dataSourceId']).subscribe((dataSourceMetadata: Object) => {
-                this.updateDatasourceMetadataFromData(dataSourceMetadata);
-                this.udateCyMetadataFromCurrDatasourceMetadata();
-            }, (error: HttpErrorResponse) => {
-                this.handleError(error.error, 'Metadata loading');
-            });
-        }
 
         this.toSave = false;
     }
@@ -2408,6 +2417,7 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
         // updating node class properties with the new entering nodes just loaded
         for (const nodeClassName of Object.keys(data['nodesClasses'])) {
             const currNodeClassMetadata = data['nodesClasses'][nodeClassName];
+
             if (!this.dataSourceMetadata['nodesClasses'][nodeClassName]) {
                 // add the new entering node class
 
@@ -2422,15 +2432,22 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
                 }
                 this.addNodeClassMetadata(nodeClassName, currNodeClassMetadata);
             } else {
-                // check for new entering node class properties
-                for (const currProperty of Object.keys(currNodeClassMetadata)) {
-                    if (!this.dataSourceMetadata['nodesClasses'][nodeClassName]['properties'][currProperty]) {
-                        // add the new property metadata
+                // adding just new entering properties with included flag set to true
+                for (const currPropertyName of Object.keys(currNodeClassMetadata)) {
+                    if (!this.dataSourceMetadata['nodesClasses'][nodeClassName]['properties'][currPropertyName]) {
                         const newEnteringPropertyMetadata = {
-                            name: currProperty,
-                            type: currNodeClassMetadata[currProperty]
+                            name: currPropertyName,
+                            type: currNodeClassMetadata[currPropertyName],
+                            included: true
                         };
-                        this.dataSourceMetadata['nodesClasses'][nodeClassName]['properties'][currProperty] = newEnteringPropertyMetadata;
+                        this.dataSourceMetadata['nodesClasses'][nodeClassName]['properties'][currPropertyName] = newEnteringPropertyMetadata;
+                    }
+                }
+
+                // removing the properties no more contained in the new metadata version
+                for (const currPropertyName of Object.keys(this.dataSourceMetadata['nodesClasses'][nodeClassName]['properties'])) {
+                    if (!data['nodesClasses'][nodeClassName][currPropertyName]) {
+                        delete this.dataSourceMetadata['nodesClasses'][nodeClassName]['properties'][currPropertyName];
                     }
                 }
             }
@@ -2439,8 +2456,9 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
         // updating edge class properties with the new entering edges just loaded
         for (const edgeClassName of Object.keys(data['edgesClasses'])) {
             const currEdgeClassMetadata = data['edgesClasses'][edgeClassName];
+
             if (!this.dataSourceMetadata['edgesClasses'][edgeClassName]) {
-                // add the new entering node class
+                // add the new entering edge class
 
                 if (!currEdgeClassMetadata['name']) {
                     currEdgeClassMetadata['name'] = edgeClassName;
@@ -2451,21 +2469,32 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
                 if (!currEdgeClassMetadata['properties']) {
                     currEdgeClassMetadata['properties'] = {};
                 }
-                this.addEdgeClassMetadata(edgeClassName, edgeClassName);
+                this.addEdgeClassMetadata(edgeClassName, currEdgeClassMetadata);
             } else {
-                // check for new entering node class properties
-                for (const currProperty of Object.keys(currEdgeClassMetadata)) {
-                    if (!this.dataSourceMetadata['edgesClasses'][edgeClassName]['properties'][currProperty]) {
-                        // add the new property metadata
+
+                // adding just new entering properties with included flag set to true
+                for (const currPropertyName of Object.keys(currEdgeClassMetadata)) {
+                    if (!this.dataSourceMetadata['edgesClasses'][edgeClassName]['properties'][currPropertyName]) {
                         const newEnteringPropertyMetadata = {
-                            name: currProperty,
-                            type: currEdgeClassMetadata[currProperty]
+                            name: currPropertyName,
+                            type: currEdgeClassMetadata[currPropertyName],
+                            included: true
                         };
-                        this.dataSourceMetadata['edgesClasses'][edgeClassName]['properties'][currProperty] = newEnteringPropertyMetadata;
+                        this.dataSourceMetadata['edgesClasses'][edgeClassName]['properties'][currPropertyName] = newEnteringPropertyMetadata;
+                    }
+                }
+
+                // removing the properties no more contained in the new metadata version
+                for (const currPropertyName of Object.keys(this.dataSourceMetadata['edgesClasses'][edgeClassName]['properties'])) {
+                    if (!data['edgesClasses'][edgeClassName][currPropertyName]) {
+                        delete this.dataSourceMetadata['edgesClasses'][edgeClassName]['properties'][currPropertyName];
                     }
                 }
             }
         }
+
+        // last loaded columns updating
+        this.updateTableInputColumns();
     }
 
     /**
@@ -3188,31 +3217,56 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
      * It's called to update the input columns for the table component when occurs:
      * - elements adding in the current dataset
      * - elements removing from the current dataset
-     * Will be included all the columns for each class having at least an element in the current dataset.
+     * - column 'included' flag changing
+     *
+     * Will be included all the columns for each class having at least an element in the current dataset
+     * and 'included' flag set to true.
      */
     updateTableInputColumns() {
 
         this.tableInputColumns = [];
         this.tableInputClassNames = this.getAllClassNamesWithElementsInCurrentDataset();
+        let edgeClassesPresent: boolean = false;
         for (const className of this.tableInputClassNames) {
             let properties;
             if (this.dataSourceMetadata['nodesClasses'][className]) {
                 properties = this.dataSourceMetadata['nodesClasses'][className]['properties'];
             } else if (this.dataSourceMetadata['edgesClasses'][className]) {
                 properties = this.dataSourceMetadata['edgesClasses'][className]['properties'];
+                edgeClassesPresent = true;
             }
-            if (properties != null) {
+            if (properties !== undefined) {
                 for (const propertyName of Object.keys(properties)) {
-                    const currProperty = properties[propertyName];
-                    const currPropertyInfo = {
-                        className: className,
-                        name: propertyName,
-                        type: currProperty['type'],
-                        included: true
-                    };
-                    this.tableInputColumns.push(currPropertyInfo);
+                    if (properties[propertyName]['included']) {
+                        const currProperty = properties[propertyName];
+                        const currPropertyInfo = {
+                            name: propertyName,
+                            type: currProperty['type'],
+                            sortingStatus: SortingStatus.NOT_SORTED
+                        };
+                        this.tableInputColumns.push(currPropertyInfo);
+                    }
                 }
             }
+        }
+
+        if (edgeClassesPresent) {
+            // adding fixed columns for edges: id, source and target
+            this.tableInputColumns.push({
+                name: 'edgeId',
+                type: 'string',
+                sortingStatus: SortingStatus.NOT_SORTED
+            });
+            this.tableInputColumns.push({
+                name: 'source',
+                type: 'string',
+                sortingStatus: SortingStatus.NOT_SORTED
+            });
+            this.tableInputColumns.push({
+                name: 'target',
+                type: 'string',
+                sortingStatus: SortingStatus.NOT_SORTED
+            });
         }
     }
 
@@ -3222,6 +3276,7 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
      * - elements showing/hiding
      * - elements adding in the current dataset
      * - elements removing from the current dataset
+     *
      * All the elements will be included, then the set is ordere according to selection order.
      */
     updateTableInputElements(tableInputElements: Object[]) {
@@ -3318,23 +3373,37 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
         }
     }
 
-    makeColumnsChangeDetected() {
-        this.tableInputColumns = [...this.tableInputColumns];
+    /**
+     * Table Columns selection/unselction
+     */
+
+    selectAllPropertiesOfClass(className: string, classType: string) {
+        if (classType === 'node') {
+            this.updateSelectionFlagForPropertiesOfNodeClass(className, true);
+        } else if (classType === 'edge') {
+            this.updateSelectionFlagForPropertiesOfEdgeClass(className, true);
+        }
+        this.updateTable();
     }
 
-    selectAllPropertiesOfClass(className: string) {
-        for (const property of this.tableInputColumns) {
-            if (property['className'] === className && !property['included']) {
-                property['included'] = true;
-            }
+    unselectAllPropertiesOfClass(className: string, classType: string) {
+        if (classType === 'node') {
+            this.updateSelectionFlagForPropertiesOfNodeClass(className, false);
+        } else if (classType === 'edge') {
+            this.updateSelectionFlagForPropertiesOfEdgeClass(className, false);
+        }
+        this.updateTable();
+    }
+
+    updateSelectionFlagForPropertiesOfNodeClass(className, value) {
+        for (const propertyName of Object.keys(this.dataSourceMetadata['nodesClasses'][className]['properties'])) {
+            this.dataSourceMetadata['nodesClasses'][className]['properties'][propertyName]['included'] = value;
         }
     }
 
-    deselectAllPropertiesOfClass(className: string) {
-        for (const property of this.tableInputColumns) {
-            if (property['className'] === className && property['included']) {
-                property['included'] = false;
-            }
+    updateSelectionFlagForPropertiesOfEdgeClass(className, value) {
+        for (const propertyName of Object.keys(this.dataSourceMetadata['edgesClasses'][className]['properties'])) {
+            this.dataSourceMetadata['edgesClasses'][className]['properties'][propertyName]['included'] = value;
         }
     }
 

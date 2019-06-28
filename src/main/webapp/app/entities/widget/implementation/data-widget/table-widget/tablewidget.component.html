@@ -340,8 +340,7 @@
                                                         </div>
                                                         <ul>
                                                             <li *ngFor="let propertyName of (dataSourceMetadata['nodesClasses'][className]['properties'] | objectKeys)">
-                                                                <div
-                                                                    *ngIf="dataSourceMetadata['nodesClasses'][className]['properties'][propertyName]['name'].indexOf('@') !== 0">
+                                                                <div *ngIf="dataSourceMetadata['nodesClasses'][className]['properties'][propertyName]['name'].indexOf('@') !== 0">
                                                                     <input type="checkbox"
                                                                         [(ngModel)]="dataSourceMetadata['nodesClasses'][className]['properties'][propertyName]['included']"
                                                                         (ngModelChange)="updateLoadedColumns()">
