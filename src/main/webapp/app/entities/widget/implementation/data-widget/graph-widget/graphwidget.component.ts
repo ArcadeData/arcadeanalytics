@@ -648,6 +648,12 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
             this.tableTabActive = false;
             this.datasourceTabActive = false;
 
+            setTimeout(() => {
+                if (this.bottomTable) {
+                    this.updateTable();
+                }
+            }, 200);
+
             // tabs switching bug: when we switch to the graph tab we nedd to call the cytoscape core resize method
             this.resizeGraphTabWhenActive();
         } else if (justChosenTab === 'table') {
@@ -3248,25 +3254,6 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
                     }
                 }
             }
-        }
-
-        if (edgeClassesPresent) {
-            // adding fixed columns for edges: id, source and target
-            this.tableInputColumns.push({
-                name: 'edgeId',
-                type: 'string',
-                sortingStatus: SortingStatus.NOT_SORTED
-            });
-            this.tableInputColumns.push({
-                name: 'source',
-                type: 'string',
-                sortingStatus: SortingStatus.NOT_SORTED
-            });
-            this.tableInputColumns.push({
-                name: 'target',
-                type: 'string',
-                sortingStatus: SortingStatus.NOT_SORTED
-            });
         }
     }
 
