@@ -12,7 +12,7 @@ cache:
 
 notifications:
   email:
-    - ro.franchini@gmail.com
+    - arcade@arcadeanalytics.com
 
 script:
   - ./mvnw clean  -DskipTests deploy  -Pprod --quiet -fae --settings .travis/settings.xml
