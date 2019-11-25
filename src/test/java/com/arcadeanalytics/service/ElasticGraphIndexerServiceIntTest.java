@@ -94,7 +94,7 @@ public class ElasticGraphIndexerServiceIntTest {
             //when --> ASYNC!!!!!
             final DataSourceIndex index = service.index(dataSource).get();
 
-            assertThat(index.getDocuments()).isEqualTo(23147);
+            assertThat(index.getDocuments()).isEqualTo(22147);
             assertThat(index.getReport()).isEqualTo("Indexing completed");
         }
 
