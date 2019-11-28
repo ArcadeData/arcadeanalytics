@@ -57,7 +57,7 @@
         <jung.version>2.1.1</jung.version>
         <arcade-data.version>1.0.6</arcade-data.version>
         <arcade-connectors.version>1.0.9-SNAPSHOT</arcade-connectors.version>
-        <mysql-connector-java.version>8.0.17</mysql-connector-java.version>
+        <mysql-connector-java.version>8.0.18</mysql-connector-java.version>
         <dw-jdbc.version>0.4.4</dw-jdbc.version>
 
         <!-- Plugin versions -->
