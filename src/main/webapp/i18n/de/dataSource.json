@@ -36,6 +36,7 @@
             "gateway": "Gateway",
             "sshPort": "Ssh Port",
             "sshUser": "Ssh User",
+            "skipSslValidation": "Skip Ssl Validation",
             "dataSourceIndex": "Data Source Index",
             "workspace": "Workspace"
         }

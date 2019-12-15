@@ -46,6 +46,7 @@
     <include file="config/liquibase/changelog/20181108124600_added_column_Contract.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190130114000_added_column_Widget.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20190130114100_added_column_Dashboard.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20191215114100_added_column_DataSource.xml" relativeToChangelogFile="false"/>
 
 
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->

@@ -17,7 +17,7 @@
  * limitations under the License.
  * #L%
  */
-import { BaseEntity } from './../../shared';
+import {BaseEntity} from './../../shared';
 
 export const enum DataSourceType {
     'ORIENTDB',
@@ -64,6 +64,7 @@ export class DataSource implements BaseEntity {
         public gateway?: string,
         public sshUser?: string,
         public sshPort?: number,
+        public skipSslValidation?: boolean,
         public dataSourceIndices?: BaseEntity[],
         public workspaceId?: number,
         public connectionProperties?: string,
@@ -71,5 +72,6 @@ export class DataSource implements BaseEntity {
     ) {
         this.remote = false;
         this.aggregationEnabled = false;
+        this.skipSslValidation = false;
     }
 }

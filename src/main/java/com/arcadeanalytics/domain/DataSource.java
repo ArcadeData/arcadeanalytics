@@ -9,9 +9,9 @@ package com.arcadeanalytics.domain;
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -109,6 +109,9 @@ public class DataSource implements Serializable {
 
     @Column(name = "ssh_user")
     private String sshUser;
+
+    @Column(name = "skip_ssl_validation")
+    private Boolean skipSslValidation;
 
     @OneToMany(mappedBy = "dataSource", cascade = CascadeType.ALL)
     @JsonIgnore
@@ -359,6 +362,15 @@ public class DataSource implements Serializable {
         this.workspace = workspace;
         return this;
     }
+
+    public Boolean getSkipSslValidation() {
+        return skipSslValidation;
+    }
+
+    public void setSkipSslValidation(Boolean skipSslValidation) {
+        this.skipSslValidation = skipSslValidation;
+    }
+
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
     @Override
@@ -398,6 +410,8 @@ public class DataSource implements Serializable {
                 ", gateway='" + getGateway() + "'" +
                 ", sshPort=" + getSshPort() +
                 ", sshUser='" + getSshUser() + "'" +
+                ", skippSSLValidation='" + getSkipSslValidation() + "'" +
                 "}";
     }
+
 }

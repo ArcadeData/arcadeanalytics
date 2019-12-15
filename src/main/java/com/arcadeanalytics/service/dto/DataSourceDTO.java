@@ -65,6 +65,7 @@ public class DataSourceDTO implements Serializable {
     private Integer sshPort;
 
     private String sshUser;
+    private Boolean skipSslValidation;
 
     private Long workspaceId;
 
@@ -196,6 +197,14 @@ public class DataSourceDTO implements Serializable {
         this.sshUser = sshUser;
     }
 
+    public Boolean getSkipSslValidation() {
+        return skipSslValidation;
+    }
+
+    public void setSkipSslValidation(Boolean skipSslValidation) {
+        this.skipSslValidation = skipSslValidation;
+    }
+
     public Long getWorkspaceId() {
         return workspaceId;
     }
@@ -242,6 +251,8 @@ public class DataSourceDTO implements Serializable {
                 ", gateway='" + getGateway() + "'" +
                 ", sshPort=" + getSshPort() +
                 ", sshUser='" + getSshUser() + "'" +
+                ", skipSslValidation='" + getSkipSslValidation() + "'" +
                 "}";
     }
+
 }
