@@ -29,7 +29,8 @@ public class DataSourceUtil {
 
     public static DataSourceInfo toDataSourceInfo(DataSource ds) {
 
-        return new DataSourceInfo(Optional.ofNullable(ds.getId()).orElse(-1L),
+        return new DataSourceInfo(
+                Optional.ofNullable(ds.getId()).orElse(-1L),
                 ds.getType().name(),
                 ds.getName(),
                 ds.getDescription(),
@@ -43,7 +44,9 @@ public class DataSourceUtil {
                 Optional.ofNullable(ds.isRemote()).orElse(false),
                 Optional.ofNullable(ds.getGateway()).orElse(""),
                 Optional.ofNullable(ds.getSshPort()).orElse(1234),
-                Optional.ofNullable(ds.getSshUser()).orElse("")
+                Optional.ofNullable(ds.getSshUser()).orElse(""),
+                false
+
         );
     }
 }
