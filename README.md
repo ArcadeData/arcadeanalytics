@@ -1,6 +1,14 @@
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Build Status](https://travis-ci.org/ArcadeAnalytics/arcadeanalytics.svg?branch=master)](https://travis-ci.org/ArcadeAnalytics/arcadeanalytics)
 
+# If you want to just run
+
+Go to https://github.com/ArcadeData/arcadeanalytics-recipes
+
+clone that repo and run
+
+docker-compose -f recipes/arcade-standalone.yml up
+
 # Arcade Analytics - Play With Data
 
 Docker images of Arcade and demo databases are available on [Docker hub](https://cloud.docker.com/u/arcadeanalytics/)
