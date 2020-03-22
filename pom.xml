@@ -14,7 +14,7 @@
     <properties>
         <kotlin.compiler.jvmTarget>1.8</kotlin.compiler.jvmTarget>
 
-        <kotlin.version>1.3.50</kotlin.version>
+        <kotlin.version>1.3.70</kotlin.version>
 
         <!-- Build properties -->
         <maven.version>3.0.0</maven.version>
@@ -53,11 +53,10 @@
         <validation-api.version>1.1.0.Final</validation-api.version>
         <mapstruct.version>1.2.0.Final</mapstruct.version>
 
-        <testcontainers.version>1.12.3</testcontainers.version>
+        <testcontainers.version>1.13.0</testcontainers.version>
         <jung.version>2.1.1</jung.version>
-        <arcade-data.version>1.0.7</arcade-data.version>
-        <arcade-connectors.version>1.0.9</arcade-connectors.version>
-        <mysql-connector-java.version>8.0.18</mysql-connector-java.version>
+        <arcade-connectors.version>1.0.10-SNAPSHOT</arcade-connectors.version>
+        <mysql-connector-java.version>8.0.19</mysql-connector-java.version>
         <dw-jdbc.version>0.4.4</dw-jdbc.version>
 
         <!-- Plugin versions -->
@@ -71,7 +70,7 @@
         <dockerfile-maven-plugin.version>1.4.12</dockerfile-maven-plugin.version>
         <frontend-maven-plugin.version>1.7.6</frontend-maven-plugin.version>
         <gatling-maven-plugin.version>2.2.1</gatling-maven-plugin.version>
-        <jacoco-maven-plugin.version>0.8.4</jacoco-maven-plugin.version>
+        <jacoco-maven-plugin.version>0.8.5</jacoco-maven-plugin.version>
         <scala-maven-plugin.version>3.2.2</scala-maven-plugin.version>
         <sonar-maven-plugin.version>3.7.0.1746</sonar-maven-plugin.version>
         <swagger-codegen-maven-plugin.version>2.2.3</swagger-codegen-maven-plugin.version>
@@ -473,12 +472,12 @@
 
         <dependency>
             <groupId>com.arcadeanalytics</groupId>
-            <artifactId>arcade-data</artifactId>
-            <version>${arcade-data.version}</version>
+            <artifactId>arcade-connectors-data</artifactId>
+            <version>${arcade-connectors.version}</version>
         </dependency>
         <dependency>
             <groupId>com.arcadeanalytics</groupId>
-            <artifactId>arcade-connectors-base</artifactId>
+            <artifactId>arcade-connectors-common</artifactId>
             <version>${arcade-connectors.version}</version>
         </dependency>
 
