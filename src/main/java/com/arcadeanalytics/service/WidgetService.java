@@ -40,11 +40,7 @@ import com.arcadeanalytics.repository.WidgetRepository;
 import com.arcadeanalytics.repository.search.WidgetSearchRepository;
 import com.arcadeanalytics.security.AuthoritiesConstants;
 import com.arcadeanalytics.security.SecurityUtils;
-import com.arcadeanalytics.service.dto.LoadElementsFromClassesDTO;
-import com.arcadeanalytics.service.dto.QueryDTO;
-import com.arcadeanalytics.service.dto.SearchQueryDTO;
-import com.arcadeanalytics.service.dto.TraverseDTO;
-import com.arcadeanalytics.service.dto.WidgetDTO;
+import com.arcadeanalytics.service.dto.*;
 import com.arcadeanalytics.service.mapper.WidgetMapper;
 import com.arcadeanalytics.web.algorithms.AlgorithmsUtils;
 import com.arcadeanalytics.web.algorithms.ShortestPathInput;
@@ -467,6 +463,32 @@ public class WidgetService {
                 }).orElse(GraphData.getEMPTY());
     }
 
+    public GraphData relations(Long id, RelationsDTO relations) {
+        return getWidgetIfAllowed(id)
+                .map(widget -> {
+                    final Contract contract = contract();
+
+                    if (relations.getDatasetCardinality() > contract.getMaxElements()) return GraphData.getEMPTY();
+
+                    final DataSource dataSource = widget.getDataSource();
+
+                    final DataSourceInfo dsInfo = toDataSourceInfo(dataSource);
+
+                    final int limit = Math.min(
+                            contract.getMaxElements() - relations.getDatasetCardinality(),
+                            contract.getMaxTraversal());
+
+                    GraphData result = dataSourceGraphDataProviderFactory
+                            .create(dsInfo)
+                            .relations(dsInfo, relations.getNodeIds(), relations.getEdgeClasses(), relations.getPreviousNodesIds(), limit);
+
+                    applyLayout(result);
+
+                    return result;
+
+                }).orElse(GraphData.getEMPTY());
+    }
+
     public GraphData load(Long id, SearchQueryDTO query) {
 
         return getWidgetIfAllowed(id)
@@ -605,5 +627,6 @@ public class WidgetService {
 
 
     }
+
 
 }

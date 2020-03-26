@@ -22,11 +22,7 @@ package com.arcadeanalytics.web.rest;
 
 import com.arcadeanalytics.provider.GraphData;
 import com.arcadeanalytics.service.WidgetService;
-import com.arcadeanalytics.service.dto.LoadElementsFromClassesDTO;
-import com.arcadeanalytics.service.dto.QueryDTO;
-import com.arcadeanalytics.service.dto.SearchQueryDTO;
-import com.arcadeanalytics.service.dto.TraverseDTO;
-import com.arcadeanalytics.service.dto.WidgetDTO;
+import com.arcadeanalytics.service.dto.*;
 import com.arcadeanalytics.web.algorithms.ShortestPathInput;
 import com.arcadeanalytics.web.algorithms.ShortestPathResult;
 import com.arcadeanalytics.web.rest.errors.BadRequestAlertException;
@@ -220,6 +216,15 @@ public class WidgetResource {
     public ResponseEntity<GraphData> traverse(@PathVariable Long id, @RequestBody TraverseDTO traverse) {
         log.debug("REST request to get Widget : {} :: {}", id, traverse.getNodeIds());
         GraphData data = widgetService.traverse(id, traverse);
+
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(data));
+    }
+
+    @PostMapping("/widgets/relations/{id}")
+    @Timed
+    public ResponseEntity<GraphData> relations(@PathVariable Long id, @RequestBody RelationsDTO relations) {
+        log.debug("REST request to get Widget : {} :: {}", id, relations.getNodeIds());
+        GraphData data = widgetService.relations(id, relations);
 
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(data));
     }
