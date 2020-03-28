@@ -220,11 +220,11 @@ public class WidgetResource {
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(data));
     }
 
-    @PostMapping("/widgets/relations/{id}")
+    @PostMapping("/widgets/edges/{id}")
     @Timed
-    public ResponseEntity<GraphData> relations(@PathVariable Long id, @RequestBody RelationsDTO relations) {
-        log.debug("REST request to get Widget : {} :: {}", id, relations.getNodeIds());
-        GraphData data = widgetService.relations(id, relations);
+    public ResponseEntity<GraphData> relations(@PathVariable Long id, @RequestBody EdgesDTO edges) {
+        log.debug("REST request to get Widget : {} :: {}", id, edges.getNodeIds());
+        GraphData data = widgetService.edges(id, edges);
 
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(data));
     }

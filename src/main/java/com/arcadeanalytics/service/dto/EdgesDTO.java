@@ -20,7 +20,7 @@ package com.arcadeanalytics.service.dto;
  * #L%
  */
 
-public class RelationsDTO {
+public class EdgesDTO {
 
     private String[] nodeIds;
     private String[] edgeClasses;

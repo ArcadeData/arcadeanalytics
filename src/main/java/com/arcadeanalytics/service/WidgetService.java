@@ -463,24 +463,24 @@ public class WidgetService {
                 }).orElse(GraphData.getEMPTY());
     }
 
-    public GraphData relations(Long id, RelationsDTO relations) {
+    public GraphData edges(Long id, EdgesDTO edges) {
         return getWidgetIfAllowed(id)
                 .map(widget -> {
                     final Contract contract = contract();
 
-                    if (relations.getDatasetCardinality() > contract.getMaxElements()) return GraphData.getEMPTY();
+                    if (edges.getDatasetCardinality() > contract.getMaxElements()) return GraphData.getEMPTY();
 
                     final DataSource dataSource = widget.getDataSource();
 
                     final DataSourceInfo dsInfo = toDataSourceInfo(dataSource);
 
                     final int limit = Math.min(
-                            contract.getMaxElements() - relations.getDatasetCardinality(),
+                            contract.getMaxElements() - edges.getDatasetCardinality(),
                             contract.getMaxTraversal());
 
                     GraphData result = dataSourceGraphDataProviderFactory
                             .create(dsInfo)
-                            .relations(dsInfo, relations.getNodeIds(), relations.getEdgeClasses(), relations.getPreviousNodesIds(), limit);
+                            .relations(dsInfo, edges.getNodeIds(), edges.getEdgeClasses(), edges.getPreviousNodesIds(), limit);
 
                     applyLayout(result);
 
