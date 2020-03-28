@@ -158,6 +158,7 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
     // nodes fetching
     nodeClassForNodeFetching: string;
     limitForNodeFetching: number = 10;
+    loadImpliedConnectionsFlag: boolean = false;
 
     // querying
     modalRef: BsModalRef;
@@ -289,6 +290,8 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
     theta: number = this.forceLayoutDefaultParams['theta'];
     thetaPopover: string = `Barnes-Hut simulation coefficient. Values larger than 1 will make system converge faster\n\n
                                 but not necessarily to the best layout.`;
+    loadImpliedConnectionsPopover: string = `Load the implied connections between the nodes just loaded and those already
+    existent in the analysis, in order to retrieve potential connections linking the two sets.`;
 
     constructor(
         protected ngZone: NgZone,
@@ -1178,6 +1181,7 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
         this.cytoscapeInitialized = true;
         this.applyPanzoomToCytoscape(snapshot);
 
+        this.loadImpliedConnectionsFlag = snapshot['loadImpliedConnectionsFlag'];
         this.graphSpacing = snapshot['spacingFactor'];    // not used during preset layout applying
         this.showLegend = snapshot['showLegend'];       // retrieving the show-legend settings from the snapshot
         this.lastLayoutName = snapshot['lastLayoutName'];     // fetching last layout name from the snapshot
@@ -5838,6 +5842,14 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
         return promise;
     }
 
+    /**
+     * Traverse
+     * @param nodeIds
+     * @param relationship
+     * @param direction
+     * @param numberOfConnections
+     * @param propagateNewDataset
+     */
     traverseRelationshipFromNodes(nodeIds: string[], relationship: string, direction: string, numberOfConnections: number, propagateNewDataset?: boolean) {
 
         let currentDatasetCardinality: number = 0;
@@ -5867,6 +5879,9 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
 
                         // removing context menu
                         this.manuallyHideAndCleanContextMenu();
+
+                        // second call for implied connections loading
+                        this.performImpliedConnectionsIfRequired(data);
 
                         const resultTruncated: boolean = data['elementsTruncated'];
                         if (resultTruncated === true) {
@@ -5917,6 +5932,10 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
         return promise;
     }
 
+    /**
+     * Load elements starting from nodes classes
+     * @param propagateNewDataset
+     */
     loadElementsFromClasses(propagateNewDataset?: boolean) {
 
         // closing modal
@@ -5945,6 +5964,9 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
                         // removing context menu
                         this.manuallyHideAndCleanContextMenu();
 
+                        // second call for implied connections loading
+                        this.performImpliedConnectionsIfRequired(data);
+
                         this.updateCytoscapeFromQueryData(data, false, true);
 
                         const resultTruncated: boolean = data['elementsTruncated'];
@@ -5970,6 +5992,11 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
         }
     }
 
+    /**
+     * Loads elements from query
+     * @param query
+     * @param propagateNewDataset
+     */
     loadDataFromQuery(query: string, propagateNewDataset?: boolean) {
 
         // closing modal
@@ -5996,6 +6023,9 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
 
                         // removing context menu
                         this.manuallyHideAndCleanContextMenu();
+
+                        // second call for implied connections loading
+                        this.performImpliedConnectionsIfRequired(data);
 
                         this.updateCytoscapeFromQueryData(data, false, true);
 
@@ -6036,6 +6066,10 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
             this.startSpinner();
             this.widgetService.loadNodesFromIds(this.widgetId, jsonContent).subscribe((data: Object) => {
                 this.stopSpinner();
+
+                // second call for implied connections loading
+                this.performImpliedConnectionsIfRequired(data);
+
                 this.updateCytoscapeFromQueryData(data, false, true);
                 this.resetFullTextSearch();
             }, (error: HttpErrorResponse) => {
@@ -6043,6 +6077,72 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
                 this.handleError(error.error, 'Data loading');
             });
         }
+    }
+
+    /**
+     * It performs a call to a specific service in order to
+     * call all the implied connections between the previous loaded
+     * nodes and the old ones.
+     * This action is performed according to the specific flag
+     * "impliedConnections" status.
+     * @param data
+     */
+    performImpliedConnectionsIfRequired(data: Object) {
+
+        if (this.cy && this.cy.nodes().length > 0 && this.loadImpliedConnectionsFlag) {
+
+            const justLoadedNodesIds: string[] = data['nodes'].map((elem) => {
+                return elem['data']['id'];
+            });
+            const previousNodesIds: string[] = this.cy.nodes().map((elem) => {
+                return elem.id();
+            });
+            const edgesClasses: string[] = this.getEdgeClassesInvolvingNodes(data['nodes']);
+            this.loadImpliedConnections(justLoadedNodesIds, previousNodesIds, edgesClasses);
+        }
+    }
+
+    getEdgeClassesInvolvingNodes(nodes: any): string[] {
+
+        const inEdgeClasses: string[] = [];
+        const outEdgeClasses: string[]= [];
+
+        for (const node of nodes) {
+            for (const edgeClassName of Object.keys(node['data']['record']['@in'])) {
+                if (inEdgeClasses.indexOf(edgeClassName) < 0) {
+                    inEdgeClasses.push(edgeClassName);
+                }
+            }
+            for (const edgeClassName of Object.keys(node['data']['record']['@out'])) {
+                if (outEdgeClasses.indexOf(edgeClassName) < 0) {
+                    outEdgeClasses.push(edgeClassName);
+                }
+            }
+        }
+        return inEdgeClasses.concat(outEdgeClasses);
+    }
+
+    /**
+     * Loads the implied connections between the nodes just loaded
+     * and those already existent in the analysis, in order to
+     * retrieve potential connections linking the two sets.
+     */
+    loadImpliedConnections(justLoadedNodesIds: string[], previousNodesIds: string[], edgeClassesNames: string[]) {
+
+        const jsonParams = {
+            nodeIds: justLoadedNodesIds,
+            previousNodesIds: previousNodesIds,
+            edgeClasses: edgeClassesNames
+        };
+        const jsonContent = JSON.stringify(jsonParams);
+        this.startSpinner();
+        this.widgetService.loadImpliedConnections(this.widgetId, jsonContent).subscribe((data: Object) => {
+                this.stopSpinner();
+                this.updateCytoscapeFromQueryData(data, false, true);
+            }, (error: HttpErrorResponse) => {
+                this.stopSpinner();
+                this.handleError(error.error, 'Data loading');
+            });
     }
 
     loadSnapshot() {
@@ -6107,6 +6207,7 @@ export class GraphWidgetComponent extends DataWidgetComponent implements Primary
                 // json['style'] = this.getCytoscapeStyleClasses();  // overriding style field, in this way escape selector will be applied
                 json['nodeClasses'] = JSON.stringify(Array.from(this.nodeClassesStyles.entries()));
                 json['edgeClasses'] = JSON.stringify(Array.from(this.edgeClassesStyles.entries()));
+                json['loadImpliedConnectionsFlag'] = this.loadImpliedConnectionsFlag;
                 json['lastLayoutName'] = this.lastLayoutName;
                 json['autoLayout'] = this.autoLayout;
                 json['spacingFactor'] = this.getGraphSpacing();

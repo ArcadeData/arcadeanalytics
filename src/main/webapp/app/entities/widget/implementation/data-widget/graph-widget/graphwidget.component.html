@@ -94,6 +94,23 @@
                                             <i class="fa fa-cogs"></i>Type Query
                                         </a>
                                     </li>
+                                    <li>
+                                        <div class="row" style="padding: 0px 1px 0px 5px;">
+                                            <div class="col-md-8">
+                                                <label>
+                                                    Load implied connections:
+                                                </label>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <ui-switch [(ngModel)]="loadImpliedConnectionsFlag" size="small"></ui-switch>
+                                            </div>
+                                            <div class="col-md-1" style="padding-left: 2px;">
+                                                <i class="fa fa-question-circle command" aria-hidden="true"
+                                                    [popover]="loadImpliedConnectionsPopover" containerClass="sidebarPopover"
+                                                    placement="right" triggers="hover" container="body"></i>
+                                            </div>
+                                        </div>
+                                    </li>
                                 </ul>
 
                                 <ng-template #fetchNodesModal>

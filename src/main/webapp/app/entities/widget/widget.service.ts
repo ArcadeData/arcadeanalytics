@@ -104,6 +104,12 @@ export class WidgetService {
             .map((res: HttpResponse<Object>) => res.body);
     }
 
+    loadImpliedConnections(widgetId: number, jsonContent: string):  Observable<Object> {
+        const dataResourceUrl: string = this.resourceUrl + '/edges/' + widgetId;
+        return this.http.post(dataResourceUrl, jsonContent, { observe: 'response', headers: this.headers })
+            .map((res: HttpResponse<Object>) => res.body);
+    }
+
     loadTabledata(widgetId: number, jsonContent: string): Observable<Object> {
         const dataResourceUrl: string = this.resourceUrl + '/table-data/' + widgetId;
         return this.http.post(dataResourceUrl, jsonContent, { observe: 'response', headers: this.headers })
