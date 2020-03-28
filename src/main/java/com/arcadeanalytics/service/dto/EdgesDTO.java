@@ -25,7 +25,6 @@ public class EdgesDTO {
     private String[] nodeIds;
     private String[] edgeClasses;
     private String[] previousNodesIds;
-    private int datasetCardinality;
 
     public String[] getNodeIds() {
         return nodeIds;
@@ -51,11 +50,4 @@ public class EdgesDTO {
         this.previousNodesIds = previousNodesIds;
     }
 
-    public int getDatasetCardinality() {
-        return datasetCardinality;
-    }
-
-    public void setDatasetCardinality(int datasetCardinality) {
-        this.datasetCardinality = datasetCardinality;
-    }
 }

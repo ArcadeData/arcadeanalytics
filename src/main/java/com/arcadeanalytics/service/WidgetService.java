@@ -468,19 +468,14 @@ public class WidgetService {
                 .map(widget -> {
                     final Contract contract = contract();
 
-                    if (edges.getDatasetCardinality() > contract.getMaxElements()) return GraphData.getEMPTY();
 
                     final DataSource dataSource = widget.getDataSource();
 
                     final DataSourceInfo dsInfo = toDataSourceInfo(dataSource);
 
-                    final int limit = Math.min(
-                            contract.getMaxElements() - edges.getDatasetCardinality(),
-                            contract.getMaxTraversal());
-
                     GraphData result = dataSourceGraphDataProviderFactory
                             .create(dsInfo)
-                            .relations(dsInfo, edges.getNodeIds(), edges.getEdgeClasses(), edges.getPreviousNodesIds(), limit);
+                            .edges(dsInfo, edges.getNodeIds(), edges.getEdgeClasses(), edges.getPreviousNodesIds());
 
                     applyLayout(result);
 
