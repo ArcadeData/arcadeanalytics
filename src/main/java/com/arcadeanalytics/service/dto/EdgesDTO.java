@@ -20,6 +20,8 @@ package com.arcadeanalytics.service.dto;
  * #L%
  */
 
+import java.util.Arrays;
+
 public class EdgesDTO {
 
     private String[] nodeIds;
@@ -50,4 +52,30 @@ public class EdgesDTO {
         this.previousNodesIds = previousNodesIds;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        EdgesDTO edgesDTO = (EdgesDTO) o;
+        return Arrays.equals(nodeIds, edgesDTO.nodeIds) &&
+                Arrays.equals(edgeClasses, edgesDTO.edgeClasses) &&
+                Arrays.equals(previousNodesIds, edgesDTO.previousNodesIds);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Arrays.hashCode(nodeIds);
+        result = 31 * result + Arrays.hashCode(edgeClasses);
+        result = 31 * result + Arrays.hashCode(previousNodesIds);
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "EdgesDTO{" +
+                "nodeIds=" + Arrays.toString(nodeIds) +
+                ", edgeClasses=" + Arrays.toString(edgeClasses) +
+                ", previousNodesIds=" + Arrays.toString(previousNodesIds) +
+                '}';
+    }
 }

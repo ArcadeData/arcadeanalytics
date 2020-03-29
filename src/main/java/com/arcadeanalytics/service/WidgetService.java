@@ -464,10 +464,10 @@ public class WidgetService {
     }
 
     public GraphData edges(Long id, EdgesDTO edges) {
+
         return getWidgetIfAllowed(id)
                 .map(widget -> {
                     final Contract contract = contract();
-
 
                     final DataSource dataSource = widget.getDataSource();
 
