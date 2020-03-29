@@ -15,7 +15,7 @@ notifications:
     - arcade@arcadeanalytics.com
 
 script:
-  - ./mvnw clean  -DskipTests deploy  -Pprod --quiet -fae --settings .travis/settings.xml
+  - ./mvnw clean  install -DskipTests -Pprod --quiet -fae --settings .travis/settings.xml
 
 jdk:
   - openjdk8
