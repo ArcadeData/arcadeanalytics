@@ -168,7 +168,7 @@ public class ElasticGraphIndexerServiceIntTest {
         queryDTO.setIds(ids);
         queryDTO.setNumOfDocuments(50);
 
-        final Map<String, Object> aggregate = service.aggregateAndMap(dataSource, queryDTO, emptySet(), emptySet(), 1, 20);
+        final Map<String, Object> aggregate = service.aggregateAndMap(dataSource, queryDTO, emptySet(), emptySet(), 1, 50);
 
         assertThat(aggregate).containsKeys("Countries");
 
@@ -184,7 +184,7 @@ public class ElasticGraphIndexerServiceIntTest {
 
         final Map<String, Object> names = (Map<String, Object>) propertyValues.get("Code");
 
-        assertThat(names).containsKeys("AF", "AQ", "BD");
+        assertThat(names).containsKeys("CL", "GH", "GL");
 
 
     }
@@ -208,7 +208,7 @@ public class ElasticGraphIndexerServiceIntTest {
         queryDTO.setUseEdges(true);
         queryDTO.setIds(ids);
 
-        final Map<String, Object> aggregate = service.aggregateAndMap(dataSource, queryDTO, newHashSet("Countries"), newHashSet("Code"), 1, 20);
+        final Map<String, Object> aggregate = service.aggregateAndMap(dataSource, queryDTO, newHashSet("Countries"), newHashSet("Code"), 1, 50);
 
         assertThat(aggregate).containsKeys("Countries");
 
@@ -223,7 +223,7 @@ public class ElasticGraphIndexerServiceIntTest {
 
         final Map<String, Object> names = (Map<String, Object>) propertyValues.get("Code");
 
-        assertThat(names).containsKeys("BM", "CH", "DE");
+        assertThat(names).containsKeys("CL", "GH", "GL");
 
 
     }
