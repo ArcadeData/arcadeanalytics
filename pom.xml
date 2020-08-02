@@ -135,7 +135,7 @@
     </licenses>
 
     <scm>
-        <connection>scm:git:https://github.com/ArcadeAnalytics/arcadeanalytics.git</connection>
+        <connection>scm:git:git@github.com:ArcadeAnalytics/arcadeanalytics.git</connection>
         <url>https://github.com/ArcadeAnalytics/arcadeanalytics</url>
         <tag>HEAD</tag>
     </scm>
