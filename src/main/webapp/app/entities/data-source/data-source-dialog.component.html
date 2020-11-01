@@ -80,6 +80,11 @@
                 <input type="checkbox" name="field_skipSslValidation" id="field_skipSslValidation"
                        [(ngModel)]="dataSource['skipSslValidation']"/>
             </div>
+            <div *ngIf="datasourceType === 'GREMLIN'" class="form-group">
+                <label class="form-control-label" jhiTranslate="arcadeanalyticsApp.dataSource.enableSsl" for="field_enableSsl">Enable SSL (httpS or wsS)        </label>
+                <input type="checkbox" name="field_enableSsl" id="field_enableSsl"
+                       [(ngModel)]="dataSource['enableSsl']"/>
+            </div>
             <div *ngIf="datasourceType === 'RDBMS'" class="form-group">
                 <label class="form-control-label" jhiTranslate="arcadeanalyticsApp.dataSource.aggregateJoinTables" for="aggregation_strategy">Aggregate Join Tables</label>
                 <input type="checkbox" name="aggregation_git statusstrategy" id="aggregation_strategy"

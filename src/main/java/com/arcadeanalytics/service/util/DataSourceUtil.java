@@ -20,6 +20,7 @@ package com.arcadeanalytics.service.util;
  * #L%
  */
 
+import afu.org.checkerframework.checker.oigj.qual.O;
 import com.arcadeanalytics.domain.DataSource;
 import com.arcadeanalytics.provider.DataSourceInfo;
 
@@ -41,12 +42,12 @@ public class DataSourceUtil {
                 Optional.ofNullable(ds.getPassword()).orElse(""),
                 Optional.ofNullable(ds.isAggregationEnabled()).orElse(false),
                 Optional.ofNullable(ds.getConnectionProperties()).orElse("{}"),
+                Optional.ofNullable(ds.getEnableSsl()).orElse(false),
                 Optional.ofNullable(ds.isRemote()).orElse(false),
                 Optional.ofNullable(ds.getGateway()).orElse(""),
                 Optional.ofNullable(ds.getSshPort()).orElse(1234),
                 Optional.ofNullable(ds.getSshUser()).orElse(""),
-                false
-
+                Optional.ofNullable(ds.getSkipSslValidation()).orElse(false)
         );
     }
 }

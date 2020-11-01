@@ -75,7 +75,9 @@ entity DataSource {
     remote Boolean,
     gateway String,
     sshUser String,
-    sshPort Integer
+    sshPort Integer,
+    skipSslValidation Boolean,
+    enableSsl Boolean
 }
 
 

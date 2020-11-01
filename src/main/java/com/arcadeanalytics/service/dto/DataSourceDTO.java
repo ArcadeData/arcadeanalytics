@@ -9,9 +9,9 @@ package com.arcadeanalytics.service.dto;
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -65,7 +65,10 @@ public class DataSourceDTO implements Serializable {
     private Integer sshPort;
 
     private String sshUser;
+
     private Boolean skipSslValidation;
+
+    private Boolean enableSsl;
 
     private Long workspaceId;
 
@@ -205,6 +208,14 @@ public class DataSourceDTO implements Serializable {
         this.skipSslValidation = skipSslValidation;
     }
 
+    public Boolean getEnableSsl() {
+        return enableSsl;
+    }
+
+    public void setEnableSsl(Boolean enableSsl) {
+        this.enableSsl = enableSsl;
+    }
+
     public Long getWorkspaceId() {
         return workspaceId;
     }
@@ -252,6 +263,7 @@ public class DataSourceDTO implements Serializable {
                 ", sshPort=" + getSshPort() +
                 ", sshUser='" + getSshUser() + "'" +
                 ", skipSslValidation='" + getSkipSslValidation() + "'" +
+                ", enableSsl='" + getEnableSsl() + "'" +
                 "}";
     }
 

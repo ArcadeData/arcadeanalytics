@@ -37,6 +37,7 @@
             "sshPort": "Ssh Port",
             "sshUser": "Ssh User",
             "skipSslValidation": "Skip Ssl Validation",
+            "enableSsl": "Enable Ssl (https or wss)",
             "dataSourceIndex": "Data Source Index",
             "workspace": "Workspace"
         }

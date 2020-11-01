@@ -65,12 +65,14 @@ export class DataSource implements BaseEntity {
         public sshUser?: string,
         public sshPort?: number,
         public skipSslValidation?: boolean,
+        public enableSsl?: boolean,
         public dataSourceIndices?: BaseEntity[],
         public workspaceId?: number,
         public connectionProperties?: string,
         public aggregationEnabled?: boolean
     ) {
         this.remote = false;
+        this.enableSsl = false;
         this.aggregationEnabled = false;
         this.skipSslValidation = false;
     }

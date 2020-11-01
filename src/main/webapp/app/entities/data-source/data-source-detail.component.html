@@ -40,7 +40,15 @@
         <dd>
             <span>{{dataSource.password}}</span>
         </dd>
-        <dt><span jhiTranslate="arcadeanalyticsApp.dataSource.sshFlag">Use SSh Tunnel</span></dt>
+        <dt><span jhiTranslate="arcadeanalyticsApp.dataSource.enableSsl">Enable SSL</span></dt>
+        <dd>
+            <span>{{dataSource.enableSsl}}</span>
+        </dd>
+        <dt><span jhiTranslate="arcadeanalyticsApp.dataSource.skipSslValidation">Skip SSL validation (accept certs)</span></dt>
+        <dd>
+            <span>{{dataSource.skipSslValidation}}</span>
+        </dd>
+        <dt><span jhiTranslate="arcadeanalyticsApp.dataSource.sshFlag">Use ssh Tunnel</span></dt>
         <dd>
             <span>{{dataSource.remote}}</span>
         </dd>

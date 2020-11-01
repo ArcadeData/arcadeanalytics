@@ -113,6 +113,9 @@ public class DataSource implements Serializable {
     @Column(name = "skip_ssl_validation")
     private Boolean skipSslValidation;
 
+    @Column(name = "enable_ssl")
+    private Boolean enableSsl;
+
     @OneToMany(mappedBy = "dataSource", cascade = CascadeType.ALL)
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
@@ -371,6 +374,14 @@ public class DataSource implements Serializable {
         this.skipSslValidation = skipSslValidation;
     }
 
+    public Boolean getEnableSsl() {
+        return enableSsl;
+    }
+
+    public void setEnableSsl(Boolean enableSsl) {
+        this.enableSsl = enableSsl;
+    }
+
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
     @Override
@@ -411,6 +422,7 @@ public class DataSource implements Serializable {
                 ", sshPort=" + getSshPort() +
                 ", sshUser='" + getSshUser() + "'" +
                 ", skippSSLValidation='" + getSkipSslValidation() + "'" +
+                ", enableSsl='" + getEnableSsl() + "'" +
                 "}";
     }
 
