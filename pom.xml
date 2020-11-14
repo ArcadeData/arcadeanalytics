@@ -51,7 +51,7 @@
         <liquibase.version>3.6.3</liquibase.version>
         <liquibase-hibernate5.version>3.7</liquibase-hibernate5.version>
         <validation-api.version>1.1.0.Final</validation-api.version>
-        <mapstruct.version>1.2.0.Final</mapstruct.version>
+        <mapstruct.version>1.4.1.Final</mapstruct.version>
 
         <testcontainers.version>1.13.0</testcontainers.version>
         <jung.version>2.1.1</jung.version>
