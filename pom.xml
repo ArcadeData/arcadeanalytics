@@ -55,7 +55,7 @@
 
         <testcontainers.version>1.13.0</testcontainers.version>
         <jung.version>2.1.1</jung.version>
-        <arcade-connectors.version>1.0.12</arcade-connectors.version>
+        <arcade-connectors.version>1.0.13</arcade-connectors.version>
         <mysql-connector-java.version>8.0.19</mysql-connector-java.version>
         <dw-jdbc.version>0.4.4</dw-jdbc.version>
 
