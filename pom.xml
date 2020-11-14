@@ -109,6 +109,7 @@
         <sonar.tests>${project.basedir}/src/test/</sonar.tests>
 
         <!-- jhipster-needle-maven-property -->
+        <dokka-maven-plugin.version>1.4.10.2</dokka-maven-plugin.version>
     </properties>
 
     <developers>
@@ -1525,6 +1526,7 @@
                     <plugin>
                         <groupId>org.jetbrains.dokka</groupId>
                         <artifactId>dokka-maven-plugin</artifactId>
+                        <version>${dokka-maven-plugin.version}</version>
                         <executions>
                             <execution>
                                 <phase>prepare-package</phase>
