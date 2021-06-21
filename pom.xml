@@ -555,7 +555,7 @@
             <plugin>
                 <groupId>se.bjurr.gitchangelog</groupId>
                 <artifactId>git-changelog-maven-plugin</artifactId>
-                <version>1.60</version>
+                <version>1.78</version>
                 <configuration>
                     <settingsFile>changelog.json</settingsFile>
                     <file>CHANGELOG.md</file>
