@@ -1,6 +1,8 @@
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Build Status](https://travis-ci.org/ArcadeAnalytics/arcadeanalytics.svg?branch=master)](https://travis-ci.org/ArcadeAnalytics/arcadeanalytics)
 
+![Arcade Analytics Screenshot](https://arcadeanalytics.com/wp-content/uploads/2018/11/arcade-panama-papers-dashboard.png)
+
 # If you want to just run
 
 Go to https://github.com/ArcadeData/arcadeanalytics-recipes
