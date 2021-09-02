@@ -73,7 +73,7 @@
         <jacoco-maven-plugin.version>0.8.5</jacoco-maven-plugin.version>
         <scala-maven-plugin.version>3.2.2</scala-maven-plugin.version>
         <sonar-maven-plugin.version>3.7.0.1746</sonar-maven-plugin.version>
-        <swagger-codegen-maven-plugin.version>2.2.3</swagger-codegen-maven-plugin.version>
+        <swagger-codegen-maven-plugin.version>2.4.17</swagger-codegen-maven-plugin.version>
         <nexus-staging-maven-plugin.version>1.6.8</nexus-staging-maven-plugin.version>
 
 
